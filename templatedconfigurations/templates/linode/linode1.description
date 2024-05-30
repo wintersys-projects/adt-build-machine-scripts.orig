@@ -1,0 +1,9 @@
+DEPLOY A VIRGIN JOOMLA,WORDPRESS,DRUPAL or MOODLE INSTANCE IN DEVELOPMENT MODE
+------------------------------------------------------------------------------
+To use this template in expedited mode, review and set all variables marked mandatory and optionally reconfigure other variables such as WS_SIZE (for webserver size) or REGION_ID if you want to set a different region and so on according to your needs.
+Refer to the specification bundled at ${BUILD_HOME}/templatedconfigurations/specification.md to understand what each setting can do for you. 
+If a variable is set in the default template you can only change it according to the spec, you can't remove it.
+
+The template you will need to modify is at: ( ${BUILD_HOME}/templatedconfigurations/templates/linode/linode1.tmpl )
+
+To select this template input "1" to bypass this template simply press <enter>.

@@ -1,0 +1,80 @@
+Quick Specification
+
+BUILDOS ubuntu debian
+BUILDOS_VERSION 20.04 22.04 24.04 11 12
+APPLICATION joomla wordpress drupal moodle
+APPLICATION_IDENTIFIER 1 2 3 4
+S3_HOST_BASE DIGITALOCEAN nyc3.digitaloceanspaces.com ams3.digitaloceanspaces.com sfo2.digitaloceanspaces.com sgp1.digitaloceanspaces.com fra1.digitaloceanspaces.com
+S3_HOST_BASE EXOSCALE sos-ch-gva-2.exo.io sos-ch-dk-2.exo.io sos-de-fra-1.exo.io sos-de-muc-1.exo.io sos-at-vie-1.exo.io sos-bg-sof-1
+S3_HOST_BASE LINODE nl-ams-1.linodeobjects.com us-southeast-1.linodeobjects.com in-maa-1.linodeobjects.com us-ord-1.linodeobjects.com eu-central-1.linodeobjects.com id-cgk-1.linodeobjects.com us-lax-1.linodeobjects.com us-mia-1.linodeobjects.com it-mil-1.linodeobjects.com us-east-1.linodeobjects.com jp-osa-1.linodeobjects.com fr-par-1.linodeobjects.com br-gru-1.linodeobjects.com us-sea-1.linodeobjects.com ap-south-1.linodeobjects.com se-sto-1.linodeobjects.com us-iad-1.linodeobjects.com
+S3_HOST_BASE VULTR ewr1.vultrobjects.com ams1.vultrobjects.com sjc1.vultrobjects.com sgp1.vultrobjects.com
+S3_LOCATION DIGITALOCEAN US
+S3_LOCATION EXOSCALE US
+S3_LOCATION LINODE US
+S3_LOCATION VULTR US
+EMAIL_NOTIFICATION_LEVEL ERROR INFO MANDATORY
+DNS_CHOICE cloudflare digitalocean exoscale linode vultr
+GATEWAY_GUARDIAN 1 0
+AUTHORISATION_SERVER 0 1 2
+APPLICATION_REPOSITORY_PROVIDER github gitlab bitbucket
+INFRASTRUCTURE_REPOSITORY_PROVIDER github gitlab bitbucket
+BUILD_MACHINE_VPC 0 1
+SYSTEM_EMAIL_PROVIDER 1 2 3
+PRODUCTION 0 1
+DEVELOPMENT 0 1
+SUPERSAFE_WEBROOT 0 1 2
+SUPERSAFE_DB 0 1 2
+WEBSERVER_CHOICE NGINX APACHE LIGHTTPD
+DATABASE_INSTALLATION_TYPE Maria MySQL Postgres DBaaS
+PERSIST_ASSETS_TO_CLOUD 0 1 2
+BUILD_CHOICE 0 1 2 3 4 5 6 
+BUILD_ARCHIVE_CHOICE virgin baseline hourly daily weekly monthly bimonthly
+APPLICATION_LANGUAGE HTML PHP
+PHP_VERSION 8.0 8.1 8.2 8.3
+REGION DIGITALOCEAN nyc1 sfo1 nyc2 ams2 sgp1 lon1 nyc3 ams3 fra1 tor1 sfo2 blr1 sfo3
+REGION EXOSCALE ch-gva-2 ch-dk-2 at-vie-1 de-fra-1 bg-sof-1 de-muc-1
+REGION LINODE ap-west ca-central ap-southeast us-iad us-ord fr-par us-sea br-gru nl-ams se-sto in-maa jp-osa it-mil us-mia id-cgk us-lax us-central us-west us-southeast us-east eu-west ap-south eu-central ap-northeast
+REGION VULTR ams atl cdg dfw ewr fra icn lax lhr mex mia nrt ord sea sgp sjc sto syd yto
+DB_SIZE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+DB_SIZE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+DB_SIZE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+DB_SIZE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+AS_SIZE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+AS_SIZE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+AS_SIZE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+AS_SIZE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+WS_SIZE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+WS_SIZE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+WS_SIZE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+WS_SIZE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+DB_SERVER_TYPE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+DB_SERVER_TYPE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+DB_SERVER_TYPE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+DB_SERVER_TYPE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+AS_SERVER_TYPE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+AS_SERVER_TYPE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+AS_SERVER_TYPE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+AS_SERVER_TYPE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+WS_SERVER_TYPE DIGITALOCEAN s-1vcpu-512mb-10gb s-1vcpu-1gb s-1vcpu-1gb-amd s-1vcpu-1gb-intel s-1vcpu-1gb-35gb-intel s-1vcpu-2gb s-1vcpu-2gb-amd s-1vcpu-2gb-intel s-1vcpu-2gb-70gb-intel s-2vcpu-2gb s-2vcpu-2gb-amd s-2vcpu-2gb-intel s-2vcpu-2gb-90gb-intel s-2vcpu-4gb s-2vcpu-4gb-amd s-2vcpu-4gb-intel s-2vcpu-4gb-120gb-intel s-2vcpu-8gb-amd c-2 c2-2vcpu-4gb s-2vcpu-8gb-160gb-intel s-4vcpu-8gb s-4vcpu-8gb-amd s-4vcpu-8gb-intel g-2vcpu-8gb s-4vcpu-8gb-240gb-intel gd-2vcpu-8gb g-2vcpu-8gb-intel gd-2vcpu-8gb-intel s-4vcpu-16gb-amd m-2vcpu-16gb c-4 c2-4vcpu-8gb s-4vcpu-16gb-320gb-intel s-8vcpu-16gb m3-2vcpu-16gb c-4-intel s-8vcpu-16gb-amd s-8vcpu-16gb-intel c2-4vcpu-8gb-intel g-4vcpu-16gb s-8vcpu-16gb-480gb-intel so-2vcpu-16gb m6-2vcpu-16gb gd-4vcpu-16gb g-4vcpu-16gb-intel gd-4vcpu-16gb-intel so1_5-2vcpu-16gb s-8vcpu-32gb-amd m-4vcpu-32gb c-8 c2-8vcpu-16gb s-8vcpu-32gb-640gb-intel m3-4vcpu-32gb c-8-intel c2-8vcpu-16gb-intel g-8vcpu-32gb so-4vcpu-32gb m6-4vcpu-32gb gd-8vcpu-32gb g-8vcpu-32gb-intel gd-8vcpu-32gb-intel so1_5-4vcpu-32gb m-8vcpu-64gb c-16 c2-16vcpu-32gb m3-8vcpu-64gb c-16-intel c2-16vcpu-32gb-intel g-16vcpu-64gb so-8vcpu-64gb m6-8vcpu-64gb gd-16vcpu-64gb g-16vcpu-64gb-intel gd-16vcpu-64gb-intel so1_5-8vcpu-64gb m-16vcpu-128gb c-32 c2-32vcpu-64gb m3-16vcpu-128gb c-32-intel c2-32vcpu-64gb-intel c-48 m-24vcpu-192gb g-32vcpu-128gb so-16vcpu-128gb m6-16vcpu-128gb gd-32vcpu-128gb c2-48vcpu-96gb g-32vcpu-128gb-intel m3-24vcpu-192gb g-40vcpu-160gb gd-32vcpu-128gb-intel so1_5-16vcpu-128gb c-48-intel m-32vcpu-256gb gd-40vcpu-160gb c2-48vcpu-96gb-intel so-24vcpu-192gb m6-24vcpu-192gb m3-32vcpu-256gb g-48vcpu-192gb-intel gd-48vcpu-192gb-intel so1_5-24vcpu-192gb so-32vcpu-256gb m6-32vcpu-256gb so1_5-32vcpu-256gb
+WS_SERVER_TYPE EXOSCALE micro tiny small medium large extra-large huge mega titan jumbo colossus
+WS_SERVER_TYPE LINODE g6-nanode-1 g6-standard-1 g6-standard-2 g6-standard-4 g6-standard-6 g6-standard-8 g6-standard-16 g6-standard-20 g6-standard-24 g6-standard-32
+WS_SERVER_TYPE VULTR vc2-1c-1gb vc2-1c-2gb vc2-2c-4gb vc2-4c-8gb vc2-6c-16gb vc2-8c-32gb
+CLOUDHOST digitalocean exoscale linode vultr 
+MACHINE_TYPE DROPLET EXOSCALE LINODE VULTR 
+ALGORITHM rsa ecdsa
+PREVIOUS_BUILD_CONFIG 0 1
+DATASTORE_CHOICE amazonS3 digitalocean exoscale linode vultr
+BYPASS_DB_LAYER 0 1
+APPLICATION_NAME 1 2 3 4
+SSL_GENERATION_METHOD AUTOMATIC MANUAL
+SSL_GENERATION_SERVICE LETSENCRYPT
+SSL_LIVE_CERT 0 1
+AUTOSCALE_FROM_SNAPSHOTS 0 1
+GENERATE_SNAPSHOTS 0 1
+AUTOSCALE_FROM_BACKUP 0 1
+SELECTED_TEMPLATE 1 2 3
+GENERATE_STATIC 0 1
+INSTALL_MONITORING_GEAR 0 1 1|glances 1|native 1|nmon
+INPARALLEL 0 1
+NO_AUTOSCALERS 0 1 2 3 4 5
+ACTIVE_FIREWALLS 0 1 2 3

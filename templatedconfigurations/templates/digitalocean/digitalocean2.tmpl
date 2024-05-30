@@ -1,0 +1,138 @@
+###############################################################################################
+# Refer to: ${BUILD_HOME}/templatedconfigurations/specification.md
+###############################################################################################
+#This template is configured for a baseline style build
+
+#####MANDATORY - The bare minimum set of values that must be provided by you for a build to have any chance of succeeding
+#####NOT REQUIRED - isn't used by Digital Ocean
+
+#####Application Settings#########
+export APPLICATION="" #MANDATORY
+export JOOMLA_VERSION="" 
+export DRUPAL_VERSION=""  
+export APPLICATION_IDENTIFIER="" #MANDATORY
+export APPLICATION_BASELINE_SOURCECODE_REPOSITORY=""#MANDATORY
+export BASELINE_DB_REPOSITORY="" #MANDATORY
+export APPLICATION_LANGUAGE="PHP" 
+export PHP_VERSION="8.3" 
+export BUILD_ARCHIVE_CHOICE="baseline"
+export BUILD_CHOICE="1"
+export APPLICATION_NAME="Demo Application"
+
+#####S3 Datastore Settings#######
+export S3_ACCESS_KEY=""  #MANDATORY
+export S3_SECRET_KEY=""  #MANDATORY
+export S3_HOST_BASE="ams3.digitaloceanspaces.com" 
+export S3_LOCATION="US" #For digitalocean, this always needs to be set to "US"
+export DATASTORE_CHOICE="digitalocean"
+export DIRECTORIES_TO_MOUNT="" #This should always be unset for a virgin and baseline deployments
+export PERSIST_ASSETS_TO_CLOUD="0" #This should always be set to 0 for a virgin and baseline deployment
+
+#####OS Settings#########
+export DEFAULT_USER="root" # This must be "root" on digital ocean
+export BUILDOS="debian" # One of ubuntu|debian
+export BUILDOS_VERSION="12" # One of 20.04 22.04 24.04|10 11 12
+
+######Cloudhost Provider Settings#######
+export TOKEN="" #MANDATORY
+export ACCESS_KEY=""   #NOT REQUIRED
+export SECRET_KEY=""   #NOT REQUIRED
+export CLOUDHOST_ACCOUNT_ID="" 
+
+######DNS Settings##########
+export DNS_USERNAME=""  #MANDATORY
+export DNS_SECURITY_KEY=""   #MANDATORY
+export DNS_CHOICE="cloudflare" #you will need to set your DNS nameservers according to this choice
+
+#####Webserver Settings########
+export WEBSITE_DISPLAY_NAME="" #MANDATORY
+export WEBSITE_NAME="" #MANDATORY
+export WEBSITE_URL=""  #MANDATORY
+export WEBSERVER_CHOICE="APACHE"
+export NUMBER_WS="1"
+
+#####Git settings#####
+export GIT_USER="Templated User" 
+export GIT_EMAIL_ADDRESS="templateduser@dummyemailZ123.com" 
+
+#####Infrastructure Repository Settings#######
+export INFRASTRUCTURE_REPOSITORY_PROVIDER="github"
+export INFRASTRUCTURE_REPOSITORY_OWNER="wintersys-projects"
+export INFRASTRUCTURE_REPOSITORY_USERNAME="wintersys-projects"
+export INFRASTRUCTURE_REPOSITORY_PASSWORD="none"
+
+###### Application Repository Settings########
+export APPLICATION_REPOSITORY_PROVIDER="github" 
+export APPLICATION_REPOSITORY_OWNER="adt-demos" #MANDATORY
+export APPLICATION_REPOSITORY_USERNAME="adt-demos" #MANDATORY
+export APPLICATION_REPOSITORY_PASSWORD="none" #MANDATORY
+export APPLICATION_REPOSITORY_TOKEN="" #MANDATORY
+
+##### System Email Settings#########
+export SYSTEM_EMAIL_PROVIDER="" 
+export SYSTEM_TOEMAIL_ADDRESS="" 
+export SYSTEM_FROMEMAIL_ADDRESS="" 
+export SYSTEM_EMAIL_USERNAME="" 
+export SYSTEM_EMAIL_PASSWORD="" 
+export EMAIL_NOTIFICATION_LEVEL="ERROR"
+
+##### Database Settings######
+export DB_PORT="2035"
+export DATABASE_INSTALLATION_TYPE="Maria"
+export DBaaS_HOSTNAME=""
+export DBaaS_USERNAME=""
+export DBaaS_PASSWORD=""
+export DBaaS_DBNAME=""
+export DATABASE_DBaaS_INSTALLATION_TYPE=""
+export BYPASS_DB_LAYER="0"
+
+#####Server Settings #######
+export REGION="lon1"
+export DB_SIZE="s-1vcpu-1gb"
+export DB_SERVER_TYPE="s-1vcpu-1gb"
+export WS_SIZE="s-1vcpu-1gb"
+export WS_SERVER_TYPE="s-1vcpu-1gb"
+export AS_SIZE="s-1vcpu-1gb"
+export AS_SERVER_TYPE="s-1vcpu-1gb"
+export CLOUDHOST="digitalocean"
+export MACHINE_TYPE="DROPLET"
+export SSH_PORT="1035"
+export SERVER_TIMEZONE_CONTINENT="Europe"
+export SERVER_TIMEZONE_CITY="London"
+export USER="root"
+
+#####Backup Setttings######
+export SUPERSAFE_WEBROOT="1"
+export SUPERSAFE_DB="1"
+export GENERATE_STATIC="0"
+
+#####Build Settings######
+export PRODUCTION="0"
+export DEVELOPMENT="1"
+export BUILD_IDENTIFIER="" #MANDATORY
+export NO_AUTOSCALERS="0"
+export AUTHORISATION_SERVER="0"
+
+#####Security Settings#####
+export GATEWAY_GUARDIAN="0"
+export ACTIVE_FIREWALLS="3"
+export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
+export SSL_GENERATION_METHOD="AUTOMATIC"
+export SSL_GENERATION_SERVICE="LETSENCRYPT"
+export SSL_LIVE_CERT="1"
+export ALGORITHM="ecdsa"
+export BUILD_MACHINE_VPC="0"
+
+#####Build Styles#####
+export AUTOSCALE_FROM_SNAPSHOTS="0"
+export GENERATE_SNAPSHOTS="0"
+export SNAPSHOT_ID=""
+export WEBSERVER_IMAGE_ID=""
+export AUTOSCALER_IMAGE_ID=""
+export DATABASE_IMAGE_ID=""
+export AUTOSCALE_FROM_BACKUP="0"
+export INPARALLEL="0"
+
+#####Monitoring######
+export INSTALL_MONITORING_GEAR="0"
+

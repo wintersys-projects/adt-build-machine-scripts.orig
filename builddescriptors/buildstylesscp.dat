@@ -1,0 +1,93 @@
+###############################################################################################
+# Description: This .dat file allows you to configure what type of build you want to perform for a selection of
+# the software that is used. 
+# The word "source" means build from source and the word "repo" means build from standard repositories
+# The advantage to building from source is that you can easily fork the repositories and modify the configuration
+# parameters in the script if your configuration requirements are different to what I have set by default.
+# The disadvantage to building from source is that the machines take longer to build and configure. 
+# Author Peter Winter
+# Date 07/06/2016
+##############################################################################################
+# The set of possible configurations you could have are as follows:
+# If you are building for NGINX you can select one of:
+# NGINX:source   (uses default hardcoded settings)
+# NGINX:source:<module1>:<module2>:....<modulen>
+# NGINX:repo
+# If you are building for APACHE you can select one of:
+# APACHE:source   (uses default hardcoded settings)
+# APACHE:source:<module1>:<module2>:....<modulen>
+# APACHE:repo
+# If you are building for lighttpd you can select one of:
+# LIGHTTPD:source   (uses default hardcoded settings)
+# LIGHTTPD:source:<module1>:<module2>:....<modulen>
+# LIGHTTPD:repo
+# You can define what extensions PHP will be built with by modifying the line starting PHP: as shown below
+# PHP:<extension1>:<extension2>|port
+# You can override settings in the www.conf file of the php-fpm pool mechanism and also the php.ini file of your php-fpm configuration
+# Using this technique you can easily tune your PHP configuration and maybe you can have comented in and commented out configurations
+# where one might be production or for appication 1 and the other might be for development and so on
+# CONFIGPHPPOOL:<name1>=<value1>##<value2>:<name2>=<value1##value2>:<name3>=<value1##value2>:<name4>=<value1##value2>:<namen>=<value1##value2>
+# CONFIGPHPINI:<name1>=<value1>##<value2>:<name2>=<value1##value2>:<name3>=<value1##value2>:<name4>=<value1##<value2>:<namen>=<value1##value2>
+# NOTE: php.ini multiple values such as open_basedir with colon delmited values need to be written as "<name>=<value1>|<value2>|<value3>" with "|" instead of the usual ":"
+# This will perform something like, "apt install php8.0-fpm" if you put "fpm" in here for "extension1"
+# At the end of the line you can see "|port". When this is set it will set a port for use by php-fpm if it is not set then file sockets are used instead
+# When using S3FS, you can install from repo or from source like this:
+# S3FS:source
+# S3FS:repo
+# When using GoofyFS (instead of S3FS) you can install from binaries or source
+# GOOF:binaries
+# GOOF:source
+# When installing mariadb on your VPS systems you can give it a verion number to install like this (note MySQL just installs the latest version and you don't have a choice)
+# MARIADB:<version>
+# When installing postgres on your VPS systems you can give a version number to install like this
+# POSTGRES:<version>
+# The buildchain type will define what usecase you are deploying. Standard will deploy autoscaler,webserver and database. database will deploy database only and webserver will deploy webserver only
+# Developers could define other chain node types such as caching for example and then caching would deploy a caching node such as memcached or redis and so on
+# BUILDCHAINTYPE:standard|webserver|database
+# The tool used for datastore access is an abstraction and you can use other tools rclone, s4cmd and to implement the interface if you want
+# DATASTORETOOL:s3cmd 
+# You can choose which package manager you want to use. Currently only apt and apt-fast are supported. "Apt-fast" is supposed to be fastet, hence the "fast"
+# PACKAGEMANAGER:apt|apt-fast
+###############################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################################
+###############################################################################################
+#Pick one build style for each component you want to enable installation for. The choice of which to install e.g. NGINX or APACHE is made elsewhere
+#All this does is tell us how to build it not whether to build it
+NGINX:repo
+#NGINX:source
+#NGINX:source:select:poll:http_ssl:http_v2:http_realip:http_addition:http_sub:http_dav:http_flv:http_mp4:http_gunzip:http_gzip_static:http_auth_request:http_random_index:http_secure_link:http_degradation:http_slice:http_stub_status:stream_ssl_preread:mail_ssl:stream_ssl:stream_realip 
+APACHE:repo
+#APACHE:source
+#APACHE:source:unixd:authz_core:alias:log_config:log_debug:logio:remoteip:expires:access_compat:dir:proxy:proxy_http:proxy_fcgi:http2:headers:rewrite:ssl:mime:unique_id:session:session_cookie:authn_core:authz_user:authn_file:authz_host:auth_basic:socache_shmcb:setenvif
+LIGHTTPD:repo
+#LIGHTTPD:source
+#LIGHTTPD:source:geoip:gnutls:maxminddb:pgsql:mysql:openssl:pcre:rewrite:redirect:ssl:fastcgi:fastcgi-php
+#PHP config 1
+PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:gd:imap:ldap:pgsql:pspell:tidy:intl:curl:zip:xml:imagick:ssh2:apcu|9176
+#PHP config 2
+#PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:imap:pgsql:pspell:tidy:intl:curl:zip:xml:imagick:ssh2:apcu
+CONFIGPHPPOOL:pm=ondemand:pm.max_children=4:pm.max_requests=200:pm.start_servers=10:pm.min_spare_servers=5:pm.max_spare_servers=20:pm.process_idle_timeout=10s
+CONFIGPHPINI:upload_max_filesize=64M:post_max_size=64M:zlib.output_compression=On:cgi.fix_pathinfo=0:output_buffering=Off:disable_functions=exec,passthru,shell_exec,system,proc_open,popen,parse_ini_file,show_source:allow_url_fopen=Off:allow_url_include=Off:memory_limit=256M:opcache.enable=1:opcache.memory_consumption=256:open_basedir=/var/www/html##/var/www##/tmp:upload_tmp_dir=/var/www/html/tmp:sys_temp_dir=/var/www/html/tmp:expose_php=Off:date.timezone='Europe/London':cgi.force_redirect=On                                                                    
+#Only one of S3FS and GOOF should be uncommented
+#S3FS:repo
+S3FS:source
+#GOOF:binaries
+#GOOF:source
+MARIADB:11.3.2
+POSTGRES:16.2
+BUILDCHAINTYPE:standard
+DATASTORETOOL:s3cmd
+PACKAGEMANAGER:apt-fast
+

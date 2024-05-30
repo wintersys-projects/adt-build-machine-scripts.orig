@@ -1,0 +1,17 @@
+#cloud-config
+
+write_files:
+  - path: /etc/netplan/eth1.yaml
+    content: |
+      network:
+        version: 2
+        ethernets:
+          eth1:
+            dhcp4: true
+    owner: 'root:root'
+    permissions: '0644'
+
+runcmd:
+  - '/usr/sbin/netplan apply'
+  - '/usr/bin/apt-get -qq -y update'
+  - '/usr/bin/apt-get -qq -y install git'

@@ -1,0 +1,24 @@
+There are 5 basic sets of users who will wish to interact the Agile Deployment Framework
+
+1) Developers who wish to develop and enhance the framework
+2) Deployers who will need to know what the configuration settings mean and how to set them correctly, but not any of the details of the code
+3) Application Developers who wish to develop applications using their Application and have them deployed on the Agile Deployment Framework, possibly by a deployer
+4) Webmasters and application administrators who wish to interact with the applications deployed using the agile framework
+5) End users of specific applications
+
+The documention, then will be subdivided based around these criteria and you can find subdirectories relating to each one and in them, you will find instruction
+
+People might ask 'what's the value add' of a project like this. I see their point, you know, there's providers out there who take 
+care of all the infrastructure for you it's joomla in a can, sort of thing and so all you have to worry about is your application 
+and the rest is all automated. This is true, but at the same time, I think there is a value add here in terms of this toolkit's 
+agile nature and also, there's people who still like to have behind the scenes control without necessarily having to start with 
+vanilla servers. So, from my point of view, if you want to do some infrastructure specialisations, then if you have use a provider 
+that has abstracted everything, then, you can't access it. Point is, with this toolkit, if you have the skills, you can metaphorically 
+still get under the bonnet and change the spark plugs. So, that's where I think the value add is. It's also extensible and customisable 
+so if you want to, you can make it more than it already is. To me, anyway, it's worthwhile even if to the end user there's no 
+difference between an application deployed like this and something deployed out of a tin. The main 'value add' that I see though is 
+that you can have full control over your servers if you want that without having to configure from the ground up as it is done for you 
+to a basic level. Also, you can easily create applications once and automatically customise them for each different deployment. So, 
+if you are creating an application for town A, you can automatically deploy it for town B just with some parameter changes at build 
+time. This toolkit might be especially useful to students and learners who want to easily spin up functional servers and tinker with their setup. 
+This is intended for serious use, but, also, if you are someone who wants to learn a bit more about server systems this might be useful to you. 

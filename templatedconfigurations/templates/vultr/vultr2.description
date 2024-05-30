@@ -1,0 +1,16 @@
+DEPLOY A BASELINED JOOMLA, WORDPRESS,DRUPAL or MOODLE APPLICATION IN DEVELOPMENT MODE
+-------------------------------------------------------------------------------------
+
+For this you will need to have a baselined application stored with your git provider. This means two repositories, one for the webroot and one for the database.
+You can review in the ${BUILD_HOME}/doco/ directory how to baseline an application (in other words, create these two repositories).
+
+In your template ( ${BUILD_HOME}/templatedconfigurations/templates/vultr/vultr2.tmpl ) you will need to set:
+
+BASELINE_DB_REPOSITORY
+APPLICATION_BASELINE_SOURCECODE_REPOSITORY
+APPLICATION_IDENTIFIER
+
+To select this template input "2" to bypass this template just press <enter>
+
+
+

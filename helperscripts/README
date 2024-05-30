@@ -1,0 +1,76 @@
+These are helper scripts to aid with your usage of the Agile Deployment Toolkit
+
+1)Connection Scripts
+
+There are scripts to connect you directly with deployed servers, based on type.
+You can use the Connect to Autoscaler script to connect to the autoscaler.
+The Connect to DB to connect to the Database and so on.
+If you don't use these scripts, you will need to mess about passing the required SSH
+keys and so on which these scipts find automatically. You have to know which encryption
+algorithm you are using, RSA or ECDSA to connect successfully.
+
+2) Copy scripts
+
+Just pass the path to the file you want to copy to a server and this script will copy it
+there for you. It's a convenience thing. Without it, you will need to mess about with 
+encryption keys and so on for SSH
+
+3) Get Infrastructure
+
+This scripts gets copies of all the infrastructure scripts to your local machine from github.
+
+4) Monitor Webserver
+
+You can use this script to monitor your website. You need to put a token in the script which can be looked
+for in the website's response code. If it finds it then you know the site is functional, that's the idea.
+
+5)Reboot
+
+You can reboot all the infrastructure if you like
+
+6)Shutdown
+
+This scripts will shutdown all your infrastructure with limited prompting. Optionally, it can actually destroy
+the machines fully as well. 
+
+7) Reset Build Kit
+
+This removes all files/directories which are transient to the build process. If you "reset" the build kit, then you 
+know that your next build run will be fresh and clean. This is similar to a factory reset on a piece of hardware. 
+
+8) Generate Override Template
+
+This will generate a temmplate override script for you interactively. 
+
+9) Generate Hardcore User Data Script
+
+This will take the generated ovrride script from 9 and create a user data script ready for deployment using the hardcore method
+
+10) Adjust Build Machine Firewall
+
+This will adjust the build machine firewall so that you can add additional laptop ip addresses that can access your build machine. 
+
+11) Adjust Scaling
+
+You can use this script to scale up and scale down the number of webservers that will be used.
+
+12) Store Assets For Temporal
+
+When you create a baseline if you intend to use a CDN from a bucket or mount your assets directories using S3FS then you need to Store the assets from your baseline in your S3 datastore ready for temoral deployments. You can do that using this script. 
+
+13) Generate Local Backups
+
+This script will generate a backup of your webroot and your database on the build machine in the directory ${BUILD_HOME}/localbackups It is recommended to manually run this script periodically so that you have backups in S3, backups in your git repo and backups on your build machine. That fulfills the old adage of backup, backup again and backup again. 
+
+14) CheckApplicationRepositoryIntegrity
+
+This will check the integrity of the webroot temporal backup that you tell it to check
+
+15) CheckApplicationDBRepositoryIntegrity
+
+This will check the integrity of the db temporal backup that you tell it to check
+
+16) CheckRespositoryIntegrities.sh
+
+This will check the integrities of all of your temporal backups (if they exist). You will have to configure the script with your details before you run it, but, once done you can run it an arbitary number of times as a rudimentary check that your backups are valid. 
+

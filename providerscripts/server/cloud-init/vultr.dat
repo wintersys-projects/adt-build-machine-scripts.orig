@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#The eth1 interface gets setup for vultr just by using the userdata parameter when creating the machine
+#We don't need to do anything here because of that other than make the call to this file
+
+/usr/bin/apt-get -qq -y update
+/usr/bin/apt-get -qq -y install git
+
+
