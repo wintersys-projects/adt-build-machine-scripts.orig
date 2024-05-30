@@ -23,14 +23,14 @@
 #########################################################################################
 #set -x
 
-update="1"
+update="0"
 
 if ( ( [ "${SYSTEM_EMAIL_USERNAME}" = "" ] || [ "${SYSTEM_EMAIL_PASSWORD}" = "" ] || [ "${SYSTEM_EMAIL_PROVIDER}" = "" ] || [ "${SYSTEM_TOEMAIL_ADDRESS}" = "" ] || [ "${SYSTEM_FROMEMAIL_ADDRESS}" = "" ] ) && [ "${HARDCORE}" != "1" ] )
 then
 	status ""
 	status ""
 	status "#############################################################################################################################################"
-	status "You don't seem to have an SMTP settings configured. This is fine it just means that you system emails won't be sent"
+	status "You don't seem to have all the necessary SMTP settings configured. This is fine it just means that you system emails won't be sent"
 	status "If you want to interactively setup system email capabilities here just enter 'Y' or 'y'"
 	status "If you set up system email credentials here, the settings you give will override  and overwrite any settings that you have in your template"
 	status "##############################################################################################################################################"
@@ -46,7 +46,7 @@ fi
 
 if ( [ "${update}" = "1" ] && [ "${HARDCORE}" != "1" ] )
 then
-	status "You have chosen to override the email addresses on the fly in your template (if any) for this build so now you must tell me what values you want to use"
+	status "You have chosen to override the email addresses on the fly rather than in your template for this build so now you must tell me what values you want to use"
 	status "So, please enter the email address where you wish system messages to be sent"
 	read SYSTEM_TOEMAIL_ADDRESS
 
