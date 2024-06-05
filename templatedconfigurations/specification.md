@@ -455,9 +455,7 @@ There are three settings you can use:
 
 "0" means just use the webservers actual directories for asset storage (this will likely only be the case if you have very few assets to store). The literal webroot is used for asset storage you can't deploy multiple webservers if you use this setting because the asset files will not be shared between the webservers. If someone can think of a good way of automatically (and easily) synchronising  the asset folder of n webservers, that would be cool.  
 
-"1" means use S3FS or EFS (if you are deploying to EC2) to mount assets buckets into your webserver's filesystem assets are then written directly to these services when your application stores an asset. This is suitable for development or production mode.   
-
-"2" means that the polling asset storage mechanism will be used which means that every 10 seconds, a cronjob runs which looks for new asset files which have been written by the application to the webroot of the webserver and these asset files are moved to S3 buckets and deleted from the webservers filesystem which can then be use a CDN to distribute the assets from the bucket directly from within the application. You will need to use a CDN at an application level if you use this method and different providers recommend different CDN providers for use with their solution, so you will need to look into what they suggest. There will be a few seconds delay between the asset being generated through the application and it being uploaded to the S3 compatible object store. If you have multiple webservers and your application doesn't automatically offload to an S3 compatible bucket then this is the recommened solution. For a lot of applications you can probably just use something like the "Offload to S3" plugin for Wordpress but if that isn't available then this is a route for you. 
+"1" means use S3FS (or another supported solution, for example goofys) to mount assets buckets into your webserver's filesystem assets are then written directly to these services when your application stores an asset. This is suitable for production mode.   
 
 -----
 
