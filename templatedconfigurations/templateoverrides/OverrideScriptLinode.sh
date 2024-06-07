@@ -38,7 +38,7 @@ exec 2>>/root/logs/${ERR_FILE}
 /bin/sed -i 's/#*PasswordAuthentication [a-zA-Z]*/PasswordAuthentication no/' /etc/ssh/sshd_config
 if ( [ "${BUILDMACHINE_SSH_PORT}" = "" ] )
 then
-	BUILDCLIENT_SSH_PORT="22"
+	BUILDMACHINE_SSH_PORT="22"
 fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
@@ -57,6 +57,7 @@ service ssh restart
 #your VPS system provider and allow your new IP address through the firewall. This might be more of a hassle than its worth
 #################################################################################################################################################
 /usr/sbin/ufw allow ${BUILDMACHINE_SSH_PORT}/tcp 
+#/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
 cd /home/${BUILDMACHINE_USER}
 if ( [ "${INFRASTRUCTURE_REPOSITORY_OWNER}" != "" ] )
 then
