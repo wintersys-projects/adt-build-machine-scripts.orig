@@ -34,12 +34,12 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 ####################################################################################
 " > /root/Environment.env
 
-/bin/mkdir -p /home/${BUILDMACHINE_USER}/logs
+/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
 
 OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>/home/${BUILDMACHINE_USER}/logs/${OUT_FILE}
+exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
 ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>/home/${BUILDMACHINE_USER}/logs/${ERR_FILE}
+exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
 #XXXECHOZZZ
 #XXXYYYZZZ
