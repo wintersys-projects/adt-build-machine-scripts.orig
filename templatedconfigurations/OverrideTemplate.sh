@@ -52,10 +52,19 @@ fi
 
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
-	while read line
-	do
-		variables="${variables} `/bin/echo ${line} | /bin/grep "UDF" | /usr/bin/awk -F'"' '{print $2}' | /bin/sed '/^$/d'`"
-	done < /root/StackScript
+	if ( [ -f /root/StackScript ] )
+	then
+		while read line
+		do
+			variables="${variables} `/bin/echo ${line} | /bin/grep "UDF" | /usr/bin/awk -F'"' '{print $2}' | /bin/sed '/^$/d'`"
+		done < /root/StackScript
+	elif ( [ -f /root/Environment.env ] )
+ 	then
+  		while read line
+		do
+			variables="${variables} `/bin/echo ${line} | /bin/grep "^export" | /usr/bin/awk -F'=' '{print $1}' | /usr/bin/awk '{print $NF}' | /bin/sed '/^$/d'`"
+		done < /root/Environment.env
+	fi
 
 	for variable in ${variables}
 	do
