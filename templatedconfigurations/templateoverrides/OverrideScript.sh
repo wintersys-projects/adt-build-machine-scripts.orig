@@ -34,7 +34,7 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 ####################################################################################
 " > /root/Environment.env
 
-/bin/mkdir -p /home/${BUILDMACHINE_USER}
+/bin/mkdir -p /home/${BUILDMACHINE_USER}/logs
 
 OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>/home/${BUILDMACHINE_USER}/logs/${OUT_FILE}
