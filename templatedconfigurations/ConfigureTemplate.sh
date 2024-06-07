@@ -121,27 +121,23 @@ then
 	
 else
 	#template overrides if we are running in hardcore mode
-	#selectedtemplate="${SELECTED_TEMPLATE}"
-	#templatefile="${BUILD_HOME}/templatedconfigurations/templates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
-	#if ( [ ! -d ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST} ] )
-	#then
-#		/bin/mkdir -p  ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}
-#	fi##
-#	if ( [ -f ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ] )
-#	then##
-	#	/bin/mv ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ${BUILD_HOME}/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl.$$
-#	fi
+	selectedtemplate="${SELECTED_TEMPLATE}"
+	templatefile="${BUILD_HOME}/templatedconfigurations/templates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
+	if ( [ ! -d ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST} ] )
+	then
+		/bin/mkdir -p  ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}
+	fi
+	if ( [ -f ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ] )
+	then
+		/bin/mv ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ${BUILD_HOME}/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl.$$
+	fi
 	
-#	/bin/cp ${templatefile} ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl
+	/bin/cp ${templatefile} ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl
    
-#	templatefile="${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
-	
-#	. ${BUILD_HOME}/templatedconfigurations/OverrideTemplate.sh
-    if ( [ -f /root/Environment.env ] )
-    then
-        . /root/Environment.env
 	templatefile="${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
-    fi
+	
+	. ${BUILD_HOME}/templatedconfigurations/OverrideTemplate.sh
+
 fi
 
 /bin/sed -i '/BUILD_IDENTIFIER=/d' ${templatefile}
