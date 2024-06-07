@@ -77,7 +77,7 @@ done
 
 if ( [ "${BUILDMACHINE_SSH_PORT}" = "" ] )
 then
-	BUILDCLIENT_SSH_PORT="22"
+	BUILDMACHINE_SSH_PORT="22"
 fi
 
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
