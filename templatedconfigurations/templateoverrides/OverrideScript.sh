@@ -34,15 +34,6 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 ####################################################################################
 " > /root/Environment.env
 
-/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
-
-OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
-ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
-
-export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-
 #XXXECHOZZZ
 #XXXYYYZZZ
 #XXXROOTENVZZZ
@@ -108,6 +99,15 @@ then
 else
 	/usr/bin/git clone https://github.com/wintersys-projects/adt-build-machine-scripts.git
 fi
+
+/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
+
+OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
+exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
+ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
+exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
+
+export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 /bin/mkdir /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
 /bin/touch /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata/LAPTOPIP:${LAPTOP_IP}
