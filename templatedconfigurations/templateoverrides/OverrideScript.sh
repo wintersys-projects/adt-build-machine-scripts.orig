@@ -6,13 +6,6 @@
 #SUITABLE FOR THAT PARTICULAR FLAVOUR
 ######################################################################################
 
-/bin/mkdir /root/logs
-
-OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>/root/logs/${OUT_FILE}
-ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>/root/logs/${ERR_FILE}
-
 ###############################################################################################
 # SET THESE FOR YOUR BUILD CLIENT MACHINE
 # THIS WILL NOT START A BUILD IT WILL JUST SETUP THE TOOLKIT
@@ -40,6 +33,13 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 #export INFRASTRUCTURE_REPOSITORY_PASSWORD=\"none\"
 ####################################################################################
 " > /root/Environment.env
+
+/bin/mkdir -p /home/${BUILDMACHINE_USER}
+
+OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
+exec 1>>/home/${BUILDMACHINE_USER}/logs/${OUT_FILE}
+ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
+exec 2>>/home/${BUILDMACHINE_USER}/logs/${ERR_FILE}
 
 #XXXECHOZZZ
 #XXXYYYZZZ
