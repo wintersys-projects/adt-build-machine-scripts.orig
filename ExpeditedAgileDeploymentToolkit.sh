@@ -50,7 +50,10 @@ export BUILD_HOME="`/bin/pwd`"
 export USER="`/usr/bin/whoami`"
 /bin/chmod -R 700 ${BUILD_HOME}/.
 
-. ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
+if ( [ "${HARDCORE}" != "1" ] )
+then
+    . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
+fi
 
 export BUILD_CLIENT_IP="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 
