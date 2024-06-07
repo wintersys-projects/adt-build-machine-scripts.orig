@@ -59,7 +59,12 @@ then
 	/bin/chown root:root ${BUILD_HOME}/.config/doctl/config.yaml /root/.config/doctl/config.yaml
 	/bin/chmod 400 ${BUILD_HOME}/.config/doctl/config.yaml /root/.config/doctl/config.yaml
 
-	/usr/local/bin/doctl balance get >&3
+	if ( [ "${HARDCORE}" = "0" ] )
+ 	then
+		/usr/local/bin/doctl balance get >&3
+	else
+ 		/usr/local/bin/doctl balance get
+	fi
 
 	if ( [ "$?" != "0" ] )
 	then
@@ -130,7 +135,12 @@ then
 	/bin/chown root:root ${BUILD_HOME}/.exoscale.toml /root/.config/exoscale/exoscale.toml
 	/bin/chmod 400 ${BUILD_HOME}/.exoscale.toml /root/.config/exoscale/exoscale.toml
 
-	/usr/bin/exo status >&3
+	if ( [ "${HARDCORE}" = "0" ] )
+ 	then
+		/usr/bin/exo status >&3
+  	else
+		/usr/bin/exo status
+  	fi
 
 	if ( [ "$?" != "0" ] )
 	then
@@ -186,8 +196,13 @@ then
 	/bin/cp  ${BUILD_HOME}/.linode-cli /root/.config/linode-cli
 	/bin/chown root:root /root/.config/linode-cli ${BUILD_HOME}/.linode-cli
 	/bin/chmod 400 /root/.config/linode-cli ${BUILD_HOME}/.linode-cli
-
-	/usr/local/bin/linode-cli account view >/dev/null 2>/dev/null >&3
+	
+ 	if ( [ "${HARDCORE}" = "0" ] )
+ 	then
+		/usr/local/bin/linode-cli account view >/dev/null 2>/dev/null >&3
+  	else
+   		/usr/local/bin/linode-cli account view >/dev/null 2>/dev/null
+	fi
 	
 	if ( [ "$?" != "0" ] )
 	then
@@ -217,8 +232,13 @@ then
 		status "Couldn't find your vultr API key from your template - will have to exit...."
 		exit
 	fi
-	
-	/usr/bin/vultr account >&3
+ 
+	if ( [ "${HARDCORE}" = "0" ] )
+ 	then	
+		/usr/bin/vultr account >&3
+  	else
+   		/usr/bin/vultr account
+	fi
 		
 	if ( [ "$?" != "0" ] )
 	then
