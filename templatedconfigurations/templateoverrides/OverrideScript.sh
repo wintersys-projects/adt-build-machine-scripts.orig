@@ -41,6 +41,8 @@ exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
 ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
+export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
+
 #XXXECHOZZZ
 #XXXYYYZZZ
 #XXXROOTENVZZZ
