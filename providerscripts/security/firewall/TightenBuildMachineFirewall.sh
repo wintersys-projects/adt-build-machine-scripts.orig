@@ -138,6 +138,7 @@ then
 
    for ip in ${ips}
    do
+          # /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
 	   /usr/sbin/ufw allow from ${ip}
    done
 
