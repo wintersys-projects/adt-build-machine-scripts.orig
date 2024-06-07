@@ -139,12 +139,6 @@ else
 	
 	. ${BUILD_HOME}/templatedconfigurations/OverrideTemplate.sh
 
-
- #	if ( -f /root/Environment.env ] )
-# 	then
-#		. /root/Environment.env
-#		templatefile="${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
-#	fi
 fi
 
 /bin/sed -i '/BUILD_IDENTIFIER=/d' ${templatefile}
