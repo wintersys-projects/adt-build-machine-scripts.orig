@@ -46,7 +46,10 @@ status () {
 	/bin/echo "$1" | /usr/bin/tee /dev/fd/3
 }
 
-export BUILD_HOME="`/bin/pwd`"
+if ( [ "${BUILD_HOME}" = "" ] )
+then
+	export BUILD_HOME="`/bin/pwd`"
+fi
 export USER="`/usr/bin/whoami`"
 /bin/chmod -R 700 ${BUILD_HOME}/.
 
