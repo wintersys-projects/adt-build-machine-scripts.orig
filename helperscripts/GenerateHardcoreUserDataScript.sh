@@ -31,7 +31,8 @@ fi
 export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
 
 user="`/usr/bin/pwd | /usr/bin/awk -F'/' '{print $3}'`"
-
+/bin/chown -R ${user} ${BUILD_HOME}/.
+/bin/chmod -R 700 ${BUILD_HOME}/.
 
 if ( [ "${1}" != "stack" ] )
 then
