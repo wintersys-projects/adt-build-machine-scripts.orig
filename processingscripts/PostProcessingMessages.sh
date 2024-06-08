@@ -36,7 +36,7 @@ then
 	status "#########################################"
 	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/DisplayCredentials.sh
 	status "#########################################"
-	status "The database IP address is: ${DBIP_PRIVATE}"
+	status "The database IP address is: ${db_active_ip}"
 	status "The database port is ${DB_PORT}"
 	status "You can make up your own database prefix but make sure to include the '_' character at the end of your prefix (for example 'dbprefix_')"
 	status "#########################################"
@@ -44,14 +44,14 @@ then
 	if ( [ "${APPLICATION}" = "joomla" ] && [ "${DB_PORT}" != "3306" ] && [ "${DB_PORT}" != "5432" ] )
 	then
 		status "You are not using the default port for your database"
-		status "REMEMBER to tell joomla this by putting the database hostname as ${DBIP_PRIVATE}:${DB_PORT} when you enter it in the GUI during the install process"
+		status "REMEMBER to tell joomla this by putting the database hostname as ${db_active_ip}:${DB_PORT} when you enter it in the GUI during the install process"
 		status "######################################"
 	fi
 	
 	if ( [ "${APPLICATION}" = "wordpress" ] && [ "${DB_PORT}" != "3306" ] )
 	then
 		status "You are not using the default port for your database"
-		status "REMEMBER to tell wordpress this by putting the database hostname as ${DBIP_PRIVATE}:${DB_PORT} when you enter it in the GUI during the install process"
+		status "REMEMBER to tell wordpress this by putting the database hostname as ${db_active_ip}:${DB_PORT} when you enter it in the GUI during the install process"
 		status "######################################"
 	fi
 
@@ -71,13 +71,6 @@ then
 		status "Waiting for the application install to have been completed at: https://${WEBSITE_URL}/core/install.php"
 		status "Use the credentials listed above please"
 		status ""
-
-	#   if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
-	#   then
-#			ip_address="${WSIP_PRIVATE}"
-#	   else
-#			ip_address="${WSIP}"
-#	   fi
 
 		while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/CheckUser.sh"`" != "USER ADDED" ] )
 		do
@@ -101,13 +94,6 @@ then
 	status "####################################################################"
 	status "Attempting to truncate cache ready for the application to be usable"
 	status "####################################################################"
-
-	#if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
-	#then
-#		ip_address="${WSIP_PRIVATE}"#
-#	else
-#		ip_address="${WSIP}"
-#	fi
 
 	while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
 	do
