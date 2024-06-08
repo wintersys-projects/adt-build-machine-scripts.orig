@@ -30,6 +30,9 @@ fi
 
 export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
 
+user="`/usr/bin/pwd | /usr/bin/awk -F'/' '{print $3}'`"
+
+
 if ( [ "${1}" != "stack" ] )
 then
 	baseoverridescript="${BUILD_HOME}/templatedconfigurations/templateoverrides/OverrideScript.sh"
