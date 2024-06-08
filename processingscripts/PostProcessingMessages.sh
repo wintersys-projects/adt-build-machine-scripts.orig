@@ -72,14 +72,14 @@ then
 		status "Use the credentials listed above please"
 		status ""
 
-	   if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
-	   then
-			ip_address="${WSIP_PRIVATE}"
-	   else
-			ip_address="${WSIP}"
-	   fi
+	#   if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
+	#   then
+#			ip_address="${WSIP_PRIVATE}"
+#	   else
+#			ip_address="${WSIP}"
+#	   fi
 
-		while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ip_address} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/CheckUser.sh"`" != "USER ADDED" ] )
+		while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/CheckUser.sh"`" != "USER ADDED" ] )
 		do
 			/bin/sleep 15
 		done
@@ -102,14 +102,14 @@ then
 	status "Attempting to truncate cache ready for the application to be usable"
 	status "####################################################################"
 
-	if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
-	then
-		ip_address="${WSIP_PRIVATE}"
-	else
-		ip_address="${WSIP}"
-	fi
+	#if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
+	#then
+#		ip_address="${WSIP_PRIVATE}"#
+#	else
+#		ip_address="${WSIP}"
+#	fi
 
-	while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ip_address} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
+	while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
 	do
 		/bin/sleep 15
 	done
