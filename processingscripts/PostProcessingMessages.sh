@@ -97,7 +97,7 @@ then
 
 	while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
 	do
-		/bin/sleep 15
+		/bin/sleep 60
 	done
 fi
 
