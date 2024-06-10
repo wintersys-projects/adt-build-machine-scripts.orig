@@ -85,7 +85,7 @@ CONFIGPHPINI:upload_max_filesize=64M:post_max_size=64M:zlib.output_compression=O
 S3FS:source
 #GOOF:binaries
 #GOOF:source
-MARIADB:11.4.2
+MARIADB:11.3.2
 POSTGRES:16.3
 BUILDCHAINTYPE:standard
 DATASTORETOOL:s3cmd
