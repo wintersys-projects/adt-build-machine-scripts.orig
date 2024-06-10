@@ -91,14 +91,17 @@ fi
 
 if ( [ "${APPLICATION}" = "drupal" ] )
 then
-	status "####################################################################"
-	status "Attempting to truncate cache ready for the application to be usable"
-	status "####################################################################"
+	if ( [ "${APPLICATIONBASELINESOURCECODEREPOSITORY}" != "DRUPAL:social" ] )
+ 	then
+		status "####################################################################"
+		status "Attempting to truncate cache ready for the application to be usable"
+		status "####################################################################"
 
-	while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
-	do
-		/bin/sleep 60
-	done
+		while ( [ "`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/processing/drupal/TruncateCache.sh"`" != "TRUNCATED" ] )
+		do
+			/bin/sleep 15
+		done
+	fi
 fi
 
 if ( [ "${APPLICATION}" = "wordpress" ] )
