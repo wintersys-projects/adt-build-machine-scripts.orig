@@ -41,12 +41,12 @@ then
 				if ( [ "${HARDCORE}" = "1" ] )
 				then
 					/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
+     					/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
 					/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
-					/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
 				else  
 					/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
+     					/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
 					/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
-					/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
 				fi
 			fi
 		fi
