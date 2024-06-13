@@ -339,10 +339,11 @@ This is the password of your SMTP user. For Amazon SES, for example, this will b
 
 Each CMS system is likely to have directories where assets are generated from application usage and so on. Assets and media that are generated at runtime need to be immediately shared between all webservers and the way I do this is as a general solution, I mount the assets directories specific to the CMS type from a shared S3 bucket to each webserver. There is a specific solution for AWS which is the EFS system which is also supported. EFS can have up to petabytes of information and assuming you have very deep pockets, you can have petabytes of storage for you dyanmic application assets which is often a limiting factor for large scale social networks and so on, where often, asset generation is quite high with members uploading videos and images and the like.  
 
-Joomla - export DIRECTORIES_TO_MOUNT="images" - When the CMS is joomla, this will mount /var/www/html/images
-
-WordPress - export DIRECTORIES_TO_MOUNT="wp-content.uploads" - When the CMS is WordPress, this will mount /var/www/html/wp-content/uploads. 
-
+Joomla - export DIRECTORIES_TO_MOUNT="images" - When the CMS is joomla, this will mount /var/www/html/images  
+WordPress - export DIRECTORIES_TO_MOUNT="wp-content.uploads" - When the CMS is WordPress, this will mount /var/www/html/wp-content/uploads  
+Drupal - export DIRECTORIES_TO_MOUNT="sites.default.files" - When the CMS is WordPress, this will mount /var/www/html/sites/default/files 
+Opensocial - export DIRECTORIES_TO_MOUNT="sites.default.files:/var/www/private" - When the CMS is WordPress, this will mount /var/www/html/sites/default/files  amd /var/www/private
+Moodle - export DIRECTORIES_TO_MOUNT="moodledata.filedir" - When the CMS is WordPress, this will mount /var/www/html/moodledata/filedir
 
 ----- 
 
