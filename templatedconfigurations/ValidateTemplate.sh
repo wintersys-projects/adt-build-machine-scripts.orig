@@ -390,14 +390,6 @@ then
 	fi
 fi
 
-if ( [ "${APPLICATION}" = "wordpress" ] )
-then
-	if ( [ "${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}" != "WORDPRESS" ] )
-	then
-		${log_command} "Your value for variable APPLICATION_BASELINE_SOURCECODE_REPOSITORY (${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}) doesn't appear to be valid please review"
-	fi
-fi
-
 if ( [ "${APPLICATION}" = "moodle" ] )
 then
 	if ( [ "${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}" != "MOODLE" ] )
