@@ -171,7 +171,7 @@ then
 
 	user_data=`${BUILD_HOME}/providerscripts/server/cloud-init/vultr.dat`
    
-	if ( [ "${snapshot_id}" != "0" ] && [ "${snapshot_id}" != "1" ] )
+ 	if ( [ "${SNAPSHOT_ID}" != "" ] )
 	then
 	   if ( [ "${ddos_protection}" = "1" ] )
 	   then
