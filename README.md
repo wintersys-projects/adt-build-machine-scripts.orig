@@ -25,8 +25,6 @@ There are four repositories associated with this toolkit, this one, and the one'
 
 Automatically install LEMP LAMP LLMP LEPP LAPP or LLPP using parameters only.
 
-If you want to run your own custom servers with full configuration access or you are a student wishing to learn about server configuration for your CMS systems, this script can help. This is a powertool and its not unlike learning a CMS but for deployment.
-
 ----------------------------------
 
 #### WHAT IS A DMS (Deployment Management System)
