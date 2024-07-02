@@ -74,3 +74,5 @@ export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 /usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
 /usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
+
+/usr/bin/systemctl daemon-reload
