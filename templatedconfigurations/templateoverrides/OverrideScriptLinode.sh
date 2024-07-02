@@ -36,6 +36,7 @@ then
 fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
+/usr/bin/systemctl daemon-reload
 systemctl restart sshd
 service ssh restart
 /usr/bin/apt-get -qq -y update
@@ -75,4 +76,3 @@ export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 /usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
 /usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
 
-/usr/bin/systemctl daemon-reload
