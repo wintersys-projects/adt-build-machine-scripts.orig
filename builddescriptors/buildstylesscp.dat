@@ -71,8 +71,8 @@ NGINX:repo
 APACHE:repo
 #APACHE:source
 #APACHE:source:unixd:authz_core:alias:log_config:log_debug:logio:remoteip:expires:access_compat:dir:proxy:proxy_http:proxy_fcgi:http2:headers:rewrite:ssl:mime:unique_id:session:session_cookie:authn_core:authz_user:authn_file:authz_host:auth_basic:socache_shmcb:setenvif
-#LIGHTTPD:repo
-LIGHTTPD:source
+LIGHTTPD:repo
+#LIGHTTPD:source
 #LIGHTTPD:source:geoip:gnutls:maxminddb:pgsql:mysql:openssl:pcre:rewrite:redirect:ssl:fastcgi:fastcgi-php
 #PHP config 1
 PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:gd:imap:ldap:pgsql:pspell:tidy:intl:curl:zip:xml:imagick:ssh2:apcu|9176
