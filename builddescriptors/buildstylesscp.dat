@@ -68,8 +68,8 @@
 NGINX:repo
 #NGINX:source
 #NGINX:source:select:poll:http_ssl:http_v2:http_realip:http_addition:http_sub:http_dav:http_flv:http_mp4:http_gunzip:http_gzip_static:http_auth_request:http_random_index:http_secure_link:http_degradation:http_slice:http_stub_status:stream_ssl_preread:mail_ssl:stream_ssl:stream_realip 
-APACHE:repo
-#APACHE:source
+#APACHE:repo
+APACHE:source
 #APACHE:source:unixd:authz_core:alias:log_config:log_debug:logio:remoteip:expires:access_compat:dir:proxy:proxy_http:proxy_fcgi:http2:headers:rewrite:ssl:mime:unique_id:session:session_cookie:authn_core:authz_user:authn_file:authz_host:auth_basic:socache_shmcb:setenvif
 LIGHTTPD:repo
 #LIGHTTPD:source
