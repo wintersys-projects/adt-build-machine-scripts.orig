@@ -65,14 +65,14 @@
 ###############################################################################################
 #Pick one build style for each component you want to enable installation for. The choice of which to install e.g. NGINX or APACHE is made elsewhere
 #All this does is tell us how to build it not whether to build it
-#NGINX:repo
-NGINX:source
+NGINX:repo
+#NGINX:source
 #NGINX:source:select:poll:http_ssl:http_v2:http_realip:http_addition:http_sub:http_dav:http_flv:http_mp4:http_gunzip:http_gzip_static:http_auth_request:http_random_index:http_secure_link:http_degradation:http_slice:http_stub_status:stream_ssl_preread:mail_ssl:stream_ssl:stream_realip 
 APACHE:repo
 #APACHE:source
 #APACHE:source:unixd:authz_core:alias:log_config:log_debug:logio:remoteip:expires:access_compat:dir:proxy:proxy_http:proxy_fcgi:http2:headers:rewrite:ssl:mime:unique_id:session:session_cookie:authn_core:authz_user:authn_file:authz_host:auth_basic:socache_shmcb:setenvif
-LIGHTTPD:repo
-#LIGHTTPD:source
+#LIGHTTPD:repo
+LIGHTTPD:source
 #LIGHTTPD:source:geoip:gnutls:maxminddb:pgsql:mysql:openssl:pcre:rewrite:redirect:ssl:fastcgi:fastcgi-php
 #PHP config 1
 PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:gd:imap:ldap:pgsql:pspell:tidy:intl:curl:zip:xml:imagick:ssh2:apcu|9176
