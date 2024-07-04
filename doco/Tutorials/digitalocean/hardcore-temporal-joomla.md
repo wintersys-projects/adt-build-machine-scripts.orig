@@ -95,7 +95,7 @@ At this point, your build machine will only accept connections from your laptop.
   ------------------------
   **DEPLOYMENT USING MANAGED DATABASES**
   
-  There's something else to be aware of, if you want to deploy a managed DBaaS system instead of just using the one that is built in to the build process you can do that as detailed in [this](../../../doco/AgileToolkitDeployment/DeployingDBaaS-Shortcut.md) and [this](../../../doco/AgileToolkitDeployment/DeployingDBaaS.md) document
+  There's something else to be aware of, if you want to deploy a managed DBaaS system instead of just using the one that is built in to the build process you can do that as detailed in [this](../../../doco/AgileToolkitDeployment/DeployingDBaaS.md) document
   
   ------------------------
   **DEPLOYMENT USING SNAPSHOTS**
