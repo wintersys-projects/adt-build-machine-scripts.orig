@@ -60,9 +60,11 @@ The full set of services that are supported by the core of the toolkit and which
 
 #### BUILD METHODS OVERVIEW
 
-There are two types of build method you can employ to get a functioning application. These is the hardcore build (only use once you are more experienced with this tool), and the expedited build method. To use the expedited build method you basically have to configure a template with your sane custom varibles and then run the **ExpeditedAgileDeploymenToolkit.sh** script. To use the hardcore build method you need to generate a userdata script on your laptop using the helperscripts of this repository and then paste your full userdata script into the cloud-init area of a newly provisioned VPS server with your chosen cloudhost provider. There might be situations in which you want to use the hardcore build method and there might be situations when you want to use the expedited build method. In truth it is expected that most of the time you will want to use the expedited build method. In both cases you need to have a thorough understanding of the specification which you can reference [here](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/templatedconfigurations/specification.md) of course. 
+There are two types of build method you can employ to get a functioning application. These is the hardcore build (only use once you are more experienced with this tool), and the expedited build method. 
 
-For an overview of the core steps involoved in an expedited or hardocore build, please look [here](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/doco/AgileToolkitDeployment/BuildStrategiesOverview.md))
+In both cases you need to have a thorough understanding of the specification which you can reference [here](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/templatedconfigurations/specification.md) of course. 
+
+For an overview of the steps involoved in an expedited or hardocore build, please look [here](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/doco/AgileToolkitDeployment/BuildStrategiesOverview.md))
 
 -----
 
