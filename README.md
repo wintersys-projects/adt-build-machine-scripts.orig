@@ -11,7 +11,9 @@
 ##### OPERATIONS DOCUMENTATION FOR DEPLOYERS: [OPERATIONS DOCO](./doco/AgileToolkitOperations)
 ##### THE SPECIFICATION: [SPECIFICATION](./templatedconfigurations/specification.md)
 ##### QUICK SPECIFICATION: [QUICK SPECIFICATION](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/templatedconfigurations/quick_specification.dat)
-##### REGISTER FOR LIVE DEMO WEBSITE: [WINTERSYS DEMO](https://form.jotform.com/241855049555363)  (run and deployed by us)
+
+[##### REGISTER FOR LIVE DEMO WEBSITE: [WINTERSYS DEMO](https://form.jotform.com/241855049555363)  (run and deployed by us)]:#
+
 ##### QUICK START DEMOS: [QUICK DEMOS](https://github.com/wintersys-projects/adt-build-machine-scripts/wiki/Quick-Start-Demos)  (deployed by you)
 
 -----------------------------------
