@@ -91,6 +91,6 @@ then
 	status "Purging configuration bucket in datastore ${config_bucket} so it is fresh for this build"
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${WEBSITE_URL}" "purge"
 else
-	status "Couldn't find an existing configuration bucket (${config_bucket}) so I am creating a new one for you"
+	status "Couldn't find an existing configuration bucket so I am creating a new one for you"
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/MountConfigDatastore.sh "${WEBSITE_URL}"
 fi
