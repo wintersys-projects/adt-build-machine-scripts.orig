@@ -58,7 +58,7 @@ The full set of services that are supported by the core of the toolkit and which
 1. For VPS services, one of - Digital Ocean, Linode, Exoscale or Vultr
 2. For Email services, one of - Amazon SES, Mailjet or Sendpulse
 3. For Git based services, one of - Bitbucket, Github or Gitlab
-4. For DNS services, one of - Cloudflare, Digital Ocean, Exoscale, Linode, Vultr (note, It is probably best practice to use Cloudflare even if there is some extra hassle to set it up which you can find out about here: [Cloudflare DNS](https://developers.cloudflare.com/learning-paths/get-started/). if you use one of the nsked DNS solutions, you need to use a WAF or web application firewall to protect your application. If you Google WAF you can select your prefered solution from your search results.
+4. For DNS services, one of - Cloudflare, Digital Ocean, Exoscale, Linode, Vultr (note, It is probably best practice to use Cloudflare even if there is some extra hassle to set it up which you can find out about here: [Cloudflare DNS](https://developers.cloudflare.com/learning-paths/get-started/). if you use one of the naked DNS solutions, you need to use a WAF or web application firewall to protect your application. If you Google WAF you can select your prefered solution from your search results.
 
 5. For object store services, one of - Digital Ocean Spaces, Exoscale Object Store, Linode Object Store, Vultr Object Store
   
