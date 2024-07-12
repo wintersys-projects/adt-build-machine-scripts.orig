@@ -62,7 +62,7 @@ The full set of services that are supported by the core of the toolkit and which
 
 5. For object store services, one of - Digital Ocean Spaces, Exoscale Object Store, Linode Object Store, Vultr Object Store
   
-6. I chose these VPS providers to deploy with because they have managed database offerings, if you wish to make a production ready deployment with this toolkit it is recommended that you make your deloyment using their managed database offerings. For development deployments, you can use the custom database install. 
+6. I chose these VPS providers to deploy with because they have (had in the case of Linode currently - 2024) managed database offerings, if you wish to make a production ready deployment with this toolkit it is recommended that you make your deloyment using their managed database offerings. For development deployments, you can use the custom database install. 
 
 --------------------------------
 
