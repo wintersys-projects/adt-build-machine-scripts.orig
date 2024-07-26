@@ -61,6 +61,12 @@ then
 	token_to_match="webserver*"
 fi
 
+/bin/echo "What is the build identifier you want to connect to?"
+/bin/echo "You have these builds to choose from: "
+/bin/ls ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} | /bin/grep -v credentials
+/bin/echo "Please enter the name of the build of the server you wish to connect with"
+read BUILD_IDENTIFIER
+
 if ( [ -f ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
 	ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
@@ -73,12 +79,6 @@ then
 	/bin/echo "There doesn't seem to be any webservers running"
 	exit
 fi
-
-/bin/echo "What is the build identifier you want to connect to?"
-/bin/echo "You have these builds to choose from: "
-/bin/ls ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} | /bin/grep -v credentials
-/bin/echo "Please enter the name of the build of the server you wish to connect with"
-read BUILD_IDENTIFIER
 
 /bin/echo "Which webserver would you like to connect to?"
 count=1
