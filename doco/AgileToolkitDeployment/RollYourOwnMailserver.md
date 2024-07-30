@@ -11,3 +11,6 @@ Of course, if you want to use this solution for your pre-existing organisation a
 The advantage that there sometimes is of self hosted domain specific email addresses is that you can require people to have one of your email addresses before you let them join your community. This is good from a couple of points of view. It means that you have control over who is joining and also, it enables the user to keep their business pertinent to your community separated from their other business. 
 
 **If you do run your own mailserver, take it seriously or at least give a warning that people shouldn't use it for stuff that is vital to them in case you have an issue with it because email servers are complex to get right and are quite specialist**
+
+If you would rather pay for an email service with unlimited domains and unlimited mailboxes you could try "mxroute.com" or "migadu".
+You can also use Cloudflare email routing but this will only route emails using your provided domain name to the person's own email address such as gmail or outlook
