@@ -527,7 +527,7 @@ Digital Ocean: Available region IDs you can set for digital ocean are: "nyc1","s
 
 Exoscale: Available region IDs you can set for exoscale are:  "ch-gva-2", "ch-dk-2", "at-vie-1", "de-fra-1", "bg-sof-1", "de-muc-1"   
 
-Linode: Available regions you can set for linode are: "ap-west","ca-central","ap-southeast","us-iad","us-ord","fr-par","us-sea","br-gru","nl-ams","se-sto","in-maa","jp-osa","it-mil","us-mia","id-cgk","us-lax","us-central","us-west","us-southeast","us-east","eu-west","ap-south","eu-central", "ap-northeast" 
+Linode: Available regions you can set for linode are: "ap-west", "ca-central", "ap-southeast", "us-iad", "us-ord", "fr-par", "us-sea", "br-gru", "nl-ams", "se-sto", "es-mad", "in-maa", "jp-osa", "it-mil", "us-mia", "id-cgk", "us-lax", "gb-lon", "au-mel", "us-central", "us-west", "us-southeast", "us-east", "eu-west", "ap-south", "eu-central", "ap-northeast" 
 
 Vultr: Available regions you can set for vultr are:  "ams","atl","cdg","dfw","ewr","fra","icn","lax","lhr","mex","mia","nrt","ord","sea","sgp","sjc","sto","syd","yto"  
 
