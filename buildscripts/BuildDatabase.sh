@@ -308,7 +308,7 @@ do
 			alive="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${db_active_ip} "/bin/ls /home/${SERVER_USER}/runtime/DATABASE_READY"`"
 
 			count="0"
-			while ( [ "${alive}" != "/home/${SERVER_USER}/runtime/DATABASE_READY" ] && [ "${count}" -le "5" ] )
+			while ( [ "${alive}" != "/home/${SERVER_USER}/runtime/DATABASE_READY" ] && [ "${count}" -le "15" ] )
 			do
 				count="`/usr/bin/expr ${count} + 1`"
 				/bin/sleep 10
