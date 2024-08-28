@@ -294,14 +294,14 @@ do
 			alive="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "/bin/ls /home/${SERVER_USER}/runtime/WEBSERVER_READY"`"
 
 			count="0"
-			while ( [ "${alive}" != "/home/${SERVER_USER}/runtime/WEBSERVER_READY" ] && [ "${count}" -lt "5" ] )
+			while ( [ "${alive}" != "/home/${SERVER_USER}/runtime/WEBSERVER_READY" ] && [ "${count}" -lt "15" ] )
 			do
 				count="`/usr/bin/expr ${count} + 1`"
 				/bin/sleep 10
 				alive="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "/bin/ls /home/${SERVER_USER}/runtime/WEBSERVER_READY"`"
 			done
 
-			if ( [ "${count}" = "5" ] )
+			if ( [ "${count}" = "15" ] )
 			then
 				done="0"
 			else
