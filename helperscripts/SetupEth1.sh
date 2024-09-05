@@ -25,8 +25,8 @@ then
 	/bin/echo "network:
   version: 2
   ethernets:
-	eth1:
-	  dhcp4: true" > /etc/netplan/eth1.yaml
+        eth1:
+          dhcp4: true" > /etc/netplan/eth1.yaml
 
 	/usr/sbin/netplan apply 2>/dev/null
 fi
