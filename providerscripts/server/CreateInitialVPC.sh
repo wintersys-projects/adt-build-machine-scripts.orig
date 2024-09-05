@@ -53,10 +53,10 @@ then
 	if ( [ "`/usr/bin/exo compute instance show  ${build_machine_id} | /bin/grep adt_private_net_${REGION}`" = "" ] )
 	then
 		status "#################################################################################"
-		status "Attempting to attach your build machine to the VPC because it wasn't created"
-		status "Connected to a VPC using the GUI system. Your connection may or may not drop."
+		status "Attempting to attach your build machine to the private network because it wasn't created"
+		status "Connected to it through the GUI system. Your connection may or may not drop."
 		status "If this happens you will need to reconnect and rerun the build from the beginning"
-		status "To prevent this happening in the future create your build machine connected to a VPC"
+		status "To prevent this happening in the future create your build machine connected to a private network"
 		status "When you provision it using the exoscale GUI system and BUILD_MACHINE_VPC=1"
 		status "#################################################################################"
 		status "This will only happen once and as a remedial intervention to avoid future problems"
