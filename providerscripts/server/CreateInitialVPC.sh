@@ -76,9 +76,6 @@ then
 		then
 			status "It looks like your build machine couldn't be connected to the Private Network, please investigate"
 			exit
-   	#	else
-     #:
-			#. ${BUILD_HOME}/helperscripts/SetupEth1.sh
 		fi
 	fi  
 fi
