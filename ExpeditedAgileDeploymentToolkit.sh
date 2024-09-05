@@ -81,7 +81,7 @@ then
 	. ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
 fi
 
-. ${BUILD_HOME}/helperscripts/SetupEth1.sh
+#. ${BUILD_HOME}/helperscripts/SetupEth1.sh
 . ${BUILD_HOME}/initscripts/InitialiseCompatibilityChecks.sh
 
 status ""
