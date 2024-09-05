@@ -43,7 +43,7 @@ if ( [ "${CLOUDHOST}" = "exoscale" ] )
 then
 	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep adt_private_net_${REGION}`" = "" ] )
 	then
-		/usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
+		/usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.0.0
 	fi
 
 	#build_machine_ip="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
