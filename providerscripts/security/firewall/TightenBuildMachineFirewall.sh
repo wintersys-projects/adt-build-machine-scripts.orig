@@ -144,6 +144,10 @@ then
      		/usr/bin/yes | /usr/sbin/ufw delete ${rule_no}
      		rule_no="`/usr/bin/expr ${rule_no} - 1`"
 	done
+ 	
+  	/usr/sbin/ufw default deny incoming
+	/usr/sbin/ufw default allow outgoing
+	/usr/bin/yes | /usr/sbin/ufw enable
    fi
 
    for ip in ${ips}
