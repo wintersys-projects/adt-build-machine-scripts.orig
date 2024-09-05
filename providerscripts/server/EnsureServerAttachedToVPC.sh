@@ -34,30 +34,31 @@ server_name="${2}"
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	zone_id="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
+	#zone_id="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
 	
-	private_network_id="`/usr/bin/exo -O text compute private-network list | /bin/grep adt_private_net_${zone_id} | /usr/bin/awk '{print $1}'`"
+	#private_network_id="`/usr/bin/exo -O text compute private-network list | /bin/grep adt_private_net_${zone_id} | /usr/bin/awk '{print $1}'`"
 	
-	count="0"
-	while ( [ "${private_network_id}" = "" ] && [ "${count}" -lt "5" ] )
-	do
-		/bin/sleep 10
-		count="`/usr/bin/expr ${count} + 1`"
-		/usr/bin/exo compute private-network create adt_private_net_${zone_id} --zone ${zone_id} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
-		private_network_id="`/usr/bin/exo -O text compute private-network list | /bin/grep adt_private_net_${zone_id} | /usr/bin/awk '{print $1}'`"
-	done
-
-	count="0"
-	while ( [ "`/usr/bin/exo compute private-network show ${private_network_id} | /bin/grep "${server_name}"`" = "" ] && [ "${count}" -lt "5" ] )
-	do
-		count="`/usr/bin/expr ${count} + 1`"
-		/bin/sleep 10
-		/usr/bin/exo compute instance private-network attach  ${server_name} adt_private_net_${zone_id} --zone ${zone_id} 
-	done
-	if ( [ "${count}" -eq "5" ] )
-	then
-		/bin/echo "Fail to attach ${server_name} to private network adt_private_net_${zone_id}"
-	fi
+#	count="0"
+#	while ( [ "${private_network_id}" = "" ] && [ "${count}" -lt "5" ] )
+#	do
+#		/bin/sleep 10
+#		count="`/usr/bin/expr ${count} + 1`"
+#		/usr/bin/exo compute private-network create adt_private_net_${zone_id} --zone ${zone_id} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
+#		private_network_id="`/usr/bin/exo -O text compute private-network list | /bin/grep adt_private_net_${zone_id} | /usr/bin/awk '{print $1}'`"
+#	done
+#
+#	count="0"
+#	while ( [ "`/usr/bin/exo compute private-network show ${private_network_id} | /bin/grep "${server_name}"`" = "" ] && [ "${count}" -lt "5" ] )
+#	do
+#		count="`/usr/bin/expr ${count} + 1`"
+#		/bin/sleep 10
+#		/usr/bin/exo compute instance private-network attach  ${server_name} adt_private_net_${zone_id} --zone ${zone_id} 
+#	done
+#	if ( [ "${count}" -eq "5" ] )
+#	then
+#		/bin/echo "Fail to attach ${server_name} to private network adt_private_net_${zone_id}"
+#	fi
+:
 fi
 
 cloudhost="${1}"
