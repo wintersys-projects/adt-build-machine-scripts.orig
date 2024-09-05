@@ -43,7 +43,7 @@ if ( [ "${CLOUDHOST}" = "exoscale" ] )
 then
 	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep adt_private_net_${REGION}`" = "" ] )
 	then
-		/usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.0.0
+		/usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
 	fi
 
 	#build_machine_ip="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
@@ -57,7 +57,7 @@ then
 		status "Connected to a VPC using the GUI system. Your connection may or may not drop."
 		status "If this happens you will need to reconnect and rerun the build from the beginning"
 		status "To prevent this happening in the future create your build machine connected to a VPC"
-		status "When you provision it using the vultr GUI system and BUILD_MACHINE_VPC=1"
+		status "When you provision it using the exoscale GUI system and BUILD_MACHINE_VPC=1"
 		status "#################################################################################"
 		status "This will only happen once and as a remedial intervention to avoid future problems"
 		status "Press <enter> to continue"
