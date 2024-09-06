@@ -21,7 +21,7 @@ region="lon1"
 size="db-s-1vcpu-1gb"  
 db-version="8"  (mysql 8)  
 cluster-name="testdbcluster1"  
-db-name="testdb1" 
+db-name="testdb1"  
 adt_vpc="e265abcb-1295-1d8b-af36-0129f89456c2"
   
 So,  
