@@ -34,6 +34,8 @@ So,
   **cluster-name** can be unique string for your cluster, for example, **"testcluster"**   
   **db-name** can be a unique string for your database, for example, **"testdatabase"**  
   **adt_vpc** the unique vpc id of your machines, for example, **"e265abcb-1295-1d8b-af36-0129f89456c2"**
+
+  Once the managed database is provisioned set its "trusted ip" addresses to "10.0.%.%" through the GUI system so that it can only be connected to through private ip addresses. 
   
 --------
   
@@ -131,7 +133,7 @@ So,
   
   Example 1:
   
-    1. DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql:8:lhr:vultr-dbaas-hobbyist-cc-1-25-1:testdb:TestDatabase:2fb13fd1-3145-3127-7132-13f28f1912c1" 
+  1. DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql:8:lhr:vultr-dbaas-hobbyist-cc-1-25-1:testdb:TestDatabase:2fb13fd1-3145-3127-7132-13f28f1912c1" 
 
   db-type = MySQL  
   db-engine = mysql  
@@ -144,7 +146,7 @@ So,
   
   Example 2:  
   
-    2. DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:pg:14:lhr:vultr-dbaas-hobbyist-cc-1-25-1:testdb:TestDatabase:2fb13fd1-3145-3127-7132-13f28f1912c1" 
+  2. DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:pg:14:lhr:vultr-dbaas-hobbyist-cc-1-25-1:testdb:TestDatabase:2fb13fd1-3145-3127-7132-13f28f1912c1" 
 
   db-type = Postgres  
   db-engine = pg  
@@ -163,6 +165,6 @@ So,
  
   machine-size =  vultr-dbaas-hobbyist-cc-1-25-1 vultr-dbaas-startup-cc-1-55-2 vultr-dbaas-business-cc-1-55-2 vultr-dbaas-premium-cc-1-55-2 vultr-dbaas-startup-cc-2-80-4 vultr-dbaas-business-cc-2-80-4 vultr-dbaas-premium-cc-2-80-4 vultr-dbaas-startup-cc-4-160-8 vultr-dbaas-business-cc-4-160-8 vultr-dbaas-premium-cc-4-160-8 
   
-  
+  Once the managed database is provisioned set its "trusted ip" addresses to "10.0.%.%" through the GUI system so that it can only be connected to through private ip addresses. 
 
   
