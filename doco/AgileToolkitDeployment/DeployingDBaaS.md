@@ -32,7 +32,7 @@ So,
   **size** can be **"db-s-1vcpu-1gb", "db-s-1vcpu-2gb", "db-s-1vcpu-3gb", "db-s-2vcpu-4gb", "db-s-4vcpu-8gb", "db-s-8vcpu-16gb", "db-s-8vcpu-32gb"**  
   **db-version** can be for **mysql = "8"** for **postgres="13"**  
   **cluster-name** can be unique string for your cluster, for example, **"testcluster"**   
-  **db-name** can be a unique string for your database, for example, **"testdatabase"** 
+  **db-name** can be a unique string for your database, for example, **"testdatabase"**  
   **adt_vpc** the unique vpc id of your machines, for example, **"e265abcb-1295-1d8b-af36-0129f89456c2"**
   
 --------
