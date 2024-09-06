@@ -35,7 +35,7 @@ So,
   **db-name** can be a unique string for your database, for example, **"testdatabase"**  
   **adt_vpc** the unique vpc id of your machines, for example, **"e265abcb-1295-1d8b-af36-0129f89456c2"**
 
-  Once the managed database is provisioned set its "trusted ip" addresses to "10.0.%.%" through the GUI system so that it can only be connected to through private ip addresses. 
+  Once the managed database is provisioned set its "trusted ip" addresses to "10.0.0.0/16" through the GUI system so that it can only be connected to through private ip addresses. 
   
 --------
   
@@ -165,6 +165,6 @@ So,
  
   machine-size =  vultr-dbaas-hobbyist-cc-1-25-1 vultr-dbaas-startup-cc-1-55-2 vultr-dbaas-business-cc-1-55-2 vultr-dbaas-premium-cc-1-55-2 vultr-dbaas-startup-cc-2-80-4 vultr-dbaas-business-cc-2-80-4 vultr-dbaas-premium-cc-2-80-4 vultr-dbaas-startup-cc-4-160-8 vultr-dbaas-business-cc-4-160-8 vultr-dbaas-premium-cc-4-160-8 
   
-  Once the managed database is provisioned set its "trusted ip" addresses to "192.168.%.%" through the GUI system so that it can only be connected to through private ip addresses. 
+  Once the managed database is provisioned set its "trusted sources" addresses to "192.168.0.0/16" through the GUI system so that it can only be connected to through private ip addresses. 
 
   
