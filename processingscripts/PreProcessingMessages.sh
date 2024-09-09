@@ -38,7 +38,10 @@ then
 	status "Modify your template  (${templatefile})"
 	status "and restart the build process to alter number of autoscalers or webservers values or press <enter> to accept"
 	status "###########################################################################################################"
-	read x
+ 	if ( [ "${HARDCORE}" != "1" ] )
+	then
+		read x
+  	fi
 fi
 
 if ( [ "${AUTOSCALE_FROM_BACKUP}" = "1" ] )
