@@ -31,7 +31,7 @@ then
 	then
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
 	fi
-	if ( [ ! -f /usr/local/src/vultr ] )
+	if ( [ ! -d /usr/local/src/vultr ] )
 	then
 		/bin/mkdir /usr/local/src/vultr
 	else
@@ -55,7 +55,7 @@ then
 	then
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
 	fi
-	 if ( [ ! -f /usr/local/src/vultr ] )
+	 if ( [ ! -d /usr/local/src/vultr ] )
 	then
 		/bin/mkdir /usr/local/src/vultr
 	else
