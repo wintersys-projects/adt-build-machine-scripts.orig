@@ -46,6 +46,7 @@ then
 				fi
 
 				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:10.116.0.0/24 protocol:icmp,address:0.0.0.0/0"
+    				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 
 				autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-autoscaler" ).id' | /bin/sed 's/"//g'`"
 				/usr/local/bin/doctl compute firewall add-rules ${autoscaler_firewall_id} --inbound-rules "${rules}"
