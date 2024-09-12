@@ -96,45 +96,48 @@ then
 	BUILD_HOME="`/usr/bin/pwd`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/EMERGENCY_PASSWORD
 
-	#if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
-	#then
-       # 	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24   		
-#	fi
-	
-	if ( [ "${snapshot_id}" != "" ] )
+	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
 	then
-		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults  
+        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24   		
+	fi
+	
+ 	vpc_id="`/usr/local/bin/linode-cli --text vpcs list | /bin/grep adt-vpc | /usr/bin/awk '{print $1}'
+	subnet_id="`/usr/local/bin/linode-cli --text vpcs subnets-list ${vpc_id} | /bin/grep adt-subnet | /usr/bin/awk '{print $1}'`"
+	
+ 	if ( [ "${snapshot_id}" != "" ] )
+	then
+		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 		server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 		/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 	else
 		if ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 20.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu20.04 --type ${server_size} --label "${server_name}" --no-defaults 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu20.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 22.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu22.04 --type ${server_size} --label "${server_name}" --no-defaults 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu22.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 24.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu24.04 --type ${server_size} --label "${server_name}" --no-defaults 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu24.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 10'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian10 --type ${server_size} --label "${server_name}" --no-defaults  
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian10 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 11'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults  
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 12'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults  
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		fi
