@@ -95,12 +95,17 @@ then
 	emergency_password="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-30`"
 	BUILD_HOME="`/usr/bin/pwd`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/EMERGENCY_PASSWORD
+
+	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
+	then
+        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24   		
+	fi
 	
 	if ( [ "${snapshot_id}" != "" ] )
 	then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults  
-			server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
-			/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
+		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults  
+		server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
+		/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 	else
 		if ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 20.04'`" != "" ] )
 		then
