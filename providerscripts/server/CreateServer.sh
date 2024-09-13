@@ -141,8 +141,8 @@ then
 		then
 			# /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public", "subnet_id": '"${subnet_id}"'},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 			#/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults 
-                        /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'			
-   			#server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'			
+      			#server_id="`/usr/local/bin/linode-cli linodes list --text --label ${server_name} | /bin/grep -v 'id' | /usr/bin/awk '{print $1}'`"
 			#/usr/local/bin/linode-cli linodes ip-add ${server_id} --type ipv4 --public false
 		fi
 	fi
