@@ -88,6 +88,8 @@ then
  		if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
    		then
 			status "NOTICE: Your build machine isn't attached to a VPC and BUILD_MACHINE_VPC is set to 1"
+   			status "I will change BUILD_MACHINE_VPC to 0"
+      			BUILD_MACHINE_VPC="0"
    		fi
 	fi
 fi
