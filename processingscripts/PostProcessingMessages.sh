@@ -36,8 +36,18 @@ then
 	status "#########################################"
 	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/DisplayCredentials.sh
 	status "#########################################"
-	status "The database private IP address is: ${DBIP_PRIVATE}"
-	status "The database public IP address is: ${DBIP}"
+ 
+ 	if ( [ "${DBIP_PRIVATE}" = "" ] )
+  	then
+     		DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+	fi
+ 
+	if ( [ "${DBIP}" = "" ] )
+  	then
+     		DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+	fi
+ 
+	status "The database public IP address is: ${DBIP} and the database private IP address is: ${DBIP_PRIVATE} if one timmesout, try the other"
 	status "The database port is ${DB_PORT}"
 	status "You can make up your own database prefix but make sure to include the '_' character at the end of your prefix (for example 'dbprefix_')"
 	status "#########################################"
