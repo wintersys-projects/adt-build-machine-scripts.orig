@@ -43,7 +43,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	key_ids="`/usr/local/bin/linode-cli --text sshkeys list | /bin/grep ${key_name} | /usr/bin/awk '{print $1}'`"
+	key_ids="`/usr/local/bin/linode-cli --text sshkeys list | /bin/grep ${key_name} | /usr/bin/awk '{print $3}'`"
 
 	if ( [ "${key_ids}" != "" ] )
 	then
