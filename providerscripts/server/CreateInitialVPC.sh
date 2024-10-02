@@ -85,21 +85,10 @@ then
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 	if ( [ "`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${build_machine_ip} ${CLOUDHOST}`" = "" ] )
 	then
-		build_machine_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh ${build_machine_ip} ${CLOUDHOST}`" 
-		status "#################################################################################"
-		status "Attempting to attach a private ip address toyour build machine because it wasn't created"
-		status "with one. Your connection will drop to enable the new private ip address"
-		status "To prevent this happening in the future create your build machine connected with a private ip address"
-		status "When you provision it using the vultr linode system and BUILD_MACHINE_VPC=1"
-		status "#################################################################################"
-		status "This will only happen once and as a remedial intervention to avoid future problems"
-		status "Press <enter> to continue"
-		if ( [ "${HARDCORE}" != "1" ] )
-		then
-			read x
-		fi
-		/usr/local/bin/linode-cli linodes ip-add ${build_machine_id} --type ipv4 --public false
-		/usr/sbin/shutdown -r now
+ 		if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
+   		then
+			status "NOTICE: Your build machine isn't attached to a VPC and BUILD_MACHINE_VPC is set to 1"
+   		fi
 	fi
 fi
 
