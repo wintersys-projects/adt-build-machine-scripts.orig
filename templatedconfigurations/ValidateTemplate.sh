@@ -126,7 +126,7 @@ fi
 if ( [ "`/bin/grep "^BUILD_MACHINE_VPC " ${quick_specification} | /bin/grep -w "${BUILD_MACHINE_VPC}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable BUILD_MACHINE_VPC (${BUILD_MACHINE_VPC}) doesn't appear to be valid please review"
-	export BUILD_MACHINE_VPC="0"
+	#export BUILD_MACHINE_VPC="0"
 fi
 
 if ( [ "`/bin/grep "^SYSTEM_EMAIL_PROVIDER " ${quick_specification} | /bin/grep -w "${SYSTEM_EMAIL_PROVIDER}"  2>/dev/null `" = "" ] )
