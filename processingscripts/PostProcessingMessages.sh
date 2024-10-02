@@ -36,7 +36,8 @@ then
 	status "#########################################"
 	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/DisplayCredentials.sh
 	status "#########################################"
-	status "The database IP address is: ${db_active_ip}"
+	status "The database private IP address is: ${DBIP_PRIVATE}"
+	status "The database public IP address is: ${DBIP}"
 	status "The database port is ${DB_PORT}"
 	status "You can make up your own database prefix but make sure to include the '_' character at the end of your prefix (for example 'dbprefix_')"
 	status "#########################################"
