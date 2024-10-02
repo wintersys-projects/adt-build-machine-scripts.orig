@@ -88,8 +88,8 @@ then
 		done
 
 		status "It looks like the machine has booted OK"
-		ASIP=${ip}
-		ASIP_PRIVATE=${private_ip}
+		ASIP="${ip}"
+		ASIP_PRIVATE="${private_ip}"
 
 		if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 		then
@@ -168,8 +168,8 @@ then
 	done
 
 	status "It looks like the machine has booted OK"
-	WSIP=${ip}
-	WSIP_PRIVATE=${private_ip}
+	WSIP="${ip}"
+	WSIP_PRIVATE="${private_ip}"
 
 	status "Have got the ip addresses for your webserver"
 	status "Public IP address: ${WSIP}"
@@ -228,8 +228,8 @@ then
 	done
 
 	status "It looks like the machine has booted OK"
-	DBIP=${ip}
-	DBIP_PRIVATE=${private_ip}
+	DBIP="${ip}"
+	DBIP_PRIVATE="${private_ip}"
 
 	status "Have got the ip addresses for your database"
 	status "Public IP address: ${DBIP}"
