@@ -91,7 +91,7 @@ snapshot_id="${8}"
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	key="`/usr/local/bin/linode-cli --text sshkeys view ${key_id} | /usr/bin/awk '{print $3,$4,$5}' | /usr/bin/tail -n-1`"
+	key="`/usr/local/bin/linode-cli --text sshkeys view ${key_id} | /usr/bin/awk '{print $4,$5,$6}' | /usr/bin/tail -n-1`"
 	emergency_password="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-30`"
 	BUILD_HOME="`/usr/bin/pwd`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/EMERGENCY_PASSWORD
