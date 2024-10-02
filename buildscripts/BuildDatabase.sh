@@ -150,6 +150,11 @@ do
 			db_active_ip="${DBIP}"
 		fi
 
+		/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:*
+    		/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:*
+  		/bin/touch ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:${DBIP}
+  		/bin/touch ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
+
 		#We create an ip mask for our server this is used when we set access privileges and so on within the database
 		#and we want to allow access from machines on our private network
 		IP_MASK="`/bin/echo ${DBIP_PRIVATE} | /bin/grep -oE '[0-9]{1,3}\.[0-9]{1,3}' | /usr/bin/head -1`"
@@ -335,10 +340,6 @@ do
 				fi
 
 				${BUILD_HOME}/providerscripts/server/DestroyServer.sh ${DBIP} ${CLOUDHOST}
-
-				/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:${DBIP}
-				/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
-				/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
 
 				#Wait until we are sure that the database server(s) are destroyed because of a faulty build
 				while ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "database" ${CLOUDHOST} 2>/dev/null`" != "${built}" ] )
