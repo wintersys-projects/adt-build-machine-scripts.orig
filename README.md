@@ -4,8 +4,6 @@
 
 **If you are interested in self managed server systems this tool could make your life easier; it's a custom solution for server deployment management**
 
-##### WINTERSYS DEVELOPER COMMUNITY REGISTRATION: [WINTERSYS DEVELOPER COMMUNITY REGISTRATION](https://form.jotform.com/242746291971364)  
-(If you give us your email address I will manually invite you to join our developer community)
 ##### EXPLANATORY WIKI: [WIKI](https://github.com/wintersys-projects/adt-build-machine-scripts/wiki)
 ##### DETAILED USAGE TUTORIALS: [TUTORIALS](https://github.com/wintersys-projects/adt-build-machine-scripts/wiki/Tutorials)
 ##### DETAILED DOCUMENTATION FOR DEPLOYERS: [DEPLOYMENT DOCO](./doco/AgileToolkitDeployment)
