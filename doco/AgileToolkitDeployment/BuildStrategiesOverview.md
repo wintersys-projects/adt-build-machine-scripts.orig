@@ -2,7 +2,7 @@
 
 What will happen during a **Expedited build** is that:
 
-1. You will provision a vanilla VPS system by populating the 5 or 6 necessary variables only in the [Build Machine](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/master/templatedconfigurations/templateoverrides/OverrideScript.sh) script and pasting it into the user data of a VPS machine that you are provisioning with your cloudhost.
+1. You will provision a vanilla VPS system by populating the 5 or 6 necessary variables only in the [Build Machine](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/templatedconfigurations/templateoverrides/OverrideScript.sh) script and pasting it into the user data of a VPS machine that you are provisioning with your cloudhost.
 
 2. You will then ssh onto the machine (using your private key that matches the public key you set in 1. and as well as the ssh port and username).
 
