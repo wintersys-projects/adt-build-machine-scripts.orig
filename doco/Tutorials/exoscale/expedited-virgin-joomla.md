@@ -102,7 +102,7 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     # Refer to: ${BUILD_HOME}/templatedconfigurations/specification.md  
 >     ###############################################################################################  
 >     ------export APPLICATION=""  
->     export JOOMLA_VERSION="" #MANDATORY - change this to the version you want to deploy, for example 4.0.3 set it to "" if you are deploying anything but joomla  
+>     ------export JOOMLA_VERSION="" #MANDATORY - change this to the version you want to joomla, for example 4.0.3 set it to "" if you are deploying anything but joomla  
 >     export DRUPAL_VERSION=""  #MANDATORY - change this to the version you want to deploy, for example, 9.2.6 set it to "" if you are deploying anything but drupal  
 >     ------export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="" #MANDATORY  
 >     #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  
