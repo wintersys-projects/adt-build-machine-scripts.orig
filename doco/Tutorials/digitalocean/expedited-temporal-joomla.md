@@ -2,8 +2,8 @@
 
 On your build machine, you need to now make hourly periodicity temporal backups of your application sourcecode and your application database. In summary you do this as follows and if you are following this tutorial closely you might need to change your "application github" repos/credentials in the file
 
-${HOME}/.ssh/webserver_configuration_settings.dat and
-${HOME}/.ssh/database_configuration_settings.dat
+>     ${HOME}/.ssh/webserver_configuration_settings.dat and
+>     ${HOME}/.ssh/database_configuration_settings.dat
 
 to be something different to the demo repos from the baseline tutorial:
 
