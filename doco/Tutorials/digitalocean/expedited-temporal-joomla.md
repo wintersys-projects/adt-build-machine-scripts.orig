@@ -1,7 +1,9 @@
 **YOU MUST HAVE THE MACHINES STILL RUNNING FROM THE PREVIOUS [TUTORIAL](./expedited-baseline-joomla.md) TO COMPLETE THIS TUTORIAL SUCCESSFULLY**
 
-On your build machine, you need to now make temporal backups of your application sourcecode and your application database.
-You do this as follows:
+On your build machine, you need to now make hourly periodicity temporal backups of your application sourcecode and your application database. In summary you do this as follows and if you are following this tutorial closely you might need to change your "application github" repos/credentials in the files
+
+${HOME}/.ssh/webserver_configuration_settings.dat
+${HOME}/.ssh/database_configuration_settings.dat
 
 >     cd /home/<your username>/adt-build-machine-scripts/helperscripts
 
@@ -30,10 +32,10 @@ I can extract the values for the following variables from template 1 or template
 >     export DNS_SECURITY_KEY="AAAAA"   #MANDATORY - This is your personal access token, DNS_SECURITY_KEY=${TOKEN}
 >     export CLOUDHOST_EMAIL_ADDRESS="testemail@testemail.com" #MANDATORY
 >     export WEBSITE_DISPLAY_NAME="Test Social Network" #MANDATORY
->     export WEBSITE_NAME="testsocialnetwork" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
->     export WEBSITE_URL="www.testsocialnetwork.org.uk"  #MANDATORY
->     export APPLICATION_REPOSITORY_OWNER="mytestgituser" #MANDATORY
->     export APPLICATION_REPOSITORY_USERNAME="mytestgituser" #MANDATORY
+>     export WEBSITE_NAME="testdeploy" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
+>     export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
+>     export APPLICATION_REPOSITORY_OWNER="yourgithubuser" #MANDATORY
+>     export APPLICATION_REPOSITORY_USERNAME="yourgithubuser" #MANDATORY
 >     export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
   
 What I then do is adjust  
