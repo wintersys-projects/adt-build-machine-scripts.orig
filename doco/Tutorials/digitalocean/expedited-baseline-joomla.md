@@ -73,9 +73,8 @@ I can extract the values for the following variables:
 >     export WEBSITE_DISPLAY_NAME="Test Social Network" #MANDATORY
 >     export WEBSITE_NAME="testdeploy" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
 >     export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
->     export APPLICATION_REPOSITORY_OWNER="yourgithubuser" #MANDATORY
->     export APPLICATION_REPOSITORY_USERNAME="yourgithubuser" #MANDATORY
->     export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
+>     export APPLICATION_REPOSITORY_OWNER="adt-demos" #MANDATORY
+>     export APPLICATION_REPOSITORY_USERNAME="adt-demos" #MANDATORY
 
 What I then do is adjust /home/wintersys-projects/adt-build-machine-scripts/templatedconfigurations/templates/digitalocean/digitalocean2.tmpl to contain these values instead of its defaults. 
 
