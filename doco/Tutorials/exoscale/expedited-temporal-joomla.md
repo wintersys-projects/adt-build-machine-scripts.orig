@@ -1,6 +1,6 @@
 **YOU MUST HAVE THE MACHINES STILL RUNNING FROM THE PREVIOUS [TUTORIAL](./expedited-baseline-joomla.md) TO COMPLETE THIS TUTORIAL SUCCESSFULLY**
 
-On your build machine, you need to now make temporal backups of your application sourcecode and your application database.
+On your build machine, you need to now make [temporal backups](https://github.com/wintersys-projects/adt-build-machine-scripts/blob/main/doco/AgileToolkitDeployment/BaselinesAndBackups.md) of your application sourcecode and your application database.
 You do this as follows:
 
 >     cd /home/<your username>/adt-build-machine-scripts/helperscripts
