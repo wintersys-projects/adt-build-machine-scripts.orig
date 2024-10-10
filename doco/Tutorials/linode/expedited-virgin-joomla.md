@@ -50,14 +50,14 @@ I then need a set of DNS access keys so, I go to the IAM option on my linode das
 
 You then need the url that you want to use for your website. If you don't have a DNS URL for your website, you need to purchase one and set the nameservers to linode as described [here](../../../doco/AgileToolkitDeployment/Nameservers.md)
 
->     linode_dns_name="www.testsocialnetwork.org.uk"
+>     linode_dns_name="www.testdeploy.com"
 
 -------------------------------
 
 You then need the username and owner of you git provider application repositories.
 To do this, if you don't have a git account sign up with one (in this case using github, but, you have the choice of bitbucket and gitlab as well) and record the username that you sign up with:
 
->     gitusername="mytestgituser"
+>     gitusername="yourgithubuser"
 
 Then create a "personal access token" by following: 
 
