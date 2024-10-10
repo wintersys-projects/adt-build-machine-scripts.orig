@@ -110,7 +110,7 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     ------ export APPLICATION="" #MANDATORY 
 >     ------ export APPLICATION_IDENTIFIER="" #MANDATORY
 >     ------ export JOOMLA_VERSION="" #MANDATORY (depending on the above settings - a joomla deployment)
-export DRUPAL_VERSION="" #MANDATORY (depending on the above settings - a drupal deployment)
+>     export DRUPAL_VERSION="" #MANDATORY (depending on the above settings - a drupal deployment)
 >     ------ export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="" #MANDATORY
 >     export BASELINE_DB_REPOSITORY="VIRGIN"
 >     export APPLICATION_LANGUAGE="PHP" 
