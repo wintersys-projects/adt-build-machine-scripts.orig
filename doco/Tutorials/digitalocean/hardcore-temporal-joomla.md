@@ -41,6 +41,7 @@ I can extract the values for the following variables from template 1 or template
 >     export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
 >     export APPLICATION_REPOSITORY_OWNER="yourgithubuser" #MANDATORY
 >     export APPLICATION_REPOSITORY_USERNAME="yourgithubuser" #MANDATORY
+>     export APPLICATION_REPOSITORY_PASSWORD="KKKKK" #MANDATORY
 >     export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
   
 What I then do is adjust  
