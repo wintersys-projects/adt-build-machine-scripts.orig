@@ -72,10 +72,11 @@ I can extract the values for the following variables:
 >     export DNS_SECURITY_KEY="AAAAA"   #MANDATORY - This is your access key and your secret key, written: DNS_SECURITY_KEY="${ACCESS_KEY}:${SECRET_KEY}"
 >     export CLOUDHOST_EMAIL_ADDRESS="testemail@testemail.com" #MANDATORY
 >     export WEBSITE_DISPLAY_NAME="Test Social Network" #MANDATORY
->     export WEBSITE_NAME="testsocialnetwork" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
->     export WEBSITE_URL="www.testsocialnetwork.org.uk"  #MANDATORY
->     export APPLICATION_REPOSITORY_OWNER="mytestgituser" #MANDATORY
->     export APPLICATION_REPOSITORY_USERNAME="mytestgituser" #MANDATORY
+>     export WEBSITE_NAME="testdeploy" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
+>     export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
+>     export APPLICATION_REPOSITORY_OWNER="yourgithubuser" #MANDATORY
+>     export APPLICATION_REPOSITORY_USERNAME="yourgithubuser" #MANDATORY
+>     export APPLICATION_REPOSITORY_PASSWORD="KKKKK" #MANDATORY
 >     export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
 >     export CLOUDHOST_PASSWORD="kwshf934^Gyd£"  
 
