@@ -2,7 +2,7 @@
 
 **DO NOT DEPLOY THIS ON YOUR DAY TO DAY LINUX LAPTOP AS IT WILL MAKE CHANGES TO THE MACHINE'S CONFIGURATION**
 
->     NOTE: The scripts in this repository will control the build process of your the different classes of server machines (autoscaling/webserving/database). You could run this on a dedicated linux (ubuntu/debian) laptop or on a dedicated linux system that you boot off a flash drive (with persistent storage enabled). I generally describe how to use this toolkit from a VPS linux machine running in the cloud
+NOTE: The scripts in this repository will control the build process of your the different classes of server machines (autoscaling/webserving/database). You could run this on a dedicated linux (ubuntu/debian) laptop or on a dedicated linux system that you boot off a flash drive (with persistent storage enabled). I generally describe how to use this toolkit from a VPS linux machine running in the cloud
 
 **If you are interested in self managed server systems this tool could make your life easier; it's a custom solution for server deployment management**
 
