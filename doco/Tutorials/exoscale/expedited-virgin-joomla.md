@@ -223,7 +223,7 @@ export DRUPAL_VERSION="" #MANDATORY (depending on the above settings - a drupal 
 >     export SSL_GENERATION_SERVICE="LETSENCRYPT"
 >     export SSL_LIVE_CERT="1"
 >     export ALGORITHM="rsa"
->     export BUILD_MACHINE_VPC="0"
+>     export BUILD_MACHINE_VPC="1"
 >     
 >     #####Build Styles#####
 >     export AUTOSCALE_FROM_SNAPSHOTS="0"
@@ -238,7 +238,7 @@ export DRUPAL_VERSION="" #MANDATORY (depending on the above settings - a drupal 
 >     #####Monitoring######
 >     export INSTALL_MONITORING_GEAR="0"
 
-So, I have referred to the specification and obtained necessary credentials from my accounts and decide how I want to configure the template 
+So, I have referred to the specification and obtained necessary credentials from my accounts (Exoscale/Github) and decide how I want to configure the template 
 
 So, editing /home/wintersys-projects/adt-build-machine-scripts/templatedconfigurations/templates/exoscale/exoscale1.tmpl and using the values I recorded in my text file earlier, I modify the file as follows, the lines beginning with dashes have been modified
 
@@ -246,127 +246,142 @@ So, editing /home/wintersys-projects/adt-build-machine-scripts/templatedconfigur
 >     ###############################################################################################
 >     # Refer to: ${BUILD_HOME}/templatedconfigurations/specification.md
 >     ###############################################################################################
->     ------export APPLICATION="joomla"
->     ------export JOOMLA_VERSION="4.0.4" #MANDATORY - change this to the version you want to deploy, for example 4.0.3 set it to "" if you are deploying anything but joomla
->     export DRUPAL_VERSION=""  #MANDATORY - change this to the version you want to deploy, for example, 9.2.6 set it to "" if you are deploying anything but drupal
->     -------export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="JOOMLA:4.0.4" #MANDATORY 
->     #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->     # change this to, for example, JOOMLA:4.0.3 if you are deploying drupal (APPLICATION=joomla)
->     # change this to, WORDPRESS if you are deploying wordpress
->     # change this to, for example, DRUPAL:9.2.6 if you are deploying drupal (APPLICATION=drupal)
->     # change this to, MOODLE if you are deploying moodle
->     #############################################################################################
->     ------export S3_ACCESS_KEY="AAAAA"  #MANDATORY
->     ------export S3_SECRET_KEY="BBBBB"  #MANDATORY
->     export S3_HOST_BASE="sos-ch-gva-2.exo.io" #MANDATORY
->     export S3_LOCATION="US" #For exoscale, this always needs to be set to "US"
->     export TOKEN="" #NOT REQUIRED
->     ------export ACCESS_KEY="XXXXX"   #MANDATORY
->     ------export SECRET_KEY="YYYYY"   #MANDATORY
->     ------export DNS_USERNAME="testemail@testemail.com"  #MANDATORY
->     ------export DNS_SECURITY_KEY="CCCCC:DDDDD"   #MANDATORY - This is your access key and your secret key, written: DNS_SECURITY_KEY="${ACCESS_KEY}:${SECRET_KEY}"
->     export DNS_CHOICE="exoscale" #MANDATORY - you will need to set your DNS nameservers according to this choice
->     ------export CLOUDHOST_EMAIL_ADDRESS="testemail@testemail.com" #MANDATORY
->     export BUILDOS="debian" #MANDATORY one of ubuntu|debian
->     export BUILDOS_VERSION="11" #MANDATORY one of 20.04|10 11
->     export DEFAULT_USER="debian" #MANDATORY - - This must be "ubuntu" if you are deploying ubuntu and "debian" if you are deploying debian
->     ------export WEBSITE_DISPLAY_NAME="Test Social Network" #MANDATORY
->     ------export WEBSITE_NAME="testsocialnetwork" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
->     ------export WEBSITE_URL="www.testsocialnetwork.org.uk"  #MANDATORY
->     export APPLICATION_REPOSITORY_PROVIDER="github" #MANDATORY
->     ------export APPLICATION_REPOSITORY_OWNER="mytestgituser" #MANDATORY
->     ------export APPLICATION_REPOSITORY_USERNAME="mytestgituser" #MANDATORY
->     export APPLICATION_REPOSITORY_PASSWORD="" #MANDATORY
->     ------export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
->     export SYSTEM_EMAIL_PROVIDER="" #MANDATORY
->     export SYSTEM_TOEMAIL_ADDRESS="" #MANDATORY
->     export SYSTEM_FROMEMAIL_ADDRESS="" #MANDATORY
->     export SYSTEM_EMAIL_USERNAME="" #MANDATORY
->     export SYSTEM_EMAIL_PASSWORD="" #MANDATORY
->     export DIRECTORIES_TO_MOUNT="" #This should always be unset for a virgin deployments
->     export DB_PORT="2035"
->     export SSH_PORT="1035"
->     export GATEWAY_GUARDIAN="0"
->     export PRODUCTION="0"
->     export DEVELOPMENT="1"
->     export BUILD_CHOICE="0"
->     ------export WEBSERVER_CHOICE="NGINX"
->     export NO_AUTOSCALERS="1"
->     export NUMBER_WS="1"
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     ------export DATABASE_INSTALLATION_TYPE="Postgres"
->     export PERSIST_ASSETS_TO_CLOUD="0" #This should always be set to 0 for a virgin deployment
->     export DISABLE_HOURLY="0"
->     export SERVER_TIMEZONE_CONTINENT="Europe"
->     export SERVER_TIMEZONE_CITY="London"
+>     #This template is configured for virgin style builds
+>     
+>     #####MANDATORY - Bare minimum set of values that you must provide for a build to have any chance of succeeding
+>     #####NOT REQUIRED - isn't used by the Exoscale
+>     
+>     #####Application Settings#########
+>     ------ export APPLICATION="joomla" #MANDATORY 
+>     ------ export APPLICATION_IDENTIFIER="1" #MANDATORY
+>     ------ export JOOMLA_VERSION="4.0.4" #MANDATORY (depending on the above settings - a joomla deployment)
+>     export DRUPAL_VERSION="" #MANDATORY (depending on the above settings - a drupal deployment)
+>     ------ export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="JOOMLA:4.0.4" #MANDATORY
 >     export BASELINE_DB_REPOSITORY="VIRGIN"
+>     export APPLICATION_LANGUAGE="PHP" 
+>     export PHP_VERSION="8.3" 
 >     export BUILD_ARCHIVE_CHOICE="virgin"
->     export APPLICATION_LANGUAGE="PHP"
->     ------export APPLICATION_IDENTIFIER="1"**
->     ------export PHP_VERSION="8.0"**
->     export REGION=""
->     export REGION_ID="1128bd56-b4d9-4ac6-a7b9-c715b187ce11"
->     export DB_SIZE="10G"
->     export DB_SERVER_TYPE="b6cd1ff5-3a2f-4e9d-a4d1-8988c1191fe8"
->     export WS_SIZE="10G"
->     export WS_SERVER_TYPE="b6cd1ff5-3a2f-4e9d-a4d1-8988c1191fe8"
->     export AS_SIZE="10G"
->     export AS_SERVER_TYPE="b6cd1ff5-3a2f-4e9d-a4d1-8988c1191fe8"
->     export CLOUDHOST="exoscale"
->     export MACHINE_TYPE="EXOSCALE"
->     export ALGORITHM="rsa"
->     export USER="root"
->     export CLOUDHOST_USERNAME="root"
->     export CLOUDHOST_PASSWORD=""
->     export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
->     export PREVIOUS_BUILD_CONFIG="0"
->     export GIT_USER="Templated User"
->     export GIT_EMAIL_ADDRESS="templateduser@dummyemailZ123.com"
+>     export BUILD_CHOICE="0"
+>     export APPLICATION_NAME="Demo Application"
+>     
+>     
+>     #####S3 Datastore Settings#######
+>     ------ export S3_ACCESS_KEY="AAAAA"  #MANDATORY
+>     ------ export S3_SECRET_KEY="BBBBB"  #MANDATORY
+>     export S3_HOST_BASE="sos-ch-gva-2.exo.io" 
+>     export S3_LOCATION="US" #For exoscale, this always needs to be set to "US"
+>     export DATASTORE_CHOICE="exoscale"
+>     export DIRECTORIES_TO_MOUNT="" #This should always be unset for a virgin and baseline deployments
+>     export PERSIST_ASSETS_TO_CLOUD="0" #This should always be set to 0 for a virgin and baseline deployment
+>     
+>     #####OS Settings#########
+>     export DEFAULT_USER="debian" # This must be "ubuntu" if you are deploying ubuntu and "debian" if you are deploying debian on Exoscale
+>     export BUILDOS="debian" # One of ubuntu|debian
+>     export BUILDOS_VERSION="12" # One of 20.04 22.04 24.04|10 11 12
+>     
+>     ######Cloudhost Provider Settings#######
+>     export TOKEN="" #NOT REQUIRED
+>     ------ export ACCESS_KEY="XXXXX"   #MANDATORY
+>     ------ export SECRET_KEY="YYYYY"   #MANDATORY
+>     ------ export CLOUDHOST_ACCOUNT_ID="testemail@testemail.com"  #MANDATORY for Exoscale - this should be the account email address that you login to the portal with
+>     
+>     ######DNS Settings##########
+>     ------ export DNS_USERNAME="testemail@testemail.com"  #MANDATORY
+>     ------ export DNS_SECURITY_KEY="CCCCC:DDDDD"   #MANDATORY
+>     export DNS_CHOICE="exoscale" #you will need to set your DNS nameservers according to this choice
+>     
+>     
+>     #####Webserver Settings########
+>     ------ export WEBSITE_DISPLAY_NAME="Test Joomla Install" #MANDATORY
+>     ------ export WEBSITE_NAME="testdeploy" #MANDATORY
+>     ------ export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
+>     export WEBSERVER_CHOICE="NGINX"
+>     export NUMBER_WS="1"
+>     
+>     #####Git settings#####
+>     export GIT_USER="Templated User" 
+>     export GIT_EMAIL_ADDRESS="templateduser@dummyemailZ123.com" 
+>     
+>     #####Infrastructure Repository Settings#######
 >     export INFRASTRUCTURE_REPOSITORY_PROVIDER="github"
 >     export INFRASTRUCTURE_REPOSITORY_OWNER="wintersys-projects"
 >     export INFRASTRUCTURE_REPOSITORY_USERNAME="wintersys-projects"
 >     export INFRASTRUCTURE_REPOSITORY_PASSWORD="none"
->     export DATASTORE_CHOICE="exoscale"
->     export SSL_GENERATION_METHOD="AUTOMATIC"
->     export SSL_GENERATION_SERVICE="LETSENCRYPT"
->     export BYPASS_DB_LAYER="0"
+>     
+>     ###### Application Repository Settings########
+>     export APPLICATION_REPOSITORY_PROVIDER="github" 
+>     ------ export APPLICATION_REPOSITORY_OWNER="mygithubuser" #MANDATORY
+>     ------ export APPLICATION_REPOSITORY_USERNAME="mygithubuser" #MANDATORY
+>     ------ export APPLICATION_REPOSITORY_PASSWORD="KKKKK" #MANDATORY
+>     ------ export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
+>     
+>     ##### System Email Settings#########
+>     export SYSTEM_EMAIL_PROVIDER="" 
+>     export SYSTEM_TOEMAIL_ADDRESS="" 
+>     export SYSTEM_FROMEMAIL_ADDRESS="" 
+>     export SYSTEM_EMAIL_USERNAME="" 
+>     export SYSTEM_EMAIL_PASSWORD="" 
+>     export EMAIL_NOTIFICATION_LEVEL="ERROR"
+>     
+>     ##### Database Settings######
+>     export DB_PORT="2035"
+>     export DATABASE_INSTALLATION_TYPE="Maria"
 >     export DBaaS_HOSTNAME=""
 >     export DBaaS_USERNAME=""
 >     export DBaaS_PASSWORD=""
 >     export DBaaS_DBNAME=""
 >     export DATABASE_DBaaS_INSTALLATION_TYPE=""
->     export DBaaSDBSECURITYGROUP=""
->     export DBIP=""
->     export DBIP_PRIVATE=""
->     export WSIP=""
->     export WSIP_PRIVATE=""
->     export ASIP=""
->     export ASIP_PRIVATE=""
->     export APPLICATION_NAME=""
->     export MAPS_API_KEY=""
->     export PHP_MODE=""
->     export PHP_MAX_CHILDREN=""
->     export PHP_START_SERVERS=""
->     export PHP_MIN_SPARE_SERVERS=""
->     export PHP_MAX_SPARE_SERVERS=""
->     export PHP_PROCESS_IDLE_TIMEOUT=""
->     export IN_MEMORY_CACHING=""
->     export IN_MEMORY_CACHING_PORT=""
->     export IN_MEMORY_CACHING_HOST=""
->     export IN_MEMORY_CACHING_SECURITY_GROUP=""
->     export ENABLE_EFS=""
->     export SUBNET_ID=""
->     export AUTOSCALE_FROM_SNAPSHOTS=""
->     export GENERATE_SNAPSHOTS=""
+>     export BYPASS_DB_LAYER="0"
+>     
+>     #####Server Settings #######
+>     export REGION="ch-gva-2"
+>     export DB_SIZE="tiny"
+>     export DB_SERVER_TYPE="tiny"
+>     export WS_SIZE="tiny"
+>     export WS_SERVER_TYPE="tiny"
+>     export AS_SIZE="tiny"
+>     export AS_SERVER_TYPE="tiny"
+>     export CLOUDHOST="exoscale"
+>     export MACHINE_TYPE="EXOSCALE"
+>     export SSH_PORT="1035"
+>     export SERVER_TIMEZONE_CONTINENT="Europe"
+>     export SERVER_TIMEZONE_CITY="London"
+>     export USER="root"
+>     
+>     #####Backup Setttings######
+>     export SUPERSAFE_WEBROOT="1"
+>     export SUPERSAFE_DB="1"
+>     export GENERATE_STATIC="0"
+>     
+>     #####Build Settings######
+>     export PRODUCTION="0"
+>     export DEVELOPMENT="1"
+>     ------ export BUILD_IDENTIFIER="testdeploy" #MANDATORY
+>     export NO_AUTOSCALERS="0"
+>     export AUTHORISATION_SERVER="0"
+>     
+>     #####Security Settings#####
+>     export GATEWAY_GUARDIAN="0"
+>     export ACTIVE_FIREWALLS="3"
+>     export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
+>     export SSL_GENERATION_METHOD="AUTOMATIC"
+>     export SSL_GENERATION_SERVICE="LETSENCRYPT"
+>     export SSL_LIVE_CERT="1"
+>     export ALGORITHM="rsa"
+>     export BUILD_MACHINE_VPC="1"
+>     
+>     #####Build Styles#####
+>     export AUTOSCALE_FROM_SNAPSHOTS="0"
+>     export GENERATE_SNAPSHOTS="0"
 >     export SNAPSHOT_ID=""
 >     export WEBSERVER_IMAGE_ID=""
 >     export AUTOSCALER_IMAGE_ID=""
 >     export DATABASE_IMAGE_ID=""
->     export BUILD_HOME="/home/wintersys-projects/adt-build-machine-scripts"
->     export BUILD_CLIENT_IP="185.19.29.134"
->     export BUILD_IDENTIFIER="nuocial"
->     export PUBLIC_KEY_ID="AGILE_TOOLKIT_PUBLIC_KEY-nuocial"
+>     export AUTOSCALE_FROM_BACKUP="0"
+>     export INPARALLEL="0"
+>     
+>     #####Monitoring######
+>     export INSTALL_MONITORING_GEAR="0"
 
 If all the dashes I have added are removed, then this file (with live values and not symbolic ones) would be ready for deployment.
 
