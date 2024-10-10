@@ -65,21 +65,16 @@ I can extract the values for the following variables:
 >     export DNS_SECURITY_KEY="AAAAA"   #MANDATORY - This is your personal access token, DNS_SECURITY_KEY=${TOKEN}
 >     export CLOUDHOST_EMAIL_ADDRESS="testemail@testemail.com" #MANDATORY
 >     export WEBSITE_DISPLAY_NAME="Test Social Network" #MANDATORY
->     export WEBSITE_NAME="testsocialnetwork" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
->     export WEBSITE_URL="www.testsocialnetwork.org.uk"  #MANDATORY
->     export APPLICATION_REPOSITORY_OWNER="mytestgituser" #MANDATORY
->     export APPLICATION_REPOSITORY_USERNAME="mytestgituser" #MANDATORY
->     export APPLICATION_REPOSITORY_TOKEN="KKKKK" #MANDATORY
+>     export WEBSITE_NAME="testdeploy" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
+>     export WEBSITE_URL="www.testdeploy.com"  #MANDATORY
+>     export APPLICATION_REPOSITORY_OWNER="adt-demos" #MANDATORY
+>     export APPLICATION_REPOSITORY_USERNAME="adt-demos" #MANDATORY
 
 What I then do is adjust  
 
 >     /home/wintersys-projects/adt-build-machine-scripts/templatedconfigurations/templates/vultr/vultr2.tmpl  
 
 to contain these values instead of its defaults. 
-
-With that done, because I used "Postgres" which from the file dbe.dat in the webroot of my baseline when I deployed Joomla originally, I need to make sure that I set the database to use as follows:
-
->     export DATABASE_INSTALLATION_TYPE="Postgres"
 
 There are some other values that I need to change in /home/wintersys-projects/adt-build-machine-scripts/templatedconfigurations/templates/vultr/vultr2.tmpl, as follows:
 
