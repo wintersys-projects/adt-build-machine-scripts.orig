@@ -385,7 +385,7 @@ So, editing /home/wintersys-projects/adt-build-machine-scripts/templatedconfigur
 
 If all the dashes I have added are removed, then this file (with live values and not symbolic ones) would be ready for deployment.
 
->     ${BUILD_HOME}/ExpeditedAgileDeploymentTookkit.sh
+>     ${BUILD_HOME}/ExpeditedAgileDeploymentToolkit.sh
 
 -----------------------------
 
