@@ -409,7 +409,6 @@ Assuming that you have your Joomla application online now after following that v
 >     export APPLICATION="wordpress"
 >     export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="WORDPRESS" #MANDATORY 
 >     export APPLICATION_IDENTIFIER="2"
->     export DATABASE_INSTALLATION_TYPE="MySQL" #I don't support Wordpress using Postgres
 
 #### For Drupal:
 
