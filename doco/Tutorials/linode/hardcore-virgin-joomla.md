@@ -108,68 +108,94 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     ###############################################################################################
 >     # Refer to: ${BUILD_HOME}/templatedconfigurations/specification.md
 >     ###############################################################################################
->     ----- export APPLICATION=""
->     ----- export JOOMLA_VERSION="" #MANDATORY - change this to the version you want to deploy, for example 4.0.3 set it to "" if you are deploying anything but joomla
->     export DRUPAL_VERSION="9.2.1"  #MANDATORY - change this to the version you want to deploy, for example, 9.2.6 set it to "" if you are deploying anything but drupal
->     ----- export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="" #MANDATORY 
->     #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->     # change this to, for example, JOOMLA:4.0.3 if you are deploying drupal (APPLICATION=joomla)
->     # change this to, WORDPRESS if you are deploying wordpress
->     # change this to, for example, DRUPAL:9.2.6 if you are deploying drupal (APPLICATION=drupal)
->     # change this to, MOODLE if you are deploying moodle
->     #############################################################################################
+>     #This template is configured for virgin style builds
+>     
+>     #####MANDATORY - Bare minimum set of values that must be provided by you for a build to have any chance of succeeding
+>     #####NOT REQUIRED - isn't used by the Linode
+>     
+>     #####Application Settings#########
+>     ------ export APPLICATION="" #MANDATORY 
+>     ------ export APPLICATION_IDENTIFIER="" #MANDATORY
+>     ------ export JOOMLA_VERSION="" #MANDATORY (depending on the above settings - a joomla deployment)
+>     export DRUPAL_VERSION=""  #MANDATORY (depending on the above settings - a drupal deployment)
+>     ------ export APPLICATION_BASELINE_SOURCECODE_REPOSITORY="" #MANDATORY
+>     export BASELINE_DB_REPOSITORY="VIRGIN"
+>     export APPLICATION_LANGUAGE="PHP" 
+>     export PHP_VERSION="8.3" 
+>     export BUILD_ARCHIVE_CHOICE="virgin"
+>     export BUILD_CHOICE="0"
+>     export APPLICATION_NAME="Demo Application"
+>     
+>     
+>     #####S3 Datastore Settings#######
 >     ----- export S3_ACCESS_KEY=""  #MANDATORY
 >     ----- export S3_SECRET_KEY=""  #MANDATORY
->     export S3_HOST_BASE="eu-central-1.linodeobjects.com" #MANDATORY
+>     export S3_HOST_BASE="eu-central-1.linodeobjects.com" 
 >     export S3_LOCATION="US" #For linode, this always needs to be set to "US"
->     ------ export TOKEN="" #MANDATORY this is your linode personal access token
+>     export DATASTORE_CHOICE="linode"
+>     export DIRECTORIES_TO_MOUNT="" #This should always be unset for a virgin and baseline deployments
+>     export PERSIST_ASSETS_TO_CLOUD="0" #This should always be set to 0 for a virgin and baseline deployment
+>     
+>     #####OS Settings#########
+>     export DEFAULT_USER="root" # This must be "root" on Linode
+>     export BUILDOS="debian" # One of ubuntu|debian
+>     export BUILDOS_VERSION="12" # One of 20.04 22.04 24.04|10 11 12
+>     
+>     ######Cloudhost Provider Settings#######
+>     ----- export TOKEN="" #MANDATORY
 >     export ACCESS_KEY=""   #NOT REQUIRED
 >     export SECRET_KEY=""   #NOT REQUIRED
+>     ----- export CLOUDHOST_ACCOUNT_ID=""  #MANDATORY for Linode - this should be the account username that you login with
+>     
+>     ######DNS Settings##########
 >     ----- export DNS_USERNAME=""  #MANDATORY
 >     ----- export DNS_SECURITY_KEY=""   #MANDATORY
->     export DNS_CHOICE="linode" #MANDATORY - you will need to set your DNS nameservers according to this choice
->     ----- export CLOUDHOST_EMAIL_ADDRESS="" #MANDATORY
->     export BUILDOS="" #MANDATORY one of ubuntu|debian
->     export BUILDOS_VERSION="" #MANDATORY one of 20.04|10
->     export DEFAULT_USER="root" #MANDATORY - This should always be 'root' on linode
->     ----- export BUILD_IDENTIFIER="" #MANDATORY
+>     export DNS_CHOICE="linode" #you will need to set your DNS nameservers according to this choice
+>     
+>     #####Webserver Settings########
 >     ----- export WEBSITE_DISPLAY_NAME="" #MANDATORY
->     ----- export WEBSITE_NAME="" #MANDATORY - This is the exact value of the core of your WEBSITE_URL, for example, www.nuocial.org.uk would be nuocial
+>     ----- export WEBSITE_NAME="" #MANDATORY
 >     ----- export WEBSITE_URL=""  #MANDATORY
->     ----- export APPLICATION_REPOSITORY_PROVIDER="" #MANDATORY
+>     export WEBSERVER_CHOICE="NGINX"
+>     export NUMBER_WS="1"
+>     
+>     #####Git settings#####
+>     export GIT_USER="Templated User" 
+>     export GIT_EMAIL_ADDRESS="templateduser@dummyemailZ123.com"
+>     
+>     #####Infrastructure Repository Settings#######
+>     export INFRASTRUCTURE_REPOSITORY_PROVIDER="github"
+>     export INFRASTRUCTURE_REPOSITORY_OWNER="wintersys-projects"
+>     export INFRASTRUCTURE_REPOSITORY_USERNAME="wintersys-projects"
+>     export INFRASTRUCTURE_REPOSITORY_PASSWORD="none"
+>     
+>     ###### Application Repository Settings########
+>     export APPLICATION_REPOSITORY_PROVIDER="github" 
 >     ----- export APPLICATION_REPOSITORY_OWNER="" #MANDATORY
 >     ----- export APPLICATION_REPOSITORY_USERNAME="" #MANDATORY
->     export APPLICATION_REPOSITORY_PASSWORD="" #MANDATORY
+>     ----- export APPLICATION_REPOSITORY_PASSWORD="" #MANDATORY
 >     ----- export APPLICATION_REPOSITORY_TOKEN="" #MANDATORY
->     export SYSTEM_EMAIL_PROVIDER="" #MANDATORY
->     export SYSTEM_TOEMAIL_ADDRESS="" #MANDATORY
->     export SYSTEM_FROMEMAIL_ADDRESS="" #MANDATORY
->     export SYSTEM_EMAIL_USERNAME="" #MANDATORY
->     export SYSTEM_EMAIL_PASSWORD="" #MANDATORY
->     export DIRECTORIES_TO_MOUNT="" #This should always be unset for a virgin deployments
+>     
+>     ##### System Email Settings#########
+>     export SYSTEM_EMAIL_PROVIDER="" 
+>     export SYSTEM_TOEMAIL_ADDRESS="" 
+>     export SYSTEM_FROMEMAIL_ADDRESS="" 
+>     export SYSTEM_EMAIL_USERNAME="" 
+>     export SYSTEM_EMAIL_PASSWORD="" 
+>     export EMAIL_NOTIFICATION_LEVEL="ERROR"
+>     
+>     ##### Database Settings######
 >     export DB_PORT="2035"
->     export SSH_PORT="1035"
->     export GATEWAY_GUARDIAN="0"
->     export PRODUCTION="0"
->     export DEVELOPMENT="1"
->     export BUILD_CHOICE="0"
->     ----- export WEBSERVER_CHOICE="APACHE"
->     export NO_AUTOSCALERS="1"
->     export NUMBER_WS="1"
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     ----- export DATABASE_INSTALLATION_TYPE="MySQL"
->     export PERSIST_ASSETS_TO_CLOUD="0" #This should always be set to 0 for a virgin deployment
->     export DISABLE_HOURLY="0"
->     export SERVER_TIMEZONE_CONTINENT="Europe"
->     export SERVER_TIMEZONE_CITY="London"
->     export BASELINE_DB_REPOSITORY="VIRGIN"
->     export BUILD_ARCHIVE_CHOICE="virgin"
->     export APPLICATION_LANGUAGE="PHP"
->     ----- export APPLICATION_IDENTIFIER="0"
->     export PHP_VERSION="7.4"
->     export REGION=""
->     export REGION_ID="eu-central"
+>     export DATABASE_INSTALLATION_TYPE="Maria"
+>     export DBaaS_HOSTNAME=""
+>     export DBaaS_USERNAME=""
+>     export DBaaS_PASSWORD=""
+>     export DBaaS_DBNAME=""
+>     export DATABASE_DBaaS_INSTALLATION_TYPE=""
+>     export BYPASS_DB_LAYER="0"
+>     
+>     #####Server Settings #######
+>     export REGION="eu-central"
 >     export DB_SIZE="g6-nanode-1"
 >     export DB_SERVER_TYPE="g6-nanode-1"
 >     export WS_SIZE="g6-nanode-1"
@@ -178,64 +204,45 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     export AS_SERVER_TYPE="g6-nanode-1"
 >     export CLOUDHOST="linode"
 >     export MACHINE_TYPE="LINODE"
->     export ALGORITHM="rsa"
+>     export SSH_PORT="1035"
+>     export SERVER_TIMEZONE_CONTINENT="Europe"
+>     export SERVER_TIMEZONE_CITY="London"
 >     export USER="root"
->     export CLOUDHOST_USERNAME="root"
->     ----- export CLOUDHOST_PASSWORD=""
+>     
+>     #####Backup Setttings######
+>     export SUPERSAFE_WEBROOT="1"
+>     export SUPERSAFE_DB="1"
+>     export GENERATE_STATIC="0"
+>     
+>     #####Build Settings######
+>     export PRODUCTION="0"
+>     export DEVELOPMENT="1"
+>     ----- export BUILD_IDENTIFIER="" #MANDATORY
+>     export NO_AUTOSCALERS="0"
+>     export AUTHORISATION_SERVER="0"
+>     
+>     #####Security Settings#####
+>     export GATEWAY_GUARDIAN="0"
+>     export ACTIVE_FIREWALLS="3"
 >     export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
->     export PREVIOUS_BUILD_CONFIG="0"
->     export GIT_USER="Templated User"
->     export GIT_EMAIL_ADDRESS="templateduser@dummyemailZ123.com"
->     export INFRASTRUCTURE_REPOSITORY_PROVIDER="github"
->     export INFRASTRUCTURE_REPOSITORY_OWNER="wintersys-projects"
->     export INFRASTRUCTURE_REPOSITORY_USERNAME="wintersys-projects"
->     export INFRASTRUCTURE_REPOSITORY_PASSWORD="none"
->     export DATASTORE_CHOICE="linode"
 >     export SSL_GENERATION_METHOD="AUTOMATIC"
 >     export SSL_GENERATION_SERVICE="LETSENCRYPT"
->     export BYPASS_DB_LAYER="0"
->     export DBaaS_HOSTNAME=""
->     export DBaaS_USERNAME=""
->     export DBaaS_PASSWORD=""
->     export DBaaS_DBNAME=""
->     export DATABASE_DBaaS_INSTALLATION_TYPE=""
->     export DBaaSDBSECURITYGROUP=""
->     export DBIP=""
->     export DBIP_PRIVATE=""
->     export WSIP=""
->     export WSIP_PRIVATE=""
->     export ASIP=""
->     export ASIP_PRIVATE=""
->     export APPLICATION_NAME=""
->     export MAPS_API_KEY=""
->     export PHP_MODE=""
->     export PHP_MAX_CHILDREN=""
->     export PHP_START_SERVERS=""
->     export PHP_MIN_SPARE_SERVERS=""
->     export PHP_MAX_SPARE_SERVERS=""
->     export PHP_PROCESS_IDLE_TIMEOUT=""
->     export IN_MEMORY_CACHING=""
->     export IN_MEMORY_CACHING_PORT=""
->     export IN_MEMORY_CACHING_HOST=""
->     export IN_MEMORY_CACHING_SECURITY_GROUP=""
->     export ENABLE_EFS=""
->     export SUBNET_ID=""
->     export AUTOSCALE_FROM_SNAPSHOTS=""
->     export GENERATE_SNAPSHOTS=""
+>     export SSL_LIVE_CERT="1"
+>     export BUILD_MACHINE_VPC="1"
+>     export ALGORITHM="rsa"
+>     
+>     #####Build Styles#####
+>     export AUTOSCALE_FROM_SNAPSHOTS="0"
+>     export GENERATE_SNAPSHOTS="0"
 >     export SNAPSHOT_ID=""
 >     export WEBSERVER_IMAGE_ID=""
 >     export AUTOSCALER_IMAGE_ID=""
 >     export DATABASE_IMAGE_ID=""
->     export BUILD_HOME=""
->     export BUILD_CLIENT_IP=""
->     export PUBLIC_KEY_ID=""
-
-So, I have referred to the specification and I have freely chosen to modify the  
-
-**WEBSERVER_CHOICE to "NGINX"**  
-**PHP_VERSION to "8.0"**  
-**APPLICATION_IDENTIFIER to "1"**  
-**DATABASE_INSTALLATION_TYPE to "Postgres"**  
+>     export AUTOSCALE_FROM_BACKUP="0"
+>     export INPARALLEL="0"
+>     
+>     #####Monitoring######
+>     export INSTALL_MONITORING_GEAR="0" 
 
 So, editing  
 
