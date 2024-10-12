@@ -388,6 +388,7 @@ It is mandatory to edit your userdata script and modify these values within it t
 >     export LAPTOP_IP="111.111.111.111"
 
 >     export SSH=\"\" #paste your public key here
+>     export SELECTED_TEMPLATE="1"
 
 ------------------------------------------
 
