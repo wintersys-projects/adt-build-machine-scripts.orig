@@ -140,12 +140,13 @@ where ${userdatascript} is the descriptive name you gave when prompted.
 
 You will need to enter values to suit your deployment into the userdatascript for:
 
->     BUILDMACHINE_USER=""
->     BUILDMACHINE_PASSWORD=""
->     BUILDMACHINE_SSH_PORT="1035"
->     LAPTOP_IP=""
->     SSH=""
->     SELECTED_TEMPLATE=""
+>     export BUILDMACHINE_USER="agile-user"
+>     export BUILDMACHINE_PASSWORD="Hjdhfb34hd£" #Make sure any password you choose is strong enough to pass any strength enforcement rules of your OS
+>     export BUILDMACHINE_SSH_PORT="1035"
+>     export LAPTOP_IP="111.111.111.111"
+
+>     export SSH=\"\" #paste your public key here
+>     export SELECTED_TEMPLATE="2"
 
 This will give you a script which you can post into the userdata script of a linode - the linode that you are deploying as your new build machine. So basically configure a vanilla linode and paste the userdata script into the userdata area of the linode to spin up your the build machine for your deployment.
 
