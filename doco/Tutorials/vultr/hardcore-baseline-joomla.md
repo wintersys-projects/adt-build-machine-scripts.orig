@@ -113,7 +113,7 @@ It is mandatory to edit your userdata script and modify these values within it t
 >     export LAPTOP_IP="111.111.111.111"
 
 >     export SSH=\"\" #paste your public key here
-
+>     export SELECTED_TEMPLATE="2"
 
 Now you have your userdata script take a copy of it using copy and paste and then follow [these](./buildmachine-hardcore.md) instructions PASTING THE SCRIPT YOU HAVE JUST COPIED INTO THE USERDATA AREA OF YOUR VULTR MACHINE INSTEAD OF THE MODIFIED TEMPLATE. The build machine will then install **AND**  run the agile deployment toolkit. This is just an alternative method to the expedited build process which you may or may not perfer.
 
