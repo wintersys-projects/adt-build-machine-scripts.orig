@@ -108,26 +108,26 @@ then
 	
  	if ( [ "${snapshot_id}" != "" ] )
 	then
-		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'  
+		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'  
 	else
 		if ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 20.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu20.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu20.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 22.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu22.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu22.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 24.04'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu24.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/ubuntu24.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 10'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian10 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian10 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]' 
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 11'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'  
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'  
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 12'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'			
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": false, "purpose": "public"},{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"' } ]'			
 		fi
 	fi
 fi
