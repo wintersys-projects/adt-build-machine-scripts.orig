@@ -98,8 +98,7 @@ then
 
 	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
 	then
-        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24  --subnets.label adt-su
-bnet-public --subnets.ipv4 10.0.2.0/24  		
+        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24  --subnets.label adt-subnet-public --subnets.ipv4 10.0.2.0/24  		
 	fi
 	
  	vpc_id="`/usr/local/bin/linode-cli --text vpcs list | /bin/grep adt-vpc | /usr/bin/awk '{print $1}'`"
