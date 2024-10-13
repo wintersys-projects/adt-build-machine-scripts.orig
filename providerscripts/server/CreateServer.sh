@@ -98,11 +98,13 @@ then
 
 	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
 	then
-        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24   		
+        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24  --subnets.label adt-su
+bnet-public --subnets.ipv4 10.0.2.0/24  		
 	fi
 	
  	vpc_id="`/usr/local/bin/linode-cli --text vpcs list | /bin/grep adt-vpc | /usr/bin/awk '{print $1}'`"
-	subnet_id="`/usr/local/bin/linode-cli --text vpcs subnets-list ${vpc_id} | /bin/grep adt-subnet | /usr/bin/awk '{print $1}'`"
+	subnet_id="`/usr/local/bin/linode-cli --text vpcs subnets-list ${vpc_id} | /bin/grep 10.0.1 | /bin/grep adt-subnet | /usr/bin/awk '{print $1}'`"
+	public_subnet_id="`/usr/local/bin/linode-cli --text vpcs subnets-list ${vpc_id} | /bin/grep 10.0.2 | /bin/grep adt-subnet-public | /usr/bin/awk '{print $1}'`"
 	
  	if ( [ "${snapshot_id}" != "" ] )
 	then
@@ -125,7 +127,7 @@ then
 			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"', "vpc_id": '"${vpc_id}"' } ]'  
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 12'`" != "" ] )
 		then
-			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"', "vpc_id": '"${vpc_id}"' } ]'			
+			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public", "subnet_id": '"${public_subnet_id}"', "vpc_id": '"${vpc_id}"' } },{ "primary": true, "purpose": "vpc", "subnet_id": '"${subnet_id}"', "vpc_id": '"${vpc_id}"' } ]'			
 		fi
 	fi
 fi
