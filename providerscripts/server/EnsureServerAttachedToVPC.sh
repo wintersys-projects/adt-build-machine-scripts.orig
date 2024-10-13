@@ -65,7 +65,6 @@ server_name="${2}"
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-#At the moment we don't use the Linode VPC
 	:  
 fi
 	
