@@ -96,8 +96,6 @@ then
 	BUILD_HOME="`/usr/bin/pwd`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/EMERGENCY_PASSWORD
 
-	#VPC's didn't work too well here for Linode because the linode needs to be rebooted before (for example vpc ip addresses are available through the CLI)
- 	#I use the traditional private IP method instead of the VPC even though the VPC is preferable. 
 	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
 	then
         	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24   		
