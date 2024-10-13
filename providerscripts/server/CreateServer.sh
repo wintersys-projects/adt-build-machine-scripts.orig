@@ -126,6 +126,7 @@ then
 		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 12'`" != "" ] )
 		then
 			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${location} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces '[ { "primary": true, "purpose": "public"},{ "primary": false, "purpose": "vpc", "subnet_id": '"${subnet_id}"', "vpc_id": '"${vpc_id}"' } ]'
+		fi
 	fi
 fi
 
