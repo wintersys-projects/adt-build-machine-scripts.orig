@@ -348,7 +348,7 @@ else
 	. ${BUILD_HOME}/providerscripts/security/firewall/TightenBuildMachineFirewall.sh
 	export CLOUDHOST="${cloudhost_holder}"
 
-	${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} configuration.php.default  .
+	${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} configuration.php.default  ${BUILD_HOME}/buildconfiguration
  
 	##Do the build finalisation procedures
 	. ${BUILD_HOME}/buildscripts/FinaliseBuildProcessing.sh
