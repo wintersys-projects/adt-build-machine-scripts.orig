@@ -457,3 +457,8 @@ then
    #        /usr/bin/vultr database update ${database_id} --trusted-ips "0.0.0.0" #This doesn't work, if you know how to make it work, please tell me 0.0.0.0/0 is not accepted
 	fi
 fi
+
+if ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
+then
+	/bin/echo "${DBaaS_HOSTNAME}" > ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME
+fi
