@@ -348,11 +348,21 @@ else
 	. ${BUILD_HOME}/providerscripts/security/firewall/TightenBuildMachineFirewall.sh
 	export CLOUDHOST="${cloudhost_holder}"
 
+
+ 	#################ADDED
+
 	while ( [ ! -f ${BUILD_HOME}/buildconfiguration/configuration.php.default ] )
  	do
 		${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} configuration.php.default  ${BUILD_HOME}/buildconfiguration
  		/bin/sleep 10
    	done
+	if ( [ -f ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME ] )
+ 	then
+  		db_hostname="`/bin/cat ${BUILD_HOME}runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
+    	fi
+
+     	############ADDED
+      
 	##Do the build finalisation procedures
 	. ${BUILD_HOME}/buildscripts/FinaliseBuildProcessing.sh
 fi
