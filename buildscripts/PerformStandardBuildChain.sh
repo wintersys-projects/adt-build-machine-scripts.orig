@@ -375,7 +375,13 @@ else
 		fi
   	fi
 
-   	
+   	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
+
+	/bin/echo "${database_name}" > ${BUILD_HOME}/buildconfiguration/tester
+ 	/bin/echo "${database_username}" >> ${BUILD_HOME}/buildconfiguration/tester
+  	/bin/echo "${database_password}" >> ${BUILD_HOME}/buildconfiguration/tester
+     	/bin/echo "${DBIP_PRIVATE}" >> ${BUILD_HOME}/buildconfiguration/tester
+        /bin/echo "${DBIP}" >> ${BUILD_HOME}/buildconfiguration/tester   	
 
      	############ADDED
       
