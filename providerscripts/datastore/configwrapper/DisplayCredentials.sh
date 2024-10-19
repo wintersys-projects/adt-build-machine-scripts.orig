@@ -40,19 +40,27 @@ then
 				
 				if ( [ "${HARDCORE}" = "1" ] )
 				then
-					/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
-					/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
-					/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
-     					database_name="`/bin/sed 1!d ./shit`"
-	  				database_username="`/bin/sed 3!d ./shit`"
-       					database_password="`/bin/sed 2!d ./shit`"
-				else  
-					/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
-     					/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
-					/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
-     					database_name="`/bin/sed 1!d ./shit`"
-	  				database_username="`/bin/sed 3!d ./shit`"
-       					database_password="`/bin/sed 2!d ./shit`"
+    					if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+	 				then
+						/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
+						/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
+						/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
+     					else
+	  					database_name="`/bin/sed 1!d ./shit`"
+	  					database_username="`/bin/sed 3!d ./shit`"
+       						database_password="`/bin/sed 2!d ./shit`"
+					fi
+    				else
+	    				if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+	 				then
+						/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
+     						/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
+						/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
+     					else
+	  					database_name="`/bin/sed 1!d ./shit`"
+	  					database_username="`/bin/sed 3!d ./shit`"
+       						database_password="`/bin/sed 2!d ./shit`"
+	     				fi
 				fi
 			fi
 		fi
