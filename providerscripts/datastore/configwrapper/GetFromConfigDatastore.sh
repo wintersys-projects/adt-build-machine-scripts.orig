@@ -30,19 +30,19 @@ if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstyles
 then
   if ( [ -f ${2} ] )
 	then
-	  /usr/bin/s3cmd get s3://${configbucket}$2 $3 
+	  /usr/bin/s3cmd get s3://${configbucket}/$2 $3 
 	elif ( [ -f ./${2} ] )
 	then
-	  /usr/bin/s3cmd get s3://${configbucket}$2 $3
+	  /usr/bin/s3cmd get s3://${configbucket}/$2 $3
 		/bin/rm ./$2
 	elif ( [ -f /tmp/${2} ] )
 	then
-	  /usr/bin/s3cmd get s3://${configbucket}$2 /tmp/$3 
+	  /usr/bin/s3cmd get s3://${configbucket}/$2 /tmp/$3 
 	else
 	  directory="`/bin/echo ${1} | /usr/bin/awk -F'/' 'NF{NF-=1};1' | /bin/sed 's/ /\//g'`"
 		/bin/mkdir -p /tmp/${directory}
 		/bin/touch /tmp/$2
-		/usr/bin/s3cmd get s3://${configbucket}$2 /tmp/$3
+		/usr/bin/s3cmd get s3://${configbucket}/$2 /tmp/$3
 		/bin/rm /tmp/$2
 	fi
 fi
