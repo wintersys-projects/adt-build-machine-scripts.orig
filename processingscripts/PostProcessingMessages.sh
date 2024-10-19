@@ -34,7 +34,7 @@ then
 	status "Please make a note of them but remember to keep them safe and secret"
 	status "You can enter them in the GUI system when you install the application"
 	status "#########################################"
-	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/DisplayCredentials.sh
+	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
 	status "#########################################"
  
  	if ( [ "${DBIP_PRIVATE}" = "" ] )
