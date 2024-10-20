@@ -1,8 +1,8 @@
     	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/GetApplicationDefaultConfig.sh
 
-	if ( [ -f ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME ] )
+	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME ] )
  	then
-  		DB_HOSTNAME="`/bin/cat ${BUILD_HOME}runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
+  		DB_HOSTNAME="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
     	fi
 
      	if ( [ "${DB_HOSTNAME}" = "" ] )
