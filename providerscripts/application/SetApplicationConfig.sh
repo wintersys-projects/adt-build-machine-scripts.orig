@@ -20,5 +20,10 @@
 
    	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
 
+    	if ( [ "${DB_HOSTNAME}" != "" ] )
+     	then
+		db_hostname="${DB_HOSTNAME}"
+      	fi
+
     	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
 
