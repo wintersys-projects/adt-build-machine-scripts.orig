@@ -5,9 +5,9 @@ dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigD
 
 if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] )
 then
-	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${database_name}', \n 'username' => '${database_username}', \n 'password' => '${database_password}', \n 'host' => '${database_identity}', \n 'port' => '${DB_PORT}', \n 'driver' => 'pgsql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
+	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${database_name}', \n 'username' => '${database_username}', \n 'password' => '${database_password}', \n 'host' => '${db_identifier}', \n 'port' => '${DB_PORT}', \n 'driver' => 'pgsql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
 else
-	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${database_name}', \n 'username' => '${database_username}', \n 'password' => '${database_password}', \n 'host' => '${database_identity}', \n 'port' => '${DB_PORT}', \n 'driver' => 'mysql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
+	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${database_name}', \n 'username' => '${database_username}', \n 'password' => '${database_password}', \n 'host' => '${db_identifier}', \n 'port' => '${DB_PORT}', \n 'driver' => 'mysql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
 fi
 
 /bin/sed -i "/^\$databases/{:1;/;/!{N;b 1}
