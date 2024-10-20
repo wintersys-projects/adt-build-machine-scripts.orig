@@ -33,5 +33,8 @@ then
 	/bin/echo "\$config['system.performance']['css']['preprocess'] = FALSE;" >> ${BUILD_HOME}/buildconfiguration/settings.php
 	/bin/echo "\$config['system.performance']['js']['preprocess'] = FALSE;" >> ${BUILD_HOME}/buildconfiguration/settings.php 
 	/bin/echo "\$settings['file_private_path'] = \$app_root . '/../private';" >> ${BUILD_HOME}/buildconfiguration/settings.php
- 	/bin/echo "${0} `/bin/date`: Adjusted the drupal settings:  trusted_host_patterns, config_sync_directory, system.performance" >> ${BUILD_HOME}/buildconfiguration/settings.php
 fi
+
+${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/settings.php drupal_settings.php
+
+/bin/rm ${BUILD_HOME}/buildconfiguration/settings.php
