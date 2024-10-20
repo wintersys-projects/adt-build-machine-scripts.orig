@@ -26,3 +26,6 @@ salts="`/usr/bin/curl https://api.wordpress.org/secret-key/1.1/salt`"
 /bin/rm /tmp/firsthalf /tmp/secondhalf
 /bin/mv /tmp/fullfile ${BUILD_HOME}/buildconfiguration/wp-config-sample.php
 
+${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/wp-config-sample.php wordpress_config.php
+
+/bin/rm ${BUILD_HOME}/buildconfiguration/wp-config-sample.php
