@@ -387,6 +387,7 @@ else
 	/bin/sed -i "/\$db /c\        public \$db = \'${DATABASE}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 	/bin/sed -i "/\$secret /c\        public \$secret = \'${secret}\';" ${HOME}/buildconfiguration/configuration.php.default
 
+	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
 
      	############ADDED
       
