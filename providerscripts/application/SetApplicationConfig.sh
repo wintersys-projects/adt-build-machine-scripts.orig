@@ -1,4 +1,4 @@
-    	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
+    	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/GetApplicationDefaultConfig.sh
 
 	if ( [ -f ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME ] )
  	then
