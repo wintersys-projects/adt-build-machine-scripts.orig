@@ -28,5 +28,5 @@ configbucket="${configbucket}-config"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd --force get s3://${configbucket}/$2 $3 
+	/usr/bin/s3cmd get s3://${configbucket}/$2 $3 
 fi
