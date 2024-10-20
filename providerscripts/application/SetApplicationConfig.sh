@@ -1,7 +1,5 @@
- 	#################ADDED
+    	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
 
-
-    
 	if ( [ -f ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME ] )
  	then
   		DB_HOSTNAME="`/bin/cat ${BUILD_HOME}runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
@@ -21,4 +19,6 @@
   	fi
 
    	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
+
+    	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
 
