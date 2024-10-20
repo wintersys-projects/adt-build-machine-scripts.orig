@@ -348,8 +348,11 @@ else
 	. ${BUILD_HOME}/providerscripts/security/firewall/TightenBuildMachineFirewall.sh
 	export CLOUDHOST="${cloudhost_holder}"
 
-    	. ${BUILD_HOME}/providerscripts/application/SetApplicationConfig.sh
-      
+	if ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
+ 	then
+    		. ${BUILD_HOME}/providerscripts/application/SetApplicationConfig.sh
+      	fi
+       
 	##Do the build finalisation procedures
 	. ${BUILD_HOME}/buildscripts/FinaliseBuildProcessing.sh
 fi
