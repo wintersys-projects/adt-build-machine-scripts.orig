@@ -380,12 +380,12 @@ else
 	dbprefix="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DBPREFIX:*`"
 	secret="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh SECRET:*  | /usr/bin/awk -F':' '{print $NF}'`"
  	/bin/sed -i "/\$dbprefix /c\        public \$dbprefix = \'${dbprefix}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+  	/bin/sed -i "/\$secret /c\        public \$secret = \'${secret}\';" ${HOME}/buildconfiguration/configuration.php.default
 	/bin/sed -i "/\$dbtype /c\        public \$dbtype = \'mysqli\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$host = /c\   public \$host = \'${DBIP_AND_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$user/c\       public \$user = \'${NAME}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$password/c\   public \$password = \'${PASSWORD}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$db /c\        public \$db = \'${DATABASE}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$secret /c\        public \$secret = \'${secret}\';" ${HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$host = /c\   public \$host = \'${DBIP_PRIVATE}:${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$user/c\       public \$user = \'${database_username}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$password/c\   public \$password = \'${database_password}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$db /c\        public \$db = \'${database_name}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
 
