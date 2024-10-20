@@ -348,49 +348,7 @@ else
 	. ${BUILD_HOME}/providerscripts/security/firewall/TightenBuildMachineFirewall.sh
 	export CLOUDHOST="${cloudhost_holder}"
 
-
- 	#################ADDED
-
-	while ( [ ! -f ${BUILD_HOME}/buildconfiguration/configuration.php.default ] )
- 	do
-		${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} configuration.php.default  ${BUILD_HOME}/buildconfiguration
- 		/bin/sleep 10
-   	done
-    
-	if ( [ -f ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME ] )
- 	then
-  		DB_HOSTNAME="`/bin/cat ${BUILD_HOME}runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
-    	fi
-
-     	if ( [ "${DB_HOSTNAME}" = "" ] )
-      	then
-      		if ( [ "${DBIP_PRIVATE}" = "" ] )
-  		then
-     			DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
-		fi
- 
-		if ( [ "${DBIP}" = "" ] )
-  		then
-     			DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
-		fi
-  	fi
-
-   	. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
-
-	dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
-	secret="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} SECRET:*  | /usr/bin/awk -F':' '{print $NF}'`"
- 	
-  	/bin/sed -i "/\$dbprefix /c\        public \$dbprefix = \'${dbprefix}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-  	/bin/sed -i "/\$secret /c\        public \$secret = \'${secret}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$dbtype /c\        public \$dbtype = \'mysqli\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$host = /c\   public \$host = \'${DBIP_PRIVATE}:${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$user/c\       public \$user = \'${database_username}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$password/c\   public \$password = \'${database_password}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$db /c\        public \$db = \'${database_name}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-
-	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
-
-     	############ADDED
+    	. ${BUILD_HOME}/providerscripts/application/SetApplicationConfig.sh
       
 	##Do the build finalisation procedures
 	. ${BUILD_HOME}/buildscripts/FinaliseBuildProcessing.sh
