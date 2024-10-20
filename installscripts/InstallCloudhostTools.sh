@@ -23,7 +23,7 @@
 #set -x
 
 status () {
-	/bin/echo "$1" | /usr/bin/tee /dev/fd/3
+	/bin/echo "$1" | /usr/bin/tee /dev/fd/3 2>/dev/null
 }
 
 CLOUDHOST="${1}"
