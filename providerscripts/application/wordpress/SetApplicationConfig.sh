@@ -1,10 +1,10 @@
 
 dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
 
-/bin/sed -i "/DB_HOST/c\ define('DB_HOST', \"${HOST}:${DB_PORT}\");" ${HOME}/runtime/wordpress_config.php
-/bin/sed -i "/DB_USER/c\ define('DB_USER', \"${NAME}\");" ${HOME}/runtime/wordpress_config.php
-/bin/sed -i "/DB_PASSWORD/c\ define('DB_PASSWORD', \"${PASSWORD}\");" ${HOME}/runtime/wordpress_config.php
-/bin/sed -i "/DB_NAME/c\ define('DB_NAME', \"${DATABASE}\");" ${HOME}/runtime/wordpress_config.php
+/bin/sed -i "/DB_HOST/c\ define('DB_HOST', \"${db_identifier}:${DB_PORT}\");" ${HOME}/runtime/wordpress_config.php
+/bin/sed -i "/DB_USER/c\ define('DB_USER', \"${database_username}\");" ${HOME}/runtime/wordpress_config.php
+/bin/sed -i "/DB_PASSWORD/c\ define('DB_PASSWORD', \"${database_password}\");" ${HOME}/runtime/wordpress_config.php
+/bin/sed -i "/DB_NAME/c\ define('DB_NAME', \"${database_name}\");" ${HOME}/runtime/wordpress_config.php
 /bin/sed -i "/\$table_prefix/c\ \$table_prefix=\"${dbprefix}\";" ${HOME}/runtime/wordpress_config.php
 
 /bin/sed -i "/'AUTH_KEY'/i XXYYZZ" ${HOME}/runtime/wordpress_config.php
