@@ -22,7 +22,9 @@
 
     	if ( [ "${DB_HOSTNAME}" != "" ] )
      	then
-		db_hostname="${DB_HOSTNAME}"
+		db_identifier="${DB_HOSTNAME}"
+  	else
+   		db_identifier="${DBIP_PRIVATE}"
       	fi
 
     	. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
