@@ -1,10 +1,13 @@
+
+dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
+
 /usr/bin/perl -i -pe 'BEGIN{undef $/;} s/^\$databases.\;/\$databases = [];/smg' ${BUILD_HOME}/buildconfiguration/settings.php
 
 if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] )
 then
-	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${DATABASE}', \n 'username' => '${NAME}', \n 'password' => '${PASSWORD}', \n 'host' => '${HOST}', \n 'port' => '${DB_PORT}', \n 'driver' => 'pgsql', \n 'prefix' => '${prefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
+	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${DATABASE}', \n 'username' => '${NAME}', \n 'password' => '${PASSWORD}', \n 'host' => '${HOST}', \n 'port' => '${DB_PORT}', \n 'driver' => 'pgsql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
 else
-	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${DATABASE}', \n 'username' => '${NAME}', \n 'password' => '${PASSWORD}', \n 'host' => '${HOST}', \n 'port' => '${DB_PORT}', \n 'driver' => 'mysql', \n 'prefix' => '${prefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
+	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${DATABASE}', \n 'username' => '${NAME}', \n 'password' => '${PASSWORD}', \n 'host' => '${HOST}', \n 'port' => '${DB_PORT}', \n 'driver' => 'mysql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
 fi
 
 /bin/sed -i "/^\$databases/{:1;/;/!{N;b 1}
