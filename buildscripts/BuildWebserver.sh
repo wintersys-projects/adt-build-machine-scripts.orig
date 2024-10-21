@@ -73,6 +73,8 @@ do
 	status "OK... Building a webserver. This is the ${counter} attempt of 5"
 	WEBSITE_IDENTIFIER="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
 
+ >&2 echo "XXXXX 1"
+
 	#Check if there is a webserver already running. If there is, then skip building the webserver
 	if ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "webserver" ${CLOUDHOST} 2>/dev/null`" -eq "0" ] )
 	then
@@ -91,7 +93,7 @@ do
 		fi
 
 		status "Initialising a new server machine, please wait......"
-		
+>&2 echo "XXXXX 2"
 		server_started="0"
 		while ( [ "${server_started}" = "0" ] )
 		do
@@ -117,6 +119,7 @@ do
 			ip=""
 			private_ip=""
 			count="0"
+ >&2 echo "XXXXX 3"
 
 			#Keep trying until we get the ip addresses of our new machine, both public and private ips
 			while ( ( [ "${ip}" = "" ] || [ "${private_ip}" = "" ] ) || [ "${ip}" = "0.0.0.0" ] && [ "${count}" -lt "20" ] )
@@ -135,6 +138,7 @@ do
 				status "I haven't been able to start your server, trying again...."
 			fi
 	   done
+ >&2 echo "XXXXX 4"
 
 	   ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${webserver_name}" "${private_ip}"
 
@@ -166,7 +170,9 @@ do
 		fi
 		
 		/usr/bin/ssh-keyscan -T 60 ${ws_active_ip} >> ${WEBSERVER_PUBLIC_KEYS}
-		
+
+   >&2 echo "XXXXX 5"
+
 		keytry="0"
 		while ( [ "`/usr/bin/diff -s /dev/null ${WEBSERVER_PUBLIC_KEYS} | /bin/grep identical`" != "" ] && [ "${keytry}" -lt "10" ] )
 		do
@@ -217,6 +223,7 @@ do
 				/bin/sleep 5
 				gitfetchno="`/usr/bin/expr ${gitfetchno} + 1`"
 		   done
+ >&2 echo "XXXXX 6"
 
 			if ( [ "${gitfetchno}" = "5" ] )
 			then
