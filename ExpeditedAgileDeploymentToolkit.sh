@@ -159,7 +159,7 @@ fi
 status ""
 status ""
 status ""
-/usr/bin/banner "Starting......" >&3
+status "`/usr/bin/banner "Starting......"`" 
 status "##############################################################################################"
 status "About to actually build and configure the servers that your deployment will run on"
 status "Some of these commands can take significant amounts of time to complete and it may look like  "
