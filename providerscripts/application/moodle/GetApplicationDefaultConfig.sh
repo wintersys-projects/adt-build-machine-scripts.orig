@@ -23,7 +23,7 @@
 #####################################################################################
 #set -x
  
-while ( [ ! -f ${BUILD_HOME}/buildconfiguration/configuration.php.default ] )
+while ( [ ! -f ${BUILD_HOME}/buildconfiguration/config.php ] )
 do
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} config.php  ${BUILD_HOME}/buildconfiguration
  	/bin/sleep 10
