@@ -25,7 +25,7 @@ WEBSERVER_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/webse
 OPTIONS="-o ConnectTimeout=10 -o ConnectionAttempts=5 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes "
 
 status "###############################################################################################################################"
-/usr/bin/banner "IMPORTANT" >&3
+status "`/usr/bin/banner "IMPORTANT"`"
 
 if ( [ "${BASELINE_DB_REPOSITORY}" = "VIRGIN" ] )
 then
