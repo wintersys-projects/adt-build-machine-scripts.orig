@@ -27,34 +27,16 @@ dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigD
 /bin/sed -i '/\/\/.*\\core\\session\\database/s/^\/\///' ${BUILD_HOME}/buildconfiguration/config.php 
 /bin/sed -i '/\/\/.*session_database_acquire_lock_timeout/s/^\/\///' ${BUILD_HOME}/buildconfiguration/config.php 
 
-#if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-#then
-#	if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
-#	then
-#		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${HOME}/runtime/moodle_config.php 
-#		/bin/echo "${0} `/bin/date`: setting dbtype to mariadb" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#	elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
-#	then
-#		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mysqli\";" ${HOME}/runtime/moodle_config.php 
-#		/bin/echo "${0} `/bin/date`: setting dbtype to mysqli" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#	elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
-#	then
-#		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"pgsql\";" ${HOME}/runtime/moodle_config.php 
-#		/bin/echo "${0} `/bin/date`: setting dbtype to pgsql" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#	fi
-#elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-#then
-#	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${HOME}/runtime/moodle_config.php 
-#	/bin/echo "${0} `/bin/date`: setting dbtype to mariadb" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-#then
-#	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mysqli\";" ${HOME}/runtime/moodle_config.php 
-#	/bin/echo "${0} `/bin/date`: setting dbtype to mysqli" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-#then
-#	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"pgsql\";" ${HOME}/runtime/moodle_config.php 
-#	/bin/echo "${0} `/bin/date`: setting dbtype to pgsql" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#fi
+	if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] || ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep 'Postgres'`" != "" ] ) )
+	then
+		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"pgsql\";" ${BUILD_HOME}/buildconfiguration/config.php
+   	elif ( [ "${DATABASE_INSTALLATION_TYPE}" = "Maria" ] || ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep 'Maria'`" != "" ] ) )
+	then
+ 		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${BUILD_HOME}/buildconfiguration/config.php
+      	elif ( [ "${DATABASE_INSTALLATION_TYPE}" = "MySQL" ] || ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep 'MySQL'`" != "" ] ) )
+	then
+ 		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mysqli\";" ${BUILD_HOME}/buildconfiguration/config.php
+   	fi
 
 	/bin/sed -i "/->prefix /c\    \$CFG->prefix    = \"${dbprefix}\";" ${BUILD_HOME}/buildconfiguration/config.php
 	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${BUILD_HOME}/buildconfiguration/config.php 
