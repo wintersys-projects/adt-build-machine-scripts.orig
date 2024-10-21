@@ -270,7 +270,7 @@ do
 			fi
 
 			status "Finished building the webserver (${webserver_name})"
-			/bin/date >&3
+			status "`/bin/date`"
 		
 			#Wait for the machine to become responsive before we check its integrity
 
