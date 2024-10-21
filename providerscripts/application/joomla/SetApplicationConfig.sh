@@ -38,7 +38,7 @@ then
 	/bin/sed -i "/\$host /a        public \$port = \'${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 else
  /bin/sed -i "/\$dbtype /c\        public \$dbtype = \'mysqli\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
- /bin/sed -i "/\$host = /c\   public \$host = \'${db_identifier}:${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+ /bin/sed -i "/\$host = /c\   public \$host = \'${database_identifier}:${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 fi
 
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
