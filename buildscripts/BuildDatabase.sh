@@ -255,7 +255,7 @@ do
 			status "To access this machine once it has finished provisioning you can use the scripts in ${BUILD_HOME}/helperscripts"
 			status "Log files (stderr and stdout) are stored on the remote machine in /home/${SERVER_USER}/logs"
 			status "Starting to build the database proper"
-			/bin/date >&3
+			status "`/bin/date`"
 
 			#Decide which build we are selecting to build from - virgin, hourly, daily, weekly, monthly, bimonthly
 			if ( [ "${BUILD_CHOICE}" = "0" ] )
@@ -289,7 +289,7 @@ do
 			fi
 
 			status "Finished building the database server (${database_name})"
-			/bin/date >&3
+			status "`/bin/date`"
 		
 			#Wait for the machine to become responsive before we check its integrity
 
