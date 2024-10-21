@@ -3,7 +3,7 @@ dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigD
 
 /usr/bin/perl -i -pe 'BEGIN{undef $/;} s/^\$databases.\;/\$databases = [];/smg' ${BUILD_HOME}/buildconfiguration/settings.php
 
-if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] )
+if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] || ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep 'Postgres'`" != "" ] ) )
 then
 	credentialstring="\$databases ['default']['default'] =array (\n 'database' => '${database_name}', \n 'username' => '${database_username}', \n 'password' => '${database_password}', \n 'host' => '${database_identifier}', \n 'port' => '${DB_PORT}', \n 'driver' => 'pgsql', \n 'prefix' => '${dbprefix}', \n 'collation' => 'utf8mb4_general_ci',\n);"
 else
