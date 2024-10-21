@@ -1,6 +1,6 @@
 #!/bin/sh
 ####################################################################################
-# Description: This sets the bare minimum configuration.php values to get the joomla
+# Description: This sets the bare minimum config.php values to get the moodle
 # application online
 # Date: 07/11/2024
 # Author: Peter Winter
