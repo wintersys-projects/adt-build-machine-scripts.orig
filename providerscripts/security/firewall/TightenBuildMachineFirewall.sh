@@ -142,6 +142,9 @@ then
 	   /usr/sbin/ufw allow from ${ip}
    done
 
+   /usr/bin/yes | /usr/sbin/ufw reload
+
+
 . ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
 
    if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
