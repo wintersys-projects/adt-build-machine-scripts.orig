@@ -56,6 +56,7 @@ dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigD
 #	/bin/echo "${0} `/bin/date`: setting dbtype to pgsql" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 #fi
 
+	/bin/sed -i "/->prefix /c\    \$CFG->prefix    = \"${dbprefix}\";" ${BUILD_HOME}/buildconfiguration/config.php
 	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${BUILD_HOME}/buildconfiguration/config.php 
 	/bin/sed -i "/->dbuser /c\    \$CFG->dbuser    = \"${database_username}\";" ${BUILD_HOME}/buildconfiguration/config.php
 	/bin/sed -i "/->dbname /c\    \$CFG->dbname    = \"${database_name}\";" ${BUILD_HOME}/buildconfiguration/config.php 
