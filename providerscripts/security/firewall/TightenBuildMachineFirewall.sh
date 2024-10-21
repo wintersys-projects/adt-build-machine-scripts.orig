@@ -130,21 +130,19 @@ then
 
    if ( [ "${ips}" != "" ] )
    then
-	   /usr/bin/yes | /usr/sbin/ufw reset
-	   /usr/sbin/ufw default deny incoming
-	   /usr/sbin/ufw default allow outgoing
-	   /usr/bin/yes | /usr/sbin/ufw enable
-   fi
+		/usr/bin/yes | /usr/sbin/ufw reset
+		/usr/sbin/ufw default deny incoming
+		/usr/sbin/ufw default allow outgoing
+   
+		for ip in ${ips}
+   		do
+          		# /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
+	   		/usr/sbin/ufw allow from ${ip}
+   		done
 
-   for ip in ${ips}
-   do
-          # /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
-	   /usr/sbin/ufw allow from ${ip}
-   done
-
-   /usr/bin/yes | /usr/sbin/ufw reload
-
-
+		/usr/bin/yes | /usr/sbin/ufw enable
+	fi
+ 
 . ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
 
    if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
