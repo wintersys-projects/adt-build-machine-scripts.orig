@@ -50,9 +50,9 @@ fi
 
 if ( [ "${DB_HOSTNAME}" != "" ] )
 then
-	db_identifier="${DB_HOSTNAME}"
+	database_identifier="${DB_HOSTNAME}"
 else
-	db_identifier="${DBIP_PRIVATE}"
+	database_identifier="${DBIP_PRIVATE}"
 fi
 
 . ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
