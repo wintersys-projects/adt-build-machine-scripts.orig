@@ -276,12 +276,12 @@ do
 			status "Log files (stderr and stdout) are stored on the remote machine so if you need to review them, you will find them there"
 			status "in the directory /home/${SERVER_USER}/logs"
 			status "Starting to build the autoscaler proper"
-			/bin/date >&3
+			status "`/bin/date`"
 
 			/usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/as.sh ${SERVER_USER}"
 
 			status "Finished building an autoscaler (${autoscaler_name})"
-			/bin/date >&3
+			status "`/bin/date`"
 		
 			#Wait for the machine to become responsive before we check its integrity
 
