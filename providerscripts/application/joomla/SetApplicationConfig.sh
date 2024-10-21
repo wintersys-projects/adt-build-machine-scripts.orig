@@ -30,7 +30,7 @@ secret="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDat
 /bin/sed -i "/\$password/c\   public \$password = \'${database_password}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 /bin/sed -i "/\$db /c\        public \$db = \'${database_name}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 
-if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] )
+if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] || ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep 'Postgres'`" != "" ] ) )
 then
 	/bin/sed -i "/\$dbtype /c\        public \$dbtype = \'pgsql\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 	/bin/sed -i "/\$port /d" ${BUILD_HOME}/buildconfiguration/configuration.php.default
