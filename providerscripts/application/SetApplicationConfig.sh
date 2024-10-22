@@ -45,6 +45,7 @@ then
                 DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
         fi
 fi
+
 attempts="0"
 while ( [ "${attempts}" -lt "5" ] && [ "${database_identifier}" = "" ] )
 do
@@ -56,6 +57,8 @@ do
         else
                 database_identifier="${DBIP_PRIVATE}"
         fi
+        attempts="`/usr/bin/expr ${attempts} + 1`"
+        /bin/sleep 2
 done
 
 if ( [ "${attempts}" = "5" ] )
