@@ -131,6 +131,8 @@ fi
 #If you are deploying to exoscale provide a setting with the following format in your template
 #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql:ch-gva-2:hobbyist-2:testdb1"
 #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:pg:ch-gva-2:hobbyist-2:testdb1"
+#If you need to you can turn off termination protection as in the following example:
+#exo dbaas update testdb1 -z ch-gva-2 --termination-protection=false
 #########################################################################################################
 if ( [ "${CLOUDHOST}" = "exoscale" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
