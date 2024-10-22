@@ -41,6 +41,19 @@ else
  /bin/sed -i "/\$host = /c\   public \$host = \'${database_identifier}:${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 fi
 
+
+/bin/sed -i "/\$cachetime /c\        public \$cachetime = \'30\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$cache_handler /c\        public \$cache_handler = \'file\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$caching /c\        public \$caching = \'1\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$sef /c\        public \$sef = \'0\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$sef_suffix /c\        public \$sef_suffix = \'0\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$sef_rewrite /c\        public \$sef_rewrite = \'0\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$gzip /c\        public \$gzip = \'1\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$force_ssl /c\        public \$force_ssl = \'2\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$shared_session /c\        public \$shared_session = \'0\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$tmp_path /c\        public \$tmp_path = \'/var/www/html/tmp\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$log_path /c\        public \$log_path = \'/var/www/html/logs\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
 
 /bin/rm ${BUILD_HOME}/buildconfiguration/configuration.php.default
