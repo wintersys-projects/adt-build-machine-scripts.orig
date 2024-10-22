@@ -54,6 +54,22 @@ fi
 /bin/sed -i "/\$tmp_path /c\        public \$tmp_path = \'/var/www/html/tmp\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 /bin/sed -i "/\$log_path /c\        public \$log_path = \'/var/www/html/logs\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 
+
+/bin/sed -i "/\$mailer /c\        public \$mailer = \'smtp\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$mailfrom /c\        public \$mailfrom = \'${SYSTEM_FROM_EMAIL_ADDRESS}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$replyto /c\        public \$replyto = \'${SYSTEM_TO_EMAIL_ADDRESS}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$fromname /c\        public \$fromname = \'${WEBSITE_NAME} Webmaster\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$replytoname /c\        public \$replytoname = \'${WEBSITE_NAME} Webmaster\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$smtpauth /c\        public \$smtpauth = \'1\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$smtpuser /c\        public \$smtpuser = \'${EMAIL_USERNAME}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$smtppass /c\        public \$smtppass = \'${EMAIL_PASSWORD}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+/bin/sed -i "/\$smtpsecure /c\        public \$smtpsecure = \'tls\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+
+	if ( [ "${EMAIL_PROVIDER}" = "1" ] )
+	then
+		 /bin/sed -i "/\$smtpport /c\        public \$smtpport = \'2525\';" ${HOME}/runtime/joomla_configuration.php
+		 /bin/sed -i "/\$smtphost /c\        public \$smtphost = \'smtp-pulse.com\';" ${HOME}/runtime/joomla_configuration.php
+
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
 
 /bin/rm ${BUILD_HOME}/buildconfiguration/configuration.php.default
