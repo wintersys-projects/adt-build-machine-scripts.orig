@@ -46,25 +46,13 @@ then
         fi
 fi
 
-attempts="0"
-while ( [ "${attempts}" -lt "5" ] && [ "${database_identifier}" = "" ] )
-do
-        . ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
+. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
 
-        if ( [ "${DB_HOSTNAME}" != "" ] )
-        then
-                database_identifier="${DB_HOSTNAME}"
-        else
-                database_identifier="${DBIP_PRIVATE}"
-        fi
-        attempts="`/usr/bin/expr ${attempts} + 1`"
-        /bin/sleep 2
-done
-
-if ( [ "${attempts}" = "5" ] )
+if ( [ "${DB_HOSTNAME}" != "" ] )
 then
-        status "Failed to obtain database identifier"
-        exit
+     database_identifier="${DB_HOSTNAME}"
+else
+     database_identifier="${DBIP_PRIVATE}"
 fi
 
 . ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
