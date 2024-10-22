@@ -159,6 +159,11 @@ do
        		then
     			/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:*
   		fi
+
+    		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER} ] )
+      		then
+			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}
+   		fi
     
     		/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBIP:${DBIP}
   		/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
