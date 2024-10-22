@@ -30,29 +30,38 @@
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME ] )
 then
-	DB_HOSTNAME="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
+        DB_HOSTNAME="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME`"
 fi
 
 if ( [ "${DB_HOSTNAME}" = "" ] )
 then
-	if ( [ "${DBIP_PRIVATE}" = "" ] )
-  	then
-     		DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
-	fi
+        if ( [ "${DBIP_PRIVATE}" = "" ] )
+        then
+                DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+        fi
  
-	if ( [ "${DBIP}" = "" ] )
-  	then
-     		DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
-	fi
+        if ( [ "${DBIP}" = "" ] )
+        then
+                DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+        fi
 fi
+attempts="0"
+while ( [ "${attempts}" -lt "5" ] && [ "${database_identifier}" = "" ] )
+do
+        . ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
 
-. ${BUILD_HOME}/providerscripts/datastore/configwrapper/ObtainCredentials.sh
+        if ( [ "${DB_HOSTNAME}" != "" ] )
+        then
+                database_identifier="${DB_HOSTNAME}"
+        else
+                database_identifier="${DBIP_PRIVATE}"
+        fi
+done
 
-if ( [ "${DB_HOSTNAME}" != "" ] )
+if ( [ "${attempts}" = "5" ] )
 then
-	database_identifier="${DB_HOSTNAME}"
-else
-	database_identifier="${DBIP_PRIVATE}"
+        status "Failed to obtain database identifier"
+        exit
 fi
 
 . ${BUILD_HOME}/providerscripts/application/${APPLICATION}/SetApplicationConfig.sh
