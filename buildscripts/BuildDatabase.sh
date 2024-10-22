@@ -160,8 +160,8 @@ do
     			/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:*
   		fi
     
-    		/bin/touch ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:${DBIP}
-  		/bin/touch ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
+    		/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBIP:${DBIP}
+  		/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBPRIVATEIP:${DBIP_PRIVATE}
 
 		#We create an ip mask for our server this is used when we set access privileges and so on within the database
 		#and we want to allow access from machines on our private network
