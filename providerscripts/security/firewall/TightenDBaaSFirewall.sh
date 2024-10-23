@@ -68,7 +68,8 @@ then
 	then
 		status "Tightening the firewall on your mysql database for your webserver with following IPs: ${ips}"    
 		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --mysql-ip-filter="10.0.0.0/24"
-	fifi
+	fi
+ fi
 
 if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
