@@ -462,5 +462,5 @@ fi
 
 if ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
-	/bin/echo "${DBaaS_HOSTNAME}" > ${BUILD_HOME}runtimedata/linode/DBaaS_HOSTNAME
+	/bin/echo "${DBaaS_HOSTNAME}" > ${BUILD_HOME}runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME
 fi
