@@ -34,7 +34,7 @@ if ( [ "${DATABASE_INSTALLATION_TYPE}" = "Postgres" ] || ( [ "${DATABASE_INSTALL
 then
 	/bin/sed -i "/\$dbtype /c\        public \$dbtype = \'pgsql\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 	/bin/sed -i "/\$port /d" ${BUILD_HOME}/buildconfiguration/configuration.php.default
-	/bin/sed -i "/\$host /c\        public \$host = \'${db_identifier}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$host /c\        public \$host = \'${database_identifier}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 	/bin/sed -i "/\$host /a        public \$port = \'${DB_PORT}\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 else
  /bin/sed -i "/\$dbtype /c\        public \$dbtype = \'mysqli\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
