@@ -43,31 +43,22 @@ fi
 
 if ( [ "${CLOUDHOST}" = "exoscale" ] && [ "${DATABASE_INSTALLATION_TYPE}"="DBaaS" ] )
 then
-  # if ( [ "${ASIP}" != "" ] )
-  # then
-#	   ips="\"${ASIP}/32\",\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${DBIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
-#   else
-#	   ips="\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
- #  fi
-#
-#	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
-#	then
-#		status "Tightening the firewall on your postgres database for your webserver with following IPs: ${ips}"    
-#		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --pg-ip-filter=${ips}
-#	elif ( [ "${DATABASE_ENGINE}" = "mysql" ] )
-#	then
-#		status "Tightening the firewall on your mysql database for your webserver with following IPs: ${ips}"    
-#		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --mysql-ip-filter=${ips}
-#	fi
+	#The DBaaS solution from exoscale is not accessible from the private network ip addresses so we have to allow the public IP addresses individually
+   if ( [ "${ASIP}" != "" ] )
+   then
+	   ips="\"${ASIP}/32\",\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${DBIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
+   else
+	   ips="\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
+   fi
 
- 	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
+	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
 	then
 		status "Tightening the firewall on your postgres database for your webserver with following IPs: ${ips}"    
-		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --pg-ip-filter="10.0.0.0/24"
+		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --pg-ip-filter=${ips}
 	elif ( [ "${DATABASE_ENGINE}" = "mysql" ] )
 	then
 		status "Tightening the firewall on your mysql database for your webserver with following IPs: ${ips}"    
-		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --mysql-ip-filter="10.0.0.0/24"
+		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --mysql-ip-filter=${ips}
 	fi
  fi
 
