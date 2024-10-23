@@ -39,12 +39,12 @@ then
  
  	if ( [ "${DBIP_PRIVATE}" = "" ] )
   	then
-     		DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+     		DBIP_PRIVATE="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBPRIVATEIP:* | /usr/bin/awk -F':' '{print $NF}'`"
 	fi
  
 	if ( [ "${DBIP}" = "" ] )
   	then
-     		DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+     		DBIP="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBIP:* | /usr/bin/awk -F':' '{print $NF}'`"
 	fi
  
 	status "The database public IP address is: ${DBIP}"
