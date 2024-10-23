@@ -150,14 +150,14 @@ do
 			db_active_ip="${DBIP}"
 		fi
 
-		if ( [ -f ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:* ] )
+		if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBIP:* ] )
   		then
-			/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBIP:*
+			/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBIP:*
    		fi
      
-     		if ( [ -f ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:* ] )
+     		if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBPRIVATEIP:* ] )
        		then
-    			/bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBPRIVATEIP:*
+    			/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER}/DBPRIVATEIP:*
   		fi
 
     		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/${BUILD_IDENTIFIER} ] )
