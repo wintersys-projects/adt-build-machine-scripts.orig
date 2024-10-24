@@ -460,6 +460,11 @@ then
 	fi
 fi
 
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME ] )
+then
+        /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME 
+fi
+
 if ( [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
 	/bin/echo "${DBaaS_HOSTNAME}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/DBaaS_HOSTNAME
