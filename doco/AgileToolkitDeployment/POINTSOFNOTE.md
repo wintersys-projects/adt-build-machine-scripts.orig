@@ -56,4 +56,6 @@ NOTE: This toolkit supports Postgres database installs for some CMS systems. I j
  
  exo dbaas update <db-name - eg: testdb1> -z <region: eg. ch-gva-2> --termination-protection=false
 
+ 21. If you are planning to deploy to a DBaaS solution then you should do your development on equivalent database types. For example if your final DBaaS deployment is to a MYSQL instance then you should baseline using MySQL as your development database type, not Maria and likewise if your final DBaaS type is Maria DB, you should develop against Maria DB rarther than MySQL. You do this by setting DATABASE_INSTALLATION_TYPE in your template
+
  
