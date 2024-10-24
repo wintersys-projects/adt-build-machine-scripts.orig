@@ -39,7 +39,6 @@ dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigD
    	fi
 
 	/bin/sed -i "/->prefix /c\    \$CFG->prefix    = \"${dbprefix}\";" ${BUILD_HOME}/buildconfiguration/config.php
-	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${BUILD_HOME}/buildconfiguration/config.php 
 	/bin/sed -i "/->dbuser /c\    \$CFG->dbuser    = \"${database_username}\";" ${BUILD_HOME}/buildconfiguration/config.php
 	/bin/sed -i "/->dbname /c\    \$CFG->dbname    = \"${database_name}\";" ${BUILD_HOME}/buildconfiguration/config.php 
 	/bin/sed -i "/->dbpass /c\    \$CFG->dbpass    = \"${database_password}\";" ${BUILD_HOME}/buildconfiguration/config.php
