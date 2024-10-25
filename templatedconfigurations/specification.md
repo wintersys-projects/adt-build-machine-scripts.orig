@@ -768,7 +768,7 @@ The templating system is set up to use live certificates by default in all cases
 
 -----
 
-#### AUTOSCALE_FROM_SNAPSHOTS
+### AUTOSCALE_FROM_SNAPSHOTS
 
 If you have built from snapshots, set this to "1" to have your webservers  built during a scaling event be built from your snapshots.
 
