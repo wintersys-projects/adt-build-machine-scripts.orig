@@ -568,7 +568,7 @@ Linode: g6-nanode-1,g6-standard-1,g6-standard-2,g6-standard-4,g6-standard-6,g6-s
 
 Vultr:  SERVER_TYPE values for each machine size on vultr  vc2-1c-1gb, vc2-1c-2gb, vc2-2c-4gb, vc2-4c-8gb, vc2-6c-16gb, vc2-8c-32gb
 
-
+---------
 
 ### CLOUDHOST
 
