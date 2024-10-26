@@ -220,12 +220,6 @@ It defines which of the (supported) DNS service you would like to use with your 
 
 ---------------
 
-### GATEWAY_GUARDIAN
-
-This can be set to "1" to enable and "0" to disable. When enabled, the browsers "basic auth" mechanism is placed in front of your web application which is an extra layer of protection for your application. If you review the documentation you can get a better idea of how it works behind the scenes. In short, when I new user is added to the database for your application, an email is generated (because they have to supply their email address, right) with a password (and the same username as the application) to use with the basic auth system. According to configuration, the basic auth mechanism can front up access to the admin area or to the whole web property.
-
------
-
 ### WEBSITE_DISPLAY_NAME
 
 This is simply the display name of your application, for example, "My Social Network", or "My Blog" and so on. It should be descriptive of your website and likely will be similar to the core part of the WEBSITE_URL described below
@@ -241,18 +235,6 @@ This HAS to be exactly the same of the core part of the URL name of your website
 ### WEBSITE_URL
 
 This is the URL of your website. It can be any valid URL
-
------
-
-### AUTHORISATION_SERVER
-
-This can have 3 values see the doco for a description of how to deploy an authorisation server which is my provider independent zero trust solution  
-
-"0" if you are not using an authoristaion server  
-"1" if you are deploying your main application and it a authorisation server is in use  
-"2" if you are deploying an authorisarion server using the repositories: [web](https://github.com/adt-apps/authorisation-webroot-sourcecode-baseline) and [db](https://github.com/adt-apps/authorisation-db-baseline)  
-
-NOTE: the authorisation server and your main application server both need to use the same config bucket (in other words, your authorisation server needs to be configured to use the same S3 service that your main application is using)
 
 -----
 ### APPLICATION_REPOSITORY_PROVIDER
