@@ -403,10 +403,12 @@ then
 	${log_command} "It looks to me like the email address for the variable SYSTEM_FROMEMAIL_ADDRESS (${SYSTEM_FROMEMAIL_ADDRESS}) doesn't appear to be valid please review"
 fi
 
-if ( [ ! "`echo "${SYSTEM_EMAIL_USERNAME}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] && [ ! "`/bin/echo "${SYSTEM_EMAIL_USERNAME}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] )
-then
-	${log_command} "It looks to me like the email address for the variable SYSTEM_EMAIL_USERNAME (${SYSTEM_EMAIL_USERNAME}) doesn't appear to be valid please review"
-fi
+#Not all email usernames are email addresses that can be checked for but if you know that yours are then you can uncomment this check
+
+#if ( [ ! "`echo "${SYSTEM_EMAIL_USERNAME}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] && [ ! "`/bin/echo "${SYSTEM_EMAIL_USERNAME}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] )
+#then
+#       ${log_command} "It looks to me like the email address for the variable SYSTEM_EMAIL_USERNAME (${SYSTEM_EMAIL_USERNAME}) doesn't appear to be valid please review"
+#fi
 
 if ( [ ! "`echo "${GIT_EMAIL_ADDRESS}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] && [ ! "`/bin/echo "${GIT_EMAIL_ADDRESS}" | grep '^[a-zA-Z0-9]*@[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$'`" ] )
 then
