@@ -16,7 +16,7 @@ Then perform a temporal database backup
   
 >     /bin/sh PerformDatabaseBackup.sh
  
-Answering all of the questions and picking a periodicity, for example, HOURLY (make sure DISABLE_HOURLY=0) in your template
+Answering all of the questions and picking a periodicity, for example, HOURLY in your template
   
 Then perform a temporal website sourcecode backup
   
