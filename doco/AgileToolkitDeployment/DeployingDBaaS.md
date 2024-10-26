@@ -1,6 +1,16 @@
 
 The managed database you describe here will spin up automatically through the build process
 
+### Manual
+
+You can use a managed database that you have manually started and configured rather than having the database provisioned by the toolkit and the cli for your provider.
+Note: the database can be a third party database provider such as AWS, Gooogle Cloud, Rackspace and so on. 
+
+##### DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:MANUAL:\<hostname\>:\<username\>:\<password\>:\<dbname\>"
+##### DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:MANUAL:\<hostname\>:\<username\>:\<password\>:\<dbname\>"
+
+You can review [here](https://repost.aws/knowledge-center/rds-connect-ec2-bastion-host) for how to setup a bastion host on AWS if you want to use RDS or Aurora as your database
+
 ### Digital Ocean
 
 If you are using digital ocean managed databases you can set the following in your template or override
