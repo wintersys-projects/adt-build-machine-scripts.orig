@@ -158,10 +158,6 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     ##### Database Settings######
 >     export DB_PORT="2035"
 >     export DATABASE_INSTALLATION_TYPE="Maria"
->     export DBaaS_HOSTNAME=""
->     export DBaaS_USERNAME=""
->     export DBaaS_PASSWORD=""
->     export DBaaS_DBNAME=""
 >     export DATABASE_DBaaS_INSTALLATION_TYPE=""
 >     export BYPASS_DB_LAYER="0"
 >     
@@ -189,11 +185,9 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     export PRODUCTION="0"
 >     export DEVELOPMENT="1"
 >     ----- export BUILD_IDENTIFIER="" #MANDATORY
->     export AUTHORISATION_SERVER="0"
 >     export NO_AUTOSCALERS="0"
 >     
 >     #####Security Settings#####
->     export GATEWAY_GUARDIAN="0"
 >     export ACTIVE_FIREWALLS="3"
 >     export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
 >     export SSL_GENERATION_METHOD="AUTOMATIC"
