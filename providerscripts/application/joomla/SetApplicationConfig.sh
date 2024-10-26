@@ -66,16 +66,16 @@ fi
 
 if ( [ "${SYSTEM_EMAIL_PROVIDER}" = "1" ] )
 then
-	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'2525\';" ${HOME}/runtime/joomla_configuration.php
-	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'smtp-pulse.com\';" ${HOME}/runtime/joomla_configuration.php
+	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'2525\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'smtp-pulse.com\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 elif ( [ "${SYSTEM_EMAIL_PROVIDER}" = "2" ] )
 then
-	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'587\';" ${HOME}/runtime/joomla_configuration.php
-	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'in-v3.mailjet.com\';" ${HOME}/runtime/joomla_configuration.php
+	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'587\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'in-v3.mailjet.com\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 elif ( [ "${SYSTEM_EMAIL_PROVIDER}" = "3" ] )
 then
-	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'587\';" ${HOME}/runtime/joomla_configuration.php
-	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'email-smtp.eu-west-1.amazonaws.com\';" ${HOME}/runtime/joomla_configuration.php
+	/bin/sed -i "/\$smtpport /c\        public \$smtpport = \'587\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
+	/bin/sed -i "/\$smtphost /c\        public \$smtphost = \'email-smtp.eu-west-1.amazonaws.com\';" ${BUILD_HOME}/buildconfiguration/configuration.php.default
 fi
 
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/buildconfiguration/configuration.php.default joomla_configuration.php
