@@ -686,30 +686,6 @@ DATASTORE_CHOICE should be set to one of the following values:
  
  For Vultr Object Store: "vultr"  
  
- 
- -----
- 
-### DBaaS_HOSTNAME
-
-If you are using a managed database this will be the hostname of your managed database, for example, tester.cdfij3fddo74b.eu-west-1.rds.amazonaws.com or of some other similar format for another provider. If there are pubic and private hostnames available, you should choose the private one.
-
------
-
-### DBaaS_USERNAME
-
-If you are using a managed database, this will be the username that you set for your database.
-
-------
-
-### DBaaS_PASSWORD
-
-If you are using a managed database, this will be the password that you set for your database.
-
-------
-
-### DBaaS_DBNAME
-
-If you are using a managed database, this will be the name that you set for your database.
 
 ------
 
