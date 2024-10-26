@@ -5,7 +5,6 @@ The core supports joomla,wordpress,drupal and moodle. If you want to support fur
 >     adt-webserver-scripts/providerscripts/webserver/configuration
 >     adt-webserver-scripts/providerscripts/application/processing
 >     adt-webserver-scripts/providerscripts/application/monitoring
->     adt-webserver-scripts/providerscripts/application/email
 >     adt-webserver-scripts/providerscripts/application/configuration
 
 >     adt-build-machine-scripts/providerscripts/application
