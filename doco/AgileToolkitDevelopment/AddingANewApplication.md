@@ -9,8 +9,6 @@ The core supports joomla,wordpress,drupal and moodle. If you want to support fur
 >     adt-webserver-scripts/providerscripts/application/email
 >     adt-webserver-scripts/providerscripts/application/configuration
 
->     adt-database-scripts/security/GatewayGuardian.sh
-
 >     adt-build-machine-scripts/providerscripts/application
 >     adt-build-machine-scripts/processingscripts
 
