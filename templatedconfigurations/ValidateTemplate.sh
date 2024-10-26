@@ -108,16 +108,6 @@ then
 	${log_command} "Your value for the variable DNS_CHOICE (${DNS_CHOICE}) doesn't appear to be valid please review"
 fi
 
-if ( [ "`/bin/grep "^GATEWAY_GUARDIAN " ${quick_specification} | /bin/grep -w "${GATEWAY_GUARDIAN}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable GATEWAY_GUARDIAN (${GATEWAY_GUARDIAN}) doesn't appear to be valid please review"
-fi
-
-if ( [ "`/bin/grep "^AUTHORISATION_SERVER " ${quick_specification} | /bin/grep -w "${AUTHORISATION_SERVER}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable AUTHORISATION_SERVER (${AUTHORISATION_SERVER}) doesn't appear to be valid please review"
-fi
-
 if ( [ "`/bin/grep "^APPLICATION_REPOSITORY_PROVIDER " ${quick_specification} | /bin/grep -w "${APPLICATION_REPOSITORY_PROVIDER}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable APPLICATION_REPOSITORY_PROVIDER (${APPLICATION_REPOSITORY_PROVIDER}) doesn't appear to be valid please review"
