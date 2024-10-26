@@ -234,10 +234,6 @@ Set the system to use the MariaDB as "DBaaS" that you have deployed from the GUI
 
 >     export DB_PORT="2035"
 >     export DATABASE_INSTALLATION_TYPE="DBaaS"
->     export DBaaS_HOSTNAME="xxxx"
->     export DBaaS_USERNAME="yyyy"
->     export DBaaS_PASSWORD="zzzz"
->     export DBaaS_DBNAME="ccccc"
 >     export DATABASE_DBaaS_INSTALLATION_TYPE="Maria"
 
 
@@ -351,25 +347,13 @@ To switch to production mode:
 
 #### Objective 34
 
-To switch "GATEWAY_GUARDIAN" on and off:
-
->     export GATEWAY_GUARDIAN="1"
-
-and
-
->     export GATEWAY_GUARDIAN="0"
-
-------------------------------------------------------------------------------
-
-#### Objective 35
-
 To modify which firewalls are active for example for native and ufw to be enabled in any template set like this:
 
 >     export ACTIVE_FIREWALLS="3"
 
 ------------------------------------------------------------------------------
 
-#### Objective 36
+#### Objective 35
 
 To switch "SSL_LIVE_CERT" on and off:
 
@@ -381,13 +365,13 @@ and
 
 ------------------------------------------------------------------------------
 
-#### Objective 37
+#### Objective 36
 
 To generate snapshots in during a build for future use in template 3 put:
 
 >     export GENERATE_SNAPSHOTS="1"<br>
 
-#### Objective 38
+#### Objective 37
 
 To deploy from snasphots generated previously in template 3 put:
 
@@ -400,7 +384,7 @@ To deploy from snasphots generated previously in template 3 put:
 
 --------------------------------------------------------------------------------
 
-#### Objective 39
+#### Objective 38
 
 To autoscale webservers from webserver machine backups in template 3 put:
 
@@ -408,7 +392,7 @@ To autoscale webservers from webserver machine backups in template 3 put:
 
 --------------------------------------------------------------------------------
 
-#### Objective 40
+#### Objective 39
 
 To make the machines build in parrallel rather than sequentially, put:
 
@@ -416,7 +400,7 @@ To make the machines build in parrallel rather than sequentially, put:
 
 --------------------------------------------------------------------------------
 
-#### Objective 41
+#### Objective 40
 
 To install monitoring gear put in any template:
 
