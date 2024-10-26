@@ -5,9 +5,6 @@ To support a new database engine type you will need to modify or add to the foll
 >      adt-webserver-scripts/providerscripts/utilities/InstallDatabaseClient.sh
 >      adt-webserver-scripts/providerscripts/utilities/CheckServerAlive.sh
 
->      adt-database-scripts/security/ListAuthorisationIPs.sh
->      adt-database-scripts/security/GatewayGuardian.sh:
->      adt-database-scripts/providerscripts/utilities/ListAuthorisationIPs.sh
 >      adt-database-scripts/providerscripts/utilities/IsDatabaseUp.sh
 >      adt-database-scripts/providerscripts/utilities/EnsureAccessForWebservers.sh
 >      adt-database-scripts/providerscripts/utilities/AccessDB.sh
