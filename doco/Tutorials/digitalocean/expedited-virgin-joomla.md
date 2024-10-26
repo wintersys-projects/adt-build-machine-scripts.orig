@@ -205,10 +205,8 @@ This file looks like this (I have put dashes before each line I wish to modify f
 >     export DEVELOPMENT="1"
 >     ------ export BUILD_IDENTIFIER="" #MANDATORY
 >     export NO_AUTOSCALERS="0"
->     export AUTHORISATION_SERVER="0"
 >     
 >     #####Security Settings#####
->     export GATEWAY_GUARDIAN="0"
 >     export ACTIVE_FIREWALLS="3"
 >     export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
 >     export SSL_GENERATION_METHOD="AUTOMATIC"
