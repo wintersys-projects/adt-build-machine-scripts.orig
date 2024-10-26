@@ -22,11 +22,32 @@
 #########################################################################################
 #########################################################################################
 #set -x
+
+#############################################################################################################
+# You might want to manually configure a remote database, perhaps on something like AWS RDS using a bastion server.
+# If you want to do that you will need to setup the database manually and then set the 
+# DATABASE_DBaaS_INSTALLATION_TYPE field according to the following nomenclature in your template
+# DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:MANUAL:<hostname>:<username>:<password>"
+# DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:MANUAL:<hostname>:<username>:<password>"
+# Obviously the type of database you have manually provisioned using a GUI system will have to match with what
+# you have set in your template in other words, one of MySQl or Postgres
+#############################################################################################################
+
+if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep DBAAS | /bin/grep MANUAL`" != "" ] )
+then
+	database_details="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/sed 's/^.*DBAAS:MANUAL//g'`"
+	DBaaS_HOSTNAME="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $1}'`"
+	DBaaS_USERNAME="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $2}'`"
+	DBaaS_PASSWORD="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $3}'`"
+fi
+
+
 #########################################################################################################
 #If you are deploying to digitalocean provide a setting with the following format in your template
 #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql:lon1:1:db-s-1vcpu-1gb:8:testdbcluster1:testdb1:e265abcb-1295-1d8b-af36-0129f89456c2"
 #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:pg:lon1:1:db-s-1vcpu-1gb:8:testdbcluster1:testdb1:e265abcb-1295-1d8b-af36-0129f89456c2"
 #########################################################################################################
+
 
 if ( [ "${CLOUDHOST}" = "digitalocean" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
@@ -109,7 +130,7 @@ then
 		export DBaaS_USERNAME="`/usr/local/bin/doctl databases user list ${cluster_id} | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
 		export DBaaS_PASSWORD="`/usr/local/bin/doctl databases user list ${cluster_id} | /usr/bin/awk '{print $3}' | /usr/bin/tail -1`"
 		export DBaaS_DBNAME="${database_name}"
-		export DB_PORT="25060"
+		export DB_PORT="${DB_PORT}"
 	
 		status "The Values I have retrieved for your database setup are:"
 		status "##########################################################"
