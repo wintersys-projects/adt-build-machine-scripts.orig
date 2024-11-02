@@ -20,6 +20,7 @@
 #######################################################################################################
 #set -x
 
+BUILD_HOME="`/bin/pwd`"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
@@ -33,9 +34,13 @@ fi
 if ( [ "${firewall}" = "ufw" ] )
 then
 	${BUILD_HOME}/installscripts/InstallUFW.sh
+ 	echo "1"
 elif ( [ "${firewall}" = "iptables" ] )
 then
 	${BUILD_HOME}/installscripts/InstallIPTables.sh
+ 	echo "1"
+else
+	echo "0"
 fi
 
 
