@@ -25,7 +25,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 if ( [ -f /var/spool/cron/crontabs/root ] )
 then
@@ -128,25 +128,39 @@ then
 
    ips="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat | /bin/tr '\n' ' '`"
 
-   if ( [ "${ips}" != "" ] )
-   then
-		/usr/bin/yes | /usr/sbin/ufw reset
-		/usr/sbin/ufw default deny incoming
-		/usr/sbin/ufw default allow outgoing
-   
-		for ip in ${ips}
-   		do
-          		# /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
-	   		/usr/sbin/ufw allow from ${ip}
-   		done
+    if ( [ "${ips}" != "" ] )
+    then
+   		BUILD_HOME="/home/${BUILDMACHINE_USER}"
 
-		/usr/bin/yes | /usr/sbin/ufw enable
+		firewall=""
+		if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
+		then
+			firewall="ufw"
+		elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
+		then
+			firewall="iptables"
+		fi
+
+ 		if ( [ "${firewall}" = "ufw" ] )
+  		then
+			/usr/bin/yes | /usr/sbin/ufw reset
+			/usr/sbin/ufw default deny incoming
+			/usr/sbin/ufw default allow outgoing
+   
+			for ip in ${ips}
+   			do
+          		# /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
+	   			/usr/sbin/ufw allow from ${ip}
+   			done
+
+			/usr/bin/yes | /usr/sbin/ufw enable
+		fi
 	fi
  
-. ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
+	. ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
 
-   if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
-   then
-	   /bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$
-   fi
+	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
+	then
+		/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$
+	fi
 fi
