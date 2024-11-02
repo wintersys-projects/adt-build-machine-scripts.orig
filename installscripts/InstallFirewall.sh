@@ -6,3 +6,13 @@ elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp
 then
 	firewall="iptables"
 fi
+
+if ( [ "${firewall}" = "ufw" ] )
+then
+	${BUILD_HOME}/installscripts/InstallUFW.sh
+elif ( [ "${firewall}" = "iptables" ] )
+then
+	${BUILD_HOME}/installscripts/InstallIPTables.sh
+fi
+
+
