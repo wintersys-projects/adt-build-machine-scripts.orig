@@ -88,15 +88,29 @@ fi
 
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
-/usr/bin/apt-get -qq -y install ufw
 
-/bin/echo "y" | /usr/sbin/ufw reset
-/usr/sbin/ufw default deny incoming
-/usr/sbin/ufw default allow outgoing
-#uncomment this if you want more general access than just ssh
-#/usr/sbin/ufw allow from ${LAPTOP_IP}
-/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
-/bin/echo "y" | /usr/sbin/ufw enable
+BUILD_HOME="/home/${BUILDMACHINE_USER}"
+
+firewall=""
+if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
+then
+	firewall="ufw"
+elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
+then
+	firewall="iptables"
+fi
+
+if ( [ "${firewall}" = "ufw" ] )
+then
+	/usr/bin/apt-get -qq -y install ufw
+	/bin/echo "y" | /usr/sbin/ufw reset	
+	/usr/sbin/ufw default deny incoming
+	/usr/sbin/ufw default allow outgoing
+	#uncomment this if you want more general access than just ssh
+	#/usr/sbin/ufw allow from ${LAPTOP_IP}
+	/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
+	/bin/echo "y" | /usr/sbin/ufw enable
+ fi
 
 cd /home/${BUILDMACHINE_USER}
 
