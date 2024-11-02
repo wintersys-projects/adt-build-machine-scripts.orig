@@ -66,6 +66,13 @@ for file in `/bin/ls /etc/ssh/sshd_config.d`
 do
 	fullfile="/etc/ssh/sshd_config.d/${file}"
 	/bin/sed -i 's/PasswordAuthentication.*$/PasswordAuthentication no/' ${fullfile}
+ 	/bin/sed -i 's/^#PasswordAuthentication.*$/PasswordAuthentication no/' ${fullfile}
+ 	/bin/sed -i "s/^PermitRootLogin.*/PermitRootLogin no/g" ${fullfile}
+	/bin/sed -i "s/^#PermitRootLogin.*/PermitRootLogin no/g" ${fullfile}
+ 	/bin/sed -i "s/^KbdInteractiveAuthentication.*/KbdInteractiveAuthentication no/g" ${fullfile}
+	/bin/sed -i "s/^#KbdInteractiveAuthentication.*/KbdInteractiveAuthentication no/g" ${fullfile} 	
+ 	/bin/sed -i "s/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" ${fullfile}
+	/bin/sed -i "s/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" ${fullfile}
 done
 
 if ( [ "${BUILDMACHINE_SSH_PORT}" = "" ] )
