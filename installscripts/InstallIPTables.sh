@@ -24,6 +24,8 @@ then
 	buildos="${1}"
 fi
 
+BUILD_HOME="`/bin/pwd`"
+
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
