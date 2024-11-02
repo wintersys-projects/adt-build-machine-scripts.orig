@@ -71,7 +71,7 @@ then
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating Firewall"
-			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh`" != "1" ] )
+			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh ubuntu`" != "1" ] )
    			then
       				status "Failed to install firewall. A firewall must be installed"
 	  			exit
@@ -111,7 +111,7 @@ then
 			${BUILD_HOME}/installscripts/InstallSudo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "debian" >>${UPGRADE_LOG} 2>&1
-			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh`" != "1" ] )
+			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh debian`" != "1" ] )
    			then
       				status "Failed to install firewall. A firewall must be installed"
 	  			exit
