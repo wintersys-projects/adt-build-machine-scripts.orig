@@ -48,6 +48,8 @@
 # DATASTORETOOL:s3cmd 
 # You can choose which package manager you want to use. Currently only apt and apt-fast are supported. "Apt-fast" is supposed to be fastet, hence the "fast"
 # PACKAGEMANAGER:apt|apt-fast
+# You can choose what style of firewall you would like to have by setting the FIREWALL: value
+# FIREWALL:ufw|iptables
 ###############################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -90,4 +92,5 @@ POSTGRES:17
 BUILDCHAINTYPE:standard
 DATASTORETOOL:s3cmd
 PACKAGEMANAGER:apt
+FIREWALL:ufw
 
