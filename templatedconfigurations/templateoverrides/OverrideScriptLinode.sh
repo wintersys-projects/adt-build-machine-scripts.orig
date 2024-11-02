@@ -23,17 +23,26 @@
 #XXXSTACKYYY
 
 /usr/sbin/adduser --disabled-password --gecos \"\" ${BUILDMACHINE_USER} 
-/bin/sed -i '$ a\ ClientAliveInterval 60\nTCPKeepAlive yes\nClientAliveCountMax 10000' /etc/ssh/sshd_config
-/bin/sed -i 's/.*PermitRootLogin.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
 /bin/echo ${BUILDMACHINE_USER}:${BUILDMACHINE_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd 
  /usr/bin/gpasswd -a ${BUILDMACHINE_USER} sudo 
 /bin/mkdir -p /home/${BUILDMACHINE_USER}/.ssh
 /bin/echo "${SSH}" >> /home/${BUILDMACHINE_USER}/.ssh/authorized_keys
-/bin/sed -i 's/#*PasswordAuthentication [a-zA-Z]*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+/bin/sed -i '$ a\ ClientAliveInterval 60\nTCPKeepAlive yes\nClientAliveCountMax 10000' /etc/ssh/sshd_config
+/bin/sed -i 's/PasswordAuthentication.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+/bin/sed -i 's/^#PasswordAuthentication.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+/bin/sed -i "s/^PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config
+/bin/sed -i "s/^#PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config
+/bin/sed -i "s/^KbdInteractiveAuthentication.*/KbdInteractiveAuthentication no/g" /etc/ssh/sshd_config
+/bin/sed -i "s/^#KbdInteractiveAuthentication.*/KbdInteractiveAuthentication no/g" /etc/ssh/sshd_config 	
+/bin/sed -i "s/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" /etc/ssh/sshd_config
+/bin/sed -i "s/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" /etc/ssh/sshd_config
+
 if ( [ "${BUILDMACHINE_SSH_PORT}" = "" ] )
 then
 	BUILDMACHINE_SSH_PORT="22"
 fi
+
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /usr/bin/systemctl daemon-reload
