@@ -75,7 +75,7 @@ then
    			then
       				status "Failed to install firewall. A firewall must be installed"
 	  			exit
-      			fi
+			fi
 			status "Installing/Updating Datastore tools"
 			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "ubuntu"
 			status "Installing/Updating Cron"
@@ -115,7 +115,7 @@ then
    			then
       				status "Failed to install firewall. A firewall must be installed"
 	  			exit
-      			fi
+			fi
 			status "Installing/Updating Datastore tools"
 			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian" >>${UPGRADE_LOG} 2>&1 
 			status "Installing/Updating Cron"
