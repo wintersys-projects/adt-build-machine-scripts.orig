@@ -44,7 +44,6 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 
 /usr/sbin/adduser --disabled-password --gecos \"\" ${BUILDMACHINE_USER} 
 /bin/sed -i '$ a\ ClientAliveInterval 60\nTCPKeepAlive yes\nClientAliveCountMax 10000' /etc/ssh/sshd_config
-/bin/sed -i 's/.*PermitRootLogin.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
 /bin/echo ${BUILDMACHINE_USER}:${BUILDMACHINE_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd 
  /usr/bin/gpasswd -a ${BUILDMACHINE_USER} sudo 
 
