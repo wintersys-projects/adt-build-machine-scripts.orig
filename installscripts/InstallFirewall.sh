@@ -33,11 +33,11 @@ fi
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-	${BUILD_HOME}/installscripts/InstallUFW.sh
+	${BUILD_HOME}/installscripts/InstallUFW.sh ${1}
  	echo "1"
 elif ( [ "${firewall}" = "iptables" ] )
 then
-	${BUILD_HOME}/installscripts/InstallIPTables.sh
+	${BUILD_HOME}/installscripts/InstallIPTables.sh ${1}
  	echo "1"
 else
 	echo "0"
