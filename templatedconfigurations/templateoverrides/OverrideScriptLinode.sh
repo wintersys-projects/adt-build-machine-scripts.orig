@@ -50,17 +50,30 @@ systemctl restart sshd
 service ssh restart
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
-/usr/bin/apt-get -qq -y install ufw
-/usr/sbin/ufw enable
-/usr/sbin/ufw default deny incoming
-/usr/sbin/ufw default allow outgoing
-/usr/sbin/ufw allow from ${LAPTOP_IP}
-################################################################################################################################################
-#It is possible to lock down ssh connections to only from a specific ip address which is more secure, but, if the IP address of your machine changes,
-#for example, if you connect your laptop to a different network, then, you will have to connect to the build client machine through the console of
-#your VPS system provider and allow your new IP address through the firewall. This might be more of a hassle than its worth
-#################################################################################################################################################
-/usr/sbin/ufw allow ${BUILDMACHINE_SSH_PORT}/tcp 
+
+BUILD_HOME="/home/${BUILDMACHINE_USER}"
+
+firewall=""
+if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
+then
+	firewall="ufw"
+elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
+then
+	firewall="iptables"
+fi
+
+if ( [ "${firewall}" = "ufw" ] )
+then
+	/usr/bin/apt-get -qq -y install ufw
+	/bin/echo "y" | /usr/sbin/ufw reset	
+	/usr/sbin/ufw default deny incoming
+	/usr/sbin/ufw default allow outgoing
+	#uncomment this if you want more general access than just ssh
+	#/usr/sbin/ufw allow from ${LAPTOP_IP}
+	/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
+	/bin/echo "y" | /usr/sbin/ufw enable
+ fi
+
 #/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
 cd /home/${BUILDMACHINE_USER}
 if ( [ "${INFRASTRUCTURE_REPOSITORY_OWNER}" != "" ] )
