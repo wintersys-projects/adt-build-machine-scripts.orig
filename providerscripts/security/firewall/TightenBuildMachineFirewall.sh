@@ -149,12 +149,24 @@ then
    
 			for ip in ${ips}
    			do
-          		# /usr/sbin/ufw allow from ${ip} proto tcp to any port 1036
 	   			/usr/sbin/ufw allow from ${ip}
    			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
-		fi
+		elif ( [ "${firewall}" = "iptables" ] )
+  		then
+    			/usr/sbin/iptables -F INPUT
+       			/usr/sbin/iptables -P INPUT DROP
+       			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
+	  
+	  		for ip in ${ips}
+     			do
+				/usr/sbin/iptables –A INPUT –-src ${ip} -m icmp –p icmp –j ACCEPT
+	  			/usr/sbin/iptables -I INPUT \! --src ${ip} -m tcp -p tcp -j DROP 
+     			done
+	
+			/usr/sbin/netfilter-persistent save
+    		fi
 	fi
  
 	. ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
