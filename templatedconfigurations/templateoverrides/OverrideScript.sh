@@ -106,7 +106,7 @@ ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
 export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-. ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh
+#. ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh
  
 /bin/mkdir /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
 /bin/touch /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata/LAPTOPIP:${LAPTOP_IP}
