@@ -111,9 +111,6 @@ firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 then
 	firewall="ufw"
-elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
-then
-	firewall="iptables"
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
@@ -126,23 +123,6 @@ then
 	#/usr/sbin/ufw allow from ${LAPTOP_IP}
 	/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
 	/bin/echo "y" | /usr/sbin/ufw enable
- elif ( [ "${firewall}" = "iptables" ] )
- then
-	DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -qq -y install iptables
-  	DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -qq -y install iptables-persistent
-        /usr/sbin/iptables -F 
-	/usr/sbin/iptables -P INPUT DROP
-	/usr/sbin/iptables -P OUTPUT DROP
-	/usr/sbin/iptables -P FORWARD DROP
-
-	/usr/sbin/iptables -A INPUT -i lo -j ACCEPT
-	/usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
-	/usr/sbin/iptables -A INPUT -s 127.0.0.0/8 -j DROP
-	
-        /usr/sbin/iptables -I INPUT \! -s ${LAPTOP_IP} -m tcp -p tcp -j DROP 
-  	/usr/sbin/iptables –A INPUT -s ${LAPTOP_IP} -m icmp –p icmp –j ACCEPT
-   	/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
-	/usr/sbin/netfilter-persistent save
  fi
  
 /bin/mkdir /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
