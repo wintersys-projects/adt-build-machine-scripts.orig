@@ -118,7 +118,7 @@ then
 				status "Failed to install firewall. A firewall must be installed"
 	  			exit
 			fi
-      			status "Initialising Firewall"
+			status "Initialising Firewall"
    			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating Datastore tools"
 			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian" >>${UPGRADE_LOG} 2>&1 
