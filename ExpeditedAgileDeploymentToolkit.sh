@@ -27,7 +27,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################################
 ###############################################################################################
-set -x
+#set -x
 
 if ( [ ! -f ./ExpeditedAgileDeploymentToolkit.sh ] )
 then
@@ -75,9 +75,6 @@ fi
 
 . ${BUILD_HOME}/initscripts/InitialiseLongLastingConnection.sh
 . ${BUILD_HOME}/installscripts/InstallAll.sh 
-
-status "About to exit...check firewall"
-exit
 
 if ( [ "${HARDCORE}" != "1" ] )
 then
