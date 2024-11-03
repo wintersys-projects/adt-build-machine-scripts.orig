@@ -1,7 +1,6 @@
 To support another cloudhost provider (for example, AWS, google cloud, OVH cloud and so on) you should be able to get it going by modfying the following files:
 
 >     adt-webserver-scripts/security/SetupFirewall.sh
->     adt-webserver-scripts/security/SetupDNSFirewall.sh
 >     adt-webserver-scripts/security/ObtainSSLCertificate.sh
 >     adt-webserver-scripts/installscripts/InstallMonitoringGear.sh
 
