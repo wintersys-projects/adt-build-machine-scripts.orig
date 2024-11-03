@@ -26,21 +26,12 @@ firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 then
 	firewall="ufw"
-elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
-then
-	firewall="iptables"
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
 then
 	${BUILD_HOME}/installscripts/InstallUFW.sh ${1}
  	echo "1"
-elif ( [ "${firewall}" = "iptables" ] )
-then
-	${BUILD_HOME}/installscripts/InstallIPTables.sh ${1}
- 	echo "1"
-else
-	echo "0"
 fi
 
 
