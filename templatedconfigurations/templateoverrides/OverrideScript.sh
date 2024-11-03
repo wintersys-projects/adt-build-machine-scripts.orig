@@ -105,7 +105,7 @@ exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
 ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
-BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
+export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
