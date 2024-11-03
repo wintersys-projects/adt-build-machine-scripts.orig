@@ -161,6 +161,8 @@ then
 				/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
     				/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
     			done
+			/usr/sbin/netfilter-persistent save
+			/usr/sbin/netfilter-persistent reload
     		fi
 	fi
  
