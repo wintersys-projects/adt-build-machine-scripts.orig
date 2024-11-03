@@ -164,8 +164,7 @@ then
        
 			/usr/sbin/netfilter-persistent save
 			/usr/sbin/netfilter-persistent reload
-   
-    		fi
+   		fi
 	fi
  
 	. ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
