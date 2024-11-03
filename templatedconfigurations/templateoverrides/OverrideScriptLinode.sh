@@ -72,6 +72,14 @@ then
 	#/usr/sbin/ufw allow from ${LAPTOP_IP}
 	/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
 	/bin/echo "y" | /usr/sbin/ufw enable
+ elif ( [ "${firewall}" = "iptables" ] )
+ then
+ 	/usr/sbin/iptables -F INPUT
+	/usr/sbin/iptables -P INPUT DROP
+	/usr/sbin/iptables -I INPUT \! -s ${LAPTOP_IP} -m tcp -p tcp -j DROP 
+  	/usr/sbin/iptables –A INPUT -s ${LAPTOP_IP} -m icmp –p icmp –j ACCEPT
+   	/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
+	/usr/sbin/netfilter-persistent save
  fi
 
 #/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
