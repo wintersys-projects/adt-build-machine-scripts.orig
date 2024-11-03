@@ -108,8 +108,12 @@ exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 #. ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh
  
-/bin/mkdir /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
+if ( [ ! /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata ] )
+then
+	/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
+fi
 /bin/touch /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata/LAPTOPIP:${LAPTOP_IP}
+/bin/touch /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata/BUILDMACHINEPORT:${BUILDMACHINE_SSH_PORT}
 
 /usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
 /usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
