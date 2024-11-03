@@ -136,9 +136,6 @@ then
 		if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 		then
 			firewall="ufw"
-		elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
-		then
-			firewall="iptables"
 		fi
 
  		if ( [ "${firewall}" = "ufw" ] )
@@ -153,26 +150,6 @@ then
    			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
-		elif ( [ "${firewall}" = "iptables" ] )
-  		then
-			/usr/sbin/iptables -F 
-			/usr/sbin/iptables -P INPUT DROP
-			/usr/sbin/iptables -P OUTPUT DROP
-			/usr/sbin/iptables -P FORWARD DROP
-
-			/usr/sbin/iptables -A INPUT -i lo -j ACCEPT
-			/usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
-			/usr/sbin/iptables -A INPUT -s 127.0.0.0/8 -j DROP
-
-			ips_list="`/bin/echo ${ips} | /bin/sed 's/ /,/g' | /bin/sed 's/,$///g'`"
-			/usr/sbin/iptables -I INPUT \! -s ${ips_list} -m tcp -p tcp -j DROP 
-	  
-			for ip in ${ips}
-			do
-				/usr/sbin/iptables –A INPUT -s ${ip} -m icmp –p icmp –j ACCEPT
-			done
-   
-			/usr/sbin/netfilter-persistent save
 		fi
 	fi
  
