@@ -155,12 +155,17 @@ then
 			/usr/bin/yes | /usr/sbin/ufw enable
 		elif ( [ "${firewall}" = "iptables" ] )
   		then
-			/usr/sbin/iptables -F INPUT
+			/usr/sbin/iptables -F 
 			/usr/sbin/iptables -P INPUT DROP
+			/usr/sbin/iptables -P OUTPUT DROP
+			/usr/sbin/iptables -P FORWARD DROP
+
+			/usr/sbin/iptables -A INPUT -i lo -j ACCEPT
+			/usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
+			/usr/sbin/iptables -A INPUT -s 127.0.0.0/8 -j DROP
 
 			ips_list="`/bin/echo ${ips} | /bin/sed 's/ /,/g' | /bin/sed 's/,$///g'`"
 			/usr/sbin/iptables -I INPUT \! -s ${ips_list} -m tcp -p tcp -j DROP 
-   			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	  
 			for ip in ${ips}
 			do
