@@ -21,6 +21,11 @@
 #######################################################################################################
 #set -x
 
+if ( [ -f /root/FIREWALL-INITIALISED ] )
+then
+	exit
+ fi
+
 BUILD_HOME="`/usr/bin/pwd`"
 
 firewall=""
@@ -45,6 +50,7 @@ then
 	#/usr/sbin/ufw allow from ${LAPTOP_IP}
 	/usr/sbin/ufw allow from ${laptop_ip} to any port ${buildmachine_ssh_port}
 	/bin/echo "y" | /usr/sbin/ufw enable
+ 	/bin/touch /root/FIREWALL-INITIALISED
 elif ( [ "${firewall}" = "iptables" ] )
 then
        # /usr/bin/apt-get -qq -y install iptables
@@ -67,4 +73,5 @@ then
         /usr/sbin/iptables -P OUTPUT ACCEPT
         /usr/sbin/netfilter-persistent save
         /usr/sbin/netfilter-persistent reload
+	 /bin/touch /root/FIREWALL-INITIALISED
  fi
