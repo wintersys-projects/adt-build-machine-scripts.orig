@@ -130,7 +130,7 @@ then
 
     if ( [ "${ips}" != "" ] )
     then
-   		BUILD_HOME="/home/${BUILDMACHINE_USER}"
+   		BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 		firewall=""
 		if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
