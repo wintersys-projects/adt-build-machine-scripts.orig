@@ -46,6 +46,10 @@ then
 			${BUILD_HOME}/installscripts/Update.sh "ubuntu"  >>${UPGRADE_LOG} 2>&1
 			status "Performing software upgrade....."
 			${BUILD_HOME}/installscripts/Upgrade.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
+   			status "Installing Firewall"
+   			${BUILD_HOME}/installscripts/InstallFirewall.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
+			status "Initialising Firewall"
+   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating go"
 			${BUILD_HOME}/installscripts/InstallGo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
@@ -70,14 +74,6 @@ then
 			${BUILD_HOME}/installscripts/InstallSudo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
-			status "Installing/Updating Firewall"
-			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh ubuntu`" != "1" ] )
-   			then
-				status "Failed to install firewall. A firewall must be installed"
-	  			exit
-			fi
-   			status "Initialising Firewall"
-   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating Datastore tools"
 			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "ubuntu"
 			status "Installing/Updating Cron"
@@ -89,6 +85,10 @@ then
 			${BUILD_HOME}/installscripts/Update.sh "debian"  >>${UPGRADE_LOG} 2>&1
 			status "Performing software upgrade....."
 			${BUILD_HOME}/installscripts/Upgrade.sh "debian" >>${UPGRADE_LOG} 2>&1
+   			status "Installing Firewall"
+   			${BUILD_HOME}/installscripts/InstallFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
+			status "Initialising Firewall"
+   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating go"
 			${BUILD_HOME}/installscripts/InstallGo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
@@ -113,13 +113,6 @@ then
 			${BUILD_HOME}/installscripts/InstallSudo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "debian" >>${UPGRADE_LOG} 2>&1
-			if ( [ "`${BUILD_HOME}/installscripts/InstallFirewall.sh debian`" != "1" ] )
-   			then
-				status "Failed to install firewall. A firewall must be installed"
-	  			exit
-			fi
-			status "Initialising Firewall"
-   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating Datastore tools"
 			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian" >>${UPGRADE_LOG} 2>&1 
 			status "Installing/Updating Cron"
