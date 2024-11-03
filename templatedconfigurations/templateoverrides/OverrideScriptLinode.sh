@@ -51,7 +51,7 @@ service ssh restart
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
 
-BUILD_HOME="/home/${BUILDMACHINE_USER}"
+BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
