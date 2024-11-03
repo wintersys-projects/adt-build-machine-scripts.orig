@@ -155,12 +155,12 @@ then
 			/usr/bin/yes | /usr/sbin/ufw enable
 		elif ( [ "${firewall}" = "iptables" ] )
   		then
-    			for ip in ${ips}
-   			do
+			for ip in ${ips}
+			do
 				/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
 				/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
 				/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
-    			done
+			done
        
 			/usr/sbin/netfilter-persistent save
 			/usr/sbin/netfilter-persistent reload
