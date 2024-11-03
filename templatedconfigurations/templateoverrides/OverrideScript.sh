@@ -112,9 +112,18 @@ then
 	/bin/echo "y" | /usr/sbin/ufw enable
  elif ( [ "${firewall}" = "iptables" ] )
  then
- 	/usr/sbin/iptables -F INPUT
+	DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -qq -y install iptables
+  	DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -qq -y install iptables-persistent
+        /usr/sbin/iptables -F 
 	/usr/sbin/iptables -P INPUT DROP
-	/usr/sbin/iptables -I INPUT \! -s ${LAPTOP_IP} -m tcp -p tcp -j DROP 
+	/usr/sbin/iptables -P OUTPUT DROP
+	/usr/sbin/iptables -P FORWARD DROP
+
+	/usr/sbin/iptables -A INPUT -i lo -j ACCEPT
+	/usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
+	/usr/sbin/iptables -A INPUT -s 127.0.0.0/8 -j DROP
+	
+        /usr/sbin/iptables -I INPUT \! -s ${LAPTOP_IP} -m tcp -p tcp -j DROP 
   	/usr/sbin/iptables –A INPUT -s ${LAPTOP_IP} -m icmp –p icmp –j ACCEPT
    	/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	/usr/sbin/netfilter-persistent save
