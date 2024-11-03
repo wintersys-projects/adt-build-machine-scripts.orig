@@ -120,4 +120,7 @@ then
 			/bin/touch ${BUILD_HOME}/runtimedata/EXUPDATEDSOFTWARE
 	fi
 	/bin/touch ~/UPDATEDSOFTWARE
+
+ status "Exiting.........................."
+ exit
 fi
