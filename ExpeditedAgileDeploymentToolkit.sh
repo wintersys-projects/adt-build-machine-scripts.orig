@@ -76,6 +76,9 @@ fi
 . ${BUILD_HOME}/initscripts/InitialiseLongLastingConnection.sh
 . ${BUILD_HOME}/installscripts/InstallAll.sh 
 
+status "About to exit...check firewall"
+exit
+
 if ( [ "${HARDCORE}" != "1" ] )
 then
 	. ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
