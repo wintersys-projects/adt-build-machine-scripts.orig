@@ -157,15 +157,16 @@ then
   		then
 			/usr/sbin/iptables -F INPUT
 			/usr/sbin/iptables -P INPUT DROP
-			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
+
+			ips_list="`/bin/echo ${ips} | /bin/sed 's/ /,/g' | /bin/sed 's/,$///g'`"
+			/usr/sbin/iptables -I INPUT \! -s ${ips_list} -m tcp -p tcp -j DROP 
+   			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	  
 			for ip in ${ips}
 			do
 				/usr/sbin/iptables –A INPUT -s ${ip} -m icmp –p icmp –j ACCEPT
 			done
-
-			ips_list="`/bin/echo ${ips} | /bin/sed 's/ /,/g' | /bin/sed 's/,$///g'`"
-			/usr/sbin/iptables -I INPUT \! -s ${ips_list} -m tcp -p tcp -j DROP 
+   
 			/usr/sbin/netfilter-persistent save
 		fi
 	fi
