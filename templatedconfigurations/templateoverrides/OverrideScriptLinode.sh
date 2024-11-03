@@ -51,7 +51,23 @@ service ssh restart
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
 
-BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
+#/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
+cd /home/${BUILDMACHINE_USER}
+if ( [ "${INFRASTRUCTURE_REPOSITORY_OWNER}" != "" ] )
+then
+	/usr/bin/git clone https://github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-build-machine-scripts.git
+else
+	/usr/bin/git clone https://github.com/wintersys-projects/adt-build-machine-scripts.git
+fi
+
+/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
+
+OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
+exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
+ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
+exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
+
+export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
@@ -90,24 +106,6 @@ then
    	/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	/usr/sbin/netfilter-persistent save
  fi
-
-#/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
-cd /home/${BUILDMACHINE_USER}
-if ( [ "${INFRASTRUCTURE_REPOSITORY_OWNER}" != "" ] )
-then
-	/usr/bin/git clone https://github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-build-machine-scripts.git
-else
-	/usr/bin/git clone https://github.com/wintersys-projects/adt-build-machine-scripts.git
-fi
-
-/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
-
-OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
-ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
-
-export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 
 /bin/mkdir /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata
 /bin/touch /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/runtimedata/LAPTOPIP:${LAPTOP_IP}
