@@ -159,11 +159,11 @@ then
        			/usr/sbin/iptables -P INPUT DROP
        			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	  
-	  		for ip in ${ips}
-     			do
+			for ip in ${ips}
+			do
 				/usr/sbin/iptables –A INPUT –-src ${ip} -m icmp –p icmp –j ACCEPT
-	  			/usr/sbin/iptables -I INPUT \! --src ${ip} -m tcp -p tcp -j DROP 
-     			done
+				/usr/sbin/iptables -I INPUT \! --src ${ip} -m tcp -p tcp -j DROP 
+			done
 	
 			/usr/sbin/netfilter-persistent save
     		fi
