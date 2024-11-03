@@ -155,9 +155,9 @@ then
 			/usr/bin/yes | /usr/sbin/ufw enable
 		elif ( [ "${firewall}" = "iptables" ] )
   		then
-    			/usr/sbin/iptables -F INPUT
-       			/usr/sbin/iptables -P INPUT DROP
-       			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
+			/usr/sbin/iptables -F INPUT
+			/usr/sbin/iptables -P INPUT DROP
+			/usr/sbin/iptables -A INPUT -s 127.0.0.1/32 -j ACCEPT
 	  
 			for ip in ${ips}
 			do
