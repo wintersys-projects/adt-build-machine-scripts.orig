@@ -136,6 +136,9 @@ then
 		if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 		then
 			firewall="ufw"
+   		elif ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
+		then
+			firewall="iptables"
 		fi
 
  		if ( [ "${firewall}" = "ufw" ] )
@@ -150,7 +153,15 @@ then
    			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
-		fi
+		elif ( [ "${firewall}" = "iptables" ] )
+  		then
+    			for ip in ${ips}
+   			do
+				/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
+				/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
+    				/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
+    			done
+    		fi
 	fi
  
 	. ${BUILD_HOME}/ providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
