@@ -59,7 +59,7 @@ then
 TCPKeepAlive yes
 ClientAliveCountMax 10000" >> /etc/ssh/sshd_config
 		BUILD_HOME="`/usr/bin/pwd`"
-		${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
+		${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
 		actioned="1"
 	fi
 
