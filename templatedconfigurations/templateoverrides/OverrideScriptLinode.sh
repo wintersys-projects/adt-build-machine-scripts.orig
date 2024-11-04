@@ -24,7 +24,7 @@
 
 /usr/sbin/adduser --disabled-password --gecos \"\" ${BUILDMACHINE_USER} 
 /bin/echo ${BUILDMACHINE_USER}:${BUILDMACHINE_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/chpasswd 
- /usr/bin/gpasswd -a ${BUILDMACHINE_USER} sudo 
+/usr/bin/gpasswd -a ${BUILDMACHINE_USER} sudo 
 /bin/mkdir -p /home/${BUILDMACHINE_USER}/.ssh
 /bin/echo "${SSH}" >> /home/${BUILDMACHINE_USER}/.ssh/authorized_keys
 
@@ -46,7 +46,7 @@ fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 
-BUILD_HOME="`/usr/bin/pwd`"
+BUILD_HOME="/home/${BUILDMACHINE_USER}"
 ${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
 ${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
 
