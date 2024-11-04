@@ -38,7 +38,8 @@ then
 	/bin/echo "ClientAliveInterval 60
 TCPKeepAlive yes
 ClientAliveCountMax 10000" >> /etc/ssh/sshd_config
-	/usr/sbin/service sshd restart
+	BUILD_HOME="`/usr/bin/pwd`"
+	${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
 	actioned="1"
 fi
 
