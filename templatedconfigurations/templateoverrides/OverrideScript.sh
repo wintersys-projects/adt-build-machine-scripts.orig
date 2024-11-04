@@ -82,9 +82,6 @@ fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 
-BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
-
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
 
@@ -104,8 +101,11 @@ exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
 ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
-export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-#. ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh
+/usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
+/usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
+
+BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
+${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
  
 if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
 then
@@ -114,5 +114,4 @@ fi
 /bin/touch ${BUILD_HOME}/runtimedata/LAPTOPIP:${LAPTOP_IP}
 /bin/touch ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:${BUILDMACHINE_SSH_PORT}
 
-/usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
-/usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
+
