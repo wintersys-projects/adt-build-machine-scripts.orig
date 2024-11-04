@@ -82,7 +82,7 @@ fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 
-BUILD_HOME="`/usr/bin/pwd`"
+BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 ${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
 ${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
 
