@@ -105,7 +105,7 @@ exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 /usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 644 {} \;
 
 BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
+/bin/sh ${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
  
 if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
 then
