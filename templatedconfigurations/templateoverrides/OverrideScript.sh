@@ -50,14 +50,14 @@ export SELECTED_TEMPLATE=\"\" #set if using hardcore build
 /bin/mkdir -p /home/${BUILDMACHINE_USER}/.ssh
 /bin/echo "${SSH}" >> /home/${BUILDMACHINE_USER}/.ssh/authorized_keys
 
-if ( [ -f /etc/systemd/system/ssh.service.d/00-socket.conf ] )
-then
-	/bin/rm /etc/systemd/system/ssh.service.d/00-socket.conf
-	/bin/systemctl daemon-restart
-fi
+#if ( [ -f /etc/systemd/system/ssh.service.d/00-socket.conf ] )
+#then
+#	/bin/rm /etc/systemd/system/ssh.service.d/00-socket.conf
+#	/bin/systemctl daemon-restart
+#fi
 
-/bin/systemctl disable --now ssh.socket
-/bin/systemctl enable --now ssh.service
+#/bin/systemctl disable --now ssh.socket
+#/bin/systemctl enable --now ssh.service
 
 /bin/sed -i 's/#*PasswordAuthentication [a-zA-Z]*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
