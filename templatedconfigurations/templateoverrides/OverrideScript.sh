@@ -82,9 +82,9 @@ fi
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 
-/usr/bin/systemctl daemon-reload
-/bin/systemctl restart sshd
-/usr/sbin/service ssh restart
+BUILD_HOME="`/usr/bin/pwd`"
+${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
+${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
 
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
