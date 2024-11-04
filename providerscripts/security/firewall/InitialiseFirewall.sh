@@ -42,7 +42,6 @@ buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-	#/usr/bin/apt-get -qq -y install ufw
 	/bin/echo "y" | /usr/sbin/ufw reset	
 	/usr/sbin/ufw default deny incoming
 	/usr/sbin/ufw default allow outgoing
@@ -53,13 +52,6 @@ then
  	/bin/touch /root/FIREWALL-INITIALISED
 elif ( [ "${firewall}" = "iptables" ] )
 then
-       # /usr/bin/apt-get -qq -y install iptables
-
-      #  /usr/bin/debconf-set-selections <<EOF
-#iptables-persistent iptables-persistent/autosave_v4 boolean true
-#iptables-persistent iptables-persistent/autosave_v6 boolean true
-#EOF
- #       /usr/bin/apt install -y -qq netfilter-persistent
         /usr/sbin/iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
         /usr/sbin/iptables -A INPUT -p tcp --dport ${buildmachine_ssh_port} -j ACCEPT
         /usr/sbin/iptables -A INPUT -s ${laptop_ip} -p ICMP --icmp-type 8 -j ACCEPT
@@ -74,9 +66,7 @@ then
   	/usr/sbin/ip6tables -P INPUT DROP
 	/usr/sbin/ip6tables -P FORWARD DROP
 	/usr/sbin/ip6tables -P OUTPUT DROP
-	/usr/sbin/service netfilter-persistent save
- 
-       # /usr/sbin/netfilter-persistent save
-       # /usr/sbin/netfilter-persistent reload
+ 	BUILD_HOME="`/usr/bin/pwd`"
+	${BUILD_HOME}/helperscripts/RunServiceCommand.sh netfilter-persistent save
 	 /bin/touch /root/FIREWALL-INITIALISED
  fi
