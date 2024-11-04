@@ -45,14 +45,17 @@ fi
 
 /bin/sed -i "s/^Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
 /bin/sed -i "s/^#Port.*$/Port ${BUILDMACHINE_SSH_PORT}/g" /etc/ssh/sshd_config
-/usr/bin/systemctl daemon-reload
-systemctl restart sshd
-service ssh restart
+
+BUILD_HOME="`/usr/bin/pwd`"
+${BUILD_HOME}/helperscripts/RunServiceCommand.sh sshd restart
+${BUILD_HOME}/helperscripts/RunServiceCommand.sh ssh restart
+
 /usr/bin/apt-get -qq -y update
 /usr/bin/apt-get -qq -y install git
 
 #/usr/sbin/ufw allow from ${LAPTOP_IP} to any port ${BUILDMACHINE_SSH_PORT}
 cd /home/${BUILDMACHINE_USER}
+
 if ( [ "${INFRASTRUCTURE_REPOSITORY_OWNER}" != "" ] )
 then
 	/usr/bin/git clone https://github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-build-machine-scripts.git
@@ -66,9 +69,6 @@ OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
 ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
-
-#export BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
-#. ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh
 
 if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
 then
