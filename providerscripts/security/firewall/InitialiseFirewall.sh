@@ -71,7 +71,9 @@ then
         /usr/sbin/iptables -P INPUT DROP
         /usr/sbin/iptables -P FORWARD DROP
         /usr/sbin/iptables -P OUTPUT ACCEPT
-        /usr/sbin/netfilter-persistent save
-        /usr/sbin/netfilter-persistent reload
+	/usr/sbin/iptables-save
+ 
+       # /usr/sbin/netfilter-persistent save
+       # /usr/sbin/netfilter-persistent reload
 	 /bin/touch /root/FIREWALL-INITIALISED
  fi
