@@ -35,10 +35,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	if ( [ -f ~/.config/linode-cli ] )
-	then
-		/usr/local/bin/linode-cli linodes list --text | /bin/grep -v id | /bin/grep "${instance_type}" | /usr/bin/awk '{print $1}'
-	fi
+	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.label | contains("'${instance_type}'")).id'
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
