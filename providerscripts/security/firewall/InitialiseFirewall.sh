@@ -26,7 +26,10 @@ then
 	exit
  fi
 
-BUILD_HOME="`/usr/bin/pwd`"
+if ( [ "${BUILD_HOME}" = "" ] )
+then
+	BUILD_HOME="`/usr/bin/pwd`"
+fi
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
@@ -66,7 +69,6 @@ then
   	/usr/sbin/ip6tables -P INPUT DROP
 	/usr/sbin/ip6tables -P FORWARD DROP
 	/usr/sbin/ip6tables -P OUTPUT DROP
- 	BUILD_HOME="`/usr/bin/pwd`"
 	${BUILD_HOME}/helperscripts/RunServiceCommand.sh netfilter-persistent save
 	 /bin/touch /root/FIREWALL-INITIALISED
  fi
