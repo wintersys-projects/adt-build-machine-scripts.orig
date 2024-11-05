@@ -130,8 +130,6 @@ then
 
     if ( [ "${ips}" != "" ] )
     then
-   		BUILD_HOME="`/usr/bin/pwd`"
-
 		firewall=""
 		if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 		then
@@ -157,10 +155,13 @@ then
   		then
 			for ip in ${ips}
 			do
-				/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
-				/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
-				/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
-			done
+   				if ( [ "`/usr/sbin/iptables | /bin/grep ${ip}`" = "" ] )
+       				then
+					/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
+					/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
+					/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
+				fi
+   			done
        
 			/usr/sbin/netfilter-persistent save
 			/usr/sbin/netfilter-persistent reload
