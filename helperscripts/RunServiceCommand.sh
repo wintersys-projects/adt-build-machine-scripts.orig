@@ -29,7 +29,7 @@ if ( [ "${buildos}" = "ubuntu" ] )
 then
     if ( [ "${service_type}" = "ssh" ] )
     then
-        /usr/bin/systemctl daemon-restart
+        /usr/bin/systemctl daemon-reload
     fi
     /usr/sbin/service ${service_type} ${service_function}
 fi
@@ -38,7 +38,7 @@ if ( [ "${buildos}" = "debian" ] )
 then
     if ( [ "${service_type}" = "ssh" ] )
     then
-        /usr/bin/systemctl daemon-restart
+        /usr/bin/systemctl daemon-reload
     fi
     /usr/sbin/service ${service_type} ${service_function}
 fi
