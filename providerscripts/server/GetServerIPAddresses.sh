@@ -40,7 +40,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.label | contains("${server_type")).ipv4' | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
+	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.label | contains("'${server_type}'")).ipv4' | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
 	#linodeids="`/usr/local/bin/linode-cli --text linodes list | /bin/grep ".*${server_type}" | /usr/bin/awk '{print $1}'`"
 	#publicips=""
 	#for linodeid in ${linodeids}
