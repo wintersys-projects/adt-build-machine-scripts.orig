@@ -41,8 +41,6 @@ then
 	privateips=""
 	for linodeid in ${linodeids}
 	do
-	   # privateip="`/usr/local/bin/linode-cli --text linodes ips-list ${linodeid} | /bin/grep -A 3 'ipv4.private' | /bin/grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'`"
-		#privateip="`/usr/local/bin/linode-cli  --text linodes list | /bin/grep ${linodeid} | /bin/grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | /bin/grep "192.168"`"
   		privateip="`/usr/local/bin/linode-cli --text linodes ips-list ${linodeid} | /bin/grep -Po "10.0.1.*" | /usr/bin/awk '{print $1}'`"		
   		privateips=${privateips}" ${privateip}"
 	done
