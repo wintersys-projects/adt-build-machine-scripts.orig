@@ -53,17 +53,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] || [ "${all}" = "1" ] )
 then
-	if ( [ -f ~/.config/linode-cli ] )
-	then
-		server_name="`/usr/local/bin/linode-cli --text linodes list | /bin/grep -w "${server_ip}" | /bin/grep -v 'id' | /usr/bin/awk '{print $2}'`"
-	else
-		server_name=""
-	fi
-	if ( [ "${server_name}" != "" ] )
-	then
-		/bin/echo "linode" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
-		/bin/echo ${server_name}
-	fi
+	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.ipv4[] == "'${server_ip}'").label' | /bin/sed 's/"//g'
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] || [ "${all}" = "1" ] )
