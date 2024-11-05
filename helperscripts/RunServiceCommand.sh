@@ -23,7 +23,7 @@
 service_type="${1}"
 service_function="${2}"
 
-buildos="`/bin/grep ID /etc/*-release | /bin/grep debian | /usr/bin/awk -F'=' '{print $NF}'`"
+buildos="`/bin/grep ^ID /etc/*-release | /bin/grep debian | /usr/bin/awk -F'=' '{print $NF}'`"
 
 if ( [ "${buildos}" = "ubuntu" ] )
 then
