@@ -156,7 +156,7 @@ then
 			for ip in ${ips}
 			do
    				if ( [ "`/usr/sbin/iptables | /bin/grep ${ip}`" = "" ] )
-       				then
+				then
 					/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
 					/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
 					/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
