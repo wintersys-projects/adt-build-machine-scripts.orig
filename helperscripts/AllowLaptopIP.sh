@@ -19,20 +19,20 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-#set -x
+set -x
 
 if ( [ "`/bin/ls /root/FIREWALL-BUCKET:*  2>/dev/null`" != "" ] )
 then
-	IDENTIFIER="`/bin/ls /root/FIREWALL-BUCKET:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
+        IDENTIFIER="`/bin/ls /root/FIREWALL-BUCKET:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
 else
-	/bin/echo "Could not find an identifier for your datastore's firewall bucket"
-	exit
+        /bin/echo "Could not find an identifier for your datastore's firewall bucket"
+        exit
 fi
 
 if ( [ ! -f  ./AllowLaptopIP.sh ] )
 then
-	/bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
-	exit
+        /bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
+        exit
 fi
 
 BUILD_HOME="`/usr/bin/pwd | /usr/bin/awk -F'/' 'BEGIN {OFS = FS} {$NF=""}1' | /bin/sed 's/.$//'`"
@@ -41,28 +41,28 @@ BUILD_HOME="`/usr/bin/pwd | /usr/bin/awk -F'/' 'BEGIN {OFS = FS} {$NF=""}1' | /b
 read response
 if ( [ "${response}" = "1" ] )
 then
-	DATASTORE_PROVIDER="digitalocean"
-	token_to_match="*autoscaler*"
+        DATASTORE_PROVIDER="digitalocean"
+        token_to_match="*autoscaler*"
 elif ( [ "${response}" = "2" ] )
 then
-	DATASTORE_PROVIDER="exoscale"
-	token_to_match="autoscaler"
+        DATASTORE_PROVIDER="exoscale"
+        token_to_match="autoscaler"
 elif ( [ "${response}" = "3" ] )
 then
-	DATASTORE_PROVIDER="linode"
-	token_to_match="*autoscaler*"
+        DATASTORE_PROVIDER="linode"
+        token_to_match="*autoscaler*"
 elif ( [ "${response}" = "4" ] )
 then
-	DATASTORE_PROVIDER="vultr"
-	token_to_match="*autoscaler*"
+        DATASTORE_PROVIDER="vultr"
+        token_to_match="*autoscaler*"
 else
-	/bin/echo "Unrecognised  cloudhost. Exiting ...."
-	exit
+        /bin/echo "Unrecognised  cloudhost. Exiting ...."
+        exit
 fi
 
-if ( [ ! -d ${BUILD_HOME}/runtimedata/ips ] )
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/runtimedata/ips
+        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips
 fi
 
 /bin/echo "Please enter the IP address of your laptop that you are modifying access for. You can find the ip address of your laptop using: www.whatsmyip.com"
@@ -74,29 +74,29 @@ read mode
 
 while ( [ "`/bin/echo "1 2" | /bin/grep ${mode}`" = "" ] )
 do
-	/bin/echo "I don't recognise that input..."
-	/bin/echo "Please enter 1 or 2"
-	read mode
+        /bin/echo "I don't recognise that input..."
+        /bin/echo "Please enter 1 or 2"
+        read mode
 done
 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
 
-if ( [ ! -f ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat ] )
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat ] )
 then
-	/bin/echo "Couldn't find existing authorised ip addresses"
-	${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}
+        /bin/echo "Couldn't find existing authorised ip addresses"
+        ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}
 fi
 
 if ( [ "${mode}" = "1" ] )
 then
-	/bin/echo ${ip} >> ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat
+        /bin/echo ${ip} >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
 else
-	/bin/sed -i "/${ip}/d" ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat
+        /bin/sed -i "/${ip}/d" ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
 fi
 
-/bin/cat ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat | /usr/bin/sort | /usr/bin/uniq >> ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat.$$
-/bin/mv ${BUILD_HOME}/runtimedata/ips//authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat
-${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat
+/bin/cat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat | /usr/bin/sort | /usr/bin/uniq >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat.$$
+/bin/mv ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
+${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat
 /bin/touch  ${BUILD_HOME}/runtimedata/FIREWALL-EVENT
 ${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/FIREWALL-EVENT ${IDENTIFIER}/FIREWALL-EVENT
 /bin/rm ${BUILD_HOME}/runtimedata/FIREWALL-EVENT
