@@ -298,7 +298,7 @@ do
 
                         #Wait for the machine to become responsive before we check its integrity
 
-                        /usr/bin/ping -c 10 ${db_active_ip}
+                        /usr/bin/ping -c 10 ${db_active_ip} 2>/dev/null
 
                         pingcount="0"
 
