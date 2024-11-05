@@ -49,7 +49,7 @@ then
    			status "Installing Firewall"
    			${BUILD_HOME}/installscripts/InstallFirewall.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Initialising Firewall"
-   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
+   			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating go"
 			${BUILD_HOME}/installscripts/InstallGo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
