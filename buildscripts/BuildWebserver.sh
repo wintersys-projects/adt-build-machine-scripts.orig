@@ -270,7 +270,7 @@ do
 
                         while ( [ "$?" != "0" ] )
                         do
-                                /usr/bin/ping -c 10 ${ws_active_ip}
+                                /usr/bin/ping -c 10 ${ws_active_ip} 2>/dev/null
                                 pingcount="`/usr/bin/expr ${pingcount} + 1`"
                                 if ( [ "${pingcount}" = "10" ] )
                                 then
