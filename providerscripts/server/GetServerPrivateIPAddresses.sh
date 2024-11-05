@@ -42,7 +42,7 @@ then
 	privateips=""
 	for linodeid in ${linodeids}
 	do
-  		privateip="`/usr/local/bin/linode-cli --text linodes ips-list ${linodeid} | /bin/grep -Po "10.0.1.*" | /usr/bin/awk '{print $1}'`"		
+  		privateip="`/usr/local/bin/linode-cli --json --pretty linodes ips-list ${linodeid} | /usr/bin/jq '.[].ipv4.vpc[].address'  | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'`"		
   		privateips=${privateips}" ${privateip}"
 	done
 	/bin/echo ${privateips}
