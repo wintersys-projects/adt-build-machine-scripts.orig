@@ -48,7 +48,7 @@ then
 fi
 
 ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
-${BUILD_HOME}/providerscripts/server/GetServerName.sh ${ip} "${CLOUDHOST}" "1"
+${BUILD_HOME}/providerscripts/server/GetServerName.sh ${ip} "${CLOUDHOST}"
 
 if ( [ "${CLOUDHOST}" != "`/bin/cat ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST`" ] )
 then
