@@ -30,9 +30,9 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	machine_name="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
+	server_type="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
-	/usr/bin/exo  compute private-network show adt_private_net_${zone} --zone ${zone} -O text | /usr/bin/tr '{' '\n' | /bin/grep ${server_type} | /usr/bin/sed 's/}.*//g' | /usr/bin/awk '{print $2}'
+        /usr/bin/exo compute private-network show adt_private_net_${zone} --zone ${zone} -O json | /usr/bin/jq 'select (.leases[].instance | contains("'${server_type}'")).leases[].ip_address' | /bin/sed 's/"//g'
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
