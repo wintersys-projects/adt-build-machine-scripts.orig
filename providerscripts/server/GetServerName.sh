@@ -39,16 +39,8 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] || [ "${all}" = "1" ] )
 then
-	if ( [ -f ~/.config/exoscale/exoscale.toml ] )
-	then
-		zone="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
-		server_name="`/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep -w "${server_ip}" | /usr/bin/awk '{print $2}'`"
-	fi
-	if ( [ "${server_name}" != "" ] )
-	then
-		/bin/echo "exoscale" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
-		/bin/echo ${server_name}
-	fi
+	zone="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
+	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${server_ip}'").name' | /bin/sed 's/"//g'
 fi
 
 if ( [ "${cloudhost}" = "linode" ] || [ "${all}" = "1" ] )
