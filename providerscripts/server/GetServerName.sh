@@ -22,9 +22,8 @@
 
 server_ip="${1}"
 cloudhost="${2}"
-all="${3}"
 
-if ( [ "${cloudhost}" = "digitalocean" ] || [ "${all}" = "1" ] )
+if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	if ( [ -f ~/.config/doctl/config.yaml ] )
 	then
@@ -37,18 +36,18 @@ then
 	fi
 fi
 
-if ( [ "${cloudhost}" = "exoscale" ] || [ "${all}" = "1" ] )
+if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${server_ip}'").name' | /bin/sed 's/"//g'
 fi
 
-if ( [ "${cloudhost}" = "linode" ] || [ "${all}" = "1" ] )
+if ( [ "${cloudhost}" = "linode" ] )
 then
 	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.ipv4[] == "'${server_ip}'").label' | /bin/sed 's/"//g'
 fi
 
-if ( [ "${cloudhost}" = "vultr" ] || [ "${all}" = "1" ] )
+if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/vultr/TOKEN` 2>/dev/null"
 	if ( [ "${VULTR_API_KEY}" != "" ] )
