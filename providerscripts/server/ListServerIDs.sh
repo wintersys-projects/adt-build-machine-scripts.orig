@@ -31,6 +31,7 @@ fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	server_type="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
+ 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq '.[] | select (.name | contains("'${server_type}'")).id' | /bin/sed 's/"//g'
 fi
 
