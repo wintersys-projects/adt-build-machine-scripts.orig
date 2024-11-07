@@ -26,10 +26,12 @@ BUILD_HOME="$3"
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then 
-	BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+        BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
 fi
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd mb s3://${datastore_to_mount}
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} mb s3://${datastore_to_mount}
