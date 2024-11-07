@@ -27,6 +27,11 @@ then
 	/bin/rm ${BUILD_HOME}/.s3cfg
 fi
 
+if ( [ -f ${BUILD_HOME}/.s5cfg ] )
+then
+	/bin/rm ${BUILD_HOME}/.s5cfg
+fi
+
 status ""
 status "##############################"
 status "Configuring datastore tools..."
@@ -37,6 +42,8 @@ status "##############################"
 if ( [ "${S3_ACCESS_KEY}" != "" ] )
 then
 	/bin/sed -i "s/XXXXACCESSKEYXXXX/${S3_ACCESS_KEY}/" ${BUILD_HOME}/.s3cfg
+	/bin/echo "[default]" > ${BUILD_HOME}/.s5cfg 
+ 	/bin/echo "aws_access_key_id = ${S3_ACCESS_KEY}" >> ${BUILD_HOME}/.s5cfg
 else 
 	status "Couldn't find the access key for your datastore, can't go on without it, will have to exit"
 	exit
@@ -45,6 +52,8 @@ fi
 if ( [ "${S3_SECRET_KEY}" != "" ] )
 then
 	/bin/sed -i "s/XXXXSECRETKEYXXXX/${S3_SECRET_KEY}/" ${BUILD_HOME}/.s3cfg
+ 	/bin/echo "aws_secret_access_key = ${S3_SECRET_KEY}" >> ${BUILD_HOME}/.s5cfg
+
 else 
 	status "Couldn't find the secret key for your datastore, can't go on without it, will have to exit"
 	exit
@@ -61,6 +70,7 @@ fi
 if ( [ "${S3_HOST_BASE}" != "" ] )
 then
 	/bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${BUILD_HOME}/.s3cfg
+  	/bin/echo "host_base = ${S3_HOST_BASE}" >> ${BUILD_HOME}/.s5cfg
 else 
 	status "Couldn't find the hostbase parameter for your datastore, can't go on without it, will have to exit"
 	exit
@@ -72,6 +82,14 @@ then
 fi
 
 /bin/cp ${BUILD_HOME}/.s3cfg /root/.s3cfg
+
+if ( [ -f /root/.s5cfg ] )
+then
+	/bin/rm /root/.s5cfg
+fi
+
+/bin/cp ${BUILD_HOME}/.s5cfg /root/.s5cfg
+
 
 ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh "${WEBSITE_URL}" "1$$agile" 3>&1 2>/dev/null
 ${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh "${WEBSITE_URL}" "1$$agile" 3>&1 2>/dev/null
