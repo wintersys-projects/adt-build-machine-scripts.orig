@@ -37,7 +37,8 @@ fi
 
 if ( [ "${2}" = "purge" ] )
 then
-	${datastore_tool} s3://${configbucket}/*
+        ${datastore_tool} s3://${configbucket}/ 2>/dev/null
+        ${datastore_tool} s3://${configbucket}/* 2>/dev/null
 else
 	${datastore_tool} s3://${configbucket}/$2
 fi
