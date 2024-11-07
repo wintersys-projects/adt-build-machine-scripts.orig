@@ -28,11 +28,14 @@ configbucket="${configbucket}-config"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	if ( [ "${2}" = "" ] )
-	then
-		/usr/bin/s3cmd ls s3://${configbucket}
-	else
-		/usr/bin/s3cmd ls s3://${configbucket}/${2}
-	fi
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+if ( [ "${2}" = "" ] )
+then
+	${datastore_tool} ls s3://${configbucket}
+else
+	${datastore_tool} ls s3://${configbucket}/${2}
+fi
+
 
