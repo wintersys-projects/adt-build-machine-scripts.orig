@@ -28,23 +28,26 @@ config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <=
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-        datastore_tool="/usr/bin/s3cmd --force "
+        datastore_tool="/usr/bin/s3cmd "
+	datastore_tool_1="/usr/bin/s3cmd --force get "
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
+	datastore_tool_1="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} cp "
+ 	destination="."
 fi
 
 if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 then
-	${datastore_tool} get s3://${config_bucket}/credentials/shit
+	${datastore_tool_1} s3://${config_bucket}/credentials/shit ${destination}
 	if ( [ "${DATASTORE_CHOICE}" = "digitalocean" ] || [ "${DATASTORE_CHOICE}" = "exoscale" ] || [ "${DATASTORE_CHOICE}" = "linode" ] || [ "${DATASTORE_CHOICE}" = "vultr" ] )
 	then
 		config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
 	
 		if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 		then
-			${datastore_tool} get s3://${config_bucket}/credentials/shit
+			${datastore_tool_1} s3://${config_bucket}/credentials/shit ${destination}
 				
 			if ( [ "${HARDCORE}" = "1" ] )
 			then
