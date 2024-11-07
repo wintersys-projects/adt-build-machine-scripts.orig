@@ -27,12 +27,14 @@ config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <=
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
-	then
-		credentials_confirmed="0"
-		if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}/credentials/shit | /usr/bin/awk -F'/' '{print $NF}'`" = "shit" ] )
-		then
-		   credentials_confirmed="1"
-		fi
-	fi
+        datastore_tool="/usr/bin/s3cmd"
+fi
+
+if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
+then
+        credentials_confirmed="0"
+        if ( [ "`${datastore_tool} ls s3://${config_bucket}/credentials/shit | /usr/bin/awk -F'/' '{print $NF}'`" = "shit" ] )
+        then
+                credentials_confirmed="1"
+        fi
 fi
