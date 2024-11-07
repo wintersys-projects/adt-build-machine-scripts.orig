@@ -36,8 +36,3 @@ then
 fi
 
 ${datastore_tool} sync s3://${original_object} s3://${new_object} 2>/dev/null
-
-if ( [ "$?" != "0" ] )
-then
-        ${datastore_tool} sync ${original_object} s3://${new_object} 2>/dev/null
-fi  
