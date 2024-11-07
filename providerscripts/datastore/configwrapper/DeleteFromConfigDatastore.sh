@@ -28,10 +28,13 @@ configbucket="${configbucket}-config"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	if ( [ "${2}" = "purge" ] )
-	then
-		/usr/bin/s3cmd --recursive --force del s3://${configbucket}
-	else
-		/usr/bin/s3cmd del s3://${configbucket}/$2
-	fi
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+if ( [ "${2}" = "purge" ] )
+then
+	${datastore_tool} --recursive --force del s3://${configbucket}
+else
+	${datastore_tool} del s3://${configbucket}/$2
+fi
+
