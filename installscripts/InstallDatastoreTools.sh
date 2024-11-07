@@ -25,7 +25,7 @@ then
 	buildos="${2}"
 fi
 
-if ( [ "$1" = "S3CMD" ] )
+if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
 
 	apt=""
@@ -49,7 +49,8 @@ then
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd
 		fi
 	fi
+elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
+then
+	/usr/bin/go install github.com/peak/s5cmd/v2@latest
+	/bin/cp /root/go/bin/s5cmd /usr/bin/s5cmd
 fi
-
-/usr/bin/go install github.com/peak/s5cmd/v2@latest
-/bin/cp /root/go/bin/s5cmd /usr/bin/s5cmd
