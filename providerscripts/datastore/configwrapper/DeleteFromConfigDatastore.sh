@@ -28,7 +28,7 @@ configbucket="${configbucket}-config"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-        datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd --force"
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
@@ -37,7 +37,7 @@ fi
 
 if ( [ "${2}" = "purge" ] )
 then
-	${datastore_tool} --recursive --force del s3://${configbucket}
+	${datastore_tool} --recursive del s3://${configbucket}
 else
 	${datastore_tool} del s3://${configbucket}/$2
 fi
