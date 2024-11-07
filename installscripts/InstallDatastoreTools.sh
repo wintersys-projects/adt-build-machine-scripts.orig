@@ -50,3 +50,6 @@ then
 		fi
 	fi
 fi
+
+/usr/bin/go install github.com/peak/s5cmd/v2@latest
+/bin/cp /root/go/bin/s5cmd /usr/bin/s5cmd
