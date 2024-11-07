@@ -33,7 +33,7 @@ fi
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-        datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd --force "
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
@@ -47,7 +47,7 @@ fi
 
 if ( [ "${3}" != "" ] )
 then
-        ${datastore_tool} --force --recursive get s3://${datastore_to_get} ${3}
+        ${datastore_tool} --recursive get s3://${datastore_to_get} ${3}
 else
-        ${datastore_tool} --force --recursive get s3://${datastore_to_get}
+        ${datastore_tool} --recursive get s3://${datastore_to_get}
 fi
