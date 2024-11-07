@@ -31,14 +31,14 @@ then
         datastore_tool="/usr/bin/s3cmd"
 fi
 
-if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
+if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 then
 	${datastore_tool} --force get s3://${config_bucket}/credentials/shit
 	if ( [ "${DATASTORE_CHOICE}" = "digitalocean" ] || [ "${DATASTORE_CHOICE}" = "exoscale" ] || [ "${DATASTORE_CHOICE}" = "linode" ] || [ "${DATASTORE_CHOICE}" = "vultr" ] )
 	then
 		config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
 	
-		if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
+		if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 		then
 			${datastore_tool} --force get s3://${config_bucket}/credentials/shit
 				
