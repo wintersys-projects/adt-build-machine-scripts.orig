@@ -25,24 +25,25 @@ datastore_to_get="`/bin/echo $2 | /usr/bin/cut -c-63`"
 
 if ( [ "$#" = "3" ] )
 then
-	BUILD_HOME="$3"
+        BUILD_HOME="$3"
 elif ( [ "$#" = "4" ] )
 then
-	BUILD_HOME="$4"
-fi
-
-if ( [ "${BUILD_HOME}" = "" ]  || [ "`/usr/bin/pwd | /bin/grep 'helperscripts'`" != "" ] )
-then 
-	BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+        BUILD_HOME="$4"
 fi
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	if ( [ "${3}" != "" ] )
-	then
-		/usr/bin/s3cmd --force --recursive get s3://${datastore_to_get} ${3}
-	else
-		/usr/bin/s3cmd --force --recursive get s3://${datastore_to_get}
-	fi
+        datastore_tool="/usr/bin/s3cmd"
 fi
 
+if ( [ "${BUILD_HOME}" = "" ]  || [ "`/usr/bin/pwd | /bin/grep 'helperscripts'`" != "" ] )
+then 
+        BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+fi
+
+if ( [ "${3}" != "" ] )
+then
+        ${datastore_tool} --force --recursive get s3://${datastore_to_get} ${3}
+else
+        ${datastore_tool} --force --recursive get s3://${datastore_to_get}
+fi
