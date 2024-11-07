@@ -28,9 +28,12 @@ new_object="$3"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd sync s3://${original_object} s3://${new_object} 2>/dev/null
-	if ( [ "$?" != "0" ] )
-	then
-		/usr/bin/s3cmd sync ${original_object} s3://${new_object} 2>/dev/null
-	fi  
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} sync s3://${original_object} s3://${new_object} 2>/dev/null
+
+if ( [ "$?" != "0" ] )
+then
+        ${datastore_tool} sync ${original_object} s3://${new_object} 2>/dev/null
+fi  
