@@ -26,42 +26,44 @@ snapshots_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd mb s3://${snapshots_bucket}
-   
-	if ( [ "`/usr/bin/s3cmd ls s3://${snapshots_bucket}`" != "" ] )
-	then
-		/usr/bin/s3cmd get s3://${snapshots_bucket}/snapshots.tar.gz
-	fi
-
-	if ( [ ! -d ${BUILD_HOME}/snapshots ] )
-	then
-		/bin/mkdir ${BUILD_HOME}/snapshots
-	fi
-
-	if ( [ -f ./snapshots.tar.gz ] )
-	then
-		/bin/tar xvfz ./snapshots.tar.gz -C ${BUILD_HOME}/snapshots
-	fi
-
-	path="`/usr/bin/pwd`"
-
-	cd ${BUILD_HOME}/snapshots
-
-	/bin/tar cvfz ./snapshots.tar.gz *
-
-	if ( [ "`/usr/bin/s3cmd ls s3://${snapshots_bucket}`" = "" ] )
-	then
-		/usr/bin/s3cmd mb s3://${snapshots_bucket}
-	fi
-	
-	/usr/bin/s3cmd mv s3://${snapshots_bucket}/snapshots.tar.gz s3://${snapshots_bucket}/snapshots.tar.gz.$$
-	/usr/bin/s3cmd put ./snapshots.tar.gz s3://${snapshots_bucket}/
-	/bin/rm ./snapshots.tar.gz
-
-	if ( [ -f ./snapshots.tar.gz ] )
-	then
-		/bin/rm ./snapshots.tar.gz
-	fi
-
-	cd ${path}
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} mb s3://${snapshots_bucket}
+  
+if ( [ "`${datastore_tool} ls s3://${snapshots_bucket}`" != "" ] )
+then
+        ${datastore_tool} get s3://${snapshots_bucket}/snapshots.tar.gz
+fi
+
+if ( [ ! -d ${BUILD_HOME}/snapshots ] )
+then
+        /bin/mkdir ${BUILD_HOME}/snapshots
+fi
+
+if ( [ -f ./snapshots.tar.gz ] )
+then
+        /bin/tar xvfz ./snapshots.tar.gz -C ${BUILD_HOME}/snapshots
+fi
+
+path="`/usr/bin/pwd`"
+
+cd ${BUILD_HOME}/snapshots
+
+/bin/tar cvfz ./snapshots.tar.gz *
+
+if ( [ "`${datastore_tool} ls s3://${snapshots_bucket}`" = "" ] )
+then
+        ${datastore_tool} mb s3://${snapshots_bucket}
+fi
+
+${datastore_tool} mv s3://${snapshots_bucket}/snapshots.tar.gz s3://${snapshots_bucket}/snapshots.tar.gz.$$
+${datastore_tool} put ./snapshots.tar.gz s3://${snapshots_bucket}/
+/bin/rm ./snapshots.tar.gz
+
+if ( [ -f ./snapshots.tar.gz ] )
+then
+        /bin/rm ./snapshots.tar.gz
+fi
+
+cd ${path}
