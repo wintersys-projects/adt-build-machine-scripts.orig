@@ -25,44 +25,48 @@ BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
 
 config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
 
+
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
+        datastore_tool="/usr/bin/s3cmd"
+fi
+
+if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
+then
+	${datastore_tool} --force get s3://${config_bucket}/credentials/shit
+	if ( [ "${DATASTORE_CHOICE}" = "digitalocean" ] || [ "${DATASTORE_CHOICE}" = "exoscale" ] || [ "${DATASTORE_CHOICE}" = "linode" ] || [ "${DATASTORE_CHOICE}" = "vultr" ] )
 	then
-		/usr/bin/s3cmd --force get s3://${config_bucket}/credentials/shit
-		if ( [ "${DATASTORE_CHOICE}" = "digitalocean" ] || [ "${DATASTORE_CHOICE}" = "exoscale" ] || [ "${DATASTORE_CHOICE}" = "linode" ] || [ "${DATASTORE_CHOICE}" = "vultr" ] )
-		then
-			config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
+		config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
 	
-			if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
-			then
-				/usr/bin/s3cmd --force get s3://${config_bucket}/credentials/shit
+		if ( [ "`/usr/bin/s3cmd ls s3://${config_bucket}`" != "" ] )
+		then
+			${datastore_tool} --force get s3://${config_bucket}/credentials/shit
 				
-				if ( [ "${HARDCORE}" = "1" ] )
-				then
-    					if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
-	 				then
-						/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
-						/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
-						/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
-     					else
-	  					database_name="`/bin/sed 1!d ./shit`"
-	  					database_username="`/bin/sed 3!d ./shit`"
-       						database_password="`/bin/sed 2!d ./shit`"
-					fi
-    				else
-	    				if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
-	 				then
-						/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
-     						/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
-						/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
-     					else
-	  					database_name="`/bin/sed 1!d ./shit`"
-	  					database_username="`/bin/sed 3!d ./shit`"
-       						database_password="`/bin/sed 2!d ./shit`"
-	     				fi
+			if ( [ "${HARDCORE}" = "1" ] )
+			then
+    				if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+	 			then
+					/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
+					/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
+					/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
+     				else
+	  				database_name="`/bin/sed 1!d ./shit`"
+	  				database_username="`/bin/sed 3!d ./shit`"
+       					database_password="`/bin/sed 2!d ./shit`"
 				fi
+    			else
+	    			if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
+	 			then
+					/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
+     					/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
+					/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
+     				else
+	  				database_name="`/bin/sed 1!d ./shit`"
+	  				database_username="`/bin/sed 3!d ./shit`"
+       					database_password="`/bin/sed 2!d ./shit`"
+	     			fi
 			fi
 		fi
 	fi
 fi
+
