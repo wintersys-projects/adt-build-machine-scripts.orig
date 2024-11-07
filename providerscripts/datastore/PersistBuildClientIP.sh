@@ -25,8 +25,11 @@ BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd mb s3://adt-${BUILD_IDENTIFIER} 2>/dev/null
-	/usr/bin/s3cmd ls s3://adt-${BUILD_IDENTIFIER}/  | /usr/bin/awk '{print $4}' | /usr/bin/xargs s3cmd del
-	/bin/touch /tmp/${BUILD_CLIENT_IP}
-	/usr/bin/s3cmd put /tmp/${BUILD_CLIENT_IP} s3://adt-${BUILD_IDENTIFIER}
+        datastore_tool="/usr/bin/s3cmd"
+        tool_name="s3cmd"
 fi
+
+${datastore_tool} mb s3://adt-${BUILD_IDENTIFIER} 2>/dev/null
+${datastore_tool} ls s3://adt-${BUILD_IDENTIFIER}/  | /usr/bin/awk '{print $4}' | /usr/bin/xargs ${tool_name} del
+/bin/touch /tmp/${BUILD_CLIENT_IP}
+${datastore_tool} put /tmp/${BUILD_CLIENT_IP} s3://adt-${BUILD_IDENTIFIER}
