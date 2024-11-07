@@ -28,11 +28,13 @@ BUILD_HOME="$4"
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then 
-	BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+        BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
 fi
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd --force --recursive --multipart-chunk-size-mb=5 put ${file_to_put} s3://${datastore_to_put_in}
-	/usr/bin/s3cmd setacl s3://${datastore_to_put_in} --acl-private
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} --force --recursive --multipart-chunk-size-mb=5 put ${file_to_put} s3://${datastore_to_put_in}
+${datastore_tool} setacl s3://${datastore_to_put_in} --acl-private
