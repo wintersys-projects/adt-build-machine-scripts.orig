@@ -45,7 +45,7 @@
 # Developers could define other chain node types such as caching for example and then caching would deploy a caching node such as memcached or redis and so on
 # BUILDCHAINTYPE:standard|webserver|database
 # The tool used for datastore access is an abstraction and you can use other tools rclone, s4cmd and to implement the interface if you want
-# DATASTORETOOL:s3cmd 
+# DATASTORETOOL:s3cmd|s5cmd
 # You can choose which package manager you want to use. Currently only apt and apt-fast are supported. "Apt-fast" is supposed to be fastet, hence the "fast"
 # PACKAGEMANAGER:apt|apt-fast
 # You can choose what style of firewall you would like to have by setting the FIREWALL: value - this can be extended to include support for iptables
@@ -90,7 +90,7 @@ S3FS:source
 MARIADB:11.5.2
 POSTGRES:17
 BUILDCHAINTYPE:standard
-DATASTORETOOL:s3cmd
+DATASTORETOOL:s5cmd
 PACKAGEMANAGER:apt
 FIREWALL:iptables
 
