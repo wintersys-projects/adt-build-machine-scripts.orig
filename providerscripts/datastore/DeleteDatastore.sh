@@ -27,5 +27,7 @@ datastore_to_delete="$2"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd rb s3://${datastore_to_delete}
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} rb s3://${datastore_to_delete}
