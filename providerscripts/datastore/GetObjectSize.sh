@@ -27,5 +27,7 @@ datastore_name="`/bin/echo $2 | /usr/bin/cut -c-63`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
-	/usr/bin/s3cmd du s3://${datastore_name}
+        datastore_tool="/usr/bin/s3cmd"
 fi
+
+${datastore_tool} du s3://${datastore_name}
