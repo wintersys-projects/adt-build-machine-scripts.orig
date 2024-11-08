@@ -71,7 +71,7 @@ if ( [ "${S3_HOST_BASE}" != "" ] )
 then
 	/bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${BUILD_HOME}/.s3cfg
   	/bin/echo "host_base = ${S3_HOST_BASE}" >> ${BUILD_HOME}/.s5cfg
-    	/bin/echo "alias s5cmd=\'/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${S3_HOST_BASE}\'" > /root/.bashrc
+    	/bin/echo "alias s5cmd=\'/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${S3_HOST_BASE}\'" >> /root/.bashrc
 
 else 
 	status "Couldn't find the hostbase parameter for your datastore, can't go on without it, will have to exit"
