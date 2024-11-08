@@ -20,9 +20,9 @@
 ####################################################################################
 #set -x
 
-if ( [ "$2" != "" ] )
+if ( [ "$1" != "" ] )
 then
-	buildos="${2}"
+	buildos="${1}"
 fi
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
