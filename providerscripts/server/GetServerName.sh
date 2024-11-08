@@ -40,11 +40,13 @@ if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${server_ip}'").name' | /bin/sed 's/"//g'
+	/bin/echo "exoscale" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
 	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.ipv4[] == "'${server_ip}'").label' | /bin/sed 's/"//g'
+	/bin/echo "linode" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
