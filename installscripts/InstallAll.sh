@@ -22,6 +22,16 @@
 #######################################################################################################
 #set -x
 
+if ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Ubuntu"`" != "" ] )
+then
+	status "Installing/Updating Datastore tools"
+	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "ubuntu"
+elif ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Debian"`" != "" ] )
+then
+	status "Installing/Updating Datastore tools"
+	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian"
+fi
+
 if ( [ ! -f ~/UPDATEDSOFTWARE ] || [ "`/usr/bin/find ~/UPDATEDSOFTWARE -mmin +1440 -print`" != "" ] )
 then
 	UPGRADE_LOG="${BUILD_HOME}/logs/upgrade_out-`/bin/date | /bin/sed 's/ //g'`"
@@ -74,8 +84,6 @@ then
 			${BUILD_HOME}/installscripts/InstallSudo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
-			status "Installing/Updating Datastore tools"
-			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "ubuntu"
 			status "Installing/Updating Cron"
 			${BUILD_HOME}/installscripts/InstallCron.sh "ubuntu" >>${UPGRADE_LOG} 2>&1 
 			/bin/touch ${BUILD_HOME}/runtimedata/EXUPDATEDSOFTWARE
@@ -113,8 +121,6 @@ then
 			${BUILD_HOME}/installscripts/InstallSudo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating SysVBanner"
 			${BUILD_HOME}/installscripts/InstallSysVBanner.sh "debian" >>${UPGRADE_LOG} 2>&1
-			status "Installing/Updating Datastore tools"
-			${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian" >>${UPGRADE_LOG} 2>&1 
 			status "Installing/Updating Cron"
 			${BUILD_HOME}/installscripts/InstallCron.sh "debian" >>${UPGRADE_LOG} 2>&1 
 			/bin/touch ${BUILD_HOME}/runtimedata/EXUPDATEDSOFTWARE
