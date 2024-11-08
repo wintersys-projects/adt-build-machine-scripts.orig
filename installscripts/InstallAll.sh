@@ -22,14 +22,16 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Ubuntu"`" != "" ] )
+if ( [ ! -f ~/DATASTORETOOL_INSTALLED ] ||  [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Ubuntu"`" != "" ] )
 then
 	status "Installing/Updating Datastore tools"
-	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "ubuntu"
+	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh "ubuntu"
+ 	/bin/touch ~/DATASTORETOOL_INSTALLED
 elif ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Debian"`" != "" ] )
 then
 	status "Installing/Updating Datastore tools"
-	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh 'S3CMD' "debian"
+	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh "debian"
+ 	/bin/touch ~/DATASTORETOOL_INSTALLED
 fi
 
 if ( [ ! -f ~/UPDATEDSOFTWARE ] || [ "`/usr/bin/find ~/UPDATEDSOFTWARE -mmin +1440 -print`" != "" ] )
