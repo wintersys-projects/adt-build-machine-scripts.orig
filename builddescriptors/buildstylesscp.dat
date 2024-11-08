@@ -48,8 +48,8 @@
 # DATASTORETOOL:s3cmd|s5cmd
 # You can choose which package manager you want to use. Currently only apt and apt-fast are supported. "Apt-fast" is supposed to be fastet, hence the "fast"
 # PACKAGEMANAGER:apt|apt-fast
-# You can choose what style of firewall you would like to have by setting the FIREWALL: value - this can be extended to include support for iptables
-# FIREWALL:ufw
+# You can choose what style of firewall you would like to have by setting the FIREWALL. You can choose ufw or iptables
+# FIREWALL:ufw|iptables
 ###############################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -90,7 +90,7 @@ S3FS:source
 MARIADB:11.5.2
 POSTGRES:17
 BUILDCHAINTYPE:standard
-DATASTORETOOL:s5cmd
+DATASTORETOOL:s3cmd
 PACKAGEMANAGER:apt
 FIREWALL:iptables
 
