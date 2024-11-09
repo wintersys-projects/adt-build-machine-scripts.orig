@@ -37,8 +37,8 @@ fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
-	server_name="`/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep ${server_ip} | /usr/bin/awk '{print $2}'`"
-	/bin/echo "Y" | /usr/bin/exo compute instance delete ${server_name} --zone ${zone}
+	server_to_delete="`${HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'exoscale'`"
+	/bin/echo "Y" | /usr/bin/exo compute instance delete ${server_to_delete} --zone ${zone}
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
