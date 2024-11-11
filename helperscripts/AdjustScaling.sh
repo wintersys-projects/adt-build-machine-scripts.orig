@@ -79,7 +79,7 @@ fi
 if ( [ "${2}" = "off" ] )
 then
 	/bin/touch ${BUILD_HOME}/runtimedata/SWITCHOFFSCALING
-	${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/SWITCHOFFSCALING ${configbucket}/SWITCHOFFSCALING
+	${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/SWITCHOFFSCALING ${configbucket}/SWITCHOFFSCALING
 	/bin/rm ${BUILD_HOME}/runtimedata/SWITCHOFFSCALING
 	exit
 fi
@@ -129,7 +129,7 @@ fi
 
 /bin/sed -i "s/NO_WEBSERVER.*/NO_WEBSERVERS=${no_webservers}/" ${BUILD_HOME}/runtimedata/profile.cnf
 
-${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/runtimedata/profile.cnf ${configbucket}/scalingprofile/profile.cnf 
+${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/runtimedata/profile.cnf ${configbucket}/scalingprofile/profile.cnf 
 ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/profile.cnf
 
 new_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
