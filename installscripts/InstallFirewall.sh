@@ -20,7 +20,7 @@
 #######################################################################################################
 #set -x
 
-BUILD_HOME="`/bin/pwd`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
