@@ -31,7 +31,7 @@ then
         BUILD_HOME="$4"
 fi
 
-if ( [ "${BUILD_HOME}" = "" ]  || [ "`/usr/bin/pwd | /bin/grep 'helperscripts'`" != "" ] )
+if ( [ "${BUILD_HOME}" = "" ] )
 then 
         BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 fi
