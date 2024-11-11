@@ -63,7 +63,15 @@ fi
 
 /bin/echo "What is the build identifier you want to connect to?"
 /bin/echo "You have these builds to choose from: "
-/bin/ls ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} | /bin/grep -v 'credentials'
+
+if ( [ -d ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} ] )
+then
+        /bin/ls ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} | /bin/grep -v 'credentials'
+else
+        /bin/echo "No eligible builds found"
+        exit
+fi
+
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
 
