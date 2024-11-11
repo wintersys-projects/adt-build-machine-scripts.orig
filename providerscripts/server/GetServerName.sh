@@ -23,6 +23,8 @@
 server_ip="${1}"
 cloudhost="${2}"
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	if ( [ -f ~/.config/doctl/config.yaml ] )
