@@ -28,7 +28,7 @@ then
 	exit
 fi
 
-export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 user="`/usr/bin/pwd | /usr/bin/awk -F'/' '{print $3}'`"
 /bin/chown -R ${user} ${BUILD_HOME}/.
