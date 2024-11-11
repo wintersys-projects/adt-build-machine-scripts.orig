@@ -26,7 +26,7 @@ BUILD_HOME="$3"
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then 
-        BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+        BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 fi
 
 
