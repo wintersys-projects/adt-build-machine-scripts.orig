@@ -47,9 +47,10 @@ fi
 
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
-	database_id="`/usr/local/bin/linode-cli --text linodes list | /bin/grep database | /usr/bin/awk '{print $1}'`"
-	database_name="`/usr/local/bin/linode-cli --text linodes list | /bin/grep database | /usr/bin/awk '{print $2}'`"
-	disk_id="`/usr/local/bin/linode-cli --text linodes disks-list ${database_id} | /bin/grep -v swap | /bin/grep -v id | /usr/bin/awk '{print $1}'`"
+        database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database linode`"
+        database_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh database linode`"
+        databaser_id="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${database_ip} linode`"
+        disk_id="`/usr/local/bin/linode-cli --text linodes disks-list ${database_id} | /bin/grep -v swap | /bin/grep -v id | /bin/grep ext4 | /usr/bin/awk '{print $1}'`"
 	status ""
 	status "########################SNAPSHOTING YOUR DATABASE####################################"
 	status ""
