@@ -27,7 +27,7 @@ then
 	exit
 fi
 
-export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 /bin/echo "I find that with some providers, occassionally, the networking doesn't initialse correctly and you get timeouts between machines"
 /bin/ehco "If you find a situation where everything looks to be running fine but you get a timeout, a simple reboot can sort it out"
