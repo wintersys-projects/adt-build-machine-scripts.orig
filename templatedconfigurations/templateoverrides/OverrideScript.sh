@@ -72,6 +72,8 @@ do
 	/bin/sed -i "s/^#KbdInteractiveAuthentication.*/KbdInteractiveAuthentication no/g" ${fullfile} 	
  	/bin/sed -i "s/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" ${fullfile}
 	/bin/sed -i "s/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/g" ${fullfile}
+  	/bin/sed -i "s/^AddressFamily.*/AddressFamily inet/g" ${fullfile}
+	/bin/sed -i "s/^#AddressFamily.*/AddressFamily inet/g" ${fullfile}
 done
 
 if ( [ "${BUILDMACHINE_SSH_PORT}" = "" ] )
