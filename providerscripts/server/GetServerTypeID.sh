@@ -43,7 +43,7 @@ fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-   # BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/adt-build-machine-scripts.*/adt-build-machine-scripts/g'`"    
+	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
 	/usr/bin/vultr plans list | /bin/grep "${server_size}" | /usr/bin/awk '{print $1}'
