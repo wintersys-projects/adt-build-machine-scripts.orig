@@ -21,7 +21,7 @@
 ######################################################################################
 #set -x
 
-BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
