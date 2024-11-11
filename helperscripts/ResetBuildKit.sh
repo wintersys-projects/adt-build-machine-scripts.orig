@@ -22,15 +22,13 @@
 #######################################################################################################
 #set -x
 
-BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-
 if ( [ ! -f  ./ResetBuildKit.sh ] )
 then
 	/bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
 	exit
 fi
 
-export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 /bin/rm .* 2>/dev/null
 
