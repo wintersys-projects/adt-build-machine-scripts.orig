@@ -47,9 +47,10 @@ fi
 
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
-	autoscaler_id="`/usr/local/bin/linode-cli --text linodes list | /bin/grep autoscaler | /usr/bin/awk '{print $1}' | /usr/bin/head -1`"
-	autoscaler_name="`/usr/local/bin/linode-cli --text linodes list | /bin/grep autoscaler | /usr/bin/awk '{print $2}' | /usr/bin/head -1`"
-	disk_id="`/usr/local/bin/linode-cli --text linodes disks-list ${autoscaler_id} | /bin/grep -v swap | /bin/grep -v id | /usr/bin/awk '{print $1}'`"
+        autoscaler_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler linode`"
+        autoscaler_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh autoscaler linode`"
+        autoscaler_id="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${autoscaler_ip} linode`"
+        disk_id="`/usr/local/bin/linode-cli --text linodes disks-list ${autoscaler_id} | /bin/grep -v swap | /bin/grep -v id | /bin/grep ext4 | /usr/bin/awk '{print $1}'`"
 	status ""
 	status "########################SNAPSHOTING YOUR AUTOSCALER####################################"
 	status ""
