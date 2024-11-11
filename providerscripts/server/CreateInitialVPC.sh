@@ -48,8 +48,7 @@ then
 
 	#build_machine_ip="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
-	build_machine_id="`/usr/bin/exo compute instance list --zone ${REGION} -O text | /bin/grep -w "${build_machine_ip}" | /usr/bin/awk '{print $1}'`"
-
+        build_machine_id="`/usr/bin/exo compute instance list --zone ${REGION} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${build_machine_ip}'").id' | /bin/sed 's/"//g'`"
 	if ( [ "`/usr/bin/exo compute instance show  ${build_machine_id} | /bin/grep adt_private_net_${REGION}`" = "" ] )
 	then
 		status "#################################################################################"
