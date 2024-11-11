@@ -23,18 +23,7 @@
 datastore_provider="$1"
 datastore_to_get="`/bin/echo $2 | /usr/bin/cut -c-63`"
 
-if ( [ "$#" = "3" ] )
-then
-        BUILD_HOME="$3"
-elif ( [ "$#" = "4" ] )
-then
-        BUILD_HOME="$4"
-fi
-
-if ( [ "${BUILD_HOME}" = "" ] )
-then 
-        BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-fi
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
