@@ -30,7 +30,7 @@ fi
 /bin/echo "Press <enter> to acknowledge"
 read x
 
-BUILD_HOME="`/usr/bin/pwd | /usr/bin/awk -F'/' 'BEGIN {OFS = FS} {$NF=""}1' | /bin/sed 's/.$//'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 /bin/echo "Which cloudhost service are you using? 1) Digital Ocean 2) Exoscale 3) Linode 4) Vultr. Please Enter the number for your cloudhost"
 read response
