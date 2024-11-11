@@ -49,6 +49,7 @@ status () {
 if ( [ "${BUILD_HOME}" = "" ] )
 then
 	export BUILD_HOME="`/bin/pwd`"
+ 	/bin/echo ${BUILD_HOME} > /home/buildhome.dat
 fi
 export USER="`/usr/bin/whoami`"
 /bin/chmod -R 700 ${BUILD_HOME}/.
