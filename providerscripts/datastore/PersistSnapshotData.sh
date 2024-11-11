@@ -20,7 +20,7 @@
 #################################################################################
 #set -x
 
-BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helperscripts//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 snapshots_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-snaps"
 
