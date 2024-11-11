@@ -28,7 +28,7 @@ then
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then
-	BUILD_HOME="`/usr/bin/pwd`"
+	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 fi
 
 firewall=""
