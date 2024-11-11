@@ -39,7 +39,7 @@ fi
 /bin/echo "Press <enter> to continue"
 read x
  
-export BUILD_HOME="`/bin/pwd | /bin/sed 's/\/helper.*//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 /bin/echo "Which Cloudhost are you using? 1) Digital Ocean 2) Exoscale 3) Linode 4) Vultr. Please Enter the number for your cloudhost"
 read response
