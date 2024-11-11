@@ -22,7 +22,7 @@
 #######################################################################################################
 #set -x
 
-BUILD_HOME="`/usr/bin/pwd | /usr/bin/awk -F'/' 'BEGIN {OFS = FS} {$NF=""}1' | /bin/sed 's/.$//'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ ! -f  ./ResetBuildKit.sh ] )
 then
