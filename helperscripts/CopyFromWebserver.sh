@@ -28,7 +28,7 @@ then
 	exit
 fi
 
-export BUILD_HOME="`/usr/bin/pwd | /bin/sed 's/\/helper.*//g'`"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 sourcefile="${1}"
 
