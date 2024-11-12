@@ -45,7 +45,8 @@ if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
-	/usr/bin/vultr instance list | /bin/grep ${server_type} | /usr/bin/awk '{print $1}'
+ 	server_type="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
+ 	/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label | contains("'${server_type}'")).id' | /bin/sed 's/"//g'
 fi
 
 
