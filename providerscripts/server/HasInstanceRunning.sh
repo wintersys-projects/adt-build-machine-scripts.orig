@@ -23,6 +23,8 @@
 instance_type="${1}"
 cloudhost="${2}"
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	/usr/local/bin/doctl compute droplet list | /bin/grep ${instance_type}
