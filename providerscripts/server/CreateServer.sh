@@ -160,8 +160,8 @@ then
 		/usr/bin/vultr vpc2 create --region="${region}" --description="adt-vpc" --ip-type="v4" --ip-block="192.168.0.0" --prefix-length="16"
 	fi
 	
-	vpc_id="`/usr/bin/vultr vpc2 list | grep adt-vpc | /usr/bin/awk '{print $1}'`"
-	os_choice="`/usr/bin/vultr os list | /bin/grep "${os_choice}" | /usr/bin/awk '{print $1}'`"
+        vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq '.vpcs[] | select (.description == "adt-vpc").id' | /bin/sed 's/"//g'`"
+	os_choice="`/usr/bin/vultr os list -o json | /usr/bin/jq '.os[] | select (.name == "'"${os_choice}"'").id'`"
 
 	user_data=`${BUILD_HOME}/providerscripts/server/cloud-init/vultr.dat`
    
@@ -181,11 +181,12 @@ then
 			/usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=false --userdata="${user_data}"
 		fi    
 	fi
-	machine_id="`/usr/bin/vultr instance list | /bin/grep "${server_name}" | /usr/bin/awk '{print $1}'`"
+ 
+ 	machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label == "'"${server_name}"'").id' | /bin/sed 's/"//g'`"
 	
 	while ( [ "${machine_id}" = "" ] )
 	do
-		machine_id="`/usr/bin/vultr instance list | /bin/grep "${server_name}" | /usr/bin/awk '{print $1}'`"
+ 		machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label == "'"${server_name}"'").id' | /bin/sed 's/"//g'`"
 		/bin/sleep 5
 	done
 	
@@ -199,11 +200,6 @@ then
 			/bin/sleep 30
 			/usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
 		done 
-	fi
-	
-	if ( [ "`/usr/bin/vultr vpc2 nodes list ${vpc_id} | /bin/grep ${machine_id}`" = "" ] )
-	then
-		: #return "FAILURE" AND check for it
 	fi
 fi
 
