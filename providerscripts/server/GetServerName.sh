@@ -27,7 +27,7 @@ BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.networks.v4[] | select (.ip_address == "${server_ip}")).name'
+	/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.networks.v4[] | select (.ip_address == "'${server_ip}'")).name'
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
