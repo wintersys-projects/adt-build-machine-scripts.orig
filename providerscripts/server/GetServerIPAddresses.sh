@@ -22,10 +22,8 @@
 
 server_type="$1"
 cloudhost="$2"
-if ( [ "${3}" != "" ] )
-then
-	BUILD_HOME="$3"
-fi
+
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
