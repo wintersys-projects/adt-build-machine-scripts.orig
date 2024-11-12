@@ -33,7 +33,7 @@ fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
-        /usr/bin/exo compute private-network show adt_private_net_${zone} --zone ${zone} -O json | /usr/bin/jq '.leases[] | select(.instance | contains ("'${server_type}'")) | .ip_address' | /bin/sed 's/"//g'
+        /usr/bin/exo compute private-network show adt_private_net_${zone} --zone ${zone} -O json | /usr/bin/jq '.leases[] | select(.instance | contains ("'${server_type}'")) | .ip_address' | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
@@ -58,7 +58,7 @@ then
 
         for id in ${ids}
         do
-		/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.id == "'${id}'").internal_ip' | /bin/sed 's/"//g'
+		/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.id == "'${id}'").internal_ip'  | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
         done
 fi
 
