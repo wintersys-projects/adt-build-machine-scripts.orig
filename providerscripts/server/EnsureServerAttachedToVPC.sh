@@ -84,7 +84,7 @@ then
 		/bin/sleep 5
 	done
 
-	vpc_id="`/usr/bin/vultr vpc2 list | grep adt-vpc | /usr/bin/awk '{print $1}'`"
+        vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq '.vpcs[] | select (.description == "adt-vpc").id' | /bin/sed 's/"//g'`"
 	
 	if ( [ "${machine_id}" != "" ] )
 	then
