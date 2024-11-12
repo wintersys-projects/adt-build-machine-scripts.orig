@@ -59,7 +59,7 @@ if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
-	server_id="`/usr/bin/vultr instance list | /bin/grep ${server_ip} | /usr/bin/awk '{print $1}'`"
+        server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.main_ip == "'${server_ip}'").id' | /bin/sed 's/"//g'`"
 	/bin/sleep 1
 	/usr/bin/vultr instance delete ${server_id}
 
