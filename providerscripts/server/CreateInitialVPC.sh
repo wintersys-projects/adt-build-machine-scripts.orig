@@ -46,7 +46,6 @@ then
 		/usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
 	fi
 
-	#build_machine_ip="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
         build_machine_id="`/usr/bin/exo compute instance list --zone ${REGION} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${build_machine_ip}'").id' | /bin/sed 's/"//g'`"
 	if ( [ "`/usr/bin/exo compute instance show  ${build_machine_id} | /bin/grep adt_private_net_${REGION}`" = "" ] )
@@ -60,10 +59,12 @@ then
 		status "#################################################################################"
 		status "This will only happen once and as a remedial intervention to avoid future problems"
 		status "Press <enter> to continue"
+  
 		if ( [ "${HARDCORE}" != "1" ] )
 		then
 			read x
 		fi
+  
 		count="0" 
 		while ( [ "`/usr/bin/exo compute instance show  ${build_machine_id} | /bin/grep adt_private_net_${REGION}`" = "" ] && [ "${count}" -lt "5" ] )
 		do
@@ -71,6 +72,7 @@ then
 			count="`/usr/bin/expr ${count} + 1`"
 			/usr/bin/exo compute instance private-network attach  ${build_machine_id} adt_private_net_${REGION} --zone ${REGION} 
 		done
+  
 		if ( [ "${count}" = "5" ] )
 		then
 			status "It looks like your build machine couldn't be connected to the Private Network, please investigate"
@@ -97,7 +99,6 @@ if (  [ "${CLOUDHOST}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
 
-   # build_machine_ip="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 	build_machine_id="`/usr/bin/vultr instance list | /bin/grep -w ${build_machine_ip} | /usr/bin/awk '{print $1}'`"
 	
