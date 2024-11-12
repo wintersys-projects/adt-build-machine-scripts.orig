@@ -76,11 +76,11 @@ ip="${3}"
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	machine_id="`/usr/bin/vultr instance list | /bin/grep "${server_name}" | /usr/bin/awk '{print $1}'`"
+	machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label == "'${server_name}'").id' | /bin/sed 's/"//g'`"
 	
 	while ( [ "${machine_id}" = "" ] )
 	do
-		machine_id="`/usr/bin/vultr instance list | /bin/grep "${server_name}" | /usr/bin/awk '{print $1}'`"
+        	machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label == "'${server_name}'").id' | /bin/sed 's/"//g'`"
 		/bin/sleep 5
 	done
 
