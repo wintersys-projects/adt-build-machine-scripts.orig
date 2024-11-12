@@ -83,9 +83,9 @@ fi
 
 if ( [ -f ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "database*" ${CLOUDHOST} ${BUILD_HOME}`"
+	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "database" ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  "database*" ${CLOUDHOST} ${BUILD_HOME}`"
+	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  "database" ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 /bin/echo "Do your servers use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
