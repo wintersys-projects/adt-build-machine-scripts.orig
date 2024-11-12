@@ -49,15 +49,8 @@ if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
-	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25`"
-	ip="`/usr/bin/vultr instance list | /bin/grep ".*${server_type}" | /usr/bin/awk '{print $2}'`"
-	
-	if ( [ "${ip}" = "0.0.0.0" ] )
-	then
-		/bin/echo ""
-	else
-		/bin/echo "${ip}"
-	fi
+	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25 | /bin/sed 's\*//g'`"
+        /usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label | contains("'${server_type}'")).main_ip' | /bin/sed 's/"//g'
 fi
 
 
