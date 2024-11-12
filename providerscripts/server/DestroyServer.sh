@@ -29,9 +29,10 @@ cloudhost="${2}"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	server_id="`/usr/local/bin/doctl compute droplet list | /bin/grep ${server_ip} | /usr/bin/awk '{print $1}'`"
-	/usr/local/bin/doctl -force compute droplet delete ${server_id} 
-	status "Destroyed a server with ip address ${server_ip}"
+        server_to_delete="`${HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'digitalocean'`"
+        server_id="`/usr/local/bin/doctl -o json compute droplet list | /usr/bin/jq -r '.[] | select (.name == "build-machine" ).id'`"
+        /usr/local/bin/doctl -force compute droplet delete ${server_id} 
+        status "Destroyed a server with ip address ${server_ip}"
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
@@ -47,7 +48,7 @@ then
 	then
 		server_to_delete=""
 		server_to_delete="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'linode'`"
-  		server_id="`/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.label == "'${server_to_delete}'").id' | /bin/sed 's/"//g'`"
+  		server_id="`/usr/local/bin/linode-cli --json --pretty linodes list | jq -r '.[] | select (.label == "'${server_to_delete}'").id'`"
 		/usr/local/bin/linode-cli linodes shutdown ${server_id}
 		/usr/local/bin/linode-cli linodes delete ${server_id}
 		status "Destroyed a server with ip address ${server_ip}"
@@ -59,7 +60,7 @@ if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
-        server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.main_ip == "'${server_ip}'").id' | /bin/sed 's/"//g'`"
+        server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.main_ip == "'${server_ip}'").id'`"
 	/bin/sleep 1
 	/usr/bin/vultr instance delete ${server_id}
 
