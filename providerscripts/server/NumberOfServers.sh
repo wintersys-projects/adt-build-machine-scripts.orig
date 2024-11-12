@@ -23,6 +23,8 @@
 server_type="${1}"
 cloudhost="${2}"
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	/usr/local/bin/doctl compute droplet list | /bin/grep ${server_type} | /usr/bin/wc -l
@@ -30,7 +32,6 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${server_type}" | /usr/bin/wc -l
 fi
@@ -42,9 +43,7 @@ fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
-	/bin/sleep 1
 	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25`"
 	/usr/bin/vultr instance list | /bin/grep ${server_type} | /usr/bin/awk '{print $2}' | /usr/bin/wc -l
 fi
