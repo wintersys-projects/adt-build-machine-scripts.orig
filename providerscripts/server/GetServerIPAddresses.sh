@@ -34,14 +34,12 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	server_type="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/CURRENTREGION`"
  	/usr/bin/exo  compute instance list --zone ${zone} -O json | /usr/bin/jq '.[] | select (.name | contains ("'${server_type}'")).ip_address' | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	server_type="`/bin/echo ${server_type} | /bin/sed 's/\*//g'`"
 	/usr/local/bin/linode-cli --json --pretty linodes list | jq '.[] | select (.label | contains("'${server_type}'")).ipv4' | /bin/grep -o '[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}'
 fi
 
@@ -49,7 +47,7 @@ if ( [ "${cloudhost}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	/bin/sleep 1
-	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25 | /bin/sed 's/\*//g'`"
+	#server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25`"
         /usr/bin/vultr instance list -o json | /usr/bin/jq '.instances[] | select (.label | contains("'${server_type}'")).main_ip' | /bin/sed 's/"//g'
 fi
 
