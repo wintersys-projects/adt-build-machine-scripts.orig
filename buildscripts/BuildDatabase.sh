@@ -101,13 +101,13 @@ do
                 do
                          count="0"
                         #Actually spin up the machine we are going to build on
-                        ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${DB_SERVER_TYPE}" "${database_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${DATABASE_IMAGE_ID} ${ENABLE_DDOS_PROTECION}
+                        ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${DB_SERVER_TYPE}" "${database_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${DATABASE_IMAGE_ID} ${ENABLE_DDOS_PROTECION} ${VPC_IP_RANGE}
                         #If for some reason, we failed to build the machine, then, give it another try
                         while ( [ "$?" != "0" ] && [ "${count}" -lt "10" ] )
                         do
                                 count="`/usr/bin/expr ${count} + 1`"
                                 /bin/sleep 10
-                                ${BUILD_HOME}/providerscripts/server/CreateServer.sh "${OS_TYPE}" "${REGION}" "${DB_SERVER_TYPE}" "${database_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${DATABASE_IMAGE_ID} ${ENABLE_DDOS_PROTECION}
+                                ${BUILD_HOME}/providerscripts/server/CreateServer.sh "${OS_TYPE}" "${REGION}" "${DB_SERVER_TYPE}" "${database_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${DATABASE_IMAGE_ID} ${ENABLE_DDOS_PROTECION} ${VPC_IP_RANGE}
                         done
 
                         if ( [ "${count}" = "10" ] )
