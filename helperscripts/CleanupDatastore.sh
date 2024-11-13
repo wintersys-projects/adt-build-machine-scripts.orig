@@ -33,7 +33,7 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	DATASTORE_PROVIDER="digitalocean"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 elif ( [ "${response}" = "2" ] )
 then
 	DATASTORE_PROVIDER="exoscale"
@@ -41,11 +41,11 @@ then
 elif ( [ "${response}" = "3" ] )
 then
 	DATASTORE_PROVIDER="linode"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 elif ( [ "${response}" = "4" ] )
 then
 	DATASTORE_PROVIDER="vultr"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 else
 	/bin/echo "Unrecognised  cloudhost. Exiting ...."
 	exit
