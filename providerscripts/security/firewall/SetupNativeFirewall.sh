@@ -34,7 +34,6 @@ then
 	then
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
-  			#ip_addr="`/usr/local/bin/doctl vpcs list | /bin/grep adt-vpc | /bin/grep -Po "10.*" | /usr/bin/awk '{print $1}'`"
 			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
 			
 			rules=""
