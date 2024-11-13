@@ -43,7 +43,7 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	CLOUDHOST="digitalocean"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
 	CLOUDHOST="exoscale"
@@ -51,11 +51,11 @@ then
 elif ( [ "${response}" = "3" ] )
 then
 	CLOUDHOST="linode"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 elif ( [ "${response}" = "4" ] )
 then
 	CLOUDHOST="vultr"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 else
 	/bin/echo "Unrecognised  cloudhost. Exiting ...."
 	exit
