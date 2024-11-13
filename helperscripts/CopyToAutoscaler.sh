@@ -51,7 +51,7 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	CLOUDHOST="digitalocean"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 elif ( [ "${response}" = "2" ] )
 then
 	CLOUDHOST="exoscale"    
@@ -59,11 +59,11 @@ then
 elif ( [ "${response}" = "3" ] )
 then
 	CLOUDHOST="linode"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 elif ( [ "${response}" = "4" ] )
 then
 	CLOUDHOST="vultr"
-	token_to_match="*autoscaler*"
+	token_to_match="autoscaler"
 fi
 
 /bin/echo "What is the build identifier you want to connect to?"
