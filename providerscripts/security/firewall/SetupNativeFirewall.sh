@@ -34,7 +34,7 @@ then
 	then
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
-  			ip_addr="`/usr/local/bin/doctl vpcs list | /bin/grep adt-vpc | /bin/grep -Po "10.*" | /usr/bin/awk '{print $1}'`"
+  			#ip_addr="`/usr/local/bin/doctl vpcs list | /bin/grep adt-vpc | /bin/grep -Po "10.*" | /usr/bin/awk '{print $1}'`"
 			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
 			
 			rules=""
@@ -46,7 +46,7 @@ then
 					rules="protocol:tcp,ports:${SSH_PORT},address:${build_machine_ip}/32"
 				fi
 
-				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:${ip_addr} protocol:icmp,address:0.0.0.0/0"
+				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:icmp,address:0.0.0.0/0"
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 
 				autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`"
@@ -78,12 +78,13 @@ then
 					do
 						rules=${rules}" protocol:tcp,ports:443,address:${ip} " 
 					done
-					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${ip_addr} "
-     					rules=${rules}"  protocol:tcp,ports:443,address:${VPC_IP_RANGE} " 
+					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} "
 				else
-					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${ip_addr} protocol:tcp,ports:443,address:0.0.0.0/0 "
+					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:tcp,ports:443,address:0.0.0.0/0 "
 				fi
-		
+    
+		     		rules=${rules}"  protocol:tcp,ports:443,address:${VPC_IP_RANGE} " 
+
 				rules=${rules}" protocol:icmp,address:0.0.0.0/0"
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 			
@@ -103,7 +104,7 @@ then
 					rules="protocol:tcp,ports:${SSH_PORT},address:${build_machine_ip}/32"
 				fi
 
-				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:${ip_addr} protocol:tcp,ports:${DB_PORT},address:${ip_addr} protocol:icmp,address:0.0.0.0/0"
+				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:tcp,ports:${DB_PORT},address:${VPC_IP_RANGE} protocol:icmp,address:0.0.0.0/0"
 
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 
