@@ -49,7 +49,7 @@ then
 				rules="${rules} protocol:tcp,ports:${SSH_PORT},address:${ip_addr} protocol:icmp,address:0.0.0.0/0"
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 
-				autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-autoscaler" ).id' | /bin/sed 's/"//g'`"
+				autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`"
 				/usr/local/bin/doctl compute firewall add-rules ${autoscaler_firewall_id} --inbound-rules "${rules}"
 			
 				for autoscaler_id in ${autoscaler_ids}
@@ -86,7 +86,7 @@ then
 				rules=${rules}" protocol:icmp,address:0.0.0.0/0"
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 			
-				webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-webserver" ).id' | /bin/sed 's/"//g'`"
+				webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver" ).id'`"
 				/usr/local/bin/doctl compute firewall add-rules ${webserver_firewall_id} --inbound-rules "${rules}"
 				/usr/local/bin/doctl compute firewall add-droplets ${webserver_firewall_id} --droplet-ids ${webserver_id}
 			fi
@@ -106,14 +106,14 @@ then
 
 				rules="`/bin/echo ${rules} | /usr/bin/tr -s ' '`"
 
-				database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-database" ).id' | /bin/sed 's/"//g'`"
+				database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database" ).id'`"
 				/usr/local/bin/doctl compute firewall add-rules ${database_firewall_id} --inbound-rules "${rules}"
 				/usr/local/bin/doctl compute firewall add-droplets ${database_firewall_id} --droplet-ids ${database_id}                
 			fi
 		
 		elif ( [ "${PRE_BUILD}" = "1" ] )
 		then
-			autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-autoscaler" ).id' | /bin/sed 's/"//g'`"
+			autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`"
 		
 			if ( [ "${autoscaler_firewall_id}" != "" ] )
 			then
@@ -123,7 +123,7 @@ then
 			/usr/local/bin/doctl compute firewall create --name "adt-autoscaler" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
 
 		
-			webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-webserver" ).id' | /bin/sed 's/"//g'`"
+			webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq '.[] | select (.name == "adt-webserver" ).id'`"
 		
 			if ( [ "${webserver_firewall_id}" != "" ] )
 			then
@@ -132,7 +132,7 @@ then
 
 			/usr/local/bin/doctl compute firewall create --name "adt-webserver" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
 
-			database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | jq '.[] | select (.name == "adt-database" ).id' | /bin/sed 's/"//g'`"
+			database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq '.[] | select (.name == "adt-database" ).id'`"
 		
 			if ( [ "${database_firewall_id}" != "" ] )
 			then
@@ -239,7 +239,7 @@ then
 	then       
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
-			autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-autoscaler" ).id'`"
+			autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler" ).id'`"
 			
 			if ( [ "${autoscaler_firewall_id}" != "" ] )
 			then
@@ -247,7 +247,7 @@ then
 			fi
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-autoscaler" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-			autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-autoscaler" ).id'`"
+			autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler" ).id'`"
 			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
@@ -258,7 +258,7 @@ then
 				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${autoscaler_firewall_id}
 			fi
 
-			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-webserver" ).id'`"
+			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver" ).id'`"
 			
 			if ( [ "${webserver_firewall_id}" != "" ] )
 			then
@@ -266,7 +266,7 @@ then
 			fi
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-webserver" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-webserver" ).id'`"
+			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver" ).id'`"
 			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh webserver ${CLOUDHOST}`"
 						
 						
@@ -292,7 +292,7 @@ then
 				fi
 			fi
 
-			database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-database" ).id'`"
+			database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database" ).id'`"
 			
 			if ( [ "${database_firewall_id}" != "" ] )
 			then
@@ -300,7 +300,7 @@ then
 			fi
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-database" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-			database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-database" ).id'`"
+			database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database" ).id'`"
 			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database ${CLOUDHOST}`"
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
@@ -321,21 +321,21 @@ then
 			
 		elif ( [ "${PRE_BUILD}" = "1" ] )
 		then
-			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-autoscaler" ).id'`"
+			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler" ).id'`"
 		
 			if ( [ "${firewall_id}" != "" ] )
 			then
 				/usr/local/bin/linode-cli firewalls delete ${firewall_id}
 			fi
 
-			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-webserver" ).id'`"
+			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver" ).id'`"
 		
 			if ( [ "${firewall_id}" != "" ] )
 			then
 				/usr/local/bin/linode-cli firewalls delete ${firewall_id}
 			fi
 
-			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | jq '.[] | select (.label == "adt-database" ).id'`"
+			firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database" ).id'`"
 		
 			if ( [ "${firewall_id}" != "" ] )
 			then
