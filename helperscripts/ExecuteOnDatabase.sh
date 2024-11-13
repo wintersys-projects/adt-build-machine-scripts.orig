@@ -41,7 +41,7 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	CLOUDHOST="digitalocean"
-	token_to_match="database.*"
+	token_to_match="database"
 elif ( [ "${response}" = "2" ] )
 then
 	CLOUDHOST="exoscale"
