@@ -107,14 +107,14 @@ do
                 do
                         count="0"
                         #Actually create the autoscaler machine. If the create fails, keep trying again - it must be a provider issue
-                        ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${AS_SERVER_TYPE}" "${autoscaler_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${AUTOSCALER_IMAGE_ID} ${ENABLE_DDOS_PROTECION}
+                        ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${AS_SERVER_TYPE}" "${autoscaler_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${AUTOSCALER_IMAGE_ID} ${ENABLE_DDOS_PROTECION} ${VPC_IP_RANGE}
 
                         #Somehow we failed, let's try again...
                         while ( [ "$?" != 0 ] && [ "${count}" -lt "10" ] )
                         do
                                 count="`/usr/bin/expr ${count} + 1`"
                                 /bin/sleep 10
-                                ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${AS_SERVER_TYPE}" "${autoscaler_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${AUTOSCALER_IMAGE_ID} ${ENABLE_DDOS_PROTECION}
+                                ${BUILD_HOME}/providerscripts/server/CreateServer.sh "'${OS_TYPE}'" "${REGION}" "${AS_SERVER_TYPE}" "${autoscaler_name}" "${PUBLIC_KEY_ID}" ${CLOUDHOST} ${CLOUDHOST_USERNAME} ${CLOUDHOST_PASSWORD} ${SUBNET_ID} ${AUTOSCALER_IMAGE_ID} ${ENABLE_DDOS_PROTECION} ${VPC_IP_RANGE}
                         done
 
                         if ( [ "${count}" -eq "10" ] )
