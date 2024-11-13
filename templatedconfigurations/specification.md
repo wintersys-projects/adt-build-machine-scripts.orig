@@ -278,6 +278,12 @@ Make sure these tokens have the rights to create and destroy repositories as wel
 
 "1" means that your build machine is in the same VPC as your deployment machines and so private networking (private ip addresses in other words) can be used to commincate from the build machine to the deployment machines. This is the more secure option. 
 
+------
+
+### VPC_IP_RANGE
+
+You need to put the address range of your VPC in here. This is mandatory because without it the firewalling won't function correctly and your website will likely timeoout. An example value of this might be 10.116.0.0/24 for a VPC in digital ocean's lon1 datacentre. This value will be different for each region where your VPC is and the you must have a VPC (or private network if you are on exoscale) called "adt-vpc"
+
 -------
 
 ### SYSTEM_EMAIL_PROVIDER
