@@ -52,11 +52,11 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	CLOUDHOST="digitalocean"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
 	CLOUDHOST="exoscale"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 elif ( [ "${response}" = "3" ] )
 then
 	CLOUDHOST="linode"
@@ -64,7 +64,7 @@ then
 elif ( [ "${response}" = "4" ] )
 then
 	CLOUDHOST="vultr"
-	token_to_match="webserver*"
+	token_to_match="webserver"
 fi
 
 /bin/echo "What is the build identifier you want to connect to?"
