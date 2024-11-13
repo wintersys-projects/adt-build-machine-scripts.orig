@@ -33,9 +33,9 @@ read response
 if ( [ "${response}" = "1" ] )
 then
 	CLOUDHOST="digitalocean"
-	autoscaler_token_to_match="*autoscaler*"
-	webserver_token_to_match="*webserver*"
-	database_token_to_match="*database*"
+	autoscaler_token_to_match="autoscaler"
+	webserver_token_to_match="webserver"
+	database_token_to_match="database"
 elif ( [ "${response}" = "2" ] )
 then
 	CLOUDHOST="exoscale"
@@ -45,15 +45,15 @@ then
 elif ( [ "${response}" = "3" ] )
 then
 	CLOUDHOST="linode"
-	autoscaler_token_to_match="*autoscaler*"
-	webserver_token_to_match="*webserver*"
-	database_token_to_match="*database*"
+	autoscaler_token_to_match="autoscaler"
+	webserver_token_to_match="webserver"
+	database_token_to_match="database"
 elif ( [ "${response}" = "4" ] )
 then
 	CLOUDHOST="vultr"
-	autoscaler_token_to_match="*autoscaler*"
-	webserver_token_to_match="*webserver*"
-	database_token_to_match="*database*"
+	autoscaler_token_to_match="autoscaler"
+	webserver_token_to_match="webserver"
+	database_token_to_match="database"
 else
 	/bin/echo "Unrecognised  cloudhost. Exiting ...."
 	exit
