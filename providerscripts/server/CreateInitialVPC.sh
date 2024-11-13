@@ -47,7 +47,7 @@ then
 	fi
 
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
-        build_machine_id="`/usr/bin/exo compute instance list --zone ${REGION} -O json | /usr/bin/jq '.[] | select (.ip_address =="'${build_machine_ip}'").id' | /bin/sed 's/"//g'`"
+        build_machine_id="`/usr/bin/exo compute instance list --zone ${REGION} -O json | /usr/bin/jq -r '.[] | select (.ip_address =="'${build_machine_ip}'").id'`"
 	if ( [ "`/usr/bin/exo compute instance show  ${build_machine_id} | /bin/grep adt_private_net_${REGION}`" = "" ] )
 	then
 		status "#################################################################################"
@@ -102,7 +102,7 @@ then
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 	build_machine_id="`/usr/bin/vultr instance list | /bin/grep -w ${build_machine_ip} | /usr/bin/awk '{print $1}'`"
 	
-	vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq '.vpcs[] | select (.description == "adt-vpc").id' | /bin/sed 's/"//g'`"
+	vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`"
 
 	if ( [ "${vpc_id}" = "" ] )
 	then
