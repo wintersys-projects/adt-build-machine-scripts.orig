@@ -79,7 +79,7 @@ then
 						rules=${rules}" protocol:tcp,ports:443,address:${ip} " 
 					done
 					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${ip_addr} "
-     					rules=${rules}"  protocol:tcp,ports:443,address:10.116.0.0/24 " 
+     					rules=${rules}"  protocol:tcp,ports:443,address:${VPC_IP_RANGE} " 
 				else
 					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${ip_addr} protocol:tcp,ports:443,address:0.0.0.0/0 "
 				fi
@@ -157,7 +157,7 @@ then
 				then
 					/usr/bin/exo compute security-group rule add adt-autoscaler --network ${build_machine_ip}/32 --port ${SSH_PORT}
 				fi
-				/usr/bin/exo compute security-group rule add adt-autoscaler --network 10.0.0.0/24 --port ${SSH_PORT}
+				/usr/bin/exo compute security-group rule add adt-autoscaler --network ${VPC_IP_RANGE} --port ${SSH_PORT}
 				/usr/bin/exo compute security-group rule add adt-autoscaler --protocol icmp --network 0.0.0.0/0 --icmp-code 0 --icmp-type 8
 			
 				for autoscaler_id in ${autoscaler_ids}
@@ -176,7 +176,7 @@ then
 				fi
 			
 				/usr/bin/exo compute security-group rule add adt-webserver --protocol icmp --network 0.0.0.0/0 --icmp-code 0 --icmp-type 8
-				/usr/bin/exo compute security-group rule add adt-autoscaler --network 10.0.0.0/24 --port ${SSH_PORT}
+				/usr/bin/exo compute security-group rule add adt-autoscaler --network ${VPC_IP_RANGE} --port ${SSH_PORT}
 			
 				. ${BUILD_HOME}/providerscripts/security/firewall/GetProxyDNSIPs.sh
 
@@ -187,7 +187,7 @@ then
 					do
 						/usr/bin/exo compute security-group rule add adt-webserver --network ${ip} --port 443
 					done
-     					/usr/bin/exo compute security-group rule add adt-webserver --network 10.0.0.0/24 --port 443
+     					/usr/bin/exo compute security-group rule add adt-webserver --network ${VPC_IP_RANGE} --port 443
 				else
 					/usr/bin/exo compute security-group rule add adt-webserver --network 0.0.0.0/0 --port 443
 				fi
@@ -206,8 +206,8 @@ then
 				fi
 				
 				/usr/bin/exo compute security-group rule add adt-database --protocol icmp --network 0.0.0.0/0 --icmp-code 0 --icmp-type 8
-				/usr/bin/exo compute security-group rule add adt-autoscaler --network 10.0.0.0/24 --port ${SSH_PORT}
-				/usr/bin/exo compute security-group rule add adt-autoscaler --network 10.0.0.0/24 --port ${DB_PORT}
+				/usr/bin/exo compute security-group rule add adt-autoscaler --network ${VPC_IP_RANGE} --port ${SSH_PORT}
+				/usr/bin/exo compute security-group rule add adt-autoscaler --network ${VPC_IP_RANGE} --port ${DB_PORT}
 
 				/usr/bin/exo compute instance security-group add ${database_id} adt-database
 			fi
@@ -254,10 +254,10 @@ then
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 			then
-				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${autoscaler_firewall_id}
+				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${autoscaler_firewall_id}
 			elif ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 			then
-				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${autoscaler_firewall_id}
+				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${autoscaler_firewall_id}
 			fi
 
 			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver" ).id'`"
@@ -280,17 +280,17 @@ then
 			then
 				if ( [ "${alldnsproxyips}" = "" ] )
 				then
-					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
+					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
 				else 
-					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[${alldnsproxyips}]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
+					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[${alldnsproxyips}]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
 				fi
 			elif ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 			then
 				if ( [ "${alldnsproxyips}" = "" ] )
 				then
-					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
+					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
 				else 
-					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[${alldnsproxyips}]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
+					/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[${alldnsproxyips}]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
 				fi
 			fi
 
@@ -307,10 +307,10 @@ then
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 			then
-				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${database_firewall_id}
+				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"${build_machine_ip}/32\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"${SSH_PORT}\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${database_firewall_id}
 			elif ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 			then
-				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"10.0.1.0/24\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${database_firewall_id}
+				/usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${database_firewall_id}
 			fi
 
 			for autoscaler_id in ${autoscaler_ids}
@@ -394,7 +394,7 @@ then
 				if ( [ "${alldnsproxyips}" != "" ] )
 				then
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=tcp --port=443 --size=32 --ip-type=v4  --source=cloudflare --subnet=10.0.0.0/8
-					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=icmp --size=32 --ip-type=v4 --subnet=192.168.0.0/16
+					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=icmp --size=32 --ip-type=v4 --subnet=${VPC_IP_RANGE}
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=icmp --size=32 --ip-type=v4 --subnet=0.0.0.0/0
     				else 
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=tcp --port=443 --size=32 --ip-type=v4 --subnet=0.0.0.0/0
