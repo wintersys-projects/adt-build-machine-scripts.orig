@@ -21,6 +21,8 @@
 ####################################################################################
 #set -x
 
+vpc_ip_range="`/bin/echo $@ | /usr/bin/awk '{print $NF}'`"
+
 os_choice="${1}"
 region="${2}"
 server_size="${3}"
@@ -40,7 +42,7 @@ then
 
 	if ( [ "`/usr/local/bin/doctl vpcs list | /bin/grep "adt-vpc" | /bin/grep "${region}"`" = "" ] )
 	then
-		/usr/local/bin/doctl vpcs create --name "adt-vpc" --region "${region}" --ip-range "10.116.0.0/24"
+		/usr/local/bin/doctl vpcs create --name "adt-vpc" --region "${region}" --ip-range "${vpc_ip_range}"
 	fi
 	
 	vpc_id="`/usr/local/bin/doctl vpcs list  | /bin/grep "adt-vpc" | /bin/grep "${region}" | /usr/bin/awk '{print $1}'`"
@@ -98,7 +100,7 @@ then
 
 	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
 	then
-        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 10.0.1.0/24		
+        	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 ${vpc_ip_range}		
 	fi
 	
 	vpc_id="`/usr/local/bin/linode-cli vpcs list --json --pretty | /usr/bin/jq -r '.[] | select (.label == "adt-vpc").id'`"
