@@ -76,7 +76,7 @@ then
 				then
 					for ip in ${alldnsproxyips}
 					do
-						rules=${rules}" protocol:tcp,ports:443,address:${ip}" 
+						rules=${rules}" protocol:tcp,ports:443,address:${ip} protocol:tcp,ports:443,address:10.116.0.0/24 " 
 					done
 					rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${ip_addr} "
 				else
