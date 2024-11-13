@@ -172,14 +172,14 @@ else
 			status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
 
 			/usr/bin/exo -O json dbaas create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
-			database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq '(.[] | .name)' | /bin/sed 's/\"//g' | /bin/grep ${database_name}`"
+			database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
 
 			while ( [ "${database_name}" = "" ] )
 			do
 				status "Creating the database named ${database_name}"
 
 				/usr/bin/exo -O json dbaas database create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
-				database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq '(.[] | .name)' | /bin/sed 's/\"//g' | /bin/grep ${database_name}`"
+				database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
 		
 				if ( [ "${database_name}" = "" ] )
 				then
@@ -200,18 +200,18 @@ else
 			fi
 
 			export DATABASE_INSTALLATION_TYPE="DBaaS"
-			export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq ".${database_engine}.uri_params.host" | /bin/sed 's/\"//g'`"
+			export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
 
 			while ( [ "${DBaaS_PASSWORD}" = "" ] || [ "${DBaaS_USERNAME}" = "" ] )
 			do
 				status "Trying to obtain database credentials...This might take a couple of minutes as the new database initialises..."
 				/bin/sleep 10
-				export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq ".${database_engine}.uri_params.user" | /bin/sed 's/\"//g'`"
-				export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq ".${database_engine}.uri_params.password" | /bin/sed 's/\"//g'`"
+				export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
+				export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
 			done   
 	
 			export DBaaS_DBNAME="${database_name}"
-			export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq ".${database_engine}.uri_params.port" | /bin/sed 's/\"//g'`"
+			export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.port"`"
 
 			#Open up fully until we are installed and then tighten up the firewall
 			if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep Postgres`" = "" ] )
