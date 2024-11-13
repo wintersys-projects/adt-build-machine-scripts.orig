@@ -121,7 +121,7 @@ then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${autoscaler_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`" ] != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
@@ -136,7 +136,7 @@ then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${webserver_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver" ).id'`" ] != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
@@ -150,7 +150,7 @@ then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${database_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database" ).id'`" ] != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
