@@ -187,6 +187,7 @@ then
 					do
 						/usr/bin/exo compute security-group rule add adt-webserver --network ${ip} --port 443
 					done
+     					/usr/bin/exo compute security-group rule add adt-webserver --network 10.0.0.0/24 --port 443
 				else
 					/usr/bin/exo compute security-group rule add adt-webserver --network 0.0.0.0/0 --port 443
 				fi
