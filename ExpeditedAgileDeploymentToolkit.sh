@@ -145,7 +145,7 @@ if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 then
 	/bin/mkdir -p ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}
 	/bin/touch ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE
-	. ${BUILD_HOME}/providerscripts/server/CreateInitialVPC.sh
+#	. ${BUILD_HOME}/providerscripts/server/CreateInitialVPC.sh
 else
 	if ( [ -f ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 	then
