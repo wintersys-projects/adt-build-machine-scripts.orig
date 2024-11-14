@@ -124,6 +124,8 @@ PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_I
 /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* 2>/dev/null
 /bin/rm ${BUILD_HOME}/runtimedata/ips/${CLOUDHOST}/${BUILD_IDENTIFIER}/* 2>/dev/null
 
+/bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
+
 #If this build machine doesn't have a VPC (the user should have created one when they spun it up from the GUI) then try
 #To create and add one. This will most likely drop the user's ssh connection to their build machine and so they will have
 #to reconnect but maybe that will encourage them to add the next build machine to a the VPC from the GUI system of their provider
