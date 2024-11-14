@@ -1,5 +1,6 @@
 
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 cloudhost="${1}"
 server_name="${2}"
