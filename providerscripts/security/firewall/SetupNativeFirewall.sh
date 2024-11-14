@@ -461,7 +461,7 @@ then
 				firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
 				/usr/bin/vultr firewall group update ${firewall_id} --description "adt-autoscaler"
 			else 
-				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id`"
+				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
 				for rule_no in ${rule_ids}
 				do
 					/usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
@@ -475,7 +475,7 @@ then
 				firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
 				/usr/bin/vultr firewall group update ${firewall_id} --description "adt-webserver"
 			else 
-				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id`"
+				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
 				for rule_no in ${rule_ids}
 				do
 					/usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
@@ -489,7 +489,7 @@ then
 				firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
 				/usr/bin/vultr firewall group update ${firewall_id} --description "adt-database"
 			else 
-				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id`"
+				rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
 				for rule_no in ${rule_ids}
 				do
 					/usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
