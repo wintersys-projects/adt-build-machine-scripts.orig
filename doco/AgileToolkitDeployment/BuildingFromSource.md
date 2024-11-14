@@ -36,12 +36,13 @@ The settings work as follows:
 -----
 ##### If you are using S3FS for your assets you can select one of:
 -----
-##### S3FS:source
-##### S3FS:repo
+##### DATASTOREMOUNTTOOL:s3fs:source
+##### DATASTOREMOUNTTOOL:s3fs:repo
 -----
 ##### If you are using GOOFYS for your assets you can select one of:
 -----
-##### GOOF:binaries
+##### DATASTOREMOUNTTOOL:goof:binary
+##### DATASTOREMOUNTTOOL:goof:source
 -----
 
 Note: If you have multiple applications you are deploying then you can have different configurations for each application. 
