@@ -372,19 +372,7 @@ then
 
 			if ( [ "${autoscaler_ids}" != "" ] )
 			then
-   		#		firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "'adt-autoscaler'").id'`"
-#
-#				if ( [ "${firewall_id}" = "" ] )
-#				then
-#					firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
-#					/usr/bin/vultr firewall group update ${firewall_id} --description "adt-autoscaler"
-#				else 
-#					rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} | /usr/bin/awk '{print $1}' | /usr/bin/tail -n +2 | /usr/bin/head -n -3`"
-#					for rule_no in ${rule_ids}
-#					do
-#						/usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
-#					done
-#				fi
+   				firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "'adt-autoscaler'").id'`"
 			
 				if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 				then
@@ -403,19 +391,7 @@ then
 
 			if ( [ "${webserver_id}" != "" ] )
 			then
-   		#		firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "'adt-webserver'").id'`"
-   		#		
-       		#		if ( [ "${firewall_id}" = "" ] )
-		#		then
-		#			firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
-		#			/usr/bin/vultr firewall group update ${firewall_id} --description "adt-webserver"
-		#		else 
-		#			rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} | /usr/bin/awk '{print $1}' | /usr/bin/tail -n +2 | /usr/bin/head -n -3`"
-		#			for rule_no in ${rule_ids}
-		#			do
-		#				/usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
-		#			done
-		#		fi
+   				firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "'adt-webserver'").id'`"
     
 				. ${BUILD_HOME}/providerscripts/security/firewall/GetProxyDNSIPs.sh
 
