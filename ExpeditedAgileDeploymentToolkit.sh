@@ -100,12 +100,14 @@ status ""
 
 if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 then
-	status "Checking for your VPC network"
+	status "Checking for your build machine VPC network"
         if ( [ "`${BUILD_HOME}/providerscripts/server/CheckBuildMachineVPC.sh ${CLOUDHOST} ${BUILD_CLIENT_IP}`" = "" ] )
         then
                 status "It looks like the build machine (${server_name}) is not attached to a VPC when BUILD_MACHINE_VPC=1"
                 status "Will have to exit (change BUILD_MACHINE_VPC if necessary in your template)"
 		exit
+  	else
+		status "Have successfully varified the presence of a usable VPC network on your build machine"
         fi
 fi
 
