@@ -26,7 +26,7 @@
 while ( [ ! -f ${BUILD_HOME}/buildconfiguration/settings.php ] )
 do
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} settings.php  ${BUILD_HOME}/buildconfiguration 
- 	status "Couldn't find drupal settings.php in the datastore (it  hasn't been generated yet) will try again shortly"
+ 	status "Couldn't find drupal settings.php in the datastore (it hasn't been generated yet) will try again shortly"
   	/bin/sleep 10
 done
 
