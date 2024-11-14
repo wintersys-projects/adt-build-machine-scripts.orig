@@ -132,6 +132,7 @@ then
 	fi
 fi
 
+
 os_choice="${1}"
 region="${2}"
 server_plan="${3}"
@@ -139,70 +140,75 @@ server_name="${4}"
 key_id="${5}"
 cloudhost="${6}"
 snapshot_id="${8}"
+
+if ( [ "${snapshot_id}" = "${vpc_ip_range}" ] )
+then
+        snapshot_id=""
+fi
 if ( [ "${snapshot_id}" = "0" ] || [ "${snapshot_id}" = "1" ] )
 then
-	ddos_protection="${snapshot_id}"
+        ddos_protection="${snapshot_id}"
 else
-	ddos_protection="${9}"
+        ddos_protection="${9}"
 fi
 if ( [ "${snapshot_id}" = "FILLER" ] )
 then
-	snapshot_id="${9}"
-	ddos_protection="${10}"
+        snapshot_id="${9}"
+        ddos_protection="${10}"
 fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
 then
-	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
-	/bin/sleep 1
-	os_choice="`/bin/echo "${os_choice}" | /bin/sed "s/'//g"`"
+        export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
+        os_choice="`/bin/echo "${os_choice}" | /bin/sed "s/'//g"`"
 
-	if ( [ "`/usr/bin/vultr vpc2 list | grep adt-vpc`" = "" ] )
-	then
-		/usr/bin/vultr vpc2 create --region="${region}" --description="adt-vpc" --ip-type="v4" --ip-block="192.168.0.0" --prefix-length="16"
-	fi
-	
+        if ( [ "`/usr/bin/vultr vpc2 list | grep adt-vpc`" = "" ] )
+        then
+                ip_block="`/bin/echo ${vpc_ip_range} | /usr/bin/awk -F'/' '{print $1}'`"
+                /usr/bin/vultr vpc2 create --region="${region}" --description="adt-vpc" --ip-type="v4" --ip-block="${ip_block}" --prefix-length="16"
+        fi
+
         vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`"
-	os_choice="`/usr/bin/vultr os list -o json | /usr/bin/jq -r '.os[] | select (.name == "'"${os_choice}"'").id'`"
+        os_choice="`/usr/bin/vultr os list -o json | /usr/bin/jq -r '.os[] | select (.name == "'"${os_choice}"'").id'`"
 
-	user_data=`${BUILD_HOME}/providerscripts/server/cloud-init/vultr.dat`
+        user_data=`${BUILD_HOME}/providerscripts/server/cloud-init/vultr.dat`
    
- 	if ( [ "${snapshot_id}" != "" ] )
-	then
-	   if ( [ "${ddos_protection}" = "1" ] )
-	   then
-			/usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --ipv6=false -s ${key_id} --snapshot="${snapshot_id}" --ddos=true --userdata="${user_data}"
-		else
-			/usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --ipv6=false -s ${key_id} --snapshot="${snapshot_id}" --ddos=false --userdata="${user_data}"
-		fi
-	else
-	   if ( [ "${ddos_protection}" = "1" ] )
-	   then
-			/usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=true --userdata="${user_data}"
-		else
-			/usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=false --userdata="${user_data}"
-		fi    
-	fi
+        if ( [ "${snapshot_id}" != "" ] )
+        then
+           if ( [ "${ddos_protection}" = "1" ] )
+           then
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --ipv6=false -s ${key_id} --snapshot="${snapshot_id}" --ddos=true --userdata="${user_data}"
+                else
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --ipv6=false -s ${key_id} --snapshot="${snapshot_id}" --ddos=false --userdata="${user_data}"
+                fi
+        else
+           if ( [ "${ddos_protection}" = "1" ] )
+           then
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=true --userdata="${user_data}"
+                else
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_plan}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=false --userdata="${user_data}"
+                fi    
+        fi
  
- 	machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
-	
-	while ( [ "${machine_id}" = "" ] )
-	do
- 		machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
-		/bin/sleep 5
-	done
-	
-	if ( [ "${machine_id}" != "" ] )
-	then
-		count="0"
-		/usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
-		while ( [ "$?" != "0" ] && [ "${count}" -lt "5" ] )
-		do
-			count="`/usr/bin/expr ${count} + 1`"
-			/bin/sleep 30
-			/usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
-		done 
-	fi
+        machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
+
+        while ( [ "${machine_id}" = "" ] )
+        do
+                machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
+                /bin/sleep 5
+        done
+
+        if ( [ "${machine_id}" != "" ] )
+        then
+                count="0"
+                /usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
+                while ( [ "$?" != "0" ] && [ "${count}" -lt "5" ] )
+                do
+                        count="`/usr/bin/expr ${count} + 1`"
+                        /bin/sleep 30
+                        /usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
+                done 
+        fi
 fi
 
 
