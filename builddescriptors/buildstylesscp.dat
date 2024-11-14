@@ -36,16 +36,6 @@
 # DATASTOREMOUNTTOOL:s3fs:repo
 # DATASTOREMOUNTTOOL:goof:source
 # DATASTOREMOUNTTOOL:goof:binary
-
-
-
-# S3FS:source
-# S3FS:repo
-# When using GoofyFS (instead of S3FS) you can install from binaries or source
-# GOOF:binaries
-# GOOF:source
-
-
 # When installing mariadb on your VPS systems you can give it a verion number to install like this (note MySQL just installs the latest version and you don't have a choice)
 # MARIADB:<version>
 # When installing postgres on your VPS systems you can give a version number to install like this
@@ -91,14 +81,8 @@ PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:gd:imap:ldap:pgsql:pspell
 #PHP:fpm:cli:gmp:xmlrpc:soap:dev:mysqli:phpdbg:mbstring:imap:pgsql:pspell:tidy:intl:curl:zip:xml:imagick:ssh2:apcu
 CONFIGPHPPOOL:pm=ondemand:pm.max_children=4:pm.max_requests=200:pm.start_servers=10:pm.min_spare_servers=5:pm.max_spare_servers=20:pm.process_idle_timeout=10s
 CONFIGPHPINI:upload_max_filesize=64M:post_max_size=64M:max_input_vars=5000:zlib.output_compression=On:cgi.fix_pathinfo=0:output_buffering=Off:disable_functions=exec,passthru,shell_exec,system,proc_open,popen,parse_ini_file,show_source:allow_url_fopen=Off:allow_url_include=Off:memory_limit=256M:opcache.enable=1:opcache.memory_consumption=256:open_basedir=/var/##/tmp:upload_tmp_dir=/var/www/html/tmp:sys_temp_dir=/var/www/html/tmp:expose_php=Off:date.timezone='Europe/London':cgi.force_redirect=On                                                                    
-#Only one of S3FS and GOOF should be uncommented
+#If you need goofys or s3fs then put it here
 DATASTOREMOUNTTOOL:s3fs:source
-
-#S3FS:repo
-#S3FS:source
-#GOOF:binaries
-#GOOF:source
-
 MARIADB:11.5.2
 POSTGRES:17
 BUILDCHAINTYPE:standard
