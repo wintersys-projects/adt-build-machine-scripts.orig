@@ -98,6 +98,11 @@ status ""
 . ${BUILD_HOME}/initscripts/PreFlightChecks.sh
 . ${BUILD_HOME}/providerscripts/datastore/PersistBuildClientIP.sh
 
+if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
+then
+	${BUILD_HOME}/providerscripts/server/
+fi
+
 
 if ( [ "${HARDCORE}" = "0" ] )
 then
