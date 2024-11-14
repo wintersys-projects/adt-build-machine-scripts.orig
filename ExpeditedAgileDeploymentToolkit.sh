@@ -100,7 +100,7 @@ status ""
 
 if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 then
-	${BUILD_HOME}/providerscripts/server/
+	${BUILD_HOME}/providerscripts/server/CheckBuildMachineVPC.sh 
 fi
 
 
