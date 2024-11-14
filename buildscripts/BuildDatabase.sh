@@ -137,7 +137,7 @@ do
                    fi
                 done
 
-                ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${database_name}" "${private_ip}"
+           #     ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${database_name}" "${private_ip}"
 
                 DBIP="${ip}"
                 DBIP_PRIVATE="${private_ip}"
