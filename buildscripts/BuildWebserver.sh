@@ -136,7 +136,7 @@ do
                         fi
            done
     
-           ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${webserver_name}" "${private_ip}"
+        #   ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${webserver_name}" "${private_ip}"
 
                 WSIP=${ip}
                 WSIP_PRIVATE=${private_ip}
