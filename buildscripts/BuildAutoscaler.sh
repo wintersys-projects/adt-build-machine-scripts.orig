@@ -145,7 +145,7 @@ do
                         fi
            done
 
-           ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${autoscaler_name}" "${private_ip}"
+      #     ${BUILD_HOME}/providerscripts/server/EnsureServerAttachedToVPC.sh "${CLOUDHOST}" "${autoscaler_name}" "${private_ip}"
           
                 status "It looks like the machine has booted OK"
                 ASIP=${ip}
