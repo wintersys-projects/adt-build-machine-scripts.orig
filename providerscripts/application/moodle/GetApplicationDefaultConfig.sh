@@ -26,6 +26,8 @@
 while ( [ ! -f ${BUILD_HOME}/buildconfiguration/config.php ] )
 do
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} config.php  ${BUILD_HOME}/buildconfiguration
-  	status "Couldn't find config.php in the datastore (it  hasn't been generated yet) will try again shortly"
+  	status "Couldn't find the moodle config.php in the datastore (it  hasn't been generated yet) will try again shortly"
 	/bin/sleep 10
 done
+
+status "Have found the moodle config.php in the datastore can continue now..."
