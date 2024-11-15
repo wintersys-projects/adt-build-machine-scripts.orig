@@ -116,7 +116,7 @@ fi
 /bin/touch ${BUILD_HOME}/runtimedata/LAPTOPIP:${LAPTOP_IP}
 /bin/touch ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:${BUILDMACHINE_SSH_PORT}
 
-/bin/sh ${BUILD_HOME}/installscripts/InstallFirewall.sh "`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}'`" >>${UPGRADE_LOG} 2>&1
+/bin/sh ${BUILD_HOME}/installscripts/InstallFirewall.sh "`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}'`"
 . ${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh 
 
 
