@@ -76,8 +76,9 @@ variables="`/bin/echo ${variables} | /usr/bin/xargs -n1 | /usr/bin/sort -u | /us
 
 /bin/echo "You need to set the following variables when you run this userdata script" > ${snapshot_userdata}
 /bin/echo "Examples of how you may set these variables are:" >> ${snapshot_userdata}
-/bin/echo "export buildos='debian'     export PHP_VERSION='8.3' export modules=''" > ${snapshot_userdata}
+/bin/echo "export buildos='debian'     export PHP_VERSION='8.3' export modules='fpm:cli:gmp:xmlrpc:soap:dev:mysqli'" >> ${snapshot_userdata}
 /bin/echo "You can refer to the file buildstyles.dat that is active for your deployments to match the values you set here with the values you intend to deploy with" >> ${snapshot_userdata}
+/bin/echo "##########################################################################" >> ${snapshot_userdata}
 
 for variable in ${variables}
 do
