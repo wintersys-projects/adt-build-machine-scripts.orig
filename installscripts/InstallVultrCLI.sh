@@ -25,6 +25,8 @@ then
 	buildos="${1}"
 fi
 
+curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name' | /bin/sed 's/^v//'
+
 if ( [ "${buildos}" = "ubuntu" ] )
 then 
 	if ( [ ! -f /usr/bin/make ] )
