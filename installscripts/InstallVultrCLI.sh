@@ -25,11 +25,9 @@ then
 	buildos="${1}"
 fi
 
-curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name' | /bin/sed 's/^v//'
-
 if ( [ "${buildos}" = "ubuntu" ] )
 then 
-	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name'`"
+	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | /usr/bin/jq -r '.name'`"
 	/usr/bin/wget https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -C /usr/bin/
 	/bin/mv /usr/bin/vultr-cli /usr/bin/vultr
 	/bin/chown root:root /usr/bin/vultr
@@ -57,7 +55,7 @@ fi
 
 if ( [ "${buildos}" = "debian" ] )
 then
-	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name'`"
+	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | /usr/bin/jq -r '.name'`"
 	/usr/bin/wget https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -C /usr/bin/
 	/bin/mv /usr/bin/vultr-cli /usr/bin/vultr
 	/bin/chown root:root /usr/bin/vultr
