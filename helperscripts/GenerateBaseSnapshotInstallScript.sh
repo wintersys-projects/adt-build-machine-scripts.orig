@@ -40,13 +40,21 @@ fi
 /bin/echo "Please input the owner name of your infrstructure repositories (default is wintersys-projects)"
 read repo_owner
 
-/bin/mkdir ./tmp
+if ( [ -f ./tmp ] )
+then
+        /bin/rm -r ./tmp
+else
+        /bin/mkdir ./tmp
+fi
 cd ./tmp
+
 /usr/bin/git clone https://github.com/${repo_owner}/adt-build-machine-scripts.git
 /usr/bin/git clone https://github.com/${repo_owner}/adt-autoscaler-scripts.git
 /usr/bin/git clone https://github.com/${repo_owner}/adt-webserver-scripts.git
 /usr/bin/git clone https://github.com/${repo_owner}/adt-database-scripts.git
+
 cd ..
+
 /bin/echo "Do you wish to generate a snapshot init script for an autoscaler, a webserver or a database"
 /bin/echo "Enter 1 for autoscaler, 2 for webserver, 3 for database"
 read machine_choice
@@ -88,6 +96,16 @@ done
 /bin/echo "" >> ${snapshot_userdata}
 /bin/echo "##########################################################################" >> ${snapshot_userdata}
 /bin/echo "" >> ${snapshot_userdata}
+
+if ( [ ! -d ${BUILD_HOME}/logs ] )
+then
+        /bin/mkdir ${BUILD_HOME}/logs
+fi
+
+OUT_FILE="install-out.log.$$"
+exec 1>>${BUILD_HOME}/logs/${OUT_FILE}
+ERR_FILE="intall-err.log.$$"
+exec 2>>${BUILD_HOME}/logs/${ERR_FILE}
 
 for file in ${files}
 do
