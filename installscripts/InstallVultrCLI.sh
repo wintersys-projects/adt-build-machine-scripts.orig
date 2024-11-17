@@ -29,49 +29,58 @@ curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.n
 
 if ( [ "${buildos}" = "ubuntu" ] )
 then 
-	if ( [ ! -f /usr/bin/make ] )
-	then
-		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
-	fi
-	if ( [ ! -d /usr/local/src/vultr ] )
-	then
-		/bin/mkdir /usr/local/src/vultr
-	else
-		/bin/rm -r /usr/local/src/vultr/* 2>/dev/null
-	fi
-	cwd="`/usr/bin/pwd`"
-	cd /usr/local/src/vultr
-	
-	/usr/bin/git clone https://github.com/vultr/vultr-cli.git
-	cd vultr-cli
-	
-	/usr/bin/make builds/vultr-cli_linux_amd64
-	/bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
-	
-	cd ${cwd}
+	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name'`"
+	/usr/bin/wget https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -C /usr/bin/
+	/bin/mv /usr/bin/vultr-cli /usr/bin/vultr
+	/bin/chown root:root /usr/bin/vultr
+#	if ( [ ! -f /usr/bin/make ] )
+#	then
+#		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
+#	fi
+#	if ( [ ! -d /usr/local/src/vultr ] )
+#	then
+#		/bin/mkdir /usr/local/src/vultr
+#	else
+#		/bin/rm -r /usr/local/src/vultr/* 2>/dev/null
+#	fi
+#	cwd="`/usr/bin/pwd`"
+#	cd /usr/local/src/vultr
+#	
+#	/usr/bin/git clone https://github.com/vultr/vultr-cli.git
+#	cd vultr-cli
+#	
+#	/usr/bin/make builds/vultr-cli_linux_amd64
+#	/bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
+#	
+#	cd ${cwd}
 fi
 
 if ( [ "${buildos}" = "debian" ] )
 then
-	if ( [ ! -f /usr/bin/make ] )
-	then
-		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
-	fi
-	 if ( [ ! -d /usr/local/src/vultr ] )
-	then
-		/bin/mkdir /usr/local/src/vultr
-	else
-		/bin/rm -r /usr/local/src/vultr/* 2>/dev/null
-	fi
+	vultr_cli_version="`/usr/bin/curl -L https://api.github.com/repos/vultr/vultr-cli/releases/latest | jq -r '.name'`"
+	/usr/bin/wget https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -C /usr/bin/
+	/bin/mv /usr/bin/vultr-cli /usr/bin/vultr
+	/bin/chown root:root /usr/bin/vultr
 	
-	cwd="`/usr/bin/pwd`"
-	cd /usr/local/src/vultr
-	
-	/usr/bin/git clone https://github.com/vultr/vultr-cli.git
-	cd vultr-cli
-	
-	/usr/bin/make builds/vultr-cli_linux_amd64
-	/bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
-	
-	cd ${cwd}
+ #	if ( [ ! -f /usr/bin/make ] )
+#	then
+#		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
+#	fi
+#	 if ( [ ! -d /usr/local/src/vultr ] )
+#	then
+#		/bin/mkdir /usr/local/src/vultr
+#	else
+#		/bin/rm -r /usr/local/src/vultr/* 2>/dev/null
+#	fi
+#	
+#	cwd="`/usr/bin/pwd`"
+#	cd /usr/local/src/vultr
+#	
+#	/usr/bin/git clone https://github.com/vultr/vultr-cli.git
+#	cd vultr-cli
+#	
+#	/usr/bin/make builds/vultr-cli_linux_amd64
+#	/bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
+#	
+#	cd ${cwd}
 fi
