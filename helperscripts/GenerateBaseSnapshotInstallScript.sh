@@ -104,9 +104,9 @@ do
                         read response
                         if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
                         then
-                                /bin/grep "##*${os_choice}.*SOURCE.*##" ${file} | /bin/grep -v SKIP  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                /bin/grep "##*${os_choice}.*SOURCE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
                         else
-                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/grep -v SKIP | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
                         fi
                 fi
         else
@@ -118,7 +118,7 @@ do
                         read response 
                         if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
                         then
-                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/grep -v SKIP | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
                         fi
                 fi
         fi
