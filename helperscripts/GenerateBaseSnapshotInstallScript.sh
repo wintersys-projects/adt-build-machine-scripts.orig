@@ -1,4 +1,35 @@
-
+#!/bin/sh
+########################################################################################################
+# Author: Peter Winter
+# Date  : 13/01/2022
+# Description : You can use this script to generate a userdata/init script configured to install the base
+# software that your deployment needs onto a vanilla VPS machine with no other alterations to its configuration
+# other than the installation of the softeware packages that you choose here. What you can then do is make
+# an image or a snapshot of the machine that you run the script you  generate here on and use that image 
+# to deploy a server machine  (autoscaler, webserver, or database) by  configuring your deployment template
+# to use the image you have generated here as a snapshot to build off. This will speed up the deployment
+# time of your server machines (important during autoscaling) because you are building off an image that
+# already has the bulk of the necessary software installed. PHP, for example can take several minutes to
+# install from scratch which all adds to your deployment time. So, if you put the effort in to generate
+# snapshot images for each type of machine you have (autoscaler, webserver and database) then you have
+# the bulk of your software ready and primed. Just run this script and make your choices and the 
+# userdata script it produces can be used as an init script against a vanilla VPS machine. 
+########################################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+#######################################################################################################
+#######################################################################################################
+set -x
 if ( [ ! -f /home/buildhome.dat ] )
 then
         /bin/echo "Don't know what build home is"
