@@ -110,6 +110,16 @@ do
                         fi
                 fi
         else
-                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/grep -v SKIP | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                token="`/bin/grep -o '##.*REPO.*##' ${file}`" 
+
+                if ( [ "${token}" != "" ] )
+                then
+                        /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it? (Y|N)"
+                        read response 
+                        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+                        then
+                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/grep -v SKIP | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                        fi
+                fi
         fi
 done
