@@ -95,7 +95,7 @@ do
 
         if ( [ "${token}" != "" ] )
         then
-                /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it? (Y|N)"
+                /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it in your snapshot install script? (Y|N)"
                 read response
 
                 if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
@@ -114,7 +114,7 @@ do
 
                 if ( [ "${token}" != "" ] )
                 then
-                        /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it? (Y|N)"
+                        /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it in your snapshot install script? (Y|N)"
                         read response 
                         if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
                         then
