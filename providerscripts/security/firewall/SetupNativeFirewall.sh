@@ -368,6 +368,7 @@ then
 
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
+  			#VPC_IP_RANGE doesn't need to be allowed by the firewall for vultr, machines in the same VPC can communiate by default by private IP
 			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
 
 			if ( [ "${autoscaler_ids}" != "" ] )
@@ -398,7 +399,6 @@ then
 				if ( [ "${alldnsproxyips}" != "" ] )
 				then
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=tcp --port=443 --size=32 --ip-type=v4  --source=cloudflare --subnet=10.0.0.0/8
-					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=icmp --size=32 --ip-type=v4 --subnet=${VPC_IP_RANGE}
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=icmp --size=32 --ip-type=v4 --subnet=0.0.0.0/0
     				else 
 					/usr/bin/vultr firewall rule create ${firewall_id} --protocol=tcp --port=443 --size=32 --ip-type=v4 --subnet=0.0.0.0/0
