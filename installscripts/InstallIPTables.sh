@@ -39,7 +39,7 @@ fi
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
-	then
+	then 		
                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install iptables
 
                 /usr/bin/debconf-set-selections <<EOF
@@ -48,7 +48,10 @@ iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install netfilter-persistent
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install iptables-persistent
-
+  		if ( [ -f /usr/sbin/ufw ] )
+   		then
+     			/usr/sbin/ufw disable
+		fi
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
@@ -61,5 +64,10 @@ iptables-persistent iptables-persistent/autosave_v6 boolean true
 EOF
                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install netfilter-persistent
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install iptables-persistent
-        fi
+         	
+	  	if ( [ -f /usr/sbin/ufw ] )
+   		then
+     			/usr/sbin/ufw disable
+		fi
+	fi
 fi
