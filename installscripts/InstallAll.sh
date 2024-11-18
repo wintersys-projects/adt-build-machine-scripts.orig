@@ -64,7 +64,7 @@ then
    			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating go"
 			${BUILD_HOME}/installscripts/InstallGo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
-			status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
+			#status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
 			#${BUILD_HOME}/installscripts/InstallExo.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
 			#status "Installing/Updating the Doctl tool so that you are ready if you are deploying to Digital Ocean"
 			#${BUILD_HOME}/installscripts/InstallDoctl.sh "ubuntu" >>${UPGRADE_LOG} 2>&1
@@ -100,7 +100,7 @@ then
 			status "Initialising Firewall"
    			${BUILD_HOME}/providerscripts/security/firewall/InitialiseFirewall.sh "debian" >>${UPGRADE_LOG} 2>&1
 			status "Installing/Updating go"
-			#${BUILD_HOME}/installscripts/InstallGo.sh "debian" >>${UPGRADE_LOG} 2>&1
+			${BUILD_HOME}/installscripts/InstallGo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			#status "Installing/Updating the Exo tool so that you are ready if you are deploying to Exoscale"
 			#${BUILD_HOME}/installscripts/InstallExo.sh "debian" >>${UPGRADE_LOG} 2>&1
 			#status "Installing/Updating the Doctl tool so that you are ready if you are deploying to Digital Ocean"
