@@ -67,7 +67,7 @@ ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
 
 /usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
-/usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 600 {} \;
+/usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 700 {} \;
 
 BUILD_HOME="/home/${BUILDMACHINE_USER}/adt-build-machine-scripts"
 /bin/echo ${BUILD_HOME} > /home/buildhome.dat
