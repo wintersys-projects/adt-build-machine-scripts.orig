@@ -22,10 +22,6 @@
 ######################################################################################
 #set -x
 
-status () {
-	/bin/echo "$1" | /usr/bin/tee /dev/fd/3 2>/dev/null
-}
-
 CLOUDHOST="${1}"
 BUILDOS="${2}"
 
@@ -33,37 +29,32 @@ if ( [ "${CLOUDHOST}" = "digitalocean" ] )
 then
 	if ( [ ! -f /usr/local/bin/doctl ] )
 	then
-		status "Installing Doctl toolkit..."
-		status  "Press <enter> key to continue"
 		${BUILD_HOME}/installscripts/InstallDoctl.sh "${BUILDOS}"
 	fi
 fi
+
 if ( [ "${CLOUDHOST}" = "exoscale" ] )
 then
 	if ( [ ! -f /usr/bin/exo ] )
 	then
-		${BUILD_HOME}/installscripts/Update.sh "${BUILDOS}"
 		${BUILD_HOME}/installscripts/InstallExo.sh "${BUILDOS}"
 	fi
 fi
+
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
 	if ( [ ! -f /usr/local/bin/linode-cli ] )
 	then
-		status "Installing Linode toolkit..."
-		status  "Press <enter> key to continue"
-		${BUILD_HOME}/installscripts/Update.sh "${BUILDOS}"
 		${BUILD_HOME}/installscripts/InstallLinodeCLI.sh "${BUILDOS}"
 	fi
 fi
+
 if ( [ "${CLOUDHOST}" = "vultr" ] )
 then
 	if ( [ ! -f /usr/bin/vultr ] )
 	then
-		status "Installing Vultr toolkit..."
-		status  "Press <enter> key to continue"
 		${BUILD_HOME}/installscripts/InstallSudo.sh "${BUILDOS}"
-		${BUILD_HOME}/installscripts/InstallGo.sh "${BUILDOS}"        
+		#${BUILD_HOME}/installscripts/InstallGo.sh "${BUILDOS}"        
 		${BUILD_HOME}/installscripts/InstallVultrCLI.sh "${BUILDOS}"        
 	fi
 fi
