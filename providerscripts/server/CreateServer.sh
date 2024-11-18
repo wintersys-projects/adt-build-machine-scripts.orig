@@ -169,8 +169,8 @@ then
         fi
 
         vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`"
-        os_choice="`/usr/bin/vultr os list -o json | /usr/bin/jq -r '.os[] | select (.name == "'"${os_choice}"'").id'`"
-
+        os_choice="`/usr/bin/vultr os list -o json | /usr/bin/jq -r '.os[] | select (.name | contains ("'"${os_choice}"'")).id'`"
+	
         user_data=`${BUILD_HOME}/providerscripts/server/cloud-init/vultr.dat`
    
         if ( [ "${snapshot_id}" != "" ] )
