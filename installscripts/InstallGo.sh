@@ -33,6 +33,10 @@ then
 	/bin/tar -xf go${version}.linux-amd64.tar.gz
 	/bin/mv go /usr/local
 	/bin/rm go${version}.linux-amd64.tar.gz
+ 	if ( [ -f /usr/bin/go ] )
+  	then
+   		/bin/rm /usr/bin/go
+     	fi
 	/usr/bin/ln -s /usr/local/go/bin/go /usr/bin/go
 fi
 
@@ -42,5 +46,9 @@ then
 	/bin/tar -xf go${version}.linux-amd64.tar.gz
 	/bin/mv go /usr/local
 	/bin/rm go${version}.linux-amd64.tar.gz
+  	if ( [ -f /usr/bin/go ] )
+  	then
+   		/bin/rm /usr/bin/go
+     	fi
 	/usr/bin/ln -s /usr/local/go/bin/go /usr/bin/go
 fi
