@@ -80,6 +80,8 @@ fi
 if ( [ "${HARDCORE}" != "1" ] )
 then
 	. ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
+else
+	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION}
 fi
 
 . ${BUILD_HOME}/helperscripts/SetupEth1.sh
