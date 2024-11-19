@@ -75,7 +75,7 @@ else
         exit
 fi
 
-/bin/echo "Please input the owner name of your infrstructure repositories (default is wintersys-projects)"
+/bin/echo "Please input the owner name of your infrastructure repositories (default is wintersys-projects)"
 read repo_owner
 
 if ( [ "${repo_owner}" = "" ] )
@@ -113,7 +113,7 @@ then
         install_scripts_dir="./tmp/adt-database-scripts/installscripts"
 fi
 
-files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "Install*.sh" -print -type f`
+files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "InstallApache.sh" -print -type f`
 
 variables=""
 
@@ -151,43 +151,42 @@ BUILD_HOME="/root"
 /bin/echo '#ERR_FILE="install-err.log.$$"' >> ${snapshot_userdata}
 /bin/echo '#exec 2>>${BUILD_HOME}/logs/${ERR_FILE}' >> ${snapshot_userdata}
 
+
 for file in ${files}
 do
-        token="`/bin/grep -o '##.*SOURCE.*##' ${file}`" 
 
-        if ( [ "${token}" != "" ] )
-        then
-                /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it in your snapshot install script? (Y|N)"
-                read response
-
-                if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+        methods="REPO BINARY SOURCE"
+        processed="0"
+        for method in ${methods}
+        do
+                if ( [ "${processed}" = "0" ] )
                 then
-                        /bin/echo "`/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` can be build from source or repo/binaries do you want to build from source (Y|N)"
-                        read response
-                        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+                        tokens="`/bin/grep -o "##.*${method}.*##" ${file} | /bin/grep ${os_choice}`" 
+                        tokens1="`/bin/echo ${tokens} | /bin/sed 's/-SKIP//g' | /bin/sed 's/#//g' | /usr/bin/tr ' ' '\n' | /usr/bin/uniq`"
+
+                        if ( [ "${tokens1}" != "" ] )
                         then
-                                if ( [ "`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
-                                then
-                                        /bin/echo ". `/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
-                                elif ( [ "`/bin/grep "##*${os_choice}.*SOURCE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
-                                then
-                                        /bin/grep "##*${os_choice}.*SOURCE.*.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
-                                fi
-                        else
-                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                inline_processed="0"
+                                for token in ${tokens1}
+                                do
+                                        if ( [ "${inline_processed}" = "0" ] )
+                                        then
+                                                /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` using  method ${method} do you want to include it in your snapshot install script? (Y|N)"
+                                                read response 
+                                                if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+                                                then
+                                                        if ( [ "`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
+                                                        then
+                                                                /bin/echo ". `/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
+                                                                inline_processed="1"
+                                                        else
+                                                                /bin/grep "##.*${os_choice}.*${method}.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                                        fi
+                                                        processed="1"
+                                                fi
+                                        fi
+                                done
                         fi
                 fi
-        else
-                token="`/bin/grep -o '##.*REPO.*##' ${file}`" 
-
-                if ( [ "${token}" != "" ] )
-                then
-                        /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` do you want to include it in your snapshot install script? (Y|N)"
-                        read response 
-                        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
-                        then
-                                /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
-                        fi
-                fi
-        fi
+        done
 done
