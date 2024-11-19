@@ -29,7 +29,8 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
+
 if ( [ ! -f /home/buildhome.dat ] )
 then
         /bin/echo "Don't know what build home is"
@@ -37,6 +38,7 @@ then
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+HOME="`/usr/bin/pwd`/tmp"
 
 /bin/echo "Please give me a name for the snapshot userdata script you want genenerated"
 read snapshot_userdata
@@ -53,6 +55,11 @@ then
 fi
 
 snapshot_userdata="${BUILD_HOME}/userdatascripts/${snapshot_userdata}"
+
+if ( [ -f ${BUILD_HOME}/userdatascripts/${snapshot_userdata} ] )
+then
+        /bin/rm ${BUILD_HOME}/userdatascripts/${snapshot_userdata}
+fi
 
 /bin/echo "Please input which OS you are building a snapshot userdata script for 1) Ubuntu 2)Debian"
 read os_choice
@@ -71,9 +78,14 @@ fi
 /bin/echo "Please input the owner name of your infrstructure repositories (default is wintersys-projects)"
 read repo_owner
 
-if ( [ -f ./tmp ] )
+if ( [ "${repo_owner}" = "" ] )
 then
-        /bin/rm -r ./tmp
+        repo_owner="wintersys-projects"
+fi
+
+if ( [ -d ./tmp ] )
+then
+        /bin/rm -r ./tmp/*
 else
         /bin/mkdir ./tmp
 fi
@@ -101,6 +113,8 @@ then
         install_scripts_dir="./tmp/adt-database-scripts/installscripts"
 fi
 
+set -x
+
 
 files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "Install*.sh" -print -type f`
 
@@ -115,7 +129,7 @@ variables="`/bin/echo ${variables} | /usr/bin/xargs -n1 | /usr/bin/sort -u | /us
 
 /bin/echo "You need to set the following variables when you run this userdata script" > ${snapshot_userdata}
 /bin/echo "Examples of how you may set these variables are:" >> ${snapshot_userdata}
-/bin/echo "export buildos='debian'     export PHP_VERSION='8.3' export modules='fpm:cli:gmp:xmlrpc:soap:dev:mysqli'" >> ${snapshot_userdata}
+/bin/echo "export HOME='/root/tmp/adt-webserver-scripts' export buildos='debian' export PHP_VERSION='8.3' export modules='fpm cli gmp xmlrpc soap dev mysqli'" >> ${snapshot_userdata}
 /bin/echo "You can refer to the file buildstyles.dat that is active for your deployments to match the values you set here with the values you intend to deploy with" >> ${snapshot_userdata}
 /bin/echo "##########################################################################" >> ${snapshot_userdata}
 
@@ -128,15 +142,17 @@ done
 /bin/echo "##########################################################################" >> ${snapshot_userdata}
 /bin/echo "" >> ${snapshot_userdata}
 
-if ( [ ! -d ${BUILD_HOME}/logs ] )
-then
-        /bin/mkdir ${BUILD_HOME}/logs
-fi
+BUILD_HOME="/root"
 
-OUT_FILE="install-out.log.$$"
-exec 1>>${BUILD_HOME}/logs/${OUT_FILE}
-ERR_FILE="intall-err.log.$$"
-exec 2>>${BUILD_HOME}/logs/${ERR_FILE}
+/bin/echo '#if ( [ ! -d ${BUILD_HOME}/logs ] )' >> ${snapshot_userdata}
+/bin/echo '#then' >>${snapshot_userdata}
+/bin/echo '#        /bin/mkdir ${BUILD_HOME}/logs' >> ${snapshot_userdata}
+/bin/echo '#fi' >> ${snapshot_userdata}
+
+/bin/echo '#OUT_FILE="install-out.log.$$"' >> ${snapshot_userdata}
+/bin/echo '#exec 1>>${BUILD_HOME}/logs/${OUT_FILE}' >> ${snapshot_userdata}
+/bin/echo '#ERR_FILE="install-err.log.$$"' >> ${snapshot_userdata}
+/bin/echo '#exec 2>>${BUILD_HOME}/logs/${ERR_FILE}' >> ${snapshot_userdata}
 
 for file in ${files}
 do
@@ -153,7 +169,13 @@ do
                         read response
                         if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
                         then
-                                /bin/grep "##*${os_choice}.*SOURCE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                if ( [ "`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
+                                then
+                                        /bin/echo ". `/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
+                                elif ( [ "`/bin/grep "##*${os_choice}.*SOURCE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
+                                then
+                                        /bin/grep "##*${os_choice}.*SOURCE.*.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                fi
                         else
                                 /bin/grep "##.*${os_choice}.*REPO.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
                         fi
