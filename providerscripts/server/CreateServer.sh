@@ -141,20 +141,13 @@ key_id="${5}"
 cloudhost="${6}"
 snapshot_id="${8}"
 
-if ( [ "${snapshot_id}" = "${vpc_ip_range}" ] )
+if ( [ "`/bin/echo ${7} | /bin/grep ".*-.*-.*-.*-.*"`" != "" ] )
 then
-        snapshot_id=""
-fi
-if ( [ "${snapshot_id}" = "0" ] || [ "${snapshot_id}" = "1" ] )
-then
-        ddos_protection="${snapshot_id}"
+        snapshot_id="${7}"
+        ddos_protection="${8}"
 else
-        ddos_protection="${9}"
-fi
-if ( [ "${snapshot_id}" = "FILLER" ] )
-then
-        snapshot_id="${9}"
-        ddos_protection="${10}"
+        snapshot_id=""
+        ddos_protection="${7}"
 fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
