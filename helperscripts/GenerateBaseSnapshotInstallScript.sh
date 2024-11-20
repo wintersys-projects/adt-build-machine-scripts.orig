@@ -113,7 +113,7 @@ then
         install_scripts_dir="./tmp/adt-database-scripts/installscripts"
 fi
 
-files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "Install*.sh" -print -type f`
+files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "InstallNGINX*.sh" -print -type f`
 
 variables=""
 
@@ -124,16 +124,28 @@ done
 
 variables="`/bin/echo ${variables} | /usr/bin/xargs -n1 | /usr/bin/sort -u | /usr/bin/xargs`"
 
-/bin/echo "You need to set the following variables when you run this userdata script" > ${snapshot_userdata}
-/bin/echo "Examples of how you may set these variables are:" >> ${snapshot_userdata}
-/bin/echo "export source_home='/root/tmp/adt-webserver-scripts' export buildos='debian' export PHP_VERSION='8.3' export modules='fpm cli gmp xmlrpc soap dev mysqli'" >> ${snapshot_userdata}
-/bin/echo "You can refer to the file buildstyles.dat that is active for your deployments to match the values you set here with the values you intend to deploy with" >> ${snapshot_userdata}
-/bin/echo "##########################################################################" >> ${snapshot_userdata}
+/bin/echo "#You need to set the following variables when you run this userdata script" > ${snapshot_userdata}
+/bin/echo "#Examples of how you may set these variables are:" >> ${snapshot_userdata}
+/bin/echo "#export apt='/usr/bin/apt-get'  export HOME="/root" export buildos='debian' export PHP_VERSION='8.3' export modules='fpm cli gmp xmlrpc soap dev mysqli'" >> ${snapshot_userdata}
+/bin/echo "#You can refer to the file buildstyles.dat that is active for your deployments to match the values you set here with the values you intend to deploy with" >> ${snapshot_userdata}
+/bin/echo "###########################################################################" >> ${snapshot_userdata}
 
 for variable in ${variables}
 do
         /bin/echo "export ${variable}=''" >> ${snapshot_userdata}
 done
+
+if ( [ "${os_choice}" = "UBUNTU" ] )
+then
+        /bin/echo "export BUILDOS='ubuntu'" >> ${snapshot_userdata}
+elif ( [ "${os_choice}" = "DEBIAN" ] )
+then
+        /bin/echo "export BUILDOS='debian'" >> ${snapshot_userdata}
+fi
+
+/bin/echo "###########################################################################" >> ${snapshot_userdata}
+/bin/echo "#I found the following  additional variables that you may or may not need to set in the script. Please review them and decide what they need to be before running the script" >> ${snapshot_userdata}
+/bin/echo "#XXXXADDITIONAL_VARIABLESXXXX" >> ${snapshot_userdata}
 
 /bin/echo "" >> ${snapshot_userdata}
 /bin/echo "##########################################################################" >> ${snapshot_userdata}
@@ -151,10 +163,11 @@ BUILD_HOME="/root"
 /bin/echo '#ERR_FILE="install-err.log.$$"' >> ${snapshot_userdata}
 /bin/echo '#exec 2>>${BUILD_HOME}/logs/${ERR_FILE}' >> ${snapshot_userdata}
 
+additional_variables=""
 
 for file in ${files}
 do
-
+set -x
         methods="REPO BINARY SOURCE"
         processed="0"
         for method in ${methods}
@@ -167,24 +180,33 @@ do
                         if ( [ "${tokens1}" != "" ] )
                         then
                                 inline_processed="0"
+                                token_holder=""
                                 for token in ${tokens1}
                                 do
                                         if ( [ "${inline_processed}" = "0" ] )
                                         then
-                                                /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` using  method ${method} do you want to include it in your snapshot install script? (Y|N)"
-                                                read response 
-                                                if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+                                                if ( [ "${token_holder}" = "" ] || [ "`/bin/echo ${token} | /bin/grep "${token_holder}"`" = "" ] )
                                                 then
-                                                        if ( [ "${method}" = "SOURCE" ] && [ "`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
+                                                        /bin/echo "I have found installation candidate `/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'` using  method ${method} do you want to include it in your snapshot install script? (Y|N)"
+                                                        read response 
+                                                        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
                                                         then
-                                                                source_file="`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
-                                                                source_file="${install_scripts_dir}/`/bin/echo ${source_file} | /usr/bin/awk '{print  $1}' | /usr/bin/awk -F'/' '{print $(NF-1),"/",$NF}' | /bin/sed 's/ //g'`"
-                                                                /bin/cat ${source_file} >> ${snapshot_userdata}
-                                                                inline_processed="1"
+                                                                if ( [ "${method}" = "SOURCE" ] && [ "`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//'`" != "" ] )
+                                                                then
+                                                                        source_file="`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed -e 's/##.*##//g' -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
+                                                                        source_file="${install_scripts_dir}/`/bin/echo ${source_file} | /usr/bin/awk '{print  $1}' | /usr/bin/awk -F'/' '{print $(NF-1),"/",$NF}' | /bin/sed 's/ //g'`"
+                                                                        echo "XXXXXXXXXX"
+                                                                        additional_variables="`/bin/grep '#####SOURCE_BUILD_VAR#####' ${source_file} | /usr/bin/awk -F'=' '{print $1}' | /bin/tr '\n' ' '`"
+                                                                        echo "XXXXXXXXXX"
+                                                                        /bin/sed  -e '/ExtractBuildStyleValues/s/^/#/' -e '/ExtractConfigValue/s/^/#/' -e '/^#/d' ${source_file} | /usr/bin/tee -a  ${snapshot_userdata}
+                                                                        inline_processed="1"
+                                                                else
+                                                                        /bin/grep "##.*${os_choice}.*${method}.*##" ${file} | /bin/grep ${token} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                                                fi
+                                                                processed="1"
                                                         else
-                                                                /bin/grep "##.*${os_choice}.*${method}.*##" ${file} | /bin/sed 's/##.*##//g' | /bin/sed -e 's/^[ \t]*//' >> ${snapshot_userdata}
+                                                                token_holder="`/bin/echo ${token} | /usr/bin/awk -F'-' '{print $2}'`"
                                                         fi
-                                                        processed="1"
                                                 fi
                                         fi
                                 done
@@ -192,3 +214,10 @@ do
                 fi
         done
 done
+
+for variable in "`/bin/echo ${additional_variables} | /bin/sed 's/#//g'`"
+do
+        /bin/sed -i "/XXXXADDITIONAL_VARIABLESXXXX/a #export ${variable}=''" ${snapshot_userdata}
+done
+
+/bin/sed -i "s/XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
