@@ -194,9 +194,7 @@ do
                                                                 then
                                                                         source_file="`/bin/grep "##*${os_choice}.*SOURCE.*INLINE.*##" ${file}  | /bin/sed -e 's/##.*##//g' -e 's/^[ \t]*//'`" >> ${snapshot_userdata}
                                                                         source_file="${install_scripts_dir}/`/bin/echo ${source_file} | /usr/bin/awk '{print  $1}' | /usr/bin/awk -F'/' '{print $(NF-1),"/",$NF}' | /bin/sed 's/ //g'`"
-                                                                        echo "XXXXXXXXXX"
                                                                         additional_variables="`/bin/grep '#####SOURCE_BUILD_VAR#####' ${source_file} | /usr/bin/awk -F'=' '{print $1}' | /bin/tr '\n' ' '`"
-                                                                        echo "XXXXXXXXXX"
                                                                         /bin/sed  -e '/ExtractBuildStyleValues/s/^/#/' -e '/ExtractConfigValue/s/^/#/' -e '/^#/d' ${source_file} | /usr/bin/tee -a  ${snapshot_userdata}
                                                                         inline_processed="1"
                                                                 else
