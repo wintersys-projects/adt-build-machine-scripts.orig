@@ -218,3 +218,8 @@ do
 done
 
 /bin/sed -i "s/XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
+
+if ( [ -d ./tmp ] )
+then
+        /bin/rm -r ./tmp
+fi
