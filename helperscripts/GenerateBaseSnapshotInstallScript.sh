@@ -113,7 +113,7 @@ then
         install_scripts_dir="./tmp/adt-database-scripts/installscripts"
 fi
 
-files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "InstallNGINX*.sh" -print -type f`
+files=`find ${install_scripts_dir} -maxdepth 1 -not -name "InstallAll.sh" -and -name "Install*.sh" -print -type f`
 
 variables=""
 
