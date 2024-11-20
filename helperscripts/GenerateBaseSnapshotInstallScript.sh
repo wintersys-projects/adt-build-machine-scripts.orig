@@ -167,7 +167,6 @@ additional_variables=""
 
 for file in ${files}
 do
-set -x
         methods="REPO BINARY SOURCE"
         processed="0"
         for method in ${methods}
