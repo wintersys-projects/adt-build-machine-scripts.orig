@@ -224,3 +224,14 @@ then
         /bin/rm -r ./tmp
 fi
 /bin/echo "The generated file is located at: ${snapshot_userdata}"
+
+/bin/echo "Do you want to clean up the repository copies I used to generate it (Y|N)"
+read response
+
+if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+then
+        if ( [ -d ./tmp ] )
+        then
+                /bin/rm -r ./tmp
+        fi
+fi
