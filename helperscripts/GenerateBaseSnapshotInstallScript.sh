@@ -222,6 +222,14 @@ done
 
 /bin/sed -i "s/#XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
 
+for variable in `/bin/grep "#####SET-ME#####" ${snapshot_userdata} | /usr/bin/awk -F'=' '{print $1}' | /usr/bin/awk '{print $2}'`
+do
+        if ( [ "`/bin/grep ${variable} ${snapshot_userdata} | /usr/bin/wc -l `" = "1" ] )
+        then
+                /bin/sed -i "/.*${variable}.*SET-ME/d" ${snapshot_userdata}
+        fi
+done
+
 /bin/echo "The generated file is located at: ${snapshot_userdata}"
 
 /bin/echo "Do you want to clean up the repository copies I used to generate it (Y|N)"
