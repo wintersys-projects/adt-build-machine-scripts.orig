@@ -214,10 +214,13 @@ done
 
 for variable in "`/bin/echo ${additional_variables} | /bin/sed 's/#//g'`"
 do
-        /bin/sed -i "/XXXXADDITIONAL_VARIABLESXXXX/a #export ${variable}=''" ${snapshot_userdata}
+        if ( [ "${variable}" != "" ] )
+        then
+                /bin/sed -i "/XXXXADDITIONAL_VARIABLESXXXX/a #export ${variable}=''" ${snapshot_userdata}
+        fi
 done
 
-/bin/sed -i "s/XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
+/bin/sed -i "s/#XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
 
 /bin/echo "The generated file is located at: ${snapshot_userdata}"
 
