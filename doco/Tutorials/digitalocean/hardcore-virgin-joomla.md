@@ -195,15 +195,14 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     export SSL_LIVE_CERT="1"
 >     export ALGORITHM="ecdsa"
 >     export BUILD_MACHINE_VPC="0"
+>     export VPC_IP_RANGE="10.116.0.0/24"
 >     
->     #####Build Styles#####
->     export AUTOSCALE_FROM_SNAPSHOTS="0"
->     export GENERATE_SNAPSHOTS="0"
->     export SNAPSHOT_ID=""
+>     #####Snapshot Identities#####
 >     export WEBSERVER_IMAGE_ID=""
 >     export AUTOSCALER_IMAGE_ID=""
 >     export DATABASE_IMAGE_ID=""
->     export AUTOSCALE_FROM_BACKUP="0"
+>
+>     #####Build Style#####
 >     export INPARALLEL="0"
 >     
 >     #####Monitoring######
@@ -336,15 +335,14 @@ and using the values I recorded in my text file earlier, I modify the file as fo
 >     export SSL_LIVE_CERT="1"
 >     export ALGORITHM="ecdsa"
 >     export BUILD_MACHINE_VPC="0"
+>     export VPC_IP_RANGE="10.116.0.0/24"
 >     
->     #####Build Styles#####
->     export AUTOSCALE_FROM_SNAPSHOTS="0"
->     export GENERATE_SNAPSHOTS="0"
->     export SNAPSHOT_ID=""
+>     #####Snapshot Identities#####
 >     export WEBSERVER_IMAGE_ID=""
 >     export AUTOSCALER_IMAGE_ID=""
 >     export DATABASE_IMAGE_ID=""
->     export AUTOSCALE_FROM_BACKUP="0"
+>
+>     #####Build Style#####
 >     export INPARALLEL="0"
 >     
 >     #####Monitoring######
