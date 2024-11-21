@@ -219,10 +219,6 @@ done
 
 /bin/sed -i "s/XXXXADDITIONAL_VARIABLESXXXX//g" ${snapshot_userdata}
 
-if ( [ -d ./tmp ] )
-then
-        /bin/rm -r ./tmp
-fi
 /bin/echo "The generated file is located at: ${snapshot_userdata}"
 
 /bin/echo "Do you want to clean up the repository copies I used to generate it (Y|N)"
