@@ -74,5 +74,5 @@ dns="${5}"
 if ( [ "${dns}" = "vultr" ] )
 then
 	export VULTR_API_KEY="${authkey}"
-	/usr/bin/vultr dns record list ${domainurl} | /bin/grep ${subdomain} | /usr/bin/awk '{print $1}'
+	/usr/bin/vultr dns record list nuocial.uk -o json | /usr/bin/jq -r '.records[] | select (.name == "'${subdomain}'").id'
 fi
