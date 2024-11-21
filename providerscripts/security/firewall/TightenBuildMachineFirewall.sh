@@ -168,9 +168,6 @@ then
    		fi
 	fi
 
- 	#Leave it up to the user to choose if they want to add the build machine to a native firewall or not but if you want to automate it here's the spot
-	#. ${BUILD_HOME}/providerscripts/security/firewall/AttachBuildMachineToNativeFirewall.sh
-
 	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
 	then
 		/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$
