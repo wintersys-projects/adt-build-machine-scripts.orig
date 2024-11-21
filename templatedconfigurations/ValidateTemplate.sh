@@ -313,17 +313,6 @@ then
 	${log_command} "Your value for the variable SSL_LIVE_CERT (${SSL_LIVE_CERT}) doesn't appear to be valid please review"
 fi
 
-if ( [ "`/bin/grep "^AUTOSCALE_FROM_SNAPSHOTS " ${quick_specification} | /bin/grep -w "${AUTOSCALE_FROM_SNAPSHOTS}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable AUTOSCALE_FROM_SNAPSHOTS (${AUTOSCALE_FROM_SNAPSHOTS}) doesn't appear to be valid please review"
-fi
-
-if ( [ "`/bin/grep "^AUTOSCALE_FROM_BACKUP " ${quick_specification} | /bin/grep -w "${AUTOSCALE_FROM_BACKUP}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable AUTOSCALE_FROM_BACKUP (${AUTOSCALE_FROM_BACKUP}) doesn't appear to be valid please review"
-fi
-
-
 if ( [ "`/bin/grep "^ACTIVE_FIREWALLS " ${quick_specification} | /bin/grep -w "${ACTIVE_FIREWALLS}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable ACTIVE_FIREWALLS (${ACTIVE_FIREWALLS}) doesn't appear to be valid please review"
