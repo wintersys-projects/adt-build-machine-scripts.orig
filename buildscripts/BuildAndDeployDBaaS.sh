@@ -427,27 +427,11 @@ else
 			status "Provisioning managed database for you...Please wait"
 			/bin/sleep 10
 
-			DBaaS_USERNAME="`/usr/bin/vultr database user list ${database_id} | /bin/grep "^USERNAME" | /usr/bin/awk '{print $NF}'`"
-
-			while ( [ "${DBaaS_USERNAME}" = "" ] )
-			do
-				DBaaS_USERNAME="`/usr/bin/vultr database user list ${database_id} | /bin/grep "^USERNAME" | /usr/bin/awk '{print $NF}'`"
-				/bin/sleep 10
-			done
-
-			DBaaS_PASSWORD="`/usr/bin/vultr database user list ${database_id} | /bin/grep "^PASSWORD" | /usr/bin/awk '{print $NF}'`"
-
-			status "Please enter your databases' hostname, for example: vultr-prod-176d77dc-6874-48ac-b164-a9e489120d62-vultr-prod-02af.vultrdb.com"
-			if ( [ "${HARDCORE}" != "1" ] )
-			then
-				read response
-				export DBaaS_HOSTNAME="${response}"
-
-				status "Please enter the port number that your database is running on"
-				read response
-				export DB_PORT="${response}"
-				export DBaaS_DBNAME="${db_name}"
-			fi
+			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").user'`"
+			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").password'`"
+   			export DBaaS_HOSTNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").host'`"
+         		export DB_PORT="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").port'`"
+         		export DBaaS_DBNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").dbname'`"
 
 			status ""
 			status "The rest of the settings for your database are as follows:"
@@ -467,7 +451,6 @@ else
 			status "###################################################################################################"
 			status "WHEN this is done, please press <enter>"
 			read x
-   			#        /usr/bin/vultr database update ${database_id} --trusted-ips "0.0.0.0" #This doesn't work, if you know how to make it work, please tell me 0.0.0.0/0 is not accepted
 		fi
 	fi
 fi
