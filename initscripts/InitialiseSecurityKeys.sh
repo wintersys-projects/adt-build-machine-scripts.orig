@@ -66,16 +66,9 @@ fi
 /bin/chmod 700 ${BUILD_KEY}.pub
 
 #Use a varaible for easy access to the build key
-
-if ( [ "${AUTOSCALE_FROM_SNAPSHOTS}" = "1" ] )
-then
-	snapshot_id="`/bin/echo ${SNAPSHOT_ID} | /usr/bin/cut -c1-4`"
-	key_name="${snapshot_id}-${PUBLIC_KEY_NAME}-${BUILD_IDENTIFIER}"
-else
-	key_name="${PUBLIC_KEY_NAME}-${BUILD_IDENTIFIER}"
-	${BUILD_HOME}/providerscripts/security/DeleteSSHKeyPair.sh "${key_name}" "${TOKEN}" ${CLOUDHOST}
-	${BUILD_HOME}/providerscripts/security/RegisterSSHKeyPair.sh "${key_name}" "${TOKEN}" "`/bin/cat ${BUILD_KEY}.pub`" ${CLOUDHOST}
-fi
+key_name="${PUBLIC_KEY_NAME}-${BUILD_IDENTIFIER}"
+${BUILD_HOME}/providerscripts/security/DeleteSSHKeyPair.sh "${key_name}" "${TOKEN}" ${CLOUDHOST}
+${BUILD_HOME}/providerscripts/security/RegisterSSHKeyPair.sh "${key_name}" "${TOKEN}" "`/bin/cat ${BUILD_KEY}.pub`" ${CLOUDHOST}
 
 PUBLIC_KEY_ID="`${BUILD_HOME}/providerscripts/security/GetSSHKeyID.sh \"${key_name}\" ${CLOUDHOST}`"
 
