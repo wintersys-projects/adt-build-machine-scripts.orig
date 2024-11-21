@@ -115,39 +115,9 @@ then
         status "Means that there is something wrong and you should start to investigate"
         status "##########################################################################################################"
 else
-        pids=""
-        status "###############################################################################################################################################"
-        status "Performing a regular style build (not from snapshot images). If this is what you want, press <enter> if not <ctrl-c> to reconfigure"
-        if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
-        then
-                 if ( [ "${CLOUDHOST}" = "linode" ] )
-                 then
-                         status "=============================================================================================================================================="
-                         status "To be able to generate snapshots when using Linode you need to enable the backup service for your linodes before the snapshots are made"
-                         status "This is because of image size limits that are present when backups are not enabled for a linode which will cause the image generation to fail"
-                         status "You will be given an opportunity to enable backups for your linodes just before snapshots are made as part of this build process"
-                         status "==============================================================================================================================================="
-                         status "Press <enter> to acknowledge this"
-                         if ( [ "${HARDCORE}" != "1" ] )
-                         then
-                                 read x
-                         fi
-                 fi
-                 status "SNAPSHOTS OF YOUR MACHINES WILL BE GENERATED FOR FUTURE USE"
-        else
-                 status "NO SNAPSHOTS ARE BEING GENERATED"
-        fi
-        status "###############################################################################################################################################"
-        status "Press <enter> to carry on"
-        if ( [ "${HARDCORE}" != "1" ] )
-        then
-                read carryon
-        fi
 
         if ( [ "${PRODUCTION}" = "1" ] && [ "${DEVELOPMENT}" = "0" ] && [ "${BASELINE_DB_REPOSITORY}" != "VIRGIN" ] )
         then
-                if ( [ "${GENERATE_SNAPSHOTS}" != "1" ] )
-                then
                         if ( [ "${NO_AUTOSCALERS}" = "" ] )
                         then
                                 status "How many autoscalers do you want to deploy?"
@@ -190,9 +160,7 @@ else
                                         fi
                                 fi
                         fi
-                else
-                        status "One autoscaler is being deployed (generate snapshots is active)"
-                fi
+
                 if ( [ "${NO_AUTOSCALERS}" -ne "0" ] && [ "${INPARALLEL}" = "0" ] )
                 then
                         tally="0"
