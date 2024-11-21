@@ -46,7 +46,7 @@ if ( [ "${CLOUDHOST}" = "vultr" ] )
 then
 	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
 	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
-	build_machine_id="`/usr/bin/vultr instance list | /bin/grep -w ${build_machine_ip} | /usr/bin/awk '{print $1}'`"
+	build_machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.main_ip == "'${build_machine_ip}'").id'`"
 	/usr/bin/vultr instance update-firewall-group ${build_machine_id} -f ${firewall_id}
 fi
 
