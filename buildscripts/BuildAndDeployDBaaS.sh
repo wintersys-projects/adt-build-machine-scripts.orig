@@ -391,22 +391,14 @@ else
 			if ( [ "${database_type}" = "MySQL" ] )
 			then
 
-				database="`/usr/bin/vultr database list | /bin/egrep "^ID|${label}" | tr '\n' ' '`"
-
-				if ( [ "`/bin/echo ${database} | /bin/grep -w "${label}"`" != "" ] )
-				then
-					database_id="`/bin/echo ${database} | /usr/bin/awk '{print $2}'`"
-				fi
-
+				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+    
 				if ( [ "${database_id}" = "" ] )
 				then
 					/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --mysql-require-primary-key="false" --vpc-id="${vpc_id}"
 				fi
 
-				if ( [ "`/usr/bin/vultr database list | /bin/grep "${label}"`" != "" ] )
-				then
-					database_id="`/usr/bin/vultr database list | /bin/grep "^ID" | /usr/bin/awk '{print $NF}'`"
-				fi
+				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
 				if ( [ "${database_id}" != "" ] )
 				then
@@ -417,22 +409,14 @@ else
 			if ( [ "${database_type}" = "Postgres" ] )
 			then
 
-				database="`/usr/bin/vultr database list | /bin/egrep "^ID|${label}" | tr '\n' ' '`"
-
-				if ( [ "`/bin/echo ${database} | /bin/grep -w "${label}"`" != "" ] )
-				then
-					database_id="`/bin/echo ${database} | /usr/bin/awk '{print $2}'`"
-				fi
+				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
 				if ( [ "${database_id}" = "" ] )
 				then
 					/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
 				fi
-
-				if ( [ "`/usr/bin/vultr database list | /bin/grep "${label}"`" != "" ] )
-				then
-					database_id="`/usr/bin/vultr database list | /bin/grep "^ID" | /usr/bin/awk '{print $NF}'`"
-				fi
+				
+    				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
 				if ( [ "${database_id}" != "" ] )
 				then
