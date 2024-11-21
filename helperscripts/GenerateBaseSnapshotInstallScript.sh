@@ -223,3 +223,4 @@ if ( [ -d ./tmp ] )
 then
         /bin/rm -r ./tmp
 fi
+/bin/echo "The generated file is located at: ${snapshot_userdata}"
