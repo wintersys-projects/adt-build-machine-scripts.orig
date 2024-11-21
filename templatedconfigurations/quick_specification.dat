@@ -28,7 +28,7 @@ PERSIST_ASSETS_TO_CLOUD 0 1
 BUILD_CHOICE 0 1 2 3 4 5 6 
 BUILD_ARCHIVE_CHOICE virgin baseline hourly daily weekly monthly bimonthly
 APPLICATION_LANGUAGE HTML PHP
-PHP_VERSION 8.0 8.1 8.2 8.3
+PHP_VERSION 8.0 8.1 8.2 8.3 8.4
 REGION DIGITALOCEAN nyc1 sfo1 nyc2 ams2 sgp1 lon1 nyc3 ams3 fra1 tor1 sfo2 blr1 sfo3
 REGION EXOSCALE ch-gva-2 ch-dk-2 at-vie-1 de-fra-1 bg-sof-1 de-muc-1
 REGION LINODE ap-west ca-central ap-southeast us-iad us-ord fr-par us-sea br-gru nl-ams se-sto es-mad in-maa jp-osa it-mil us-mia id-cgk us-lax gb-lon au-mel us-central us-west us-southeast us-east eu-west ap-south eu-central ap-northeast
