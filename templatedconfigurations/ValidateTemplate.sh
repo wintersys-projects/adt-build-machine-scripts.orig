@@ -323,24 +323,10 @@ then
 	${log_command} "Your value for the variable AUTOSCALE_FROM_BACKUP (${AUTOSCALE_FROM_BACKUP}) doesn't appear to be valid please review"
 fi
 
-if ( [ "`/bin/grep "^GENERATE_SNAPSHOTS " ${quick_specification} | /bin/grep -w "${GENERATE_SNAPSHOTS}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable GENERATE_SNAPSHOTS (${GENERATE_SNAPSHOTS}) doesn't appear to be valid please review"
-fi
 
 if ( [ "`/bin/grep "^ACTIVE_FIREWALLS " ${quick_specification} | /bin/grep -w "${ACTIVE_FIREWALLS}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable ACTIVE_FIREWALLS (${ACTIVE_FIREWALLS}) doesn't appear to be valid please review"
-fi
-
-if ( [ "${AUTOSCALE_FROM_BACKUP}" = "1" ] && [ "${GENERATE_SNAPSHOTS}" = "1" ] )
-then
-	${log_command} "You shouldn't have GENERATE_SNAPSHOTS and AUTOSCALE_FROM_BACKUP on at the same time"
-fi
-
-if ( [ "${AUTOSCALE_FROM_BACKUP}" = "1" ] && [ "${AUTOSCALE_FROM_SNAPSHOTS}" = "1" ] )
-then
-	${log_command} "You shouldn't have AUTOSCALE_FROM_BACKUP from and AUTOSCALE_FROM_SNAPSHOTS on at the same time"
 fi
 
 if ( [ "`/bin/grep "^GENERATE_STATIC " ${quick_specification} | /bin/grep -w "${GENERATE_STATIC}"  2>/dev/null `" = "" ] )
