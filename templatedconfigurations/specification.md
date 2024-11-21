@@ -736,13 +736,6 @@ The templating system is set up to use live certificates by default in all cases
 
 If you have built from snapshots, set this to "1" to have your webservers  built during a scaling event be built from your snapshots.
 
------
-
-
-### GENERATE_SNAPSHOTS
-
-If you are doing a build to generate snapshots ready for future builds to deploy from, you can set GENERATE SNAPSHOTS to "1" otherwise it should be "0"
-
 ----
 
 ### SNAPSHOT_ID
@@ -769,17 +762,6 @@ The added advantage of the backup method over the snapshots method is that it ha
 ### SELECTED_TEMPLATE
 
 When you are making a "hardcore" build, you need to supply the number of the template you are generating a script for, for example, "1", "2", "3"
-
--------
-
-### GENERATE_STATIC
-
-You can set this value to 1 or 0
-
-If you set this value to 1, then once per day a static copy of your website will be uploaded to a bucket with the "static" name appended to it.
-If you set this value to 0, no static copy of your website is generated
-
-This is useful if you want to publish blogs and so on as static sites for the public to read. Its more secure, faster and cheaper. You can use your active dynamic site to produce the content and then mirror a copy of it to a bucket. Each of the providers will have different processes for making your static website available through DNS. For example [linode](https://www.linode.com/docs/guides/host-static-site-object-storage) and [aws](https://dev.to/aws-builders/hosting-your-static-wordpress-site-on-aws-s3-4cib)
 
 -----------
 
