@@ -67,13 +67,7 @@ fi
 
 #Use a varaible for easy access to the build key
 
-if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
-then
-	snapshot_id="`/bin/echo ${SERVER_USER} | /usr/bin/cut -c1-4`"
-	key_name="${snapshot_id}-${PUBLIC_KEY_NAME}-${BUILD_IDENTIFIER}"
-	${BUILD_HOME}/providerscripts/security/DeleteSSHKeyPair.sh "${key_name}" "${TOKEN}" ${CLOUDHOST}
-	${BUILD_HOME}/providerscripts/security/RegisterSSHKeyPair.sh "${key_name}" "${TOKEN}" "`/bin/cat ${BUILD_KEY}.pub`" ${CLOUDHOST}
-elif ( [ "${AUTOSCALE_FROM_SNAPSHOTS}" = "1" ] )
+if ( [ "${AUTOSCALE_FROM_SNAPSHOTS}" = "1" ] )
 then
 	snapshot_id="`/bin/echo ${SNAPSHOT_ID} | /usr/bin/cut -c1-4`"
 	key_name="${snapshot_id}-${PUBLIC_KEY_NAME}-${BUILD_IDENTIFIER}"
