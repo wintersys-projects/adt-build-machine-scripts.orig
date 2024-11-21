@@ -19,27 +19,23 @@
 #########################################################################################
 #########################################################################################
 #set -x
+authorised="no"
+machine_types="autoscaler webserver database"
 
-if (    [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "autoscaler" ${CLOUDHOST} 2> /dev/null`" != "" ] )
-then
-	status "#####################################################################################"
-	status "It seems like there is an autoscaler already running please close it down and rebuild"
-	status "#####################################################################################"
-	exit
-fi
+for machine_type in ${machine_types}
+do
+	authorised="no"
+	while ( [ "${authorised}" = "no" ] )
+	do
+		if (    [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "${machine_type}" ${CLOUDHOST} 2> /dev/null`" != "" ] )
+		then
+			status "#####################################################################################"
+			status "It seems like there is an ${machine_type} already running please close it down and rebuild"
+			status "#####################################################################################"
+			status "Press <enter> to try again (once the ${machine_type} I found is offline"
+  		else
+   			authorised="yes"
+		fi
+ 	done
+done
 
-if ( [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "webserver" ${CLOUDHOST} 2> /dev/null`" != "" ] )
-then
-	status "###############################################################################"
-	status "It seems like the webserver is already running please close it down and rebuild"
-	status "###############################################################################"
-	exit
-fi
-
-if ( [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "database" ${CLOUDHOST} 2> /dev/null`" != "" ] )
-then
-	status "##############################################################################"
-	status "It seems like the database is already running please close it down and rebuild"
-	status "##############################################################################"
-	exit
-fi
