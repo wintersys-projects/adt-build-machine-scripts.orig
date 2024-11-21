@@ -730,18 +730,6 @@ if SSL_LIVE_CERT="0" then this says "generate a staging (development mode) certi
 
 The templating system is set up to use live certificates by default in all cases
 
------
-
-### AUTOSCALE_FROM_SNAPSHOTS
-
-If you have built from snapshots, set this to "1" to have your webservers  built during a scaling event be built from your snapshots.
-
-----
-
-### SNAPSHOT_ID
-
-The snapshot ID is the first four characters of the snapshots that you are going to build your servers from
-
 ------
 
 ### WEBSERVER_IMAGE_ID
@@ -750,12 +738,6 @@ The snapshot ID is the first four characters of the snapshots that you are going
 
 These are the full IDs of the images that your servers will be built off if you build using snapshots you have generated.
 
-------
-
-### AUTOSCALE_FROM_BACKUP
-
-When this is set to '1' the build process with take a backup of your webserver using tar and write it to the datastore. When there is a scaling even  the webservers will be built from the backup which should be slightly quicker than doing a full build and possibly even quicker than doing a snapshot based build.  
-The added advantage of the backup method over the snapshots method is that it happens transparently once the option is set and the disadvantage is that its only for webservers and not autoscaler machines or databases
 
 -------
 
