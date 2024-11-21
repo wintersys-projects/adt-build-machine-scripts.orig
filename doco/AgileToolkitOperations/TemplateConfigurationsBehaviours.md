@@ -97,17 +97,17 @@ To deploy a temporal application with hourly peridicity in template 3, you modif
 
 #### Objective 8
 
-To deploy PHP version 8.1 you set the following values in the appropriate template
-
->     export APPLICATION_LANGUAGE="PHP"
->     export PHP_VERSION="8.1"
-
-#### Objective 9
-
 To deploy PHP version 8.3 you set the following values in the appropriate template
 
 >     export APPLICATION_LANGUAGE="PHP"
 >     export PHP_VERSION="8.3"
+
+#### Objective 9
+
+To deploy PHP version 8.4 you set the following values in the appropriate template
+
+>     export APPLICATION_LANGUAGE="PHP"
+>     export PHP_VERSION="8.4"
 
 -----------------------------------------------------------------
 
@@ -313,19 +313,6 @@ to switch it off:
 >     export SUPERSAFE_WEBROOT="0"
 >     export SUPERSAFE_DB="0"
 
-------------------------------------------------------------------------------
-
-#### Objective 31
-
-To switch "GENERATE_STATIC" on and off:
-
->     export GENERATE_STATIC="1"
-
-and 
-
->     export GENERATE_STATIC="0"
-
-
 -------------------------------------------------------------------------------
 
 #### Objective 32
@@ -357,42 +344,26 @@ To modify which firewalls are active for example for native and ufw to be enable
 
 To switch "SSL_LIVE_CERT" on and off:
 
->     export SSL_LIVE_CERTN="1"
+>     export SSL_LIVE_CERTN="1" (this will have issuance limits/week but will be a production ready certificate)
 
 and
 
->     export SSL_LIVE_CERT="0"
+>     export SSL_LIVE_CERT="0" (this will not have issuance limits but will only be a staging certificate)
 
 ------------------------------------------------------------------------------
 
 #### Objective 36
 
-To generate snapshots in during a build for future use in template 3 put:
+To deploy from snasphots base snasphots that you have generated
 
->     export GENERATE_SNAPSHOTS="1"<br>
-
-#### Objective 37
-
-To deploy from snasphots generated previously in template 3 put:
-
->     export AUTOSCALE_FROM_SNAPSHOTS="1"
->     export GENERATE_SNAPSHOTS="0"
->     export SNAPSHOT_ID="xxxx"
 >     export WEBSERVER_IMAGE_ID="yyyy"
 >     export AUTOSCALER_IMAGE_ID="zzzz"
 >     export DATABASE_IMAGE_ID="xxxx"
 
---------------------------------------------------------------------------------
-
-#### Objective 38
-
-To autoscale webservers from webserver machine backups in template 3 put:
-
->     export AUTOSCALE_FROM_BACKUP="0"
 
 --------------------------------------------------------------------------------
 
-#### Objective 39
+#### Objective 37
 
 To make the machines build in parrallel rather than sequentially, put:
 
@@ -400,7 +371,7 @@ To make the machines build in parrallel rather than sequentially, put:
 
 --------------------------------------------------------------------------------
 
-#### Objective 40
+#### Objective 38
 
 To install monitoring gear put in any template:
 
