@@ -44,17 +44,6 @@ then
   	fi
 fi
 
-if ( [ "${AUTOSCALE_FROM_BACKUP}" = "1" ] )
-then
-	status "You have chosen to scale your webservers from backups of entire machines this means that the initial webserver build will take a little longer"
-	status "Whilst a backup of the webserver's filesystem is made to your datastore"
-	status "Press <enter> to acknowledge"
-	if ( [ "${HARDCORE}" != "1" ] )
-	then
-		read x
-	fi
-fi
-
 if ( [ "${CLOUDHOST}" = "vultr" ] )
 then
 	export ENABLE_DDOS_PROTECION="0"
