@@ -23,14 +23,14 @@ To use this toolkit productively its necessary to understand the intended workfl
 
 You can create a preinstalled software snapshot that matches the configuration of the machine you intend to deploy. Using this technique of building a webserver from a snapshot, I got times of 8 minutes instead of 15 minutes for a webserver to build so it can be worth looking into using snasphots with core software already installed rather than having the software installed on the fly for each new build. In other words, if you build of snapshots and you build 8 webservers the software will only have been installed once (for the snapshot to be generated) where as without snapshots the software will be installed 8 times once for each webserver
 
->     run the script ${BUILD_HOME}/helperscripts/GenerateBaseSnapshotInstallScript.sh
->     get the generated output script from ${BUILD_HOME}/userdatascripts and set any variables that are needed according to your requirements
->     spin up a vanilla VPS machine for your chosen cloud provider of the same OS type (debian or ubuntu) that you intend to ultimately deploy to
->     Logon to your new machine and copy the userdatascript that you generated to it
->     Run the script to install your software base
->     Once all the software you need is installed, take a snapshot of it (which will be different for each provider)
->     Once you have an snapshot image ID terminate the machine that you just took a snapshot of
->     Get the snapshot image id and paste it into your template for the type of machine that you are building for (e.g. WEBSERVER_IMAGE_ID)
+>     1. run the script ${BUILD_HOME}/helperscripts/GenerateBaseSnapshotInstallScript.sh
+>     2. get the generated output script from ${BUILD_HOME}/userdatascripts and set any variables that are needed according to your requirements
+>     3. spin up a vanilla VPS machine for your chosen cloud provider of the same OS type (debian or ubuntu) that you intend to ultimately deploy to
+>     4. Logon to your new machine and copy the userdatascript that you generated to it
+>     5. Run the script to install your software base
+>     6. Once all the software you need is installed, take a snapshot of it (which will be different for each provider)
+>     7. Once you have an snapshot image ID terminate the machine that you just took a snapshot of
+>     8. Get the snapshot image id and paste it into your template for the type of machine that you are building for (e.g. WEBSERVER_IMAGE_ID)
 
 If you do all that then the (in this case) webserver machines will build off snapshots and that includes the any machines started and provisioned due to scaling events once your infrastructure is up and running
 
