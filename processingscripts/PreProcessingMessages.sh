@@ -69,24 +69,6 @@ then
 	fi
 fi
 
-if ( [ "${AUTOSCALE_FROM_BACKUP}" = "1" ] )
-then
-	if ( [ "${HARDCORE}" != "1" ] )
-	then
-		status "############################################################################################################################################"
-		status "WARNING: It looks like you are autoscaling from backups of an entire webserver this will write large files to and from your S3 compatable"
-		status "Datastore. Please make sure you know what your provider's billing is for data in and out before you go full steamahead with this"
-		status "This will likely vary depending upon the location of your S3 datastore relative to where your main VPS machines are located"
-		status "I don't want you getting some hefty bill after three weeks of running in this configuration"
-		status "############################################################################################################################################"
-		status "Once you have understood this and actioned in, press <enter>"
-		if ( [ "${HARDCORE}" != "1" ] )
-		then
-			read x
-		fi
-	fi
-fi
-
 if ( [ "${BUILD_CHOICE}" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
 	if ( [ "${SUPERSAFE_WEBROOT}" = "2" ] || [ "${SUPERSAFE_DB}" = "2" ] )
