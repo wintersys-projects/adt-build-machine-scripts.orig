@@ -460,12 +460,13 @@ else
 			status "If these settings look OK to you, press <enter>"
 			read response
 
-			status "###################################################################################################"
-			status "ESSENTIAL: Please remove all trusted ip addresses associated with the database at ${DBaaS_HOSTNAME}"
-			status "The build will fail if this is not done using the vultr GUI system."
-			status "###################################################################################################"
-			status "WHEN this is done, please press <enter>"
-			read x
+			#status "###################################################################################################"
+		#	status "ESSENTIAL: Please remove all trusted ip addresses associated with the database at ${DBaaS_HOSTNAME}"
+		#	status "The build will fail if this is not done using the vultr GUI system."
+		#	status "###################################################################################################"
+		#	status "WHEN this is done, please press <enter>"
+		#	read x
+  			/usr/bin/vultr database update ${database_id} --trusted-ips "${VPC_IP_RANGE}"
 		fi
 	fi
 fi
