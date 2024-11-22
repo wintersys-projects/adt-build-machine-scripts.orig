@@ -103,8 +103,8 @@ then
         	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${location} --subnets.label adt-subnet --subnets.ipv4 ${vpc_ip_range}		
 	fi
 	
-	vpc_id="`/usr/local/bin/linode-cli vpcs list --json --pretty | /usr/bin/jq -r '.[] | select (.label == "adt-vpc").id'`"
- 	subnet_id="`/usr/local/bin/linode-cli --json --pretty vpcs subnets-list ${vpc_id} | /usr/bin/jq  -r '.[] | select (.label == "adt-subnet").id'`"
+	vpc_id="`/usr/local/bin/linode-cli vpcs list --json | /usr/bin/jq -r '.[] | select (.label == "adt-vpc").id'`"
+ 	subnet_id="`/usr/local/bin/linode-cli --json vpcs subnets-list ${vpc_id} | /usr/bin/jq  -r '.[] | select (.label == "adt-subnet").id'`"
 	
  	if ( [ "${snapshot_id}" != "" ] )
 	then
