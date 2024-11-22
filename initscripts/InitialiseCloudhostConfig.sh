@@ -52,8 +52,8 @@ then
 		/bin/mkdir -p /root/.config/doctl
 	fi
 
-	/bin/echo "${TOKEN}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN
-	/bin/chmod 700 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN
+	/bin/echo "${TOKEN}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
+	/bin/chmod 700 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
 	
 	/bin/cp ${BUILD_HOME}/.config/doctl/config.yaml /root/.config/doctl/config.yaml
 	/bin/chown root:root ${BUILD_HOME}/.config/doctl/config.yaml /root/.config/doctl/config.yaml
@@ -103,11 +103,7 @@ then
 	if ( [ "${ACCESS_KEY}" != "" ] )
 	then
 		/bin/sed -i "s/XXXXACCESSKEYXXXX/${ACCESS_KEY}/" ${BUILD_HOME}/.exoscale.toml
-		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST} ] )
-		then
-			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}
-		fi
-		/bin/echo "${ACCESS_KEY}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ACCESS_KEY
+		/bin/echo "${ACCESS_KEY}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ACCESS_KEY
 	else 
 		status "Couldn't find your access key in your template, will have to exit"
 		exit
@@ -116,11 +112,7 @@ then
 	if ( [ "${SECRET_KEY}" != "" ] )
 	then
 		/bin/sed -i "s/XXXXSECRETKEYXXXX/${SECRET_KEY}/" ${BUILD_HOME}/.exoscale.toml
-		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST} ] )
-		then
-			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}
-		fi
-		/bin/echo "${SECRET_KEY}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/SECRET_KEY
+		/bin/echo "${SECRET_KEY}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/SECRET_KEY
 	else 
 		status "Couldn't find your secret key in your template, will have to exit"
 		exit
@@ -190,8 +182,8 @@ then
 		/bin/mkdir /root/.config
 	fi
 
-	/bin/echo "${TOKEN}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN
-	/bin/chmod 700 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN
+	/bin/echo "${TOKEN}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
+	/bin/chmod 700 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
 
 	/bin/cp  ${BUILD_HOME}/.linode-cli /root/.config/linode-cli
 	/bin/chown root:root /root/.config/linode-cli ${BUILD_HOME}/.linode-cli
@@ -223,11 +215,11 @@ then
 		then
 			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}
 		fi
-		/bin/echo ${TOKEN} > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN
+		/bin/echo ${TOKEN} > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
 		/bin/echo "api-key: ${TOKEN}" > ${BUILD_HOME}/.vultr-cli.yaml
 		/bin/echo "api-key: ${TOKEN}" > /root/.vultr-cli.yaml
-		/bin/chown root:root ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN ${BUILD_HOME}/.vultr-cli.yaml /root/.vultr-cli.yaml
-		/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN ${BUILD_HOME}/.vultr-cli.yaml /root/.vultr-cli.yaml
+		/bin/chown root:root ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN ${BUILD_HOME}/.vultr-cli.yaml /root/.vultr-cli.yaml
+		/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN ${BUILD_HOME}/.vultr-cli.yaml /root/.vultr-cli.yaml
 	else
 		status "Couldn't find your vultr API key from your template - will have to exit...."
 		exit
