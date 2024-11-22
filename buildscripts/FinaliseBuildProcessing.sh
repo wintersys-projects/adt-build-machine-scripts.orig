@@ -175,14 +175,19 @@ status "Build process fully complete"
 #envdump.dat file below with the variables you have added
 ###########################################################################################
 
-/bin/rm ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
+if ( [ ! -d ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration ] )
+then
+	/bin/mkdir -p ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration
+else
+	/bin/rm ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration
+fi
 /bin/sed -i '/^$/d' ${BUILD_HOME}/builddescriptors/envdump.dat
 while read line
 do
 	name="`/bin/echo ${line} | /usr/bin/awk -F':' '{print $1}'`"
 	value="`/bin/echo ${line} | /usr/bin/awk -F':' '{print $NF}'`"
 	value="`eval /bin/echo ${value}`"
-	/bin/echo "export ${name}=\"${value}\"" >> ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
+	/bin/echo "export ${name}=\"${value}\"" >> ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration/${BUILD_IDENTIFIER}.conf
 done < ${BUILD_HOME}/builddescriptors/envdump.dat
 
 
