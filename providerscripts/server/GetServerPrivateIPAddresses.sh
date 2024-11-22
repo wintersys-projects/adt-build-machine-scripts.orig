@@ -24,6 +24,7 @@ server_type="${1}"
 cloudhost="${2}"
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`" 
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
