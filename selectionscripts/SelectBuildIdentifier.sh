@@ -50,3 +50,10 @@ then
 fi
 
 BUILD_IDENTIFIER="`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]' | /bin/sed 's/-//g'`"
+
+if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
+then
+	/bin/mkdir ${BUILD_HOME}/runtimedata
+fi
+
+/bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER
