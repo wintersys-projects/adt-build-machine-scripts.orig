@@ -152,7 +152,7 @@ fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
 then
-        export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
+      #  export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
         os_choice="`/bin/echo "${os_choice}" | /bin/sed "s/'//g"`"
 
         if ( [ "`/usr/bin/vultr vpc2 list | grep adt-vpc`" = "" ] )
