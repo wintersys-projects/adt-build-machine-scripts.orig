@@ -40,7 +40,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	/usr/local/bin/linode-cli --json --pretty linodes list | jq -r '.[] | select (.ipv4[] == "'${server_ip}'").label' 
+	/usr/local/bin/linode-cli --json --pretty linodes list | /usr/bin/jq -r '.[] | select (.ipv4[] == "'${server_ip}'").label' 
 	/bin/echo "linode" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
