@@ -150,6 +150,19 @@ else
 	fi
 fi
 
+/usr/bin/env > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment
+
+status "There is a copy of the envionment that this script is running with located at"
+status "${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment"
+status "Do you want to review the environment that we are running with now? (Y|N)"
+read response
+
+if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+then
+        status "`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment`"
+        status "Press <enter> to continue <ctrl-c> to exit"
+fi
+
 # I think the usual phrase is, 'we are all set'. So, tell the user we are starting the build proper.
 status ""
 status ""
