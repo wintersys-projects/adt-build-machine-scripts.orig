@@ -60,7 +60,7 @@ domain_url="`/bin/echo ${7} | /usr/bin/cut -d'.' -f2-`"
 
 if ( [ "${dns}" = "linode" ] )
 then
-	domain_id="`/usr/local/bin/linode-cli --json domains list | /usr/bin/jq --arg tmp_domain_url "${domain_url}" '(.[] | select(.domain | contains($tmp_domain_url)) | .id)'`"
+	domain_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.domain | contains("'${domain_url}'")).id'`"
 	/usr/local/bin/linode-cli domains records-delete ${domain_id} ${record_id}
 fi
 
