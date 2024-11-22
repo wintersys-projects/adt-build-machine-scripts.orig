@@ -43,7 +43,7 @@ then
 	privateips=""
 	for linodeid in ${linodeids}
 	do
-  		privateip="`/usr/local/bin/linode-cli --json --pretty linodes ips-list ${linodeid} | /usr/bin/jq -r '.[].ipv4.vpc[].address'`"		
+  		privateip="`/usr/local/bin/linode-cli --json linodes ips-list ${linodeid} | /usr/bin/jq -r '.[].ipv4.vpc[].address'`"		
   		privateips=${privateips}" ${privateip}"
 	done
 	/bin/echo ${privateips}
