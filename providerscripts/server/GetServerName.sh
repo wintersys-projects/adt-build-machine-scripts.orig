@@ -34,7 +34,7 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	zone="`/bin/cat ${BUILD_HOME}/runtimedata/exoscale/CURRENTREGION`"
+	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq -r '.[] | select (.ip_address =="'${server_ip}'").name'
 	/bin/echo "exoscale" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
