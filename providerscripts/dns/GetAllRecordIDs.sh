@@ -61,8 +61,7 @@ dns="${5}"
 
 if ( [ "${dns}" = "linode" ] )
 then
-	domain_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.domain | contains("'${domain_url}'")).id'`"
-	/usr/local/bin/linode-cli --json domains records-list ${domain_id}  | /usr/bin/jq -r --arg tmp_subdomain "${subdomain}" '(.[] | select(.name | contains($tmp_subdomain)) | .id)'
+	/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.domain | contains("'${domain_url}'")).id'
 fi
 
 domainurl="`/bin/echo ${2} | /usr/bin/cut -d'.' -f2-`"
