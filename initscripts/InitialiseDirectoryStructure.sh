@@ -31,16 +31,6 @@ then
 	/bin/mkdir ~/.ssh
 fi
 
-#Create a build configuration directory. This is where we persist our build settings so that they can be reused between builds.
-#So, if you make a deployment of an application, you can reuse your settings if you ever take it offline and redeploy again.
-if ( [ ! -d ${BUILD_HOME}/buildconfiguration ] )
-then
-	/bin/mkdir ${BUILD_HOME}/buildconfiguration
-fi
-
-#Just make a note of the build home directory for future use
-/bin/echo "${BUILD_HOME}" > ${BUILD_HOME}/buildconfiguration/buildhome
-
 if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER} ] )
 then
 	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
@@ -48,15 +38,9 @@ else
 	/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/*
 fi
 
-if ( [ ! -f ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}
-	/bin/touch ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
-fi
-
-if ( [ ! -d ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}-credentials ] )
-then
-	/bin/mkdir -p ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}-credentials
+	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials
 fi
 
 if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips ] )
