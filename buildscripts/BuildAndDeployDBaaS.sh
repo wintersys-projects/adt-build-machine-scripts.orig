@@ -388,65 +388,34 @@ else
 			db_name="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $7}'`"
 			vpc_id="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $9}'`"
 
-			#if ( [ "${database_type}" = "MySQL" ] )
-			#then
+			cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
-			#	database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-   # 
-	#			if ( [ "${database_id}" = "" ] )
-	#			then
-	#				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --mysql-require-primary-key="false" --vpc-id="${vpc_id}"
-	#			fi
-#
-#				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-#
-#				if ( [ "${database_id}" != "" ] )
-#				then
-#					/usr/bin/vultr database create-db ${database_id} -n "${db_name}"
-#				fi
-#			fi
-#
-#			if ( [ "${database_type}" = "Postgres" ] )
-#			then
+			if ( [ "${cluster_id}" = "" ] )
+			then
+				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
+			fi
+				
+			cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
+			if ( [ "`/bin/echo ${cluster_id} | /usr/bin/wc -w`" -gt "1" ] )
+			then
+				status "There seems to be more than one database with the name ${label} I can't tell which one you are interested in"
+			fi
+				
+			while ( [ "${cluster_id}" = "" ] )
+			do
 				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+				/bin/sleep 10
+				status "Waiting for your new database cluster to be reponsive and online"
+			done
 
-				if ( [ "${cluster_id}" = "" ] )
-				then
-					/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
-				fi
-				
-    				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-
-                                if ( [ "`/bin/echo ${cluster_id} | /usr/bin/wc -w`" -gt "1" ] )
-                                then
-                                        status "There seems to be more than one database with the name ${label} I can't tell which one you are interested in"
-                                fi
-				
-				while ( [ "${cluster_id}" = "" ] )
-    				do
-	    				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-					/bin/sleep 10
-     					status "Waiting for your new database cluster to be reponsive and online"
-    				done
-
- 				status "A new database cluster is avaiable with id ${cluster_id}"
-				status "Adding a database with name ${db_name} to your cluster"
-    				/usr/bin/vultr database db create ${database_id} --name "${db_name}"
-
- 				if ( [ "`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").dbname'`" != "" ] )
-     				then
-	 				status "A database with name ${db_name} has been created within the cluster with id ${cluster_id}"
-      				fi
-
-			
-#			fi
+ 			status "A new database cluster is avaiable with id ${cluster_id}"
 
 			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").user'`"
 			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").password'`"
    			export DBaaS_HOSTNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").host'`"
          		export DB_PORT="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").port'`"
-         		export DBaaS_DBNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").dbname'`"
+         		export DBaaS_DBNAME="${db_name}"
 
 			status ""
 			status "The rest of the settings for your database are as follows:"
@@ -460,12 +429,6 @@ else
 			status "If these settings look OK to you, press <enter>"
 			read response
 
-			#status "###################################################################################################"
-		#	status "ESSENTIAL: Please remove all trusted ip addresses associated with the database at ${DBaaS_HOSTNAME}"
-		#	status "The build will fail if this is not done using the vultr GUI system."
-		#	status "###################################################################################################"
-		#	status "WHEN this is done, please press <enter>"
-		#	read x
   			/usr/bin/vultr database update ${cluster_id} --trusted-ips "${VPC_IP_RANGE}"
 		fi
 	fi
