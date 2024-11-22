@@ -27,6 +27,9 @@ status () {
 server_ip="${1}"
 cloudhost="${2}"
 
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
+
+
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
         server_to_delete="`${HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'digitalocean'`"
