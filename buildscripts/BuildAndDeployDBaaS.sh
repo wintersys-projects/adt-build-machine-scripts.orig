@@ -395,13 +395,6 @@ else
 				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
 			fi
 				
-			cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-
-			if ( [ "`/bin/echo ${cluster_id} | /usr/bin/wc -w`" -gt "1" ] )
-			then
-				status "There seems to be more than one database with the name ${label} I can't tell which one you are interested in"
-			fi
-				
 			while ( [ "${cluster_id}" = "" ] )
 			do
 				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
