@@ -38,7 +38,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	linodeids="`/usr/local/bin/linode-cli --json --pretty linodes list | /usr/bin/jq -r '.[] | select (.label | contains("'${server_type}'")).id'`"
+	linodeids="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains("'${server_type}'")).id'`"
 
 	privateips=""
 	for linodeid in ${linodeids}
