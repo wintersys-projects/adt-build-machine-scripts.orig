@@ -388,50 +388,60 @@ else
 			db_name="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $7}'`"
 			vpc_id="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $9}'`"
 
-			if ( [ "${database_type}" = "MySQL" ] )
-			then
+			#if ( [ "${database_type}" = "MySQL" ] )
+			#then
 
-				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-    
-				if ( [ "${database_id}" = "" ] )
-				then
-					/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --mysql-require-primary-key="false" --vpc-id="${vpc_id}"
-				fi
+			#	database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+   # 
+	#			if ( [ "${database_id}" = "" ] )
+	#			then
+	#				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --mysql-require-primary-key="false" --vpc-id="${vpc_id}"
+	#			fi
+#
+#				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+#
+#				if ( [ "${database_id}" != "" ] )
+#				then
+#					/usr/bin/vultr database create-db ${database_id} -n "${db_name}"
+#				fi
+#			fi
+#
+#			if ( [ "${database_type}" = "Postgres" ] )
+#			then
 
-				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
-				if ( [ "${database_id}" != "" ] )
-				then
-					/usr/bin/vultr database create-db ${database_id} -n "${db_name}"
-				fi
-			fi
-
-			if ( [ "${database_type}" = "Postgres" ] )
-			then
-
-				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
-
-				if ( [ "${database_id}" = "" ] )
+				if ( [ "${cluster_id}" = "" ] )
 				then
 					/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
 				fi
 				
-    				database_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+    				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
-				if ( [ "${database_id}" != "" ] )
-				then
-					/usr/bin/vultr database db create ${database_id} --name "${db_name}"
-				fi
-			fi
+				while ( [ "${cluster_id}" = "" ] )
+    				do
+	    				cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
+					/bin/sleep 10
+     					status "Waiting for your new database cluster to be reponsive and online"
+    				done
 
-			status "Provisioning managed database for you...Please wait"
-			/bin/sleep 10
+ 				status "A new database cluster is avaiable with id ${cluster_id}"
+				status "Adding a database with name ${db_name} to your cluster"
+    				/usr/bin/vultr database db create ${database_id} --name "${db_name}"
 
-			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").user'`"
-			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").password'`"
-   			export DBaaS_HOSTNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").host'`"
-         		export DB_PORT="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").port'`"
-         		export DBaaS_DBNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${database_id}'").dbname'`"
+ 				if ( [ "`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").dbname'`" != "" ] )
+     				then
+	 				status "A database with name ${db_name} has been created within the cluster with id ${cluster_id}"
+      				fi
+
+			
+#			fi
+
+			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").user'`"
+			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").password'`"
+   			export DBaaS_HOSTNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").host'`"
+         		export DB_PORT="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").port'`"
+         		export DBaaS_DBNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").dbname'`"
 
 			status ""
 			status "The rest of the settings for your database are as follows:"
