@@ -133,9 +133,7 @@ export PRE_BUILD="1"
 . ${BUILD_HOME}/initscripts/InitialiseServerUserCredentials.sh
 . ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
 
-PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}-credentials/PUBLICKEYID`"
-
-/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* 2>/dev/null
+PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
 
 #If this build machine doesn't have a VPC (the user should have created one when they spun it up from the GUI) then try
 #To create and add one. This will most likely drop the user's ssh connection to their build machine and so they will have
