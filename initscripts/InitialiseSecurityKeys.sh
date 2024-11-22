@@ -28,9 +28,9 @@ BUILD_KEY="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_${ALGORITHM}_A
 
 TOKEN=""
 
-if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN ] )
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN ] )
 then
-	TOKEN="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN 2>/dev/null`"
+	TOKEN="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN 2>/dev/null`"
 fi
 
 if ( [ "${TOKEN}" = "" ] )
