@@ -31,11 +31,13 @@ cloudhost="${4}"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
+	status "About to create ssh key in digitalocean"
 	/usr/local/bin/doctl compute ssh-key create ${key_name} --public-key "${key_substance}"
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
+	status "About to create ssh key in exoscale"
 	/bin/echo ${key_substance}  > /tmp/key
 	/usr/bin/exo compute ssh-key register ${key_name} /tmp/key
 	/bin/rm /tmp/key
@@ -43,6 +45,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
+	status "About to create ssh key in linode"
 	/usr/local/bin/linode-cli sshkeys create --label "${key_name}" --ssh_key="${key_substance}"
 fi
 
