@@ -124,18 +124,18 @@ else
 	#template overrides if we are running in hardcore mode
 	selectedtemplate="${SELECTED_TEMPLATE}"
 	templatefile="${BUILD_HOME}/templatedconfigurations/templates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
-	if ( [ ! -d ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST} ] )
+	if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates ] )
 	then
-		/bin/mkdir -p  ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}
+		/bin/mkdir -p  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates
 	fi
-	if ( [ -f ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ] )
+	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates/${CLOUDHOST}${selectedtemplate}.tmpl ] )
 	then
-		/bin/mv ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl ${BUILD_HOME}/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl.$$
+		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates/${CLOUDHOST}${selectedtemplate}.tmpl ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates/${CLOUDHOST}${selectedtemplate}.tmpl.$$
 	fi
 	
-	/bin/cp ${templatefile} ${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl
+	/bin/cp ${templatefile} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates/${CLOUDHOST}${selectedtemplate}.tmpl
   
-	templatefile="${BUILD_HOME}/buildconfiguration/hardcoretemplates/${CLOUDHOST}/${CLOUDHOST}${selectedtemplate}.tmpl"
+	templatefile="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/hardcoretemplates/${CLOUDHOST}${selectedtemplate}.tmpl"
 	
 	. ${BUILD_HOME}/templatedconfigurations/OverrideTemplate.sh
 
@@ -199,5 +199,5 @@ then
 fi
 
 #Make it live
-/bin/cp ${templatefile} ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
+/bin/cp ${templatefile} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
 
