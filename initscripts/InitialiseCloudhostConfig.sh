@@ -216,6 +216,7 @@ then
 			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}
 		fi
 		/bin/echo ${TOKEN} > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
+  		export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN`"
 		/bin/echo "api-key: ${TOKEN}" > ${BUILD_HOME}/.vultr-cli.yaml
 		/bin/echo "api-key: ${TOKEN}" > /root/.vultr-cli.yaml
 		/bin/chown root:root ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN ${BUILD_HOME}/.vultr-cli.yaml /root/.vultr-cli.yaml
