@@ -47,7 +47,7 @@ fi
 /bin/sed -i "/^\$settings\['hash_salt'\]/c\$settings['hash_salt'] = '${salt}';" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php
 
 
-if ( [ "`/bin/grep 'ADDED BY CONFIG PROCESS' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/settings.php`" = "" ] )
+if ( [ "`/bin/grep 'ADDED BY CONFIG PROCESS' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php`" = "" ] )
 then
         /bin/echo "#====ADDED BY CONFIG PROCESS=====" >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php
         /bin/echo "\$settings['trusted_host_patterns'] = [ '.*' ];" >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php
