@@ -41,7 +41,7 @@ then
 fi
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
+	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/TOKEN`"
 	/usr/bin/vultr instance list | /bin/grep "${instance_type}"
 fi
 
