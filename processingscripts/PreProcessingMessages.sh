@@ -168,9 +168,7 @@ then
 		status "Sorry, I don't know how to set anything other than the default port - 5432 for the postgres database when using joomla"
 		status "Setting expected postgres port to 5432"
 		status "################################################################"
-		/bin/sed -i '/DB_PORT=/d' ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
-		/bin/echo "export DB_PORT=\"5432\"" >> ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}
-		DB_PORT=5432
+		export DB_PORT=5432
 	fi
 fi
 
