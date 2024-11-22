@@ -466,7 +466,7 @@ else
 		#	status "###################################################################################################"
 		#	status "WHEN this is done, please press <enter>"
 		#	read x
-  			/usr/bin/vultr database update ${database_id} --trusted-ips "${VPC_IP_RANGE}"
+  			/usr/bin/vultr database update ${cluster_id} --trusted-ips "${VPC_IP_RANGE}"
 		fi
 	fi
 fi
