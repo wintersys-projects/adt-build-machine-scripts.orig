@@ -150,22 +150,6 @@ else
 	fi
 fi
 
-status "#########################################################################"
-status "Do you want to see how your environment is set? - Enter Y or y to display"
-status "#########################################################################"
-if ( [ "${HARDCORE}" != "1" ] )
-then
-	read response
-
-	if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
-	then
-		status "`/bin/cat ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}`"
-		status "############################################################################"
-		status "Press <enter> to continue"
-		read x
-	fi
-fi
-
 # I think the usual phrase is, 'we are all set'. So, tell the user we are starting the build proper.
 status ""
 status ""
