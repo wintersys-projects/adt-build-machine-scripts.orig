@@ -116,19 +116,18 @@ then
 fi
 
 #Do some checks to find out if the build has completed correctly, before we say we are finished
-/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/
-/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/INITIALBUILDCOMPLETED
+/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/INITIALBUILDCOMPLETED
 
 
 if ( [ "${as_active_ips}" != "" ] )
 then
 	for autoscaler_ip in `/bin/echo ${as_active_ips} | /bin/sed 's/:/ /g'`
 	do
-		test ${PRODUCTION} -eq 1 && /usr/bin/scp -P ${SSH_PORT} ${OPTIONS_AS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/INITIALBUILDCOMPLETED ${SERVER_USER}@${autoscaler_ip}:/home/${SERVER_USER}/runtime/INITIALBUILDCOMPLETED
+		test ${PRODUCTION} -eq 1 && /usr/bin/scp -P ${SSH_PORT} ${OPTIONS_AS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/INITIALBUILDCOMPLETED ${SERVER_USER}@${autoscaler_ip}:/home/${SERVER_USER}/runtime/INITIALBUILDCOMPLETED
 	done
 elif ( [ "${as_active_ip}" != "" ] )
 then
-	test ${PRODUCTION} -eq 1 && /usr/bin/scp -P ${SSH_PORT} ${OPTIONS_AS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/INITIALBUILDCOMPLETED ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/runtime/INITIALBUILDCOMPLETED
+	test ${PRODUCTION} -eq 1 && /usr/bin/scp -P ${SSH_PORT} ${OPTIONS_AS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/INITIALBUILDCOMPLETED ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/runtime/INITIALBUILDCOMPLETED
 fi
 
 status "Testing to see if the build is completed. This may take several attempts. Endless waiting (more than 10 minutes) and something must be wrong"
