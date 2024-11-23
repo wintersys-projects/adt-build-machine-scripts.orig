@@ -56,4 +56,4 @@ then
 	/bin/mkdir ${BUILD_HOME}/runtimedata
 fi
 
-/bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER
+/bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER
