@@ -80,12 +80,12 @@ fi
 
 if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}`" != "" ] )
 then
-	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}/runtimedata/FIREWALL-EVENT ${BUILD_HOME} 
+	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME} 
 fi
 
-if ( [ -f ${BUILD_HOME}/runtimedata/FIREWALL-EVENT ] || [ -f ${BUILD_HOME}/runtimedata/PRIME_FIREWALL ] )
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/FIREWALL-EVENT ] || [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/PRIME_FIREWALL ] )
 then
-	/bin/rm ${BUILD_HOME}/runtimedata/*FIREWALL*  2>/dev/null
+	/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/*FIREWALL*  2>/dev/null
 
 	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}`" != "" ] )
 	then
@@ -99,9 +99,9 @@ then
 	
 	if ( [ "${LAPTOP_IP}" = "" ] )
 	then
-		if ( [ -f ${BUILD_HOME}/runtimedata/LAPTOPIP:* ] )
+		if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/LAPTOPIP:* ] )
 		then
-			LAPTOP_IP="`/bin/ls ${BUILD_HOME}/runtimedata/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
+			LAPTOP_IP="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
 		fi
 	fi 
 
