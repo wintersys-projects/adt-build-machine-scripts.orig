@@ -43,9 +43,9 @@ then
 	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials
 fi
 
-if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips ] )
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips
+	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips
 fi
 if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/names ] )
 then
