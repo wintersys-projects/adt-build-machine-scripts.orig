@@ -30,7 +30,7 @@ if ( [ "${BUILD_HOME}" = "" ] )
 then
 	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 fi
-BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 firewall=""
 if ( [ "`/bin/grep "^FIREWALL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
