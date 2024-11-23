@@ -38,11 +38,11 @@ then
 	TOKEN="none"
 fi
 
-if ( [ ! -d ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}
+	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys
 else
-	/bin/rm ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/* 2>/dev/null
+	/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/* 2>/dev/null
 fi
 
 if ( [ -f ${BUILD_KEY} ] )
