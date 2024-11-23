@@ -20,9 +20,9 @@
 ####################################################################################
 #set -x
 
-if ( [ -f ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_keys ] )
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/autoscaler_keys ] )
 then
-        /bin/rm ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_keys
+        /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/autoscaler_keys
 fi
 
 pids=""
@@ -76,11 +76,11 @@ then
         if ( [ "${NO_AUTOSCALERS}" -ne "0" ] && [ "${INPARALLEL}" = "0" ] )
         then
                 tally="0"
-                if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
+                if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
                 then
-                        /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT
+                        /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT
                 fi
-                while ( [ "${tally}" -lt "${NO_AUTOSCALERS}" ] && [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
+                while ( [ "${tally}" -lt "${NO_AUTOSCALERS}" ] && [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
                 do
                         . ${BUILD_HOME}/buildscripts/BuildAutoscaler.sh
                         tally="`/usr/bin/expr ${tally} + 1`"
@@ -128,7 +128,7 @@ done
 
 if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 then
-        AUTOSCALER_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_keys"
+        AUTOSCALER_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/autoscaler_keys"
         if ( [ "${PRODUCTION}" = "1" ] && [ "${NO_AUTOSCALERS}" -gt "1" ] )
         then
                 as_active_ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
@@ -151,7 +151,7 @@ then
         db_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "database" "${CLOUDHOST}"`"
 fi
 
-AUTOSCALER_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_keys"
+AUTOSCALER_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/autoscaler_keys"
 OPTIONS="-o ConnectTimeout=10 -o ConnectionAttempts=5 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes "
 
 if ( [ "${as_active_ips}" != "" ] )
