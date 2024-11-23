@@ -40,8 +40,8 @@ then
 	firewall="iptables"
 fi
 
-laptop_ip="`/bin/ls ${BUILD_HOME}/runtimedata/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'`"
-buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
+laptop_ip="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'`"
+buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${firewall}" = "ufw" ] )
 then
