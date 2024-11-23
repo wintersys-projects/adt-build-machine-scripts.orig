@@ -23,7 +23,7 @@
 
 #We want to get our key store setup so that when we build the machines they can grab the private key from the keystore rather than
 #passing the filename in as a -i parameter to ssh which is unwieldy.
-/bin/cat ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} >> ~/.ssh/${SERVER_USER}.key
+/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} >> ~/.ssh/${SERVER_USER}.key
 /bin/chmod 400 ~/.ssh/${SERVER_USER}.key
 if ( [ -f ~/.ssh/config ] )
 then
