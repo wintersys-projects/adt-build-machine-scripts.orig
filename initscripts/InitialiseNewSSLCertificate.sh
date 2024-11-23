@@ -32,9 +32,9 @@ if ( [ "${SSL_GENERATION_METHOD}" = "AUTOMATIC" ] )
 then
 	if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
 	then
-		if ( [ ! -d ${BUILD_HOME}/ssl/${WEBSITE_URL} ] )
+		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL} ] )
 		then
-			/bin/mkdir -p ${BUILD_HOME}/ssl/${WEBSITE_URL}
+			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}
 		fi
 
 		status ""
@@ -47,18 +47,18 @@ then
 		#                      2) We have an SSL certificate on our filesystem but it is expired, so we need to generate a new one and copy it over.
 		#                      3) We have no SSL certificate on our filesystem so we need to generate a new one and copy that over to our server
 
-		if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
+		if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ] )
 		then
 			if ( [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
 			then
-				if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] )
+				if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ] )
 				then
-					/bin/mv ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem.previous`/bin/date | /bin/sed 's/ //g'`
+					/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem.previous`/bin/date | /bin/sed 's/ //g'`
 				fi
 
-				if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
+				if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ] )
 				then
-					/bin/mv ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem.previous`/bin/date | /bin/sed 's/ //g'`
+					/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem.previous`/bin/date | /bin/sed 's/ //g'`
 				fi
 
 				if ( [ -d ${BUILD_HOME}/.lego ] )
@@ -75,18 +75,18 @@ then
 
 				if ( [ -f ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
 				then
-					/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
-					/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-					/bin/cat ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem > ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem
-					/bin/cp ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-					/bin/mv ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+					/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
+					/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+					/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem > ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem
+					/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+					/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 				fi
 
 
 				if (    [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
 				then
-					/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-					/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+					/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+					/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 					status "Have successfully generated a new certificate for your domain ${WEBSITE_URL} because the old certificate has expired"
 					status "Press <enter> to acknowledge"
 					if ( [ "${HARDCORE}" != "1" ] )
@@ -112,17 +112,17 @@ then
 			if ( [ -f ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
 			then
 				#All this is about is putting the generated certificate files in the right place on our nice new webserver
-				/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
-				/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-				/bin/cat ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem > ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem
-				/bin/cp ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-				/bin/mv ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+				/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.crt ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
+				/bin/mv ${BUILD_HOME}/.lego/certificates/${WEBSITE_URL}.key ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+				/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem > ${BUILD_HOME}/ssl/${WEBSITE_URL}/ssl.pem
+				/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+				/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/ssl.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 
 
 				if (    [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
 				then
-					/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-					/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+					/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+					/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 					status "Have successfully generated a new certificate for your domain ${WEBSITE_URL} because originally there was no certificate present on your filesystem for me to use"
 					status "Press <enter> to acknowledge"
 					if ( [ "${HARDCORE}" != "1" ] )
@@ -143,11 +143,11 @@ if ( [ "${SSL_GENERATION_METHOD}" = "MANUAL" ] )
 then
 	response="INPUTNEW"
 
-	if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
+	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ] )
 	then
 		status "There is a certificate I can use. Do you want me to use that?, or are you going to give me a new one?"
 		status "Found a certificate for this domain. For your info, this is its expiry date"
-		/usr/bin/openssl x509 -in ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem -noout -enddate
+		/usr/bin/openssl x509 -in ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem -noout -enddate
 		status "Please enter Y to use the existing one. Anything else to input a new one"
 		if ( [ "${HARDCORE}" != "1" ] )
 		then
@@ -156,9 +156,9 @@ then
 	fi
 	if ( ( [ "${response}" != "Y" ] && [ "${response}" != "y" ] ) || [ "${response}" = "INPUTNEW" ] )
 	then
-		if ( [ ! -d ${BUILD_HOME}/ssl/${WEBSITE_URL} ] )
+		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL} ] )
 		then
-			/bin/mkdir -p ${BUILD_HOME}/ssl/${WEBSITE_URL}
+			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}
 		fi
 
 		status "You have selected the manual method of generating an SSL certificate. This presumes that you have the necessary SSL files from a 3rd party"
@@ -168,19 +168,19 @@ then
 
 		fullchain=`cat`
 		/bin/echo "${fullchain}" > ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
-		/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+		/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 
 		status "Cheers. So, mate, please paste your certifcate key here. <ctrl d> when done"
 		status "ESSENTIAL - Only copy from the first dash in the file '-' to the last dash in the file. Do not copy any prefixed whitespace or suffixed whitespace"
 
 		privkey=`cat`
-		/bin/echo "${privkey}" > ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
-		/bin/chmod 400 ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
+		/bin/echo "${privkey}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
+		/bin/chmod 400 ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
 	fi
 fi
 
-if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ] )
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ] )
 then
-	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ssl/privkey.pem
-	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem
+	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ssl/privkey.pem
+	${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem
 fi
