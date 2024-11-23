@@ -86,9 +86,9 @@ fi
 
 if ( [ "${2}" = "off" ] )
 then
-	/bin/touch ${BUILD_HOME}/runtimedata/SWITCHOFFSCALING
-	${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/SWITCHOFFSCALING ${configbucket}/SWITCHOFFSCALING
-	/bin/rm ${BUILD_HOME}/runtimedata/SWITCHOFFSCALING
+	/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/SWITCHOFFSCALING
+	${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/SWITCHOFFSCALING ${configbucket}/SWITCHOFFSCALING
+	/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/SWITCHOFFSCALING
 	exit
 fi
 
@@ -97,20 +97,20 @@ then
 	${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${CLOUDHOST} ${configbucket}/SWITCHOFFSCALING
 fi
 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/profile.cnf
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
 if ( [ ! -f ${BUILD_HOME}/runtimedata/profile.cnf ] )
 then
 	/bin/echo "Warning, couldn't find profile file, will try and create a new one for you"
 fi
 
-original_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
+original_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
 
 if ( [ "${original_no_webservers}" = "" ] )
 then
 	original_no_webservers="0"
-	/bin/echo  "SCALING_MODE=static" > ${BUILD_HOME}/runtimedata/profile.cnf
-	/bin/echo  "NO_WEBSERVERS=0" >> ${BUILD_HOME}/runtimedata/profile.cnf
+	/bin/echo  "SCALING_MODE=static" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
+	/bin/echo  "NO_WEBSERVERS=0" >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 fi
 
 /bin/echo "##################################################################################################################"
@@ -135,18 +135,18 @@ then
 	exit
 fi
 
-/bin/sed -i "s/NO_WEBSERVER.*/NO_WEBSERVERS=${no_webservers}/" ${BUILD_HOME}/runtimedata/profile.cnf
+/bin/sed -i "s/NO_WEBSERVER.*/NO_WEBSERVERS=${no_webservers}/" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
-${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/runtimedata/profile.cnf ${configbucket}/scalingprofile/profile.cnf 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/profile.cnf
+${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${CLOUDHOST} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf ${configbucket}/scalingprofile/profile.cnf 
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
-new_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
+new_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
 
 /bin/echo ""
 /bin/echo "Your number of webservers has been successfully set to: ${new_no_webservers}"
 /bin/echo ""
 
-/bin/rm ${BUILD_HOME}/runtimedata/profile.cnf
+/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
 
 
