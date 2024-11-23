@@ -21,8 +21,10 @@
 #######################################################################################################
 #set -x
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
 logdir="scaling-events-`/usr/bin/date | /usr/bin/awk '{print $1 $2 $3 $NF}'`"
-/bin/sh ./ExecuteOnAutoscaler.sh "/bin/echo 'The logs for webservers that have been built today are:' && /bin/echo && /bin/ls /home/X*X/logs/${logdir} | /bin/grep webserver\- "
+/bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/bin/echo 'The logs for webservers that have been built today are:' && /bin/echo && /bin/ls /home/X*X/logs/${logdir} | /bin/grep webserver\- "
 
 /bin/echo && /bin/echo && 'Please enter the 4 digit unique code that you see in webserver name to tail the error stream for that server build'
 
@@ -40,8 +42,8 @@ fi
 
 if ( [ "${choice}" = "1" ] )
 then
-	 /bin/sh ./ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*out*"
+	 /bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*out*"
 elif ( [ "${choice}" = "2" ] )
 then
-	 /bin/sh ./ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*err*"
+	 /bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*err*"
 fi
