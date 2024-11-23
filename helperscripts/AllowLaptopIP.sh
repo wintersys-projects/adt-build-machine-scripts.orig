@@ -61,9 +61,10 @@ else
         exit
 fi
 
-if ( [ ! -d ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips ] )
+
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips ] )
 then
-        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips
+        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips
 fi
 
 /bin/echo "Please enter the IP address of your laptop that you are modifying access for. You can find the ip address of your laptop using: www.whatsmyip.com"
@@ -80,9 +81,9 @@ do
         read mode
 done
 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
 
-if ( [ ! -f ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat ] )
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ] )
 then
         /bin/echo "Couldn't find existing authorised ip addresses"
         ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}
@@ -90,14 +91,14 @@ fi
 
 if ( [ "${mode}" = "1" ] )
 then
-        /bin/echo ${ip} >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
+        /bin/echo ${ip} >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
 else
-        /bin/sed -i "/${ip}/d" ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
+        /bin/sed -i "/${ip}/d" ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
 fi
 
-/bin/cat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat | /usr/bin/sort | /usr/bin/uniq >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat.$$
-/bin/mv ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat
-${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat
-/bin/touch  ${BUILD_HOME}/runtimedata/FIREWALL-EVENT
-${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/FIREWALL-EVENT ${IDENTIFIER}/FIREWALL-EVENT
-/bin/rm ${BUILD_HOME}/runtimedata/FIREWALL-EVENT
+/bin/cat ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat | /usr/bin/sort | /usr/bin/uniq >> ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$
+/bin/mv ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
+${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat
+/bin/touch  ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/FIREWALL-EVENT
+${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_PROVIDER} ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/FIREWALL-EVENT ${IDENTIFIER}/FIREWALL-EVENT
+/bin/rm ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/FIREWALL-EVENT
