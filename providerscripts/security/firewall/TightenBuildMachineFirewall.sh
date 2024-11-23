@@ -47,6 +47,8 @@ then
 	CLOUDHOST="${3}"
 fi
 
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
+
 ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 ${BUILD_HOME}/providerscripts/server/GetServerName.sh ${ip} "${CLOUDHOST}"
 
