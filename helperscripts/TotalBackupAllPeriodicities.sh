@@ -20,16 +20,18 @@
 #######################################################################################################
 #######################################################################################################
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
 /bin/echo "About to attempt backups for each periodicity of your websever's webroot"
 /bin/echo "Press <enter> to begin"
 read x
-/bin/sh ./ExecuteOnWebserver.sh "/usr/bin/run ./providerscripts/backupscripts/RemoteBackupAllPeriodicities.sh"
+/bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnWebserver.sh "/usr/bin/run ./providerscripts/backupscripts/RemoteBackupAllPeriodicities.sh"
 /bin/echo "I believe that your webroot is backed up for each periodicity maybe check your datatore or git repositories"
 /bin/echo "Press <enter> to continue"
 read x
 /bin/echo "About to attempt backups for each periodicity of your database"
 /bin/echo "Press <enter> to begin"
 read x
-/bin/sh ./ExecuteOnDatabase.sh "/usr/bin/run ./providerscripts/backupscripts/RemoteBackupAllPeriodicities.sh"
+/bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnDatabase.sh "/usr/bin/run ./providerscripts/backupscripts/RemoteBackupAllPeriodicities.sh"
 /bin/echo "I believe that your database is backed up for each periodicity maybe check your datatore or git repositories"
 
