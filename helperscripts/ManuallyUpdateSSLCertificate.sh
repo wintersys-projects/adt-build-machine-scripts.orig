@@ -29,6 +29,7 @@ then
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
 
 /bin/echo
 /bin/echo "I can currently find the following domains"
@@ -45,10 +46,10 @@ do
 	read WEBSITE_URL
 done
 
-if ( [ -f ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ] )
+if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem ] )
 then
 	/bin/echo "Found a certificate for this domain. For your info, this is its expiry date"
-	/usr/bin/openssl x509 -in ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem -noout -enddate
+	/usr/bin/openssl x509 -in ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem -noout -enddate
 fi
 
 /bin/echo "Please paste your new SSL certificate chain. <ctrl-d> when done and please make sure the chain is exactly as intended"
@@ -56,9 +57,9 @@ fi
 
 chain=`cat`
 
-/bin/cp ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem.previous.`/bin/date | /bin/sed 's/ //g'`
+/bin/cp ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem.previous.`/bin/date | /bin/sed 's/ //g'`
 
-/bin/echo "${chain}" > ${BUILD_HOME}/ssl/${WEBSITE_URL}/fullchain.pem
+/bin/echo "${chain}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/fullchain.pem
 
 /bin/echo
 
@@ -67,9 +68,9 @@ chain=`cat`
 
 privkey=`cat`
 
-/bin/cp ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem.previous.`/bin/date | /bin/sed 's/ //g'`
+/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem.previous.`/bin/date | /bin/sed 's/ //g'`
 
-/bin/echo "${privkey}" > ${BUILD_HOME}/ssl/${WEBSITE_URL}/privkey.pem
+/bin/echo "${privkey}" > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl/${WEBSITE_URL}/privkey.pem
 
 cd ${BUILD_HOME}/helperscripts
 
