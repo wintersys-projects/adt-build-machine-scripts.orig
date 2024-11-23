@@ -76,11 +76,11 @@ then
         if ( [ "${NO_AUTOSCALERS}" -ne "0" ] && [ "${INPARALLEL}" = "0" ] )
         then
                 tally="0"
-                if ( [ -f ${BUILD_HOME}/runtimedata/MULTI_AUTOSCALER_BUILT ] )
+                if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
                 then
-                        /bin/rm ${BUILD_HOME}/runtimedata/MULTI_AUTOSCALER_BUILT
+                        /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT
                 fi
-                while ( [ "${tally}" -lt "${NO_AUTOSCALERS}" ] && [ ! -f ${BUILD_HOME}/runtimedata/MULTI_AUTOSCALER_BUILT ] )
+                while ( [ "${tally}" -lt "${NO_AUTOSCALERS}" ] && [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT ] )
                 do
                         . ${BUILD_HOME}/buildscripts/BuildAutoscaler.sh
                         tally="`/usr/bin/expr ${tally} + 1`"
