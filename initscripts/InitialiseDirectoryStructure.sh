@@ -47,10 +47,6 @@ if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips ] )
 then
 	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips
 fi
-if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/names ] )
-then
-	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/names
-fi
 
 if ( [ -d ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
 then
