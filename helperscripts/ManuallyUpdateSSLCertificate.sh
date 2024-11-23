@@ -29,7 +29,7 @@ then
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVEBUILDIDENTIFIER`"
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 /bin/echo
 /bin/echo "I can currently find the following domains"
