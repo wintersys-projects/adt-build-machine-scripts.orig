@@ -36,7 +36,7 @@ status "#########################DATABASE#######################"
 
 #For our remote commands, we have various options that we want to be set. To keep things as clean as possible
 #We set out options for our ssh command and scp command here and pass them in through the variable ${OPTIONS}
-DATABASE_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_keys"
+DATABASE_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/database_keys"
 OPTIONS="-o ConnectTimeout=10 -o ConnectionAttempts=5 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes "
 PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
 
@@ -177,9 +177,9 @@ do
                 status "Public IP address: ${DBIP}"
                 status "Private IP address: ${DBIP_PRIVATE}"
 
-                if ( [ ! -d ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
+                if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys ] )
                 then
-                        /bin/mkdir -p ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}
+                        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys
                 fi
 
                 status "Performing SSH keyscan on your new database machine (I allow up to 10 attempts). If this does fail, check BUILD_MACHINE_VPC in your template"
