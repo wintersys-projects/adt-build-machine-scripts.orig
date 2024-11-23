@@ -92,7 +92,7 @@ then
 	
 	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}`" != "" ] )
 	then
-		 ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${BUILD_HOME} 
+		 ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${BUILD_HOME} 
 	fi
 	
 	if ( [ "${LAPTOP_IP}" = "" ] )
@@ -108,25 +108,25 @@ then
 		if ( [ "${LAPTOP_IP}" != "BYPASS" ] )
 		then
 		
-		   if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips ] )
+		   if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips ] )
 		   then
-			   /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips
+			   /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips
 		   fi
 		   
-		   /bin/echo "${LAPTOP_IP}" >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat
-		   /usr/bin/uniq ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$
-		   /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat
-		   /bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat
+		   /bin/echo "${LAPTOP_IP}" >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
+		   /usr/bin/uniq ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$
+		   /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
+		   /bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat
 		   
 		   if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER} ${BUILD_HOME}`" = "" ] )
 		   then
 			   ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER} ${BUILD_HOME}
 		   fi
-		   ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_CHOICE} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}
+		   ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_CHOICE} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}
 		fi
    fi
 
-   ips="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat | /bin/tr '\n' ' '`"
+   ips="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat | /bin/tr '\n' ' '`"
 
     if ( [ "${ips}" != "" ] )
     then
@@ -168,8 +168,8 @@ then
    		fi
 	fi
 
-	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
+	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
 	then
-		/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$
+		/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$
 	fi
 fi
