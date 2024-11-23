@@ -24,8 +24,8 @@ WEB_IP=""
 
 if ( [ ! -f  ./ConnectToWebserver.sh ] )
 then
-	/bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
-	exit
+        /bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
+        exit
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
@@ -34,65 +34,59 @@ BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 read response
 if ( [ "${response}" = "1" ] )
 then
-	CLOUDHOST="digitalocean"
-	token_to_match="webserver"
+        CLOUDHOST="digitalocean"
+        token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
-	CLOUDHOST="exoscale"
-	token_to_match="webserver"
+        CLOUDHOST="exoscale"
+        token_to_match="webserver"
 elif ( [ "${response}" = "3" ] )
 then
-	CLOUDHOST="linode"
-	token_to_match="webserver"
+        CLOUDHOST="linode"
+        token_to_match="webserver"
 elif ( [ "${response}" = "4" ] )
 then
-	CLOUDHOST="vultr"
-	token_to_match="webserver"
+        CLOUDHOST="vultr"
+        token_to_match="webserver"
 else
-	/bin/echo "Unrecognised  cloudhost. Exiting ...."
-	exit
+        /bin/echo "Unrecognised  cloudhost. Exiting ...."
+        exit
 fi
 
 /bin/echo "What is the build Identifer for your build?"
 /bin/echo "You have these builds to choose from: "
 
-if ( [ -d ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} ] )
-then
-        /bin/ls ${BUILD_HOME}/buildconfiguration/${CLOUDHOST} | /bin/grep -v 'credentials'
-else
-        /bin/echo "No eligible builds found"
-        exit
-fi
+/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}
 
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ "${ips}" = "" ] )
 then
-	/bin/echo "There doesn't seem to be any webservers running"
-	exit
+        /bin/echo "There doesn't seem to be any webservers running"
+        exit
 fi
 
 /bin/echo "Which webserver would you like to connect to?"
 count=1
 for ip in ${ips}
 do
-	/bin/echo "${count}:   ${ip}"
-	/bin/echo "Press Y/N to connect..."
-	read response
-	if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
-	then
-		WEB_IP=${ip}
-		break
-	fi
-	count="`/usr/bin/expr ${count} + 1`"
+        /bin/echo "${count}:   ${ip}"
+        /bin/echo "Press Y/N to connect..."
+        read response
+        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+        then
+                WEB_IP=${ip}
+                break
+        fi
+        count="`/usr/bin/expr ${count} + 1`"
 done
 
 if ( [ "${response}" = "N" ] )
@@ -100,36 +94,35 @@ then
     exit
 fi
 
-SERVER_USERNAME="`/bin/cat ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}-credentials/SERVERUSER`"
-SSH_PORT="`/bin/grep SSH_PORT ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
-
-WEBSERVER_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_${WEB_IP}-keys"
+SERVER_USERNAME="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/SERVERUSER`"
+SSH_PORT="`/bin/grep SSH_PORT ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+WEBSERVER_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/webserver_${WEB_IP}keys"
 
 if ( [ ! -f ${WEBSERVER_PUBLIC_KEYS} ] )
 then
-	/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
-	if ( [ "`/bin/cat ${WEBSERVER_PUBLIC_KEYS}`" = "" ] )
-	then
-		/usr/bin/ssh-keyscan ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
-	fi
+        /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
+        if ( [ "`/bin/cat ${WEBSERVER_PUBLIC_KEYS}`" = "" ] )
+        then
+                /usr/bin/ssh-keyscan ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
+        fi
 else
-	/bin/echo "#####################################################################################################################################################################"
-	/bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
-	/bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
-	/bin/echo "#####################################################################################################################################################################"
-	/bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
-	read response1
-	if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
-	then
-		/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}
-	fi
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
+        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
+        read response1
+        if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
+        then
+                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}
+        fi
 fi
 
 if ( [ "`/bin/cat ${WEBSERVER_PUBLIC_KEYS}`" = "" ] )
 then
-	/bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
-	/bin/rm ${WEBSERVER_PUBLIC_KEYS}
-	exit
+        /bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
+        /bin/rm ${WEBSERVER_PUBLIC_KEYS}
+        exit
 fi
 
 /bin/echo "Does your server use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
@@ -139,18 +132,18 @@ read response
 
 if ( [ "${response}" = "1" ] )
 then
-	/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
-	if ( [ "$?" != "0" ] )
-	then
-		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
-	fi
+        /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
+        if ( [ "$?" != "0" ] )
+        then
+                /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
+        fi
 elif ( [ "${response}" = "2" ] )
 then
-	/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
-	if ( [ "$?" != "0" ] )
-	then
-		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
-	fi
+        /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
+        if ( [ "$?" != "0" ] )
+        then
+                /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}
+        fi
 else
-	/bin/echo "Unrecognised selection, please select only 1 or 2"
+        /bin/echo "Unrecognised selection, please select only 1 or 2"
 fi
