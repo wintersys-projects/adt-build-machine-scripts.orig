@@ -99,9 +99,9 @@ then
 	
 	if ( [ "${LAPTOP_IP}" = "" ] )
 	then
-		if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/LAPTOPIP:* ] )
+		if ( [ -f ${BUILD_HOME}/runtimedata/LAPTOPIP:* ] )
 		then
-			LAPTOP_IP="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
+			LAPTOP_IP="`/bin/ls ${BUILD_HOME}/runtimedata/LAPTOPIP:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
 		fi
 	fi 
 
