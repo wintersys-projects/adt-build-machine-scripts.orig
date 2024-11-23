@@ -343,16 +343,16 @@ do
                                 then
                                         status "An autoscaler (${autoscaler_name}) has built correctly (`/usr/bin/date`)"
                                 else
-                                        autoscaler_built_rank="`/bin/ls  ${BUILD_HOME}/runtimedata/AUTOSCALER_BUILT-* | /usr/bin/wc -l 2>/dev/null`"
+                                        autoscaler_built_rank="`/bin/ls  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/AUTOSCALER_BUILT-* | /usr/bin/wc -l 2>/dev/null`"
                                         autoscaler_built_rank="`/usr/bin/expr ${autoscaler_built_rank} + 1`"
-                                        /bin/touch ${BUILD_HOME}/runtimedata/AUTOSCALER_BUILT-${autoscaler_built_rank}
+                                        /bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/AUTOSCALER_BUILT-${autoscaler_built_rank}
 
                                         status "An autoscaler (${autoscaler_name}) has built correctly (`/usr/bin/date`) and is accepting connections"
 
                                         if ( [ "${autoscaler_built_rank}" -eq "${NO_AUTOSCALERS}" ] )
                                         then
-                                                /bin/touch ${BUILD_HOME}/runtimedata/MULTI_AUTOSCALER_BUILT 
-                                                /bin/rm ${BUILD_HOME}/runtimedata/AUTOSCALER_BUILT-*
+                                                /bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/MULTI_AUTOSCALER_BUILT 
+                                                /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/AUTOSCALER_BUILT-*
                                         fi
                                 fi
                                 counter="0"
