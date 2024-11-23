@@ -169,27 +169,6 @@ ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${
 
 status "Build process fully complete"
 
-############################################################################################
-#If you are a developer and you modify these scripts, you will need to update the
-#envdump.dat file below with the variables you have added
-###########################################################################################
-
-if ( [ ! -d ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration ] )
-then
-	/bin/mkdir -p ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration
-else
-	/bin/rm ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration
-fi
-/bin/sed -i '/^$/d' ${BUILD_HOME}/builddescriptors/envdump.dat
-while read line
-do
-	name="`/bin/echo ${line} | /usr/bin/awk -F':' '{print $1}'`"
-	value="`/bin/echo ${line} | /usr/bin/awk -F':' '{print $NF}'`"
-	value="`eval /bin/echo ${value}`"
-	/bin/echo "export ${name}=\"${value}\"" >> ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration/${BUILD_IDENTIFIER}.conf
-done < ${BUILD_HOME}/builddescriptors/envdump.dat
-
-
 #Print a final little congratulations message to say the build is good and that the application should now be online
 status "`/bin/date`"
 status "OK, good news, all done your servers are configured and responsive"
