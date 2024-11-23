@@ -1,9 +1,9 @@
 #!/bin/sh
-##############################################################################################
+######################################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script will copy a file, passed as a parameter to your selected webserver
-##############################################################################################
+# Description : This script will copy a file from a selected autoscaler to a specified diretory on the build machine
+######################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -16,13 +16,13 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################################
-###############################################################################################
+#######################################################################################################
+#######################################################################################################
 #set -x
 
 AS_IP=""
 
-if ( [ ! -f  ./CopyToAutoscaler.sh ] )
+if ( [ ! -f  ./CopyFromAutoscaler.sh ] )
 then
         /bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
         exit
@@ -34,15 +34,10 @@ sourcefile="${1}"
 
 if ( [ "${sourcefile}" = "" ] )
 then
-        /bin/echo "Please tell me the full path to the location of the file you wish to copy to the Autoscaler for example, '/tmp/file.dat'"
+        /bin/echo "Please tell me the full path to the location of the file on the autoscaler that you wish to copy to the build machine, '/tmp/file.dat'"
         read sourcefile
-        while ( [ "`/bin/ls ${sourcefile}`" = "" ] )
-        do
-                /bin/echo "Sorry, can't find that file please tell me again"
-                /bin/echo "Please tell me the full path to the location of the file you wish to copy to the Autoscaler for example, '/tmp/file.dat'"
-                read sourcefile
-        done
 fi
+
 
 /bin/echo "Which Cloudhost are you using for this server?"
 /bin/echo "(1) Digital Ocean (2) Exoscale (3) Linode (4) Vultr"
@@ -54,7 +49,7 @@ then
         token_to_match="autoscaler"
 elif ( [ "${response}" = "2" ] )
 then
-        CLOUDHOST="exoscale"    
+        CLOUDHOST="exoscale"
         token_to_match="autoscaler"
 elif ( [ "${response}" = "3" ] )
 then
@@ -83,10 +78,9 @@ fi
 
 if ( [ "${ips}" = "" ] )
 then
-        /bin/echo "There doesn't seem to be any autoscalers running"
+        /bin/echo "There doesn't seem to be any autoscaler running"
         exit
 fi
-
 
 /bin/echo "Which autoscaler would you like to connect to?"
 count=1
@@ -120,7 +114,7 @@ else
         /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
         /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
         /bin/echo "#####################################################################################################################################################################"
-        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"   
+        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
         read response
         if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
         then
@@ -140,14 +134,23 @@ fi
 /bin/echo "Please select (1) RSA (2) ECDSA"
 read response
 
-/bin/echo "Please enter the full path to the directory you would like to copy the file to on the remote machine. The user ${SERVER_USER} must have write permission"
-read remotedir
+/bin/echo "Please enter the full path to the directory you would like to copy the file to on this machine for example ${BUILD_HOME}/migrationdirectory if you are performing a migration. The user ${SERVER_USER} must have write permission to the directory"
+read localdir
 if ( [ "${response}" = "1" ] )
 then
-        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${AS_IP}:${remotedir}
+        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
+        if ( [ "$?" != "0" ] )
+        then
+                /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
+        fi
 elif ( [ "${response}" = "2" ] )
 then
-        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${AS_IP}:${remotedir}
+        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
+        if ( [ "$?" != "0" ] )
+        then
+                /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
+
+        fi
 else
         /bin/echo "Unrecognised selection, please select only 1 or 2"
 fi
