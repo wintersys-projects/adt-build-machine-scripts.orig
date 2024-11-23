@@ -31,7 +31,6 @@ fi
 read x
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 /bin/echo "Which cloudhost service are you using? 1) Digital Ocean 2) Exoscale 3) Linode 4) Vultr. Please Enter the number for your cloudhost"
 read response
@@ -59,6 +58,8 @@ fi
 
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
+
+/bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER
 
 /bin/echo "OK, can you please tell me the FULL URL (without the https:// ) for the website you want to scale up/down is (e.g. demo.nuocial.org.uk)"
 read website_url
