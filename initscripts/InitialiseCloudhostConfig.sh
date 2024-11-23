@@ -211,10 +211,6 @@ then
 	if ( [ "${TOKEN}" != "" ] )
 	then
 		export VULTR_API_KEY="${TOKEN}"
-		if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST} ] )
-		then
-			/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}
-		fi
 		/bin/echo ${TOKEN} > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN
   		export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN`"
 		/bin/echo "api-key: ${TOKEN}" > ${BUILD_HOME}/.vultr-cli.yaml
