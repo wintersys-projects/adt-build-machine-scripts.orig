@@ -1,9 +1,9 @@
 #!/bin/sh
-######################################################################################################
+##############################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script will copy a file from a selected autoscaler to a specified diretory on the build machine
-######################################################################################################
+# Description : This script will copy a file, passed as a parameter to your selected webserver
+##############################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -16,16 +16,16 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-#######################################################################################################
-#######################################################################################################
+###############################################################################################
+###############################################################################################
 #set -x
 
 AS_IP=""
 
-if ( [ ! -f  ./CopyFromAutoscaler.sh ] )
+if ( [ ! -f  ./CopyToAutoscaler.sh ] )
 then
-	/bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
-	exit
+        /bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
+        exit
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
@@ -34,10 +34,15 @@ sourcefile="${1}"
 
 if ( [ "${sourcefile}" = "" ] )
 then
-	/bin/echo "Please tell me the full path to the location of the file on the autoscaler that you wish to copy to the build machine, '/tmp/file.dat'"
-	read sourcefile
+        /bin/echo "Please tell me the full path to the location of the file you wish to copy to the Autoscaler for example, '/tmp/file.dat'"
+        read sourcefile
+        while ( [ "`/bin/ls ${sourcefile}`" = "" ] )
+        do
+                /bin/echo "Sorry, can't find that file please tell me again"
+                /bin/echo "Please tell me the full path to the location of the file you wish to copy to the Autoscaler for example, '/tmp/file.dat'"
+                read sourcefile
+        done
 fi
-
 
 /bin/echo "Which Cloudhost are you using for this server?"
 /bin/echo "(1) Digital Ocean (2) Exoscale (3) Linode (4) Vultr"
@@ -45,20 +50,20 @@ read response
 
 if ( [ "${response}" = "1" ] )
 then
-	CLOUDHOST="digitalocean"
-	token_to_match="autoscaler"
+        CLOUDHOST="digitalocean"
+        token_to_match="autoscaler"
 elif ( [ "${response}" = "2" ] )
 then
-	CLOUDHOST="exoscale"
-	token_to_match="autoscaler"
+        CLOUDHOST="exoscale"    
+        token_to_match="autoscaler"
 elif ( [ "${response}" = "3" ] )
 then
-	CLOUDHOST="linode"
-	token_to_match="autoscaler"
+        CLOUDHOST="linode"
+        token_to_match="autoscaler"
 elif ( [ "${response}" = "4" ] )
 then
-	CLOUDHOST="vultr"
-	token_to_match="autoscaler"
+        CLOUDHOST="vultr"
+        token_to_match="autoscaler"
 fi
 
 /bin/echo "What is the build identifier you want to connect to?"
@@ -77,37 +82,37 @@ read BUILD_IDENTIFIER
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ "${ips}" = "" ] )
 then
-	/bin/echo "There doesn't seem to be any webservers running"
-	exit
+        /bin/echo "There doesn't seem to be any autoscalers running"
+        exit
 fi
 
-/bin/echo "Which webserver would you like to connect to?"
+
+/bin/echo "Which autoscaler would you like to connect to?"
 count=1
 for ip in ${ips}
 do
-	/bin/echo "${count}:   ${ip}"
-	/bin/echo "Press Y/N to connect..."
-	read response
-	if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
-	then
-		AS_IP=${ip}
-		break
-	fi
-	count="`/usr/bin/expr ${count} + 1`"
+        /bin/echo "${count}:   ${ip}"
+        /bin/echo "Press Y/N to connect..."
+        read response
+        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+        then
+                AS_IP=${ip}
+                break
+        fi
+        count="`/usr/bin/expr ${count} + 1`"
 done
 
 if ( [ "${response}" = "N" ] )
 then
     exit
 fi
-
 
 SSH_PORT="`/bin/grep SSH_PORT ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 SERVER_USER="`/bin/cat ${BUILD_HOME}/buildconfiguration/${CLOUDHOST}/${BUILD_IDENTIFIER}-credentials/SERVERUSER`"
@@ -116,25 +121,25 @@ AUTOSCALER_PUBLIC_KEYS="${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/auto
 
 if ( [ ! -f ${AUTOSCALER_PUBLIC_KEYS} ] )
 then
-	/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AS_IP} > ${AUTOSCALER_PUBLIC_KEYS}    
+        /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AS_IP} > ${AUTOSCALER_PUBLIC_KEYS}    
 else
-	/bin/echo "#####################################################################################################################################################################"
-	/bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
-	/bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
-	/bin/echo "#####################################################################################################################################################################"
-	/bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"     
-	read response1
-	if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
-	then
-		/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AS_IP} > ${AUTOSCALER_PUBLIC_KEYS}
-	fi
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
+        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"   
+        read response
+        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+        then
+                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AS_IP} > ${AUTOSCALER_PUBLIC_KEYS}
+        fi
 fi
 
 if ( [ "`/bin/cat ${AUTOSCALER_PUBLIC_KEYS}`" = "" ] )
 then
-	/bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
-	/bin/rm ${AUTOSCALER_PUBLIC_KEYS}
-	exit
+        /bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
+        /bin/rm ${AUTOSCALER_PUBLIC_KEYS}
+        exit
 fi
 
 /bin/echo "Does your server use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
@@ -142,23 +147,14 @@ fi
 /bin/echo "Please select (1) RSA (2) ECDSA"
 read response
 
-/bin/echo "Please enter the full path to the directory you would like to copy the file to on this machine for example ${BUILD_HOME}/migrationdirectory if you are performing a migration. The user ${SERVER_USER} must have write permission to the directory"
-read localdir
+/bin/echo "Please enter the full path to the directory you would like to copy the file to on the remote machine. The user ${SERVER_USER} must have write permission"
+read remotedir
 if ( [ "${response}" = "1" ] )
 then
-	/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
-	if ( [ "$?" != "0" ] )
-	then
-		/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
-	fi
+        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${AS_IP}:${remotedir}
 elif ( [ "${response}" = "2" ] )
 then
-	/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
-	if ( [ "$?" != "0" ] )
-	then
-		/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
-
-	fi
+        /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/keys/${CLOUDHOST}/${BUILD_IDENTIFIER}/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${AS_IP}:${remotedir}
 else
-	/bin/echo "Unrecognised selection, please select only 1 or 2"
+        /bin/echo "Unrecognised selection, please select only 1 or 2"
 fi
