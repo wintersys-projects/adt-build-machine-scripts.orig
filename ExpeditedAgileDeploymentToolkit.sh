@@ -215,8 +215,6 @@ export PRE_BUILD="0"
 #If we have any messages to put out to the user post build, we add them to this script
 . ${BUILD_HOME}/processingscripts/PostProcessingMessages.sh
 
-${BUILD_HOME}/helperscripts/MonitorSSH.sh
-
 #We inform the users of their credentials. Sometimes, depending on the application, the user needs to know more or less
 #Some applications we can configure for use behind the scenes, other times, the user has to do some stuff in the gui to
 #get to the point where the application can be used. In the later case, any additional information will be added here.
