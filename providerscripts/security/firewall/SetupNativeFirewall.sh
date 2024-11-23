@@ -364,8 +364,6 @@ then
 
 	if ( [ "${CLOUDHOST}" = "vultr" ] )
 	then
-		export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
-
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
   			#VPC_IP_RANGE doesn't need to be allowed by the firewall for vultr, machines in the same VPC can communiate by default by private IP
