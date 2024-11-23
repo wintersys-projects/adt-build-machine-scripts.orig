@@ -40,7 +40,6 @@ fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	public_key_name="`/bin/echo ${public_key_name} | /usr/bin/cut -c 1-30`"
 	/usr/bin/vultr ssh-key list -o json | /usr/bin/jq -r '.ssh_keys[] | select (.name == "'${public_key_name}'").id'
 
