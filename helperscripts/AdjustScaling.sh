@@ -100,7 +100,7 @@ fi
 
 ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
-if ( [ ! -f ${BUILD_HOME}/runtimedata/profile.cnf ] )
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf ] )
 then
 	/bin/echo "Warning, couldn't find profile file, will try and create a new one for you"
 fi
