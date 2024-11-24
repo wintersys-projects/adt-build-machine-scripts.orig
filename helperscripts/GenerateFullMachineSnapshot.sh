@@ -42,6 +42,18 @@ then
         machine_type="database"
 fi
 
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+
+/bin/echo "Which build identifer do these snapshots relate to?"
+/bin/echo "You have these builds to choose from: "
+
+/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}
+
+/bin/echo "Please enter the name of the build of the server you wish to connect with"
+read BUILD_IDENTIFIER
+
+/bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER
+
 if ( [ "${CLOUDHOST}" = "digitalocean" ] )
 then
         machine_id="`/usr/local/bin/doctl compute droplet list | /bin/grep ${machine_type} | /usr/bin/awk '{print $1}'`"
