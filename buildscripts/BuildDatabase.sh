@@ -57,8 +57,8 @@ status "========================================================="
 status "=================BUILDING DATABASE======================="
 status "========================================================="
 
-status "Logging for this database build is located at ${BUILD_HOME}/logs/${OUT_FILE}"
-status "The error stream for this database build is located at ${BUILD_HOME}/logs/${ERR_FILE}"
+status "Logging for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+status "The error stream for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
 status "========================================================="
 
 #If we don't need a database, then just skip the process of installing a database
