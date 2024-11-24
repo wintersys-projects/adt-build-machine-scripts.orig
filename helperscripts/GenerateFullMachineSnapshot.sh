@@ -20,13 +20,35 @@
 #####################################################################################
 #set -x
 
+if ( [ "${1}" = "" ] )
+then
+        /bin/echo "I need to know what type of machine you want to snapshot and the machine type must be running"
+        /bin/echo "Machine  type can be one of autoscaler, webserver, database"
+        exit
+fi
+
+if ( [ "${1}" = "autoscaler" ] )
+then
+        machine_type="autoscaler"
+fi
+
+if ( [ "${1}" = "webserver" ] )
+then
+        machine_type="webserver"
+fi
+
+if ( [ "${1}" = "database" ] )
+then
+        machine_type="database"
+fi
+
 if ( [ "${CLOUDHOST}" = "digitalocean" ] )
 then
         machine_id="`/usr/local/bin/doctl compute droplet list | /bin/grep ${machine_type} | /usr/bin/awk '{print $1}'`"
         machine_name="`/usr/local/bin/doctl compute droplet list | /bin/grep ${machine_type} | /usr/bin/awk '{print $2}'`"
-        status ""
-        status "########################SNAPSHOTING YOUR ${machine_type}####################################"
-        status ""
+        /bin/echo ""
+        /bin/echo "########################SNAPSHOTING YOUR ${machine_type}####################################"
+        /bin/echo ""
         /usr/local/bin/doctl compute droplet-action snapshot --snapshot-name "${machine_name}" ${machine_id}
 fi
 
@@ -34,9 +56,9 @@ if ( [ "${CLOUDHOST}" = "exoscale" ] )
 then
         region_id="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/CURRENTREGION`"
 
-        status ""
-        status "########################SNAPSHOTING YOUR ${machine_type} ####################################"
-        status ""
+        /bin/echo ""
+        /bin/echo "########################SNAPSHOTING YOUR ${machine_type} ####################################"
+        /bin/echo ""
 
         machine_name="`/usr/bin/exo compute instance list --zone ${region_id} -O text | /bin/grep "${machine_type}" | /usr/bin/awk '{print $2}' | /usr/bin/head -1`"    
         machine_id="`/usr/bin/exo compute instance list -O text  | /bin/grep "${machine_type}" | /usr/bin/awk '{print $1}' | /usr/bin/head -1`"
@@ -50,9 +72,9 @@ then
         machine_id="`/usr/local/bin/linode-cli --text linodes list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $1}' | /usr/bin/head -1`"
         machine_name="`/usr/local/bin/linode-cli --text linodes list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $2}' | /usr/bin/head -1`"
         disk_id="`/usr/local/bin/linode-cli --text linodes disks-list ${machine_id} | /bin/grep -v swap | /bin/grep -v id | /usr/bin/awk '{print $1}'`"
-        status ""
-        status "########################SNAPSHOTING YOUR ${machine_type}####################################"
-        status ""
+        /bin/echo ""
+        /bin/echo "########################SNAPSHOTING YOUR ${machine_type}####################################"
+        /bin/echo ""
         /usr/local/bin/linode-cli images create --disk_id ${disk_id} --label ${machine_name}
 fi
 
@@ -60,8 +82,8 @@ if ( [ "${CLOUDHOST}" = "vultr" ] )
 then
         machine_id="`/usr/bin/vultr instance list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $1}' | /usr/bin/head -1`"
         machine_name="`/usr/bin/vultr instance  list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $3}' | /usr/bin/head -1`"
-        status ""
-        status "########################SNAPSHOTING YOUR ${machine_type} ####################################"
-        status ""
+        /bin/echo ""
+        /bin/echo "########################SNAPSHOTING YOUR ${machine_type} ####################################"
+        /bin/echo ""
         /usr/bin/vultr snapshot create -i ${machine_id} -d "${machine_name}"
 fi
