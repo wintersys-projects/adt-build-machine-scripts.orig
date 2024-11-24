@@ -155,7 +155,9 @@ then
 			/usr/bin/yes | /usr/sbin/ufw enable
 		elif ( [ "${firewall}" = "iptables" ] )
   		then
-			for ip in ${ips}
+    			existing_ips="`/usr/sbin/iptables --list-rules | /bin/grep  -Po "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | /usr/bin/sort -u | /usr/bin/uniq`"
+			rules=""
+   			for ip in ${ips}
 			do
    				if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ${ip}`" = "" ] )
 				then
@@ -163,7 +165,19 @@ then
 					/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
 					/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
 				fi
-   			done
+   				for existingip in ${existing_ips}
+       				do
+	   				if ( [ "`/bin/echo ${ips} | /bin/grep ${existingip}`" = "" ] )
+					then
+     						rules="${rules} `/usr/sbin/iptables | /bin/grep ${existing_ip} | /bin/sed 's/^\-./-D/g'`"
+	   				fi
+				done		
+      			done
+
+    			for rule in ${rules}
+       			do
+	  			eval ${rule}
+      			done
        
 			/usr/sbin/netfilter-persistent save
 			/usr/sbin/netfilter-persistent reload
