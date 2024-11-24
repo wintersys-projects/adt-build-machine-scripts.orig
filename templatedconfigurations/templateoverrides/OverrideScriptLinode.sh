@@ -69,13 +69,6 @@ else
         /usr/bin/git clone https://github.com/wintersys-projects/adt-build-machine-scripts.git
 fi
 
-/bin/mkdir -p /home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs
-
-OUT_FILE="buildmachine-out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${OUT_FILE}
-ERR_FILE="buildmachine-err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>/home/${BUILDMACHINE_USER}/adt-build-machine-scripts/logs/${ERR_FILE}
-
 /usr/bin/find /home/${BUILDMACHINE_USER} -type d -exec chmod 755 {} \;
 /usr/bin/find /home/${BUILDMACHINE_USER} -type f -exec chmod 744 {} \;
 
