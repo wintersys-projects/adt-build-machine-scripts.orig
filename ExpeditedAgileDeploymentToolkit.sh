@@ -69,6 +69,8 @@ then
 	read x
 fi
 
+BUILDOS="`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}'`"
+
 . ${BUILD_HOME}/initscripts/InitialiseLongLastingConnection.sh
 . ${BUILD_HOME}/installscripts/InstallAll.sh 
 
@@ -76,7 +78,7 @@ if ( [ "${HARDCORE}" != "1" ] )
 then
 	. ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
 else
-	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION}
+	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS}
 fi
 
 . ${BUILD_HOME}/helperscripts/SetupEth1.sh
