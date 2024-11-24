@@ -146,10 +146,11 @@ then
 			/usr/bin/yes | /usr/sbin/ufw reset
 			/usr/sbin/ufw default deny incoming
 			/usr/sbin/ufw default allow outgoing
-   
+                        buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
+
 			for ip in ${ips}
    			do
-	   			/usr/sbin/ufw allow from ${ip}
+	   			/usr/sbin/ufw allow from ${ip} proto tcp to any port ${buildmachine_ssh_port}
    			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
@@ -173,7 +174,6 @@ then
                         /usr/sbin/ip6tables -P FORWARD DROP
                         /usr/sbin/ip6tables -P OUTPUT DROP
                         ${BUILD_HOME}/helperscripts/RunServiceCommand.sh netfilter-persistent save
-                fi
                 fi
        
         fi
