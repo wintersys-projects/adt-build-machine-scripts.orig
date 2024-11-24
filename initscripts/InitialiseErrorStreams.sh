@@ -20,16 +20,11 @@
 #########################################################################################
 #set -x
 
-if ( [ ! -d ${BUILD_HOME}/logs ] )
-then
-	/bin/mkdir -p ${BUILD_HOME}/logs
-fi
-
 exec 3>&1
 out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>${BUILD_HOME}/logs/${out_file}
+exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
 err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>${BUILD_HOME}/logs/${err_file}
+exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
 
 /bin/echo "Most of the messages you will see here are soft errors. All errors are recorded though, should you need to review them" > ${BUILD_HOME}/logs/${err_file}
 
