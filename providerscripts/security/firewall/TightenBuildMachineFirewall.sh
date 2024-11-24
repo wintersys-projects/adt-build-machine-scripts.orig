@@ -158,6 +158,8 @@ then
 			/usr/sbin/iptables -F
 			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p tcp -j ACCEPT
 			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p ICMP --icmp-type 8 -j ACCEPT
+  		        buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
+   			/usr/sbin/iptables -I INPUT -A INPUT -p tcp -m tcp --dport ${buildmachine_ssh_port} -j ACCEPT
                         /usr/sbin/netfilter-persistent save
                         /usr/sbin/netfilter-persistent reload
                 fi
