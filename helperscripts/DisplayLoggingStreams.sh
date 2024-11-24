@@ -1,3 +1,5 @@
+#set -x
+
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 /bin/echo "Which cloudhost do you want to view logs for DigitalOcean (do), Exoscale (exo), Linode (lin) or Vultr (vul)"
@@ -7,13 +9,13 @@ read response
 if ( [ "${response}" = "do" ] )
 then
   CLOUDHOST="digitalocean"
-elif ( [ "${CLOUDHOST}" = "exo" ] )
+elif ( [ "${response}" = "exo" ] )
 then
   CLOUDHOST="exoscale"
-elif ( [ "${CLOUDHOST}" = "lin" ] )
+elif ( [ "${response}" = "lin" ] )
 then
   CLOUDHOST="linode" 
-elif ( [ "${CLOUDHOST}" = "vul" ] )
+elif ( [ "${response}" = "vul" ] )
 then
   CLOUDHOST="vultr"
 fi
