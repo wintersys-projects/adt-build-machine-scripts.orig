@@ -165,9 +165,9 @@ then
 					/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
 					/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
 				fi
-   				for existingip in ${existing_ips}
+   				for existing_ip in ${existing_ips}
        				do
-	   				if ( [ "`/bin/echo ${ips} | /bin/grep ${existingip}`" = "" ] )
+	   				if ( [ "`/bin/echo ${ips} | /bin/grep ${existing_ip}`" = "" ] )
 					then
      						rules="${rules} `/usr/sbin/iptables | /bin/grep ${existing_ip} | /bin/sed 's/^\-./-D/g'`"
 	   				fi
