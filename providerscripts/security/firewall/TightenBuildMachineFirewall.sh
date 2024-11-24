@@ -153,23 +153,35 @@ then
    			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
-		elif ( [ "${firewall}" = "iptables" ] )
-  		then
-			rules=""
-   			for ip in ${ips}
-			do
-   				if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ${ip}`" = "" ] )
-				then
-					/usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
-					/usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
-					/usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
-				fi	
-      			done
+               elif ( [ "${firewall}" = "iptables" ] )
+                then
+                        existing_ips="`/usr/sbin/iptables --list-rules | /bin/grep  -Po "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | /usr/bin/sort -u | /usr/bin/uniq`"
+                        rules=""
+                        for ip in ${ips}
+                        do
+                                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ${ip}`" = "" ] )
+                                then
+                                        /usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
+                                        /usr/sbin/iptables -I OUTPUT -p tcp -d  ${ip} -j ACCEPT 
+                                        /usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
+                                fi
+                                for existing_ip in ${existing_ips}
+                                do
+                                        if ( [ "`/bin/echo ${ips} | /bin/grep ${existing_ip}`" = "" ] )
+                                        then
+                                                rule_no="`/usr/sbin/iptables -L --line-numbers  | /bin/grep "${existing_ip}" | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
+                                                while ( [ "${rule_no}" != "" ] )
+                                                do
+                                                        /usr/sbin/iptables -D INPUT ${rule_no}
+                                                done
+                                        fi
+                                done
+                        done
        
-			/usr/sbin/netfilter-persistent save
-			/usr/sbin/netfilter-persistent reload
-   		fi
-	fi
+                        /usr/sbin/netfilter-persistent save
+                        /usr/sbin/netfilter-persistent reload
+                fi
+        fi
 
 	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ] && [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat.$$ ] && [ "`/usr/bin/diff ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat.$$ ${BUILD_HOME}/runtimedata/${CLOUDHOST}/ips/authorised-ips.dat`" != "" ] )
 	then
