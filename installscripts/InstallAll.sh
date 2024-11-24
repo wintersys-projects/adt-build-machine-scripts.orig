@@ -22,12 +22,12 @@
 #######################################################################################################
 #set -x
 
-if ( [ ! -f ~/DATASTORETOOL_INSTALLED ] ||  [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Ubuntu"`" != "" ] )
+if ( [ ! -f ~/DATASTORETOOL_INSTALLED ] ||  [ "${BUILDOS}" = "ubuntu" ] )
 then
 	status "Installing/Updating Datastore tools"
 	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh "ubuntu"
  	/bin/touch ~/DATASTORETOOL_INSTALLED
-elif ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Debian"`" != "" ] )
+elif ( [ "${BUILDOS}" = "debian" ] )
 then
 	status "Installing/Updating Datastore tools"
 	${BUILD_HOME}/installscripts/InstallDatastoreTools.sh "debian"
