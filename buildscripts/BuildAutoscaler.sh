@@ -63,8 +63,8 @@ status "========================================================="
 status "=================BUILDING AUTOSCALER====================="
 status "========================================================="
 
-status "Logging for this autoscaler build is located at ${BUILD_HOME}/logs/${OUT_FILE}"
-status "The error stream for this autoscaler build is located at ${BUILD_HOME}/logs/${ERR_FILE}"
+status "Logging for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+status "The error stream for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
 status "========================================================="
 
 # If done=1, then we know that the autoscaler has been successfully built. We try up to 5 times before we give up if it fails
