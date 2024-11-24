@@ -38,13 +38,13 @@ if ( [ "${response1}" = "1" ] )
 then
   if ( [ "${response}" = "t" ] )
   then
-    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*log*
+    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
   elif ( [ "${response}" = "c" ] )
   then
-      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*log*
+      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
   elif ( [ "${response}" = "v" ] )
   then
-      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*log*
+      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
   fi
 elif ( [ "${response1}" = "2" ] )
 then
