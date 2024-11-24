@@ -44,6 +44,26 @@ fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
+/bin/echo "Which Cloudhost are you using? 1) Digital Ocean 2) Exoscale 3) Linode 4)Vultr. Please Enter the number for your cloudhost"
+read response
+
+if ( [ "${response}" = "1" ] )
+then
+        CLOUDHOST="digitalocean"
+elif ( [ "${response}" = "2" ] )
+then
+        CLOUDHOST="exoscale"
+elif ( [ "${response}" = "3" ] )
+then
+        CLOUDHOST="linode"
+elif ( [ "${response}" = "4" ] )
+then
+        CLOUDHOST="vultr"
+else
+        /bin/echo "Unrecognised  cloudhost. Exiting ...."
+        exit
+fi
+
 /bin/echo "Which build identifer do these snapshots relate to?"
 /bin/echo "You have these builds to choose from: "
 
