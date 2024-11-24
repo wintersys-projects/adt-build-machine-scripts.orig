@@ -61,8 +61,8 @@ status "========================================================="
 status "=================BUILDING WEBSERVER======================"
 status "========================================================="
 
-status "Logging for this webserver build is located at ${BUILD_HOME}/logs/${OUT_FILE}"
-status "The error stream for this webserver build is located at ${BUILD_HOME}/logs/${ERR_FILE}"
+status "Logging for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+status "The error stream for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
 status "========================================================="
 
 #If "done" is set to 1, then we know that a webserver has been successfully built and is running.
