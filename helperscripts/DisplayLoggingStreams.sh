@@ -22,37 +22,54 @@
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
-/bin/echo "Which cloudhost do you want to view logs for DigitalOcean (do), Exoscale (exo), Linode (lin) or Vultr (vul)"
-/bin/echo "Please type one of do, exo, lin, vul"
-read response
+if ( [ "${1}" != "" ] && [ "${2}" != "" ] && [ "${3}" != "" ]  && [ "${4}" != "" ] )
+then
+        CLOUDHOST="${1}"
+        BUILD_IDENTIFIER="${2}"
+        response="${3}"
+        response1="${4}"
+else
+        /bin/echo "Which cloudhost do you want to view logs for DigitalOcean (do), Exoscale (exo), Linode (lin) or Vultr (vul)"
+        /bin/echo "Please type one of do, exo, lin, vul"
+        read cloudhost
+fi
 
-if ( [ "${response}" = "do" ] )
+if ( [ "${cloudhost}" = "do" ] || [ "${CLOUDHOST}" = "do" ] )
 then
   CLOUDHOST="digitalocean"
-elif ( [ "${response}" = "exo" ] )
+elif ( [ "${cloudhost}" = "exo" ] || [ "${CLOUDHOST}" = "exo" ] )
 then
   CLOUDHOST="exoscale"
-elif ( [ "${response}" = "lin" ] )
+elif ( [ "${cloudhost}" = "lin" ] || [ "${CLOUDHOST}" = "lin" ] )
 then
   CLOUDHOST="linode" 
-elif ( [ "${response}" = "vul" ] )
+elif ( [ "${cloudhost}" = "vul" ] || [ "${CLOUDHOST}" = "vul" ] )
 then
   CLOUDHOST="vultr"
 fi
 
-/bin/echo "What is the build identifier you want to connect to?"
-/bin/echo "You have these builds to choose from: "
+if ( [ "${BUILD_IDENTIFIER}" = "" ] )
+then
+        /bin/echo "What is the build identifier you want to connect to?"
+        /bin/echo "You have these builds to choose from: "
 
-/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}
+        /bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}
 
-/bin/echo "Please enter the name of the build of the server you wish to connect with"
-read BUILD_IDENTIFIER
+        /bin/echo "Please enter the name of the build of the server you wish to connect with"
+        read BUILD_IDENTIFIER
+fi
 
-/bin/echo "tail (t) or cat (c) or vim (v)"
-read response
+if ( [ "${response}" = "" ] )
+then
+        /bin/echo "tail (t) or cat (c) or vim (v)"
+        read response
+fi
 
-/bin/echo "Do you want out (1) or err (2)"
-read response1
+if ( [ "${response1}" = "" ] )
+then
+        /bin/echo "Do you want out (1) or err (2)"
+        read response1
+fi
 
 if ( [ "${response1}" = "1" ] )
 then
@@ -68,7 +85,7 @@ then
   fi
 elif ( [ "${response1}" = "2" ] )
 then
-  if ( [ "${response}" = "r" ] )
+  if ( [ "${response}" = "t" ] )
   then
     /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
   elif ( [ "${response}" = "c" ] )
