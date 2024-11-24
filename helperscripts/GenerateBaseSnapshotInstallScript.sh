@@ -153,15 +153,15 @@ fi
 
 BUILD_HOME="/root"
 
-/bin/echo '#if ( [ ! -d ${BUILD_HOME}/logs ] )' >> ${snapshot_userdata}
+/bin/echo '#if ( [ ! -d ${BUILD_HOME}/helperscripts/logs ] )' >> ${snapshot_userdata}
 /bin/echo '#then' >>${snapshot_userdata}
-/bin/echo '#        /bin/mkdir ${BUILD_HOME}/logs' >> ${snapshot_userdata}
+/bin/echo '#        /bin/mkdir ${BUILD_HOME}/helperscripts/logs' >> ${snapshot_userdata}
 /bin/echo '#fi' >> ${snapshot_userdata}
 
 /bin/echo '#OUT_FILE="install-out.log.$$"' >> ${snapshot_userdata}
-/bin/echo '#exec 1>>${BUILD_HOME}/logs/${OUT_FILE}' >> ${snapshot_userdata}
+/bin/echo '#exec 1>>${BUILD_HOME}/helperscripts/logs/${OUT_FILE}' >> ${snapshot_userdata}
 /bin/echo '#ERR_FILE="install-err.log.$$"' >> ${snapshot_userdata}
-/bin/echo '#exec 2>>${BUILD_HOME}/logs/${ERR_FILE}' >> ${snapshot_userdata}
+/bin/echo '#exec 2>>${BUILD_HOME}/helperscripts/logs/${ERR_FILE}' >> ${snapshot_userdata}
 
 additional_variables=""
 
