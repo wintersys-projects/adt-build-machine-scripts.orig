@@ -155,31 +155,9 @@ then
 			/usr/bin/yes | /usr/sbin/ufw enable
         	elif ( [ "${firewall}" = "iptables" ] )
                 then
-                        rules=""
-                        for ip in ${ips}
-                        do
-                                echo "IP=${ip}"
-                                read x
-                                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ${ip} | /bin/grep INPUT`" = "" ] )
-                                then
-iptables -F
-    iptables -I INPUT -s 86.101.21.167,87.101.21.167,88.101.21.167,89.101.21.167,90.101.21.167 -p tcp --dport 1036 -j ACCEPT
-                                        /usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
-                                        /usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
-                                fi
-
-                                existing_ips="`/usr/sbin/iptables --list-rules | /bin/grep INPUT | /bin/grep  -Po "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | /usr/bin/sort -u | /usr/bin/uniq`"
-                                for existing_ip in ${existing_ips}
-                                do
-                                        echo "Existing IP=${existing_ip}"
-                                        read y
-                                        if ( [ "`/bin/echo ${ips} | /bin/grep ${existing_ip} | /bin/grep INPUT`" = "" ] )
-                                        then
-                                                /usr/sbin/iptables -D INPUT -s ${existing_ip}
-                                        fi
-                                done
-                        done
-       
+			/usr/sbin/iptables -F
+			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p tcp -j ACCEPT
+			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p ICMP --icmp-type 8 -j ACCEPT
                         /usr/sbin/netfilter-persistent save
                         /usr/sbin/netfilter-persistent reload
                 fi
