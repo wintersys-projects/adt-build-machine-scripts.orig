@@ -26,7 +26,7 @@ fi
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
 
-/bin/echo "tail (t) or cat (c)"
+/bin/echo "tail (t) or cat (c) or vim (v)"
 read response
 
 /bin/echo "Do you want out (1) or err (2)"
@@ -40,15 +40,21 @@ then
   elif ( [ "${response}" = "c" ] )
   then
       /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*log*
+  elif ( [ "${response}" = "v" ] )
+  then
+      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*log*
   fi
-elif ( [ "${respose1}" = "2" ] )
+elif ( [ "${response1}" = "2" ] )
 then
-  if ( [ "${reponse}" = "r" ] )
+  if ( [ "${response}" = "r" ] )
   then
     /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
   elif ( [ "${response}" = "c" ] )
   then
       /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
+  elif ( [ "${response}" = "v" ] )
+  then
+      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
   fi
 fi
 
