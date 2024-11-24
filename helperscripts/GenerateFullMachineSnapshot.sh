@@ -118,6 +118,10 @@ then
         /bin/echo "########################SNAPSHOTING YOUR ${machine_type} ####################################"
         /bin/echo ""
         /usr/bin/vultr snapshot create -i ${machine_id} -d "${machine_name}"
-        snapshot_id="`/usr/bin/vultr snapshot list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $1}'`"
-        
+        snapshot_id="`/usr/bin/vultr snapshot list | /bin/grep "${machine_type}" | /usr/bin/awk '{print $1}'`"   
 fi
+
+/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/snapshots/${snapshot_id}
+/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/snapshots/${snapshot_id}
+/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/snapshots/${snapshot_id}
+/bin/cp ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/snapshots/${snapshot_id}
