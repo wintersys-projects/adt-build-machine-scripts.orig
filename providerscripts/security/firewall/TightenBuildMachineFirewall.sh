@@ -169,10 +169,11 @@ then
                                 do
                                         if ( [ "`/bin/echo ${ips} | /bin/grep ${existing_ip}`" = "" ] )
                                         then
-                                                rule_no="`/usr/sbin/iptables -L --line-numbers  | /bin/grep "${existing_ip}" | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
+                                                rule_no="`/usr/sbin/iptables -L --line-numbers  | /bin/grep -E '(OUTPUT|INPUT)*${existing_ip}*' | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
                                                 while ( [ "${rule_no}" != "" ] )
                                                 do
                                                         /usr/sbin/iptables -D INPUT ${rule_no}
+							rule_no="`/usr/sbin/iptables -L --line-numbers  | /bin/grep -E '(OUTPUT|INPUT)*${existing_ip}*' | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
                                                 done
                                         fi
                                 done
