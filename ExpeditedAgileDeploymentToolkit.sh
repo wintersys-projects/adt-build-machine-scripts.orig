@@ -54,11 +54,6 @@ fi
 export USER="`/usr/bin/whoami`"
 /bin/chmod -R 700 ${BUILD_HOME}/.
 
-if ( [ "${HARDCORE}" != "1" ] )
-then
-    . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
-fi
-
 export BUILD_CLIENT_IP="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 
 status "##################################################################################################################################"
@@ -91,6 +86,12 @@ status ""
 status ""
 
 . ${BUILD_HOME}/selectionscripts/SelectBuildIdentifier.sh
+
+if ( [ "${HARDCORE}" != "1" ] )
+then
+    . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
+fi
+
 . ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
 . ${BUILD_HOME}/templatedconfigurations/ConfigureTemplate.sh
 . ${BUILD_HOME}/initscripts/InitialiseCloudhostConfig.sh
