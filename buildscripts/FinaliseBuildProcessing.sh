@@ -118,35 +118,6 @@ fi
 #Do some checks to find out if the build has completed correctly, before we say we are finished
 /bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/INITIAL_BUILD_COMPLETED
 
-
-if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
-then
-	status""
- 	status "####################################################################################################"
-  	status "########GENERATE SNAPSHOTS IS SET TO ON, SO I WILL GENERATE SNAPSHOTS OF YOUR MACHINES NOW##########"
-    	status "####################################################################################################"
-     
-	if ( [ "${CLOUDHOST}" = "linode" ] )
- 	then
-  		status "Please enable the backup service for each of your linodes before I proceed with attempting to take a snapshot"
-    		status "Press <enter> once the backup service has been enabled for each Linode"
-      		read x
-     	fi
-
-        status "Press <enter> to confirm you want to generate snapshots and complete the build"
-        if ( [ "${HARDCORE}" != "1" ] )
-        then
-                read x
-        fi
-
-        status "Generating snapshots please wait......"
-
-        . ${BUILD_HOME}/providerscripts/server/SnapshotAutoscaler.sh
-        . ${BUILD_HOME}/providerscripts/server/SnapshotWebserver.sh
-        . ${BUILD_HOME}/providerscripts/server/SnapshotDatabase.sh
-fi
-
-
 if ( [ "${as_active_ips}" != "" ] )
 then
 	for autoscaler_ip in `/bin/echo ${as_active_ips} | /bin/sed 's/:/ /g'`
