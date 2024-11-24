@@ -164,7 +164,6 @@ then
                                 then
                                         /usr/sbin/iptables -I INPUT -p tcp -s ${ip} -j ACCEPT
                                         /usr/sbin/iptables -I INPUT -s ${ip} -p ICMP --icmp-type 8 -j ACCEPT
-					/usr/sbin/iptables -F INPUT
                                 fi
 
                                 existing_ips="`/usr/sbin/iptables --list-rules | /bin/grep INPUT | /bin/grep  -Po "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | /usr/bin/sort -u | /usr/bin/uniq`"
