@@ -26,15 +26,13 @@ exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_fi
 err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
 
-/bin/echo "Most of the messages you will see here are soft errors. All errors are recorded though, should you need to review them" > ${BUILD_HOME}/logs/${err_file}
-
 if ( [ "${HARDCORE}" != "1" ] )
 then
-	status "#################################################################################################"
-	status "If the build process freezes or fails to complete for some reason, please review the error stream"
-	status "The error stream for this build is located at: ${BUILD_HOME}/logs/${err_file}"
-	status "#################################################################################################"
-	status "Press <enter> to continue"
-	read x
+        status "#################################################################################################"
+        status "If the build process freezes or fails to complete for some reason, please review the error stream"
+        status "The error stream for this build is located at: ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}"
+        status "#################################################################################################"
+        status "Press <enter> to continue"
+        read x
 fi
 
