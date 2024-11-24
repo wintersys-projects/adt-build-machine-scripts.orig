@@ -156,12 +156,25 @@ then
         	elif ( [ "${firewall}" = "iptables" ] )
                 then
 			/usr/sbin/iptables -F
-			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p tcp -j ACCEPT
-			/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p ICMP --icmp-type 8 -j ACCEPT
-  		        buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
-   			/usr/sbin/iptables -I INPUT -A INPUT -p tcp -m tcp --dport ${buildmachine_ssh_port} -j ACCEPT
-                        /usr/sbin/netfilter-persistent save
-                        /usr/sbin/netfilter-persistent reload
+			#/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p tcp -j ACCEPT
+			#/usr/sbin/iptables -I INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p ICMP --icmp-type 8 -j ACCEPT
+  		        #buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
+
+              		/usr/sbin/iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        		/usr/sbin/iptables -A INPUT -p tcp --dport ${buildmachine_ssh_port} -j ACCEPT
+        		/usr/sbin/iptables -A INPUT -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p ICMP --icmp-type 8 -j ACCEPT
+        		/usr/sbin/iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j DROP
+        		/usr/sbin/iptables -I INPUT \! -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -m state --state NEW,INVALID -p tcp --dport ${buildmachine_ssh_port} -j DROP
+        		/usr/sbin/iptables -A INPUT ! -s `/bin/echo ${ips} | /bin/sed 's/ /,/g'` -p icmp -m state --state INVALID,NEW -m icmp --icmp-type 8  -j DROP
+        		/usr/sbin/iptables -A INPUT -i lo -j ACCEPT
+        		/usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
+        		/usr/sbin/iptables -P INPUT DROP
+        		/usr/sbin/iptables -P FORWARD DROP
+        		/usr/sbin/iptables -P OUTPUT ACCEPT
+        		/usr/sbin/ip6tables -P INPUT DROP
+        		/usr/sbin/ip6tables -P FORWARD DROP
+        		/usr/sbin/ip6tables -P OUTPUT DROP
+			${BUILD_HOME}/helperscripts/RunServiceCommand.sh netfilter-persistent save
                 fi
        
         fi
