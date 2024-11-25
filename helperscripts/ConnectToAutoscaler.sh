@@ -46,6 +46,7 @@ elif ( [ "${response}" = "4" ] )
 then
         CLOUDHOST="vultr"
         token_to_match="autoscaler"
+        export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
 else
         /bin/echo "Unrecognised  cloudhost. Exiting ...."
         exit
