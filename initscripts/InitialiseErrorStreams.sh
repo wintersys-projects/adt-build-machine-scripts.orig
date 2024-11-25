@@ -20,9 +20,8 @@
 #########################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
+if ( [ "${BUILD_IDENTIFIER}" != "" ] )
 then
-        exec 3>&1
         out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
         exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
         err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
@@ -38,12 +37,18 @@ then
                 read x
         fi
 else
-        /bin/mkdir /root/logs
-        exec 3>&1
-        out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
-        exec 1>>/root/logs/${out_file}
-        err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
-        exec 2>>/root/logs/${err_file}
+        if ( [ "${HARDCORE}" != "1" ] )
+        then
+                exec 3>&1
+                if ( [ ! -d /root/logs ] )
+                then
+                        /bin/mkdir /root/logs
+                fi
+                out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
+                exec 1>>/root/logs/${out_file}
+                err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
+                exec 2>>/root/logs/${err_file}
+        fi
 fi
 
 
