@@ -61,14 +61,7 @@ fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-        server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.main_ip == "'${server_ip}'").id'`"
-        if ( [ "${server_id}" = "" ] )
-        then
-                vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`"
-                id="`/usr/bin/vultr vpc2 nodes list ${vpc_id} -o json | /usr/bin/jq -r '.nodes[] | select (.ip_address == "'${server_ip}'").id'`"
-                server_ip="`/usr/bin/vultr instance get ${id} -o json | /usr/bin/jq -r '.instance.main_ip'`"
-                server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.main_ip == "'${server_ip}'").id'`"
-        fi
+	server_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.internal_ip == "'${server_ip}'").id'`"
         /usr/bin/vultr instance delete ${server_id}
         status "Destroyed a server with ip address ${server_ip}"
 fi
