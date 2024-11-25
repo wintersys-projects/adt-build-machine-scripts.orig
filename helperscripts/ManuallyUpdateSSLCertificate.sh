@@ -33,7 +33,7 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 /bin/echo
 /bin/echo "I can currently find the following domains"
-domains="`/bin/ls ${BUILD_HOME}/ssl`"
+domains="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl`"
 /bin/echo
 /bin/echo ${domains}
 /bin/echo
