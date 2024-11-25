@@ -22,7 +22,7 @@
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
-if ( [ "${1}" != "" ] && [ "${2}" ! = "" ] )
+if ( [ "${1}" != "" ] && [ "${2}" != "" ] )
 then
         CLOUDHOST="${1}"
         template="${2}"
