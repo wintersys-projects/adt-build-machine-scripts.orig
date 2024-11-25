@@ -20,19 +20,30 @@
 #########################################################################################
 #set -x
 
-exec 3>&1
-out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
-exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
-err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
-exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
-
-if ( [ "${HARDCORE}" != "1" ] )
+if ( [ "${1}" != "" ] )
 then
-        status "#################################################################################################"
-        status "If the build process freezes or fails to complete for some reason, please review the error stream"
-        status "The error stream for this build is located at: ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}"
-        status "#################################################################################################"
-        status "Press <enter> to continue"
-        read x
+        exec 3>&1
+        out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
+        exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
+        err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
+        exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
+
+        if ( [ "${HARDCORE}" != "1" ] )
+        then
+                status "#################################################################################################"
+                status "If the build process freezes or fails to complete for some reason, please review the error stream"
+                status "The error stream for this build is located at: ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}"
+                status "#################################################################################################"
+                status "Press <enter> to continue"
+                read x
+        fi
+else
+        /bin/mkdir /root/logs
+        exec 3>&1
+        out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
+        exec 1>>/root/logs/${out_file}
+        err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
+        exec 2>>/root/logs/${err_file}
 fi
+
 
