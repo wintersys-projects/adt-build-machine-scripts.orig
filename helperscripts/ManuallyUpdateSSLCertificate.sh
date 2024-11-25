@@ -31,6 +31,24 @@ fi
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
+/bin/echo "Which Cloudhost are you using for this server?"
+/bin/echo "(1) Digital Ocean (2) Exoscale (3) Linode (4) Vultr"
+read response
+
+if ( [ "${response}" = "1" ] )
+then
+        CLOUDHOST="digitalocean"
+elif ( [ "${response}" = "2" ] )
+then
+        CLOUDHOST="exoscale"
+elif ( [ "${response}" = "3" ] )
+then
+        CLOUDHOST="linode"
+elif ( [ "${response}" = "4" ] )
+then
+        CLOUDHOST="vultr"
+fi
+
 /bin/echo
 /bin/echo "I can currently find the following domains"
 domains="`/bin/ls ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ssl`"
