@@ -56,6 +56,10 @@ then
  	/bin/touch /root/FIREWALL-INITIALISED
 elif ( [ "${firewall}" = "iptables" ] )
 then
+	if ( [ -f /usr/sbin/ufw ] )
+ 	then
+  		/usr/sbin/ufw disable
+    	fi
         /usr/sbin/iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
         /usr/sbin/iptables -A INPUT -p tcp --dport ${buildmachine_ssh_port} -j ACCEPT
         /usr/sbin/iptables -A INPUT -s ${laptop_ip} -p ICMP --icmp-type 8 -j ACCEPT
