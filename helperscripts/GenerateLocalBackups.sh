@@ -27,8 +27,8 @@
 WEB_IP=""
 if ( [ ! -f  ./GenerateLocalBackups.sh ] )
 then
-	/bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
-	exit
+        /bin/echo "Sorry, this script has to be run from the helperscripts subdirectory"
+        exit
 fi
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
@@ -37,23 +37,23 @@ BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 read response
 if ( [ "${response}" = "1" ] )
 then
-	CLOUDHOST="digitalocean"
-	token_to_match="webserver"
+        CLOUDHOST="digitalocean"
+        token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
-	CLOUDHOST="exoscale"
-	token_to_match="webserver"
+        CLOUDHOST="exoscale"
+        token_to_match="webserver"
 elif ( [ "${response}" = "3" ] )
 then
-	CLOUDHOST="linode"
-	token_to_match="webserver"
+        CLOUDHOST="linode"
+        token_to_match="webserver"
 elif ( [ "${response}" = "4" ] )
 then
-	CLOUDHOST="vultr"
-	token_to_match="webserver"
+        CLOUDHOST="vultr"
+        token_to_match="webserver"
 else
-	/bin/echo "Unrecognised  cloudhost. Exiting ...."
-	exit
+        /bin/echo "Unrecognised  cloudhost. Exiting ...."
+        exit
 fi
 
 /bin/echo "What is the build Identifer for your build?"
@@ -68,30 +68,30 @@ read BUILD_IDENTIFIER
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ "${ips}" = "" ] )
 then
-	/bin/echo "There doesn't seem to be any webservers running"
-	exit
+        /bin/echo "There doesn't seem to be any webservers running"
+        exit
 fi
 
 /bin/echo "Which webserver would you like to connect to?"
 count=1
 for ip in ${ips}
 do
-	/bin/echo "${count}:   ${ip}"
-	/bin/echo "Press Y/N to connect..."
-	read response
-	if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
-	then
-		WEB_IP=${ip}
-		break
-	fi
-	count="`/usr/bin/expr ${count} + 1`"
+        /bin/echo "${count}:   ${ip}"
+        /bin/echo "Press Y/N to connect..."
+        read response
+        if ( [ "${response}" = "Y" ] || [ "${response}" = "y" ] )
+        then
+                WEB_IP=${ip}
+                break
+        fi
+        count="`/usr/bin/expr ${count} + 1`"
 done
 
 /bin/echo "Does your server use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
@@ -110,87 +110,48 @@ timestamp="`/usr/bin/date | sed 's/ //g'`"
 
 if ( [ ! -d ${BUILD_HOME}/localbackups/${timestamp} ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/localbackups/${timestamp}
+        /bin/mkdir -p ${BUILD_HOME}/localbackups/${timestamp}
 fi
 
 WEBSERVER_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/webserver_${WEB_IP}-keys"
 
 if ( [ ! -f ${WEBSERVER_PUBLIC_KEYS} ] )
 then
-	/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
+        /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}    
 fi
 
 if ( [ "`/bin/cat ${WEBSERVER_PUBLIC_KEYS}`" = "" ] )
 then
-	/bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
-	/bin/rm ${WEBSERVER_PUBLIC_KEYS}
-	exit
+        /bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
+        /bin/rm ${WEBSERVER_PUBLIC_KEYS}
+        exit
 else
-	/bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
-	/bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
-	/bin/echo "Enter 'Y' to regenerate keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
-	read response1
-	if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
-	then
-		/usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}
-	fi
+        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
+        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
+        /bin/echo "Enter 'Y' to regenerate keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
+        read response1
+        if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
+        then
+                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${WEB_IP} > ${WEBSERVER_PUBLIC_KEYS}
+        fi
 fi
 
 if ( [ -f ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ] && [ -f ${BUILD_HOME}/localbackups/applicationdb.tar.gz ] )
 then
-	/bin/cp ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-applicationsourcecode.tar.gz
-	/bin/cp ${BUILD_HOME}/localbackups/applicationdb.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-database.tar.gz
+        /bin/cp ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-applicationsourcecode.tar.gz
+        /bin/cp ${BUILD_HOME}/localbackups/applicationdb.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-database.tar.gz
 else
-	if ( [ "${response}" = "1" ] )
-	then
-		/usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh \"/var/www/html\""
-		/usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}:/tmp/*-applicationsourcecode.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
+        if ( [ "${response}" = "1" ] )
+        then
+                /usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh \"/var/www/html\""
+                /usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}:/tmp/*-applicationsourcecode.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
 elif ( [ "${response}" = "2" ] )
 then
-		/usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh \"/var/www/html\""
-		/usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS}l -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}:/tmp/*-applicationsourcecode.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
-	else
-		/bin/echo "Unrecognised selection, please select only 1 or 2"
-	fi
-fi
-
-/bin/mkdir /tmp/processing
-
-/bin/rm -r /tmp/processing/*
-
-if ( [ -f ${BUILD_HOME}/localbackups/${timestamp}/*-applicationsourcecode.tar.gz ] )
-then
-	/bin/echo "#######################################################################################"
-	/bin/echo "I have obtained an archive of your webroot."
-
-	/bin/echo "The next phase to make your the website usable by the Agile Deployment Toolkit is to remove its original branding"
-	/bin/echo "I need some information from you"
-	/bin/echo "Please tell me the following (making sure it is correct or things will go south)"
-	/bin/echo "Please tell me the original website domain, for example, www.nuocial.org.uk"
-	read WEBSITE_URL
-
-	domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
-	ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d"." -f2`" 
-	/bin/echo "If you know your original website display name, for example, Nuocial"
-	read WEBSITE_DISPLAY_NAME
-	WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/awk '{print tolower($0)}'`"
-	WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/awk '{print toupper($0)}'`"
-	WEBSITE_DISPLAY_NAME_FIRST="`/bin/echo ${WEBSITE_DISPLAY_NAME_LOWER} | /bin/sed -e 's/\b\(.\)/\u\1/g'`"
-	/bin/echo "About to apply your settings to your the backup we obtained of your webroot"
-	/bin/echo "#######################################################################################"
-	/bin/echo "Press <enter> to give it the OK"
-	read x
-
-	/bin/tar xvfz ${BUILD_HOME}/localbackups/${timestamp}/*-applicationsourcecode.tar.gz -C /tmp/processing
-
-
-	/bin/echo "Processsing....Please wait...."
-
-	/usr/bin/find /tmp/processing/* -type f -exec sed -i -e "s/${domainspecifier}/ApplicationDomainSpec/g" -e "s/${WEBSITE_URL}/applicationdomainwww.tld/g" -e "s/${ROOT_DOMAIN}/applicationrootdomain.tld/g" -e "s/${WEBSITE_DISPLAY_NAME}/The GreatApplication/g" -e "s/${WEBSITE_DISPLAY_NAME_UPPER}/THE GREATAPPLICATION/g" -e "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" -e "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" -e "s/${WEBSITE_DISPLAY_NAME_LOWER}/greatapplication/g" -e "s/${WEBSITE_DISPLAY_NAME_FIRST}/Greatapplication/g" {} \;
-
-	application_name="`/bin/ls ${BUILD_HOME}/localbackups/${timestamp}/*-applicationsourcecode.tar.gz | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/awk -F'-' '{print $1}'`"
-	cd /tmp/processing
-	/bin/tar cvfz ${BUILD_HOME}/localbackups/${timestamp}/${application_name}-applicationsourcecode.tar.gz *
+                /usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh \"/var/www/html\""
+                /usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS}l -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${WEB_IP}:/tmp/*-applicationsourcecode.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
+        else
+                /bin/echo "Unrecognised selection, please select only 1 or 2"
+        fi
 fi
 
 /bin/echo "##############################################################################################"
@@ -206,15 +167,15 @@ token_to_match="database"
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
+        ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh ${token_to_match} ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ "${ips}" = "" ] )
 then
-	/bin/echo "There doesn't seem to be any databases running"
-	exit
+        /bin/echo "There doesn't seem to be any databases running"
+        exit
 fi
 
 DIR="`/bin/pwd`"
@@ -223,55 +184,65 @@ DIR="`/bin/pwd`"
 count=1
 for ip in ${ips}
 do
-	/bin/echo "${count}:   ${ip}"
-	/bin/echo "Press Y/N to connect..."
-	read answer 
-	if ( [ "${answer}" = "Y" ] || [ "${answer}" = "y" ] )
-	then
-		DB_IP=${ip}
-		break
-	fi
-	count="`/usr/bin/expr ${count} + 1`"
+        /bin/echo "${count}:   ${ip}"
+        /bin/echo "Press Y/N to connect..."
+        read answer 
+        if ( [ "${answer}" = "Y" ] || [ "${answer}" = "y" ] )
+        then
+                DB_IP=${ip}
+                break
+        fi
+        count="`/usr/bin/expr ${count} + 1`"
 done
+
+DATABASE_PUBLIC_KEYS="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/database_${DB_IP}keys"
+
+if ( [ ! -f ${DATABASE_PUBLIC_KEYS} ] )
+then
+        /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${DB_IP} > ${DATABASE_PUBLIC_KEYS}    
+        if ( [ "`/bin/cat ${DATABASE_PUBLIC_KEYS}`" = "" ] )
+        then
+                /usr/bin/ssh-keyscan ${DB_IP} > ${DATABASE_PUBLIC_KEYS}    
+        fi
+else
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
+        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
+        read response1
+        if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
+        then
+                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${DB_IP} > ${DATABASE_PUBLIC_KEYS}
+        fi
+fi
+
+if ( [ "`/bin/cat ${DATABASE_PUBLIC_KEYS}`" = "" ] )
+then
+        /bin/echo "Couldn't initiate ssh key scan please try again (make sure the machine is online"
+        /bin/rm ${DATABASE_PUBLIC_KEYS}
+        exit
+fi
+
+/bin/echo "Does your server use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
 
 if ( [ -f ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ] && [ -f ${BUILD_HOME}/localbackups/applicationdb.tar.gz ] )
 then
-	/bin/cp ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-applicationsourcecode.tar.gz
-	/bin/cp ${BUILD_HOME}/localbackups/applicationdb.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-database.tar.gz
+        /bin/cp ${BUILD_HOME}/localbackups/applicationwebroot.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-applicationsourcecode.tar.gz
+        /bin/cp ${BUILD_HOME}/localbackups/applicationdb.tar.gz ${BUILD_HOME}/localbackups/timestamp/migration-database.tar.gz
 else
-	if ( [ "${response}" = "1" ] )
-	then
-		/usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/git/utilities/BackupDatabase.sh"
-		/usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP}:/tmp/*-database.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
-	elif ( [ "${response}" = "2" ] )
-	then
-		/usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/git/utilities/BackupDatabase.sh"
-		/usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${WEBSERVER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP}:/tmp/*-database.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
-	else
-		/bin/echo "Unrecognised selection, please select only 1 or 2"
-	fi
+        if ( [ "${response}" = "1" ] )
+        then
+                /usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/git/utilities/BackupDatabase.sh"
+                /usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP}:/tmp/*-database.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/
+        elif ( [ "${response}" = "2" ] )
+        then
+                /usr/bin/ssh -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${SUDO} /home/${SERVER_USERNAME}/providerscripts/git/utilities/BackupDatabase.sh"
+                /usr/bin/scp -o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP}:/tmp/*-database.tar.gz ${BUILD_HOME}/localbackups/${timestamp}/database.tar.gz
+        else
+                /bin/echo "Unrecognised selection, please select only 1 or 2"
+        fi
 fi
-
-/bin/tar xvfz ${BUILD_HOME}/localbackups/${timestamp}/*-database.tar.gz -C /tmp/processing
-/bin/rm ${BUILD_HOME}/localbackups/${timestamp}/*-database.tar.gz 
-
-/bin/sed -i "s/${domainspecifier}/ApplicationDomainSpec/g" /tmp/processing/app*sql
-/bin/sed -i "s/${WEBSITE_URL}/www.applicationdomain.tld/g" /tmp/processing/app*sql
-/bin/sed -i "s/@${ROOT_DOMAIN}/@applicationdomain.tld/g" /tmp/processing/app*sql
-/bin/sed -i "s/${ROOT_DOMAIN}/applicationdomain.tld/g" /tmp/processing/app*sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME}/GreatApplication/g" /tmp/processing/app*sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_UPPER}/GREATAPPLICATION/g" /tmp/processing/app*sql
-/bin/sed -i "s/${WEBSITE_DISPLAY_NAME_LOWER}-online/application-online/g" /tmp/processing/app*sql
-/bin/sed -i "s/${DB_U}/XXXXXXXXXX/g" /tmp/processing/app*sql
-/bin/sed -i "s/@@mail/@mail/g" /tmp/processing/app*sql
-
-cd /tmp/processing
-
-/bin/tar cvfz ${BUILD_HOME}/localbackups/${timestamp}/${application_name}-database.tar.gz app*sql
-
-cd ${BUILD_HOME}/helperscripts
-
-/bin/rm -r /tmp/processing/*
 
 /bin/echo "###################################################################################################"
 /bin/echo "Thank you, your application webroot and database dump should now be available at: ${BUILD_HOME}/localbackups/${timestamp}/"
