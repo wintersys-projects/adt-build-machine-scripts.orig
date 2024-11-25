@@ -23,27 +23,25 @@
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
-logdir="scaling-events-`/usr/bin/date | /usr/bin/awk '{print $1 $2 $3 $NF}'`"
-/bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/bin/echo 'The logs for webservers that have been built today are:' && /bin/echo && /bin/ls /home/X*X/logs/${logdir} | /bin/grep webserver\- "
-
-/bin/echo && /bin/echo && 'Please enter the 4 digit unique code that you see in webserver name to tail the error stream for that server build'
-
-read choice 
-
 /bin/echo "Do you want to tail stdout or stderr?"
 /bin/echo "Type '1' for stdout and '2' for stderr"
 read choice
 
 if ( [ "`/bin/echo '1 2' | /bin/grep ${choice}`" = "" ] )
 then
-	/bin/echo "Not a valid option, try again..."
-	read choice
+        /bin/echo "Not a valid option, try again..."
+        read choice
 fi
+
+${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/ls /home/X*X/logs/scaling-events* | /bin/grep webserver"
+/bin/echo "############################################################################################"
+/bin/echo "Please enter the full name of the webserver that you want to monitor from those listed above"
+read webserver_name
 
 if ( [ "${choice}" = "1" ] )
 then
-	 /bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*out*"
+        ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/scaling-events*/${webserver_name}/*out*"
 elif ( [ "${choice}" = "2" ] )
 then
-	 /bin/sh ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/${logdir}/*${choice}*/*err*"
+        ${BUILD_HOME}/helperscripts/ExecuteOnAutoscaler.sh "/usr/bin/tail -f /home/X*X/logs/scaling-events*/${webserver_name}/*err*"
 fi
