@@ -20,10 +20,9 @@
 ############################################################################################
 #set -x
 
-instance_size="${1}"
-cloudhost="${2}"
-buildos="${3}"
-buildos_version="${4}"
+cloudhost="${1}"
+buildos="${2}"
+buildos_version="${3}"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
