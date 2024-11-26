@@ -33,6 +33,7 @@ do
 			status "It seems like there is an ${machine_type} already running please close it down and rebuild"
 			status "#####################################################################################"
 			status "Press <enter> to try again (once the ${machine_type} I found is offline"
+   			read x
   		else
    			authorised="yes"
 		fi
