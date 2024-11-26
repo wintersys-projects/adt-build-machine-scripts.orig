@@ -41,9 +41,7 @@ if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 then
 	${datastore_tool_1} s3://${config_bucket}/credentials/shit ${destination}
 	if ( [ "${DATASTORE_CHOICE}" = "digitalocean" ] || [ "${DATASTORE_CHOICE}" = "exoscale" ] || [ "${DATASTORE_CHOICE}" = "linode" ] || [ "${DATASTORE_CHOICE}" = "vultr" ] )
-	then
-		config_bucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`-config"
-	
+	then	
 		if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
 		then
 			${datastore_tool_1} s3://${config_bucket}/credentials/shit ${destination}
