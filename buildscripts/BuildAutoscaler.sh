@@ -91,8 +91,11 @@ do
                 ip=""
                 #Set a unique identifier and name for our new autoscaler server
                 RND="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1`"
-                autoscaler_name="NO-${autoscaler_no}-autoscaler-${RND}-`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-                autoscaler_name="`/bin/echo ${autoscaler_name} | /usr/bin/cut -c -32 | /bin/sed 's/-$//g'`"
+             #   autoscaler_name="NO-${autoscaler_no}-autoscaler-${RND}-`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+                autoscaler_name="NO-${autoscaler_no}-as-${REGION}-${BUILD_IDENTIFIER}-${RND}"
+
+                
+#                autoscaler_name="`/bin/echo ${autoscaler_name} | /usr/bin/cut -c -32 | /bin/sed 's/-$//g'`"
 
                 #See what os type we are building on. Currently only Ubuntu and debian are supported
            #     if ( [ "${OS_TYPE}" = "" ] )
