@@ -38,19 +38,15 @@ read response
 if ( [ "${response}" = "1" ] )
 then
         CLOUDHOST="digitalocean"
-        token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
         CLOUDHOST="exoscale"
-        token_to_match="webserver"
 elif ( [ "${response}" = "3" ] )
 then
         CLOUDHOST="linode"
-        token_to_match="webserver"
 elif ( [ "${response}" = "4" ] )
 then
         CLOUDHOST="vultr"
-        token_to_match="webserver"
 else
         /bin/echo "Unrecognised  cloudhost. Exiting ...."
         exit
@@ -64,6 +60,7 @@ fi
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
 
+token_to_match="ws-`/bin/grep 'REGION=' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /usr/bin/awk -F'=' '{print $NF}'`-${BUILD_IDENTIFIER}"
 /bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
@@ -163,7 +160,7 @@ read DB_U
 read x
 
 
-token_to_match="database"
+token_to_match="db-`/bin/grep 'REGION=' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /usr/bin/awk -F'=' '{print $NF}'`-${BUILD_IDENTIFIER}"
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
