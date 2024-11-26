@@ -124,4 +124,15 @@ then
                         /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_size}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=false --userdata="${user_data}"
                 fi    
         fi
+
+ 	machine_id=""
+  	count="0"
+	while ( [ "${machine_id}" = "" ] && [ "${count}" -lt "10" ] )
+ 	do
+        	machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
+	 	/bin/sleep 5
+   		count="`/usr/bin/expr ${count} + 1`"
+     	done
+
+	/usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
 fi
