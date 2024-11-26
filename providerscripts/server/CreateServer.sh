@@ -67,14 +67,6 @@ then
 	/usr/bin/exo compute instance private-network attach  ${server_name} adt_private_net_${region} --zone ${region} 
 fi
 
-distribution="${1}"
-location="${2}"
-server_size="${3}"
-server_name="`/bin/echo ${4} | /usr/bin/cut -c -32`"
-key_id="${5}"
-cloudhost="${6}"
-snapshot_id="${8}"
-
 if ( [ "${cloudhost}" = "linode" ] )
 then
 	key="`/usr/local/bin/linode-cli --text sshkeys view ${key_id} | /usr/bin/awk '{print $4,$5,$6}' | /usr/bin/tail -n-1`"
@@ -97,45 +89,6 @@ then
 		/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image "${os_choice}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
 
 	fi
- 
-  	#	if ( [ "`/bin/echo ${os_choice} | /bin/grep 'Ubuntu 20.04'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/ubuntu20.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
-#		elif ( [ "`/bin/echo ${os_choice} | /bin/grep 'Ubuntu 22.04'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/ubuntu22.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
-#		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Ubuntu 24.04'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/ubuntu24.04 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
-#		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 10'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/debian10 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
-#		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 11'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/debian11 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any  
-#		elif ( [ "`/bin/echo ${distribution} | /bin/grep 'Debian 12'`" != "" ] )
-#		then
-#			/usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${region} --image linode/debian12 --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any		
- # 		fi
-#	fi
-fi
-#
-
-os_choice="${1}"
-region="${2}"
-server_plan="${3}"
-server_name="${4}"
-key_id="${5}"
-cloudhost="${6}"
-snapshot_id="${8}"
-
-if ( [ "`/bin/echo ${7} | /bin/grep ".*-.*-.*-.*-.*"`" != "" ] )
-then
-        snapshot_id="${7}"
-        ddos_protection="${8}"
-else
-        snapshot_id=""
-        ddos_protection="${7}"
 fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
@@ -168,25 +121,5 @@ then
                 else
                         /usr/bin/vultr instance create --label="${server_name}" --region="${region}" --plan="${server_size}" --os="${os_choice}" --ipv6=false -s ${key_id} --ddos=false --userdata="${user_data}"
                 fi    
-        fi
- 
-        machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
-
-        while ( [ "${machine_id}" = "" ] )
-        do
-                machine_id="`/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label == "'"${server_name}"'").id'`"
-                /bin/sleep 5
-        done
-
-        if ( [ "${machine_id}" != "" ] )
-        then
-                count="0"
-                /usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
-                while ( [ "$?" != "0" ] && [ "${count}" -lt "5" ] )
-                do
-                        count="`/usr/bin/expr ${count} + 1`"
-                        /bin/sleep 30
-                        /usr/bin/vultr vpc2 nodes attach ${vpc_id} --nodes="${machine_id}"
-                done 
         fi
 fi
