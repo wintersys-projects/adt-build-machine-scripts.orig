@@ -42,17 +42,17 @@ OPTIONS_WS="-o ConnectTimeout=10 -o ConnectionAttempts=30 -o UserKnownHostsFile=
 SUDO="DEBIAN_FRONTEND=noninteractive /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
 #Just do some checks to make sure that all the different server types are running correctly
-if ( [ "${PRODUCTION}" = "1" ] && [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "autoscaler" ${CLOUDHOST}`" = "" ] )
+if ( [ "${PRODUCTION}" = "1" ] && [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`" = "" ] )
 then
 	status "It seems like something is not quite right with the build. The Autoscaler seems not to be running so the website will not function properly."
 fi
 
-if ( [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "webserver" ${CLOUDHOST}`" = "" ] )
+if ( [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`" = "" ] )
 then
 	status "It seems like something is not quite right with the build. The webserver seems not to be running so the website will not function properly."
 fi
 
-if (  [ "${DATABASE_INSTALLATION_TYPE}" != "None" ] && [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "database" ${CLOUDHOST}`" = "" ] )
+if (  [ "${DATABASE_INSTALLATION_TYPE}" != "None" ] && [ "`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`" = "" ] )
 then
 	status "It seems like something is not quite right with the build. The database seems not to be running so the website will not function properly."
 fi
