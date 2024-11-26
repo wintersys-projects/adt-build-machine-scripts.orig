@@ -20,7 +20,7 @@
 #########################################################################################
 #set -x
 authorised="no"
-machine_types="autoscaler webserver database"
+machine_types="as-${REGION}-${BUILD_IDENTIFIER} ws--${REGION}-${BUILD_IDENTIFIER} db--${REGION}-${BUILD_IDENTIFIER}"
 
 for machine_type in ${machine_types}
 do
