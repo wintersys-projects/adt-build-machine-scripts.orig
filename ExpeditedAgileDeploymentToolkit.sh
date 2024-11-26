@@ -86,6 +86,8 @@ else
 	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS}
 fi
 
+/bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST
+
 . ${BUILD_HOME}/helperscripts/SetupEth1.sh
 . ${BUILD_HOME}/initscripts/InitialiseCompatibilityChecks.sh
 
