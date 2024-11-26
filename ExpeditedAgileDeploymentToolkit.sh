@@ -86,8 +86,6 @@ else
 	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS}
 fi
 
-/bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST
-
 . ${BUILD_HOME}/helperscripts/SetupEth1.sh
 . ${BUILD_HOME}/initscripts/InitialiseCompatibilityChecks.sh
 
@@ -96,6 +94,8 @@ status ""
 
 . ${BUILD_HOME}/selectionscripts/SelectBuildIdentifier.sh
 . ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
+
+/bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST
 
 if ( [ "${HARDCORE}" != "1" ] )
 then
