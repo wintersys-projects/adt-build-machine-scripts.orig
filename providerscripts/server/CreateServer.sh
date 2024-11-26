@@ -26,12 +26,15 @@ server_name="`/bin/echo ${2} | /usr/bin/cut -c -32`"
 snapshot_id="${3}"
 cloudhost="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
 build_identifier="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
-buildos="`/bin/grep '^BUILDOS=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
-buildos_version="`/bin/grep '^BUILDOS_VERSION=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+
+build_environment="${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment"
+buildos="`/bin/grep '^BUILDOS=' ${build_environment} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+buildos_version="`/bin/grep '^BUILDOS_VERSION=' ${build_environment} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+region="`/bin/grep '^REGION=' ${build_environment} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+ddos_protection="`/bin/grep '^ENABLE_DDOS_PROTECTION=' ${build_environment} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+vpc_ip_range="`/bin/grep '^VPC_IP_RANGE=' ${build_environment} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+
 os_choice="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${cloudhost} ${buildos} ${buildos_version} | /bin/sed "s/'//g"`"
-region="`/bin/grep '^REGION=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
-ddos_protection="`/bin/grep '^ENABLE_DDOS_PROTECTION=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
-vpc_ip_range="`/bin/grep '^VPC_IP_RANGE=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 key_id="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/credentials/PUBLICKEYID`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
