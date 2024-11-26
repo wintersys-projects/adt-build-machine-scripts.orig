@@ -32,7 +32,7 @@ cloudhost="${6}"
 snapshot_id="${9}"
 
 cloudhost="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
-os_choice="`
+os_choice="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${cloudhost} ${BUILDOS} ${BUILDOS_VERSION}`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
