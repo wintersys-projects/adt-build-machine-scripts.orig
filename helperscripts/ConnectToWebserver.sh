@@ -35,19 +35,15 @@ read response
 if ( [ "${response}" = "1" ] )
 then
         CLOUDHOST="digitalocean"
-        token_to_match="webserver"
 elif ( [ "${response}" = "2" ] )
 then
         CLOUDHOST="exoscale"
-        token_to_match="webserver"
 elif ( [ "${response}" = "3" ] )
 then
         CLOUDHOST="linode"
-        token_to_match="webserver"
 elif ( [ "${response}" = "4" ] )
 then
         CLOUDHOST="vultr"
-        token_to_match="webserver"
         export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
 else
         /bin/echo "Unrecognised  cloudhost. Exiting ...."
@@ -61,6 +57,8 @@ fi
 
 /bin/echo "Please enter the name of the build of the server you wish to connect with"
 read BUILD_IDENTIFIER
+
+token_to_match="ws-`/bin/grep 'REGION=' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /usr/bin/awk -F'=' '{print $NF}'`-${BUILD_IDENTIFIER}"
 
 /bin/echo "${BUILD_IDENTIFIER}" > ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER
 
