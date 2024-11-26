@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-#set -x
+set -x
 
 server_size="${1}"
 server_name="`/bin/echo ${2} | /usr/bin/cut -c -32`"
