@@ -31,6 +31,9 @@ key_id="${5}"
 cloudhost="${6}"
 snapshot_id="${9}"
 
+cloudhost="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
+os_choice="`
+
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	if ( [ "${snapshot_id}" != "" ] )
