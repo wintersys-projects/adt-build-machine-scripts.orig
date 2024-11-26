@@ -85,8 +85,10 @@ do
                 ip=""
                 #Create an identifier from our the user name we allocated to identify the database server
                 RND="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1`"
-                database_name="database-${RND}-`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-                database_name="`/bin/echo ${database_name} | /usr/bin/cut -c -32 | /bin/sed 's/-$//g'`"
+                #database_name="database-${RND}-`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+                database_name="db-${REGION}-${BUILD_IDENTIFIER}-${RND}"
+
+              #  database_name="`/bin/echo ${database_name} | /usr/bin/cut -c -32 | /bin/sed 's/-$//g'`"
 
                 #What type of OS are we building for. Currently, (April 2018) only ubuntu and debian are supported
              #   if ( [ "${OS_TYPE}" = "" ] )
