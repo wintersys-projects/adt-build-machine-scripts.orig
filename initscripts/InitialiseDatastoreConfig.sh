@@ -107,7 +107,7 @@ ${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh
 
 if ( [ "$?" = "0" ] )
 then
-	status "Purging configuration bucket in datastore ${config_bucket} so it is fresh for this build"
+	status "Purging configuration bucket in datastore for website ${WEBSITE_URL} so it is fresh for this build"
 	${BUILD_HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${WEBSITE_URL}" "purge"
 else
 	status "Couldn't find an existing configuration bucket so I am creating a new one for you"
