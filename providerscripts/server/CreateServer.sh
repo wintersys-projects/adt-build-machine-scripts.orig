@@ -21,26 +21,23 @@
 ####################################################################################
 #set -x
 
-vpc_ip_range="`/bin/echo $@ | /usr/bin/awk '{print $NF}'`"
-
-os_choice="${1}"
-region="${2}"
-server_size="${3}"
-server_name="${4}"
-key_id="${5}"
-cloudhost="${6}"
-snapshot_id="${9}"
-
+server_size="${1}"
+server_name="`/bin/echo ${2} | /usr/bin/cut -c -32`"
+snapshot_id="${3}"
 cloudhost="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
-os_choice="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${cloudhost} ${BUILDOS} ${BUILDOS_VERSION}`"
+build_identifier="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
+buildos="`/bin/grep '^BUILDOS=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+os_choice="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${cloudhost} ${buildos} ${build_identifier} | /bin/sed "s/'//g"`"
+region="`/bin/grep '^REGION=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+key_id="`/bin/grep '^PUBLIC_KEY_ID=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+ddos_protection="`/bin/grep '^ENABLE_DDOS_PROTECTION=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+vpc_ip_range="`/bin/grep '^VPC_IP_RANGE=' ${BUILD_HOME}/runtimedata/${cloudhost}/${build_identifier}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	if ( [ "${snapshot_id}" != "" ] )
 	then
 		os_choice="${snapshot_id}"
-	else
-		os_choice="`/bin/echo "${os_choice}" | /bin/sed "s/'//g"`"
 	fi
 
 	if ( [ "`/usr/local/bin/doctl vpcs list | /bin/grep "adt-vpc" | /bin/grep "${region}"`" = "" ] )
@@ -49,41 +46,25 @@ then
 	fi
 	
 	vpc_id="`/usr/local/bin/doctl vpcs list  | /bin/grep "adt-vpc" | /bin/grep "${region}" | /usr/bin/awk '{print $1}'`"
-	
-  #  /usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${os_choice}"  --region "${region}" --ssh-keys "${key_id}" --enable-private-networking
-
+ 
 	/usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${os_choice}"  --region "${region}" --ssh-keys "${key_id}" --vpc-uuid "${vpc_id}"
-
-
 fi
-
-template_id="${1}"
-zone_id="${2}" 
-server_size="${3}" 
-server_name="${4}"
-key_pair="${5}"
-cloudhost="${6}"
-snapshot_id="${9}"
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-
-	template_id="`/bin/echo "${template_id}" | /bin/sed "s/'//g"`"
-
-
 	if ( [ "${snapshot_id}" != "" ] )
 	then
-		template_id="${snapshot_id}"
+		os_choice="${snapshot_id}"
 	fi
 	
-	/usr/bin/exo compute instance create ${server_name} --instance-type standard.${server_size} --template "${template_id}" --zone ${zone_id} --ssh-key ${key_pair} --cloud-init "${BUILD_HOME}/providerscripts/server/cloud-init/exoscale.dat"
+	/usr/bin/exo compute instance create ${server_name} --instance-type standard.${server_size} --template "${os_choice}" --zone ${region} --ssh-key ${key_id} --cloud-init "${BUILD_HOME}/providerscripts/server/cloud-init/exoscale.dat"
    
-	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep adt_private_net_${zone_id}`" = "" ] )
+	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep adt_private_net_${region}`" = "" ] )
 	then
-		/usr/bin/exo compute private-network create adt_private_net_${zone_id} --zone ${zone_id} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
+		/usr/bin/exo compute private-network create adt_private_net_${region} --zone ${region} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
 	fi
 	
-	/usr/bin/exo compute instance private-network attach  ${server_name} adt_private_net_${zone_id} --zone ${zone_id} 
+	/usr/bin/exo compute instance private-network attach  ${server_name} adt_private_net_${region} --zone ${region} 
 fi
 
 distribution="${1}"
