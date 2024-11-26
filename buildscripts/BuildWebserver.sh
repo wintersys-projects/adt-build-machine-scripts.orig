@@ -85,10 +85,10 @@ do
 
                 #What OS type are we building for. Currently, only ubuntu is supported
 
-                if ( [ "${OS_TYPE}" = "" ] )
-                then
-                        OS_TYPE="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${WS_SIZE} ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION}`"
-                fi
+              #  if ( [ "${OS_TYPE}" = "" ] )
+              #  then
+              #          OS_TYPE="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${WS_SIZE} ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION}`"
+              #  fi
 
                 status "Initialising a new server machine, please wait......"
 
