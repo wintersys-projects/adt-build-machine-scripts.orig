@@ -25,8 +25,8 @@
 ####################################################################################
 #set -x
 
-if ( [ "${BUILD_IDENTIFIER}" = "" ] && [ "${HARDCORE}" = "0" ] )
-then
+while ( [ "${BUILD_IDENTIFIER}" = "" ] && [ "${HARDCORE}" = "0" ] )
+do
 	status ""
 	status ""
 	status "##################################################################################################"
@@ -47,7 +47,17 @@ then
 			read BUILD_IDENTIFIER
 		done
 	fi
-fi
+ 	if ( [ -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
+  	then
+   		status "You already have a directory structure matching build identifier ${BUILD_IDENTIFIER}"
+     		status "If you are VERY sure this is OK and you want to continue enter (Y|y) anything else to select a new build identifier"
+       		read response
+	 	if ( [ "${response}" != "Y" ] && [ "${response}" != "y" ] )
+   		then
+     			BUILD_IDENTIFIER=""
+		fi
+  	fi
+done
 
 BUILD_IDENTIFIER="`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]' | /bin/sed 's/-//g' | /usr/bin/cut -c -8`"
 
