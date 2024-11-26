@@ -23,8 +23,7 @@
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 WEBSITE_URL="${1}"
-configbucket="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
-configbucket="${configbucket}-config"
+configbucket="${WEBSITE_URL}-config"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
