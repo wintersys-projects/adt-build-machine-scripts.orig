@@ -160,10 +160,11 @@ else
 	fi
 fi
 
-/usr/bin/env > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment
-
+status ""
+status "#############################################################################"
 status "There is a copy of the envionment that this script is running with located at"
 status "${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment"
+status "#############################################################################"
 status "Do you want to review the environment that we are running with now? (Y|N)"
 read response
 
@@ -198,6 +199,7 @@ start=`/bin/date +%s`
 #script
 . ${BUILD_HOME}/processingscripts/PreProcessingMessages.sh
 
+/usr/bin/env > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment
 
 . ${BUILD_HOME}/initscripts/InitialiseKeystore.sh
 . ${BUILD_HOME}/buildscripts/BuildAndDeployDBaaS.sh
