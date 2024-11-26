@@ -93,8 +93,6 @@ fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
 then
-        os_choice="`/bin/echo "${os_choice}" | /bin/sed "s/'//g"`"
-
         if ( [ "`/usr/bin/vultr vpc2 list | grep adt-vpc`" = "" ] )
         then
                 ip_block="`/bin/echo ${vpc_ip_range} | /usr/bin/awk -F'/' '{print $1}'`"
