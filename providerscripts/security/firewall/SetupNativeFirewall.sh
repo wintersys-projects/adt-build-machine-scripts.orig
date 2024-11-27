@@ -34,7 +34,7 @@ then
 	then
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
-			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
+			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 			
 			rules=""
 			
@@ -57,7 +57,7 @@ then
 				done
 			fi
 
-			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh webserver ${CLOUDHOST}`"
+			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${webserver_id}" != "" ] )
 			then
@@ -92,7 +92,7 @@ then
 				/usr/local/bin/doctl compute firewall add-droplets ${webserver_firewall_id} --droplet-ids ${webserver_id}
 			fi
 			
-			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database ${CLOUDHOST}`"
+			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${database_id}" != "" ] )
 			then
@@ -164,7 +164,7 @@ then
 	then
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
-			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
+			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${autoscaler_ids}" != "" ] )
 			then
@@ -181,7 +181,7 @@ then
 				done
 			fi
 
-			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh webserver ${CLOUDHOST}`"
+			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${webserver_id}" != "" ] )
 			then
@@ -210,7 +210,7 @@ then
 				/usr/bin/exo compute instance security-group add ${webserver_id} adt-webserver
 			fi
 
-			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database ${CLOUDHOST}`"
+			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${database_id}" != "" ] )
 			then
@@ -265,7 +265,7 @@ then
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-autoscaler" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
 			autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler" ).id'`"
-			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
+			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 			then
@@ -318,7 +318,7 @@ then
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-database" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
 			database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database" ).id'`"
-			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database ${CLOUDHOST}`"
+			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
 			then
