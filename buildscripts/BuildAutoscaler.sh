@@ -71,7 +71,7 @@ status "========================================================="
 while ( [ "${done}" != "1" ] && [ "${counter}" -lt "5" ] )
 do
         counter="`/usr/bin/expr ${counter} + 1`"
-        autoscaler_no="`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "autoscaler" ${CLOUDHOST} 2>/dev/null`"
+        autoscaler_no="`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST} 2>/dev/null`"
 
         if ( [ "${autoscaler_no}" = "" ] )
         then
@@ -339,7 +339,7 @@ do
                                 ${BUILD_HOME}/providerscripts/server/DestroyServer.sh ${ASIP} ${CLOUDHOST}
 
                                 #Wait until we are sure that the image server(s) are destroyed because of a faulty build
-                                while ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "autoscaler" ${CLOUDHOST} 2>/dev/null`" != "0" ] )
+                                while ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST} 2>/dev/null`" != "0" ] )
                                 do
                                         /bin/sleep 30
                                 done
