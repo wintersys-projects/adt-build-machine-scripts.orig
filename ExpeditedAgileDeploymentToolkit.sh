@@ -105,6 +105,7 @@ fi
 . ${BUILD_HOME}/templatedconfigurations/ConfigureTemplate.sh
 . ${BUILD_HOME}/initscripts/InitialiseCloudhostConfig.sh
 . ${BUILD_HOME}/selectionscripts/SelectSMTPSettings.sh
+. ${BUILD_HOME}/initscripts/InitialiseServerUserCredentials.sh
 . ${BUILD_HOME}/initscripts/InitialiseDatastoreConfig.sh
 . ${BUILD_HOME}/initscripts/PreFlightChecks.sh
 . ${BUILD_HOME}/providerscripts/datastore/PersistBuildClientIP.sh
@@ -140,7 +141,6 @@ fi
 
 export PRE_BUILD="1"
 . ${BUILD_HOME}/providerscripts/security/firewall/SetupNativeFirewall.sh
-. ${BUILD_HOME}/initscripts/InitialiseServerUserCredentials.sh
 . ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
 
 PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
