@@ -64,12 +64,10 @@ read BUILD_IDENTIFIER
 /bin/echo "OK, can you please tell me the FULL URL (without the https:// ) for the website you want to scale up/down is (e.g. demo.nuocial.org.uk)"
 read website_url
 
-
 SERVER_USER="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/SERVERUSER`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1`"
 
-configbucket="`/bin/echo ${website_url} | /usr/bin/awk -F'.' '{ for(i = 1; i <= NF; i++) { print $i; } }' | /usr/bin/cut -c1-3 | /usr/bin/tr '\n' '-' | /bin/sed 's/-//g'`"
-configbucket="${configbucket}-config"
+configbucket="`/bin/echo "${website_url}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
 if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${CLOUDHOST} ${configbucket}`" = "" ] )
 then
