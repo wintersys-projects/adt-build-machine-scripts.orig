@@ -146,6 +146,10 @@ do
                         if ( [ "${ip}" != "" ] && [ "${private_ip}" != "" ] )
                         then
                                 server_started="1"
+                        elif ( [ "${ip}" != "" ] && [ "${private_ip}" = "" ] )
+                        then
+                                status "Found a public ip address but not a private ip address"
+                                status "This likely means that there is some sort problem with the VPC"
                         else
                                 status "I haven't been able to start your server for you, trying again...."
                         fi
