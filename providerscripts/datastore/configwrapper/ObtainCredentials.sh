@@ -62,7 +62,7 @@ then
 	  				database_username="`/bin/sed 3!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
        					database_password="`/bin/sed 2!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
 				fi
-    			else
+			else
 	    			if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 	 			then
 					/bin/echo "Database name: `/bin/sed 1!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" >&3
