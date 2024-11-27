@@ -284,7 +284,7 @@ then
 		   
 			/usr/local/bin/linode-cli firewalls create --label "adt-webserver" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
 			webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver" ).id'`"
-			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh webserver ${CLOUDHOST}`"
+			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 						
 						
 			. ${BUILD_HOME}/providerscripts/security/firewall/GetProxyDNSIPs.sh
@@ -367,7 +367,7 @@ then
 		if ( [ "${PRE_BUILD}" = "0" ] )
 		then
   			#VPC_IP_RANGE doesn't need to be allowed by the firewall for vultr, machines in the same VPC can communiate by default by private IP
-			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh autoscaler ${CLOUDHOST}`"
+			autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${autoscaler_ids}" != "" ] )
 			then
@@ -386,7 +386,7 @@ then
 				done
 			fi  
    
-			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh webserver ${CLOUDHOST}`"
+			webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${webserver_id}" != "" ] )
 			then
@@ -412,7 +412,7 @@ then
 				/usr/bin/vultr instance update-firewall-group ${webserver_id} -f ${firewall_id}
 			fi
 			
-			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh database ${CLOUDHOST}`"
+			database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 			if ( [ "${database_id}" != "" ] )
 			then
