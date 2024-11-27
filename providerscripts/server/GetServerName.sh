@@ -29,25 +29,25 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
 	/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.networks.v4[] | select (.ip_address == "'${server_ip}'")).name'
-	/bin/echo "digitalocean" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
+	#/bin/echo "digitalocean" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq -r '.[] | select (.ip_address =="'${server_ip}'").name'
-	/bin/echo "exoscale" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
+	#/bin/echo "exoscale" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
 	/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.ipv4[] == "'${server_ip}'").label' 
-	/bin/echo "linode" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
+	#/bin/echo "linode" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
         /usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.main_ip == "'${server_ip}'").label' 
-	/bin/echo "vultr" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
+#	/bin/echo "vultr" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
 fi
 
