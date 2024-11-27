@@ -69,23 +69,23 @@ database_token_to_match="db-`/bin/grep 'REGION=' ${BUILD_HOME}/runtimedata/${CLO
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	autoscalerips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "autoscaler" ${CLOUDHOST} ${BUILD_HOME}`"
+	autoscalerips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "${autoscaler_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	autoscalerips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "autoscaler" ${CLOUDHOST} ${BUILD_HOME}`"
+	autoscalerips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "${autoscaler_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	webserverips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "webserver" ${CLOUDHOST} ${BUILD_HOME}`"
+	webserverips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "${webserver_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	webserverips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "webserver" ${CLOUDHOST} ${BUILD_HOME}`"
+	webserverips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "${webserver_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
 then
-	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "database" ${CLOUDHOST} ${BUILD_HOME}`"
+	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "${database_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 else
-	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  "database" ${CLOUDHOST} ${BUILD_HOME}`"
+	databaseips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  "${database_token_to_match}" ${CLOUDHOST} ${BUILD_HOME}`"
 fi
 
 /bin/echo "Do your servers use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
