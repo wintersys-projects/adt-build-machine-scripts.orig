@@ -22,9 +22,6 @@ set -x
 
 if ( [ "${ACTIVE_FIREWALLS}" = "2" ] || [ "${ACTIVE_FIREWALLS}" = "3" ] )
 then
-	BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
- 	REGION="`/bin/grep 'REGION=' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /usr/bin/awk -F'=' '{print $NF}'`"
-	
  	build_machine_ip="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 
 	status ""
