@@ -428,47 +428,28 @@ then
                         fi
                 elif ( [ "${PRE_BUILD}" = "1" ] )
                 then
-                        firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-autoscaler-"'${BUILD_IDENTIFIER}'").id'`"
-
-                        if ( [ "${firewall_id}" = "" ] )
+                        # cleanup any hangover firewalls
+                        firewall_ids="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-autoscaler")).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-webserver")).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-database")).id'`"
+                
+                        if ( [ "${firewall_ids}" != "" ] )
                         then
-                                firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
-                                /usr/bin/vultr firewall group update ${firewall_id} --description "adt-autoscaler-${BUILD_IDENTIFIER}"
-                        else 
-                                rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
-                                for rule_no in ${rule_ids}
+                                for firewall_id in ${firewall_ids}
                                 do
-                                        /usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
+                                        /usr/bin/vultr firewall group delete ${firewall_id}
                                 done
                         fi
-   
-                        firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-webserver-"'${BUILD_IDENTIFIER}'").id'`"
+                        
+                        firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
+                        /usr/bin/vultr firewall group update ${firewall_id} --description "adt-autoscaler-${BUILD_IDENTIFIER}"
+                        
+                        firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
+                        /usr/bin/vultr firewall group update ${firewall_id} --description "adt-webserver-${BUILD_IDENTIFIER}"
 
-                        if ( [ "${firewall_id}" = "" ] )
-                        then
-                                firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
-                                /usr/bin/vultr firewall group update ${firewall_id} --description "adt-webserver-${BUILD_IDENTIFIER}"
-                        else 
-                                rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
-                                for rule_no in ${rule_ids}
-                                do
-                                        /usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
-                                done
-                        fi
+                        firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
+                        /usr/bin/vultr firewall group update ${firewall_id} --description "adt-database-${BUILD_IDENTIFIER}"
 
-                        firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-database-"'${BUILD_IDENTIFIER}'").id'`"
-
-                        if ( [ "${firewall_id}" = "" ] )
-                        then
-                                firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
-                                /usr/bin/vultr firewall group update ${firewall_id} --description "adt-database-${BUILD_IDENTIFIER}"
-                        else 
-                                rule_ids="`/usr/bin/vultr firewall rule list ${firewall_id} -o json | /usr/bin/jq -r '.firewall_rules[].id'`"
-                                for rule_no in ${rule_ids}
-                                do
-                                        /usr/bin/vultr firewall rule delete ${firewall_id} ${rule_no}
-                                done
-                        fi
                 fi
         fi
 fi
