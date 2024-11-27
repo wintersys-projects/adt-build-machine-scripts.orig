@@ -236,4 +236,9 @@ then
 	fi 
 fi
 
+if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
+then
+	/bin/mkdir ${BUILD_HOME}/runtimedata
+fi
+
 /bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
