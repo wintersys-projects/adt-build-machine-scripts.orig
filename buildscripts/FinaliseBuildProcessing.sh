@@ -59,7 +59,7 @@ fi
 
 if ( [ "${PRODUCTION}" = "1" ] && [ "${DEVELOPMENT}" = "0" ] )
 then 
-	no_autoscalers="`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "autoscaler" ${CLOUDHOST} 2>/dev/null`"
+	no_autoscalers="`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST} 2>/dev/null`"
 
 	if ( [ "${INPARALLEL}" = "1" ] )
 	then
