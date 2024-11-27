@@ -79,7 +79,7 @@ do
 
         #Make sure a database is not already running
         WEBSITE_IDENTIFIER="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
-        if ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "database" ${CLOUDHOST} 2>/dev/null`" -eq "0" ] )
+        if ( [ "`${BUILD_HOME}/providerscripts/server/NumberOfServers.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST} 2>/dev/null`" -eq "0" ] )
         then
 
                 ip=""
