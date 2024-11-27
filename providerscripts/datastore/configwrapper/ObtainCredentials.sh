@@ -38,7 +38,7 @@ then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
 	datastore_tool_1="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} cp "
- 	destination="."
+ 	destination="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}"
 fi
 
 if ( [ "`${datastore_tool} ls s3://${config_bucket}`" != "" ] )
@@ -54,24 +54,24 @@ then
 			then
     				if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 	 			then
-					/bin/echo "Database name: `/bin/sed 1!d ./shit`" 
-					/bin/echo "Database username: `/bin/sed 3!d ./shit`" 
-					/bin/echo "Database password: `/bin/sed 2!d ./shit`" 
+					/bin/echo "Database name: `/bin/sed 1!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" 
+					/bin/echo "Database username: `/bin/sed 3!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" 
+					/bin/echo "Database password: `/bin/sed 2!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" 
      				else
-	  				database_name="`/bin/sed 1!d ./shit`"
-	  				database_username="`/bin/sed 3!d ./shit`"
-       					database_password="`/bin/sed 2!d ./shit`"
+	  				database_name="`/bin/sed 1!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
+	  				database_username="`/bin/sed 3!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
+       					database_password="`/bin/sed 2!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
 				fi
     			else
 	    			if ( [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 	 			then
-					/bin/echo "Database name: `/bin/sed 1!d ./shit`" >&3
-     					/bin/echo "Database username: `/bin/sed 3!d ./shit`" >&3
-					/bin/echo "Database password: `/bin/sed 2!d ./shit`" >&3
+					/bin/echo "Database name: `/bin/sed 1!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" >&3
+     					/bin/echo "Database username: `/bin/sed 3!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" >&3
+					/bin/echo "Database password: `/bin/sed 2!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`" >&3
      				else
-	  				database_name="`/bin/sed 1!d ./shit`"
-	  				database_username="`/bin/sed 3!d ./shit`"
-       					database_password="`/bin/sed 2!d ./shit`"
+	  				database_name="`/bin/sed 1!d .${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
+	  				database_username="`/bin/sed 3!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
+       					database_password="`/bin/sed 2!d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/shit`"
 	     			fi
 			fi
 		fi
