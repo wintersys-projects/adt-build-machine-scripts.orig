@@ -236,3 +236,4 @@ then
 	fi 
 fi
 
+/bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST
