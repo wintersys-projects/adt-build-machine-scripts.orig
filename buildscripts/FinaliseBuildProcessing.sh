@@ -67,17 +67,17 @@ then
 		then
 			if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 			then
-				as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+				as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 			else
-				as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+				as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 			fi
 		elif ( [ "${no_autoscalers}" != "0" ] )
 		then
 			if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 			then
-				as_active_ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+				as_active_ips="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 			else
-				as_active_ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+				as_active_ips="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 			fi
 		fi
 	fi
@@ -86,11 +86,11 @@ then
 	then
 		if ( [ "${as_active_ip}" = "" ] )
 		then
-			as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+			as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerPrivateIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 		fi
 	elif ( [ "${as_active_ip}" = "" ] )
 	then
-		as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "autoscaler" "${CLOUDHOST}"`"
+		as_active_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh "as-${REGION}-${BUILD_IDENTIFIER}" "${CLOUDHOST}"`"
 	fi
 			
 	if ( [ "${no_autoscalers}" = "1" ] )
