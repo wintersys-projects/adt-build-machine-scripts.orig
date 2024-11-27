@@ -146,7 +146,18 @@ then
 			/usr/bin/yes | /usr/sbin/ufw reset
 			/usr/sbin/ufw default deny incoming
 			/usr/sbin/ufw default allow outgoing
+   
                         buildmachine_ssh_port="`/bin/ls ${BUILD_HOME}/runtimedata/BUILDMACHINEPORT:* | /usr/bin/awk -F':' '{print $NF}'`"
+
+   			if ( [ "${buildmachine_ssh_port}" = "" ] )
+      			then
+	 			buildmachine_ssh_port="`/bin/grep "^SSH_PORT=" /home/agile-deployer/adt-build-machine-scripts/runtimedata/vultr/crew1/build_environment`"
+     			fi
+
+ 			if ( [ "${buildmachine_ssh_port}" = "" ] )
+    			then
+       				buildmachine_ssh_port="22"
+	   		fi
 
 			for ip in ${ips}
    			do
