@@ -21,9 +21,15 @@
 #set -x
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+CLOUDHOST="`/bin/cat ${BUILD_HOME}/runtimedata/BUILD_MACHINE_CLOUDHOST`"
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
+SERVER_USER="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/SERVERUSER`"
+TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1`"
+
+echo ${TOKEN}
 
 WEBSITE_URL="${1}"
-configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`"
+configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'-${TOKEN}`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
