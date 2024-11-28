@@ -145,11 +145,7 @@ then
 	/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${command}"
 	if ( [ "$?" != "0" ] )
 	then
-		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/bin/echo "COMMAND FAILED ... SORRY"
-		fi
+                  /bin/echo "Failed to connect to database machine on port ${SSH_PORT} and with ip address ${DB_IP}"
 	fi
 elif ( [ "${response}" = "2" ] )
 then
@@ -159,7 +155,7 @@ then
 		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS}-o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${DB_IP} "${command}"
 		if ( [ "$?" != "0" ] )
 		then
-			/bin/echo "COMMAND FAILED ... SORRY"
+                  /bin/echo "Failed to connect to database machine on port ${SSH_PORT} and with ip address ${DB_IP}"
 		fi
 	fi
 else
