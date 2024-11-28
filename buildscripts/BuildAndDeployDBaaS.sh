@@ -390,10 +390,15 @@ else
 
 			cluster_id="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.label == "'${label}'").id'`"
 
+			new=""
 			if ( [ "${cluster_id}" = "" ] )
 			then
 				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
-			fi
+				if ( [ "$?" = "0" ] )
+    				then
+					new="newly created"
+     				fi
+   			fi
 				
 			while ( [ "${cluster_id}" = "" ] )
 			do
@@ -402,7 +407,7 @@ else
 				status "Waiting for your new database cluster to be reponsive and online"
 			done
 
- 			status "A new database cluster is avaiable with id ${cluster_id}"
+ 			status "A ${new} database cluster is avaiable with id ${cluster_id}"
 
 			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").user'`"
 			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").password'`"
