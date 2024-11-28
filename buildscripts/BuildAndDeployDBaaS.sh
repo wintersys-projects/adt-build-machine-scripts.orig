@@ -393,6 +393,18 @@ else
 			new=""
 			if ( [ "${cluster_id}" = "" ] )
 			then
+   				if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+       				then
+	   				status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
+					status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
+     					read response
+	  				if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
+       					then
+	    					BYPASS_DB_LAYER="0"
+	  				else
+       						exit
+	     				fi
+	  			fi
 				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
 				if ( [ "$?" = "0" ] )
     				then
@@ -409,7 +421,7 @@ else
 				status "Waiting for your new database cluster to be reponsive and online"
 			done
 
- 			status "A ${new} database cluster is avaiable with id ${cluster_id}"
+ 			status "A ${new} database cluster is available with id ${cluster_id}"
 
 			export DBaaS_USERNAME="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").user'`"
 			export DBaaS_PASSWORD="`/usr/bin/vultr database list -o json | /usr/bin/jq -r '.databases[] | select (.id == "'${cluster_id}'").password'`"
