@@ -427,9 +427,9 @@ then
                 elif ( [ "${PRE_BUILD}" = "1" ] )
                 then
                         # cleanup any hangover firewalls
-                        firewall_ids="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-autoscaler")) |  select (.description | endswith ("'${BUILD_IDENTIFIER}'") | not).id'`"
-                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-webserver")) |  select (.description | endswith ("'${BUILD_IDENTIFIER}'") | not).id'`"
-                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-database")) |  select (.description | endswith ("'${BUILD_IDENTIFIER}'") | not).id'`"
+                        firewall_ids="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-autoscaler")) |  select (.description | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-webserver")) |  select (.description | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description | contains ("adt-database")) |  select (.description | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
                 
                         if ( [ "${firewall_ids}" != "" ] )
                         then
