@@ -396,8 +396,10 @@ else
 				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
 				if ( [ "$?" = "0" ] )
     				then
-					new="newly created"
+					new="newly provisioned"
      				fi
+	 		else
+    				new="previously existing"
    			fi
 				
 			while ( [ "${cluster_id}" = "" ] )
