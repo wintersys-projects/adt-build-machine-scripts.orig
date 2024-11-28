@@ -152,13 +152,7 @@ then
 	/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP} "${command}"
 	if ( [ "$?" != "0" ] )
 	then
-		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP} "${command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/bin/echo "COMMAND FAILED ... SORRY"
-		else 
-			/bin/echo "COMMAND SUCCEEDED"
-		fi
+                  /bin/echo "Failed to connect to autoscaler machine on port ${SSH_PORT} and with ip address ${AUTOSCALER_IP}"
 	else 
 		/bin/echo "COMMAND SUCCEEDED"
 	fi
@@ -167,13 +161,8 @@ then
    /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP} "${command}"
    if ( [ "$?" != "0" ] )
    then
-		/usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP} "${command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/bin/echo "COMMAND FAILED ... SORRY"
-		else 
-			/bin/echo "COMMAND SUCCEEDED"
-		fi
+                  /bin/echo "Failed to connect to autoscaler machine on port ${SSH_PORT} and with ip address ${AUTOSCALER_IP}"
+
 	else
 		/bin/echo "COMMAND SUCCEEDED"
 	fi
