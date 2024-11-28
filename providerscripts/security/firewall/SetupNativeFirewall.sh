@@ -442,19 +442,20 @@ then
                                 done
                         fi
 
-                        if ( [ "`/usr/bin/vultr -o json firewall group list | /usr/bin/jq -r '.firewall_groups[] | select(.description | contains ("adt-autoscaler-'${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+#"`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-autoscaler-'${BUILD_IDENTIFIER}'").id'`"
+                        if ( [ "`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-autoscaler-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
                         then        
                                 firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
                                 /usr/bin/vultr firewall group update ${firewall_id} --description "adt-autoscaler-${BUILD_IDENTIFIER}"
                         fi
                         
-                        if ( [ "`/usr/bin/vultr -o json firewall group list | /usr/bin/jq -r '.firewall_groups[] | select(.description | contains ("adt-webserver-'${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+                        if ( [ "`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-webserver-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
                         then
                                 firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
                                 /usr/bin/vultr firewall group update ${firewall_id} --description "adt-webserver-${BUILD_IDENTIFIER}"
                         fi
                         
-                        if ( [ "`/usr/bin/vultr -o json firewall group list | /usr/bin/jq -r '.firewall_groups[] | select(.description | contains ("adt-database-'${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+                        if ( [ "`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-database-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
                         then
                                 firewall_id="`/usr/bin/vultr firewall group create -o json | /usr/bin/jq -r '.firewall_group.id'`"  
                                 /usr/bin/vultr firewall group update ${firewall_id} --description "adt-database-${BUILD_IDENTIFIER}"
