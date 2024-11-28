@@ -106,11 +106,11 @@ fi
 identifier="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "${WEBSITE_URL}"
 
+
+status "Creating a new configuration bucket for build (${BUILD_IDENTIFIER})"
+${BUILD_HOME}/providerscripts/datastore/configwrapper/MountConfigDatastore.sh "${WEBSITE_URL}"
 if ( [ "$?" = "0" ] )
 then
-        status "Purging configuration bucket in datastore (s3://`/bin/echo "${WEBSITE_URL}"-config-${identifier} | /bin/sed 's/\./-/g'`) so it is fresh for this build"
-        ${BUILD_HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${WEBSITE_URL}" "purge"
-else
-        status "Couldn't find an existing configuration bucket so I am creating a new one (s3://`/bin/echo "${WEBSITE_URL}"-config-${identifier} | /bin/sed 's/\./-/g'`) for you"
-        ${BUILD_HOME}/providerscripts/datastore/configwrapper/MountConfigDatastore.sh "${WEBSITE_URL}"
+        status "New configuration bucket is located at: (s3://`/bin/echo "${WEBSITE_URL}"-config-${identifier} | /bin/sed 's/\./-/g'`) for you"
 fi
+
