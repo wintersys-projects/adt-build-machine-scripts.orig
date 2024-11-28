@@ -371,8 +371,7 @@ then
 
                         if ( [ "${autoscaler_ids}" != "" ] )
                         then
-                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-autoscaler-"'${BUILD_IDENTIFIER}'").id'`"
-
+                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-autoscaler-'${BUILD_IDENTIFIER}'").id'`"
                                 if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
                                 then
                                         /usr/bin/vultr firewall rule create ${firewall_id} --protocol=tcp --port=${SSH_PORT} --size=32 --ip-type=v4 --subnet=${build_machine_ip}/32
@@ -390,8 +389,7 @@ then
 
                         if ( [ "${webserver_id}" != "" ] )
                         then
-                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-webserver-"'${BUILD_IDENTIFIER}'").id'`"
-    
+                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-webserver-'${BUILD_IDENTIFIER}'").id'`"    
                                 . ${BUILD_HOME}/providerscripts/security/firewall/GetProxyDNSIPs.sh
 
                                 if ( [ "${alldnsproxyips}" != "" ] )
@@ -416,7 +414,7 @@ then
 
                         if ( [ "${database_id}" != "" ] )
                         then
-                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-database-"'${BUILD_IDENTIFIER}'").id'`"
+                                firewall_id="`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.description == "adt-database-'${BUILD_IDENTIFIER}'").id'`"
 
                                 if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
                                 then
