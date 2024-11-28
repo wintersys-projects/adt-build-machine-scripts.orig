@@ -437,7 +437,10 @@ then
                         then
                                 for firewall_id in ${firewall_ids}
                                 do
-                                        /usr/bin/vultr firewall group delete ${firewall_id}
+                                        if ( [ "`/usr/bin/vultr firewall group list -o json | /usr/bin/jq -r '.firewall_groups[] | select (.id == "'${firewall_id}'")|.instance_count'`" = "0" ] )
+                                        then
+                                                /usr/bin/vultr firewall group delete ${firewall_id}
+                                        fi
                                 done
                         fi
 
