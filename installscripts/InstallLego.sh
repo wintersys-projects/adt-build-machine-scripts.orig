@@ -27,27 +27,23 @@ fi
 
 if ( [ "${buildos}" = "ubuntu" ] )
 then
-	cwd="`/usr/bin/pwd`"
-	/bin/mkdir -p /usr/local/src/lego
-	cd /usr/local/src/lego
-	version="`/usr/bin/wget -O- -q https://github.com/go-acme/lego/releases/latest | /bin/grep -oP 'Release\K.*' | /usr/bin/head -1 | /usr/bin/awk '{print $1}' | /bin/sed "s/[^[:digit:].-]//g"`" 
-	/usr/bin/wget https://github.com/xenolf/lego/releases/download/v${version}/lego_v${version}_linux_amd64.tar.gz    
-	/bin/tar xvfz lego*tar.gz
-	/bin/rm *lego*tar.gz
-	/bin/cp lego /usr/bin/
-	cd ${cwd}
+	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
+	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+	if ( [ -f /usr/bin/lego ] )                                                                                    
+	then                                                                                                            
+		/bin/rm /usr/bin/lego                                                                                  
+        fi                                                                                                             
+	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
 fi
 
 if ( [ "${buildos}" = "debian" ] )
 then
-	cwd="`/usr/bin/pwd`"
-	/bin/mkdir -p /usr/local/src/lego
-	cd /usr/local/src/lego
-	version="`/usr/bin/wget -O- -q https://github.com/go-acme/lego/releases/latest | /bin/grep -oP 'Release\K.*' | /usr/bin/head -1 | /usr/bin/awk '{print $1}' | /bin/sed "s/[^[:digit:].-]//g"`" 
-	/usr/bin/wget https://github.com/xenolf/lego/releases/download/v${version}/lego_v${version}_linux_amd64.tar.gz    
-	/bin/tar xvfz lego*tar.gz
-	/bin/rm *lego*tar.gz
-	/bin/cp lego /usr/bin/
-	cd ${cwd}
+	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
+	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+	if ( [ -f /usr/bin/lego ] )                                                                                    
+	then                                                                                                            
+		/bin/rm /usr/bin/lego                                                                                  
+        fi                                                                                                             
+	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin    
 fi
 
