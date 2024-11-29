@@ -51,15 +51,39 @@ then
 	fi
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
-	if ( [ "${buildos}" = "ubuntu" ] )
-	then
-		/usr/bin/go install github.com/peak/s5cmd/v2@latest
-		/bin/cp /root/go/bin/s5cmd /usr/bin/s5cmd
-	fi
- 	
-  	if ( [ "${buildos}" = "debian" ] )
-	then
- 		/usr/bin/go install github.com/peak/s5cmd/v2@latest
-		/bin/cp /root/go/bin/s5cmd /usr/bin/s5cmd
-	fi
+  		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+  			if ( [ -d /root/scratch ] )			
+			then						
+        			/bin/rm -r /root/scratch/*		
+			else						
+        			/bin/mkdir /root/scratch		
+			fi						
+
+                        GOBIN=/root/scratch /usr/bin/go install github.com/peak/s5cmd/v2@latest                
+                        if ( [ -f /root/scratch/s5cmd ] )                                                   
+                        then                                                                                    
+                                /bin/mv /root/scratch/s5cmd /usr/bin/s5cmd                                    
+                        fi   											
+     		fi	
+
+     		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+  			if ( [ -d /root/scratch ] )			
+			then					
+        			/bin/rm -r /root/scratch/*		
+			else					
+        			/bin/mkdir /root/scratch		
+			fi						
+
+                        GOBIN=/root/scratch /usr/bin/go install github.com/peak/s5cmd/v2@latest                
+                        if ( [ -f /root/scratch/s5cmd ] )                                                     
+                        then                                                                                   
+                                /bin/mv /root/scratch/s5cmd /usr/bin/s5cmd                                  
+                        fi 											
+		fi
+  		if ( [ -d /root/scratch ] )
+    		then
+      			/bin/rm -r /root/scratch
+	 	fi
 fi
