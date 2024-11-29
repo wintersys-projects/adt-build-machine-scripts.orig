@@ -25,25 +25,37 @@ then
 	buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+apt=""
+if ( [ "`/bin/grep "^PACKAGEMANAGER:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
-	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
-	if ( [ -f /usr/bin/lego ] )                                                                                    
-	then                                                                                                            
-		/bin/rm /usr/bin/lego                                                                                  
-        fi                                                                                                             
-	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
+	apt="/usr/bin/apt-get"
+elif ( [ "`/bin/grep "^PACKAGEMANAGER:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+then
+	apt="/usr/sbin/apt-fast"
 fi
 
-if ( [ "${buildos}" = "debian" ] )
+if ( [ "${apt}" != "" ] )
 then
-	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
-	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
-	if ( [ -f /usr/bin/lego ] )                                                                                    
-	then                                                                                                            
-		/bin/rm /usr/bin/lego                                                                                  
-        fi                                                                                                             
-	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin    
+	if ( [ "${buildos}" = "ubuntu" ] )
+	then
+		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
+		version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+		if ( [ -f /usr/bin/lego ] )                                                                                    
+		then                                                                                                            
+			/bin/rm /usr/bin/lego                                                                                  
+        	fi                                                                                                             
+		/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
+	fi
+
+	if ( [ "${buildos}" = "debian" ] )
+	then
+		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			
+		version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+		if ( [ -f /usr/bin/lego ] )                                                                                    
+		then                                                                                                            
+			/bin/rm /usr/bin/lego                                                                                  
+        	fi                                                                                                             
+		/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin    
+	fi
 fi
 
