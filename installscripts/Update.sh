@@ -49,14 +49,20 @@ then
 		/usr/bin/yes | /usr/bin/dpkg --configure -a
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq apt-utils
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages  
-		/usr/bin/git clone https://github.com/ilikenwf/apt-fast.git
-		/bin/cp apt-fast/apt-fast /usr/sbin/
-		/bin/chmod +x /usr/sbin/apt-fast
-		/bin/cp apt-fast/apt-fast.conf /etc
-		/bin/chown root:root /etc/apt-fast.conf
-		/bin/chown root:root /usr/sbin/apt-fast
-		/usr/bin/snap install aria2c        
-		/bin/rm -r ./apt-fast
+                if ( [ ! -d /usr/local/apt-fast ] )
+                then
+                        /bin/mkdir /usr/local/apt-fast
+                else
+                        /bin/rm -r /usr/local/apt-fast/*
+                        /bin/rm -r /usr/local/apt-fast/.*
+                fi
+                /usr/bin/git clone https://github.com/ilikenwf/apt-fast.git /usr/local/apt-fast
+                /bin/ln -s /usr/local/apt-fast/apt-fast /usr/sbin/apt-fast
+                /bin/chmod +x /usr/sbin/apt-fast
+                /bin/ln -s /usr/local/apt-fast/apt-fast.conf /etc/apt-fast.conf
+                /bin/chown root:root /etc/apt-fast.conf
+                /bin/chown root:root /usr/sbin/apt-fast
+                /usr/bin/snap install aria2c  
 	fi
 	
 	if ( [ "${buildos}" = "debian" ] )
@@ -65,13 +71,20 @@ then
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq apt-utils 
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq aria2 
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages  
-		/usr/bin/git clone https://github.com/ilikenwf/apt-fast.git
-		/bin/cp apt-fast/apt-fast /usr/sbin/
-		/bin/chmod +x /usr/sbin/apt-fast
-		/bin/cp apt-fast/apt-fast.conf /etc
-		/bin/chown root:root /etc/apt-fast.conf
-		/bin/chown root:root /usr/sbin/apt-fast
-		/bin/rm -r ./apt-fast
+                if ( [ ! -d /usr/local/apt-fast ] )
+                then
+                        /bin/mkdir /usr/local/apt-fast
+                else
+                        /bin/rm -r /usr/local/apt-fast/*
+                        /bin/rm -r /usr/local/apt-fast/.*
+                fi
+                /usr/bin/git clone https://github.com/ilikenwf/apt-fast.git /usr/local/apt-fast
+                /bin/ln -s /usr/local/apt-fast/apt-fast /usr/sbin/apt-fast
+                /bin/chmod +x /usr/sbin/apt-fast
+                /bin/ln -s /usr/local/apt-fast/apt-fast.conf /etc/apt-fast.conf
+                /bin/chown root:root /etc/apt-fast.conf
+                /bin/chown root:root /usr/sbin/apt-fast
+                /usr/bin/snap install aria2c  
 	fi   
 fi
 
