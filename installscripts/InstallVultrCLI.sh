@@ -31,26 +31,6 @@ then
         /usr/bin/wget -c https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin
         /bin/mv /usr/bin/vultr-cli /usr/bin/vultr
         /bin/chown root:root /usr/bin/vultr
-#       if ( [ ! -f /usr/bin/make ] )
-#       then
-#               DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
-#       fi
-#       if ( [ ! -d /usr/local/src/vultr ] )
-#       then
-#               /bin/mkdir /usr/local/src/vultr
-#       else
-#               /bin/rm -r /usr/local/src/vultr/* 2>/dev/null
-#       fi
-#       cwd="`/usr/bin/pwd`"
-#       cd /usr/local/src/vultr
-#
-#       /usr/bin/git clone https://github.com/vultr/vultr-cli.git
-#       cd vultr-cli
-#
-#       /usr/bin/make builds/vultr-cli_linux_amd64
-#       /bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
-#
-#       cd ${cwd}
 fi
 
 if ( [ "${buildos}" = "debian" ] )
@@ -59,26 +39,4 @@ then
         /usr/bin/wget -c https://github.com/vultr/vultr-cli/releases/download/${vultr_cli_version}/vultr-cli_${vultr_cli_version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin
         /bin/mv /usr/bin/vultr-cli /usr/bin/vultr
         /bin/chown root:root /usr/bin/vultr
-
- #      if ( [ ! -f /usr/bin/make ] )
-#       then
-#               DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install make
-#       fi
-#        if ( [ ! -d /usr/local/src/vultr ] )
-#       then
-#               /bin/mkdir /usr/local/src/vultr
-#       else
-#               /bin/rm -r /usr/local/src/vultr/* 2>/dev/null
-#       fi
-#
-#       cwd="`/usr/bin/pwd`"
-#       cd /usr/local/src/vultr
-#
-#       /usr/bin/git clone https://github.com/vultr/vultr-cli.git
-#       cd vultr-cli
-#
-#       /usr/bin/make builds/vultr-cli_linux_amd64
-#       /bin/cp builds/vultr-cli_linux_amd64 /usr/bin/vultr
-#
-#       cd ${cwd}
 fi
