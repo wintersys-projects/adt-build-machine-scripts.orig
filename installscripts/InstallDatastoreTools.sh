@@ -51,8 +51,9 @@ then
 	fi
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
-  		if ( [ "${BUILDOS}" = "ubuntu" ] )
+  		if ( [ "${buildos}" = "ubuntu" ] )
 		then
+  			${BUILD_HOME}/installscripts/InstallGo.sh "ubuntu"
   			if ( [ -d /root/scratch ] )			
 			then						
         			/bin/rm -r /root/scratch/*		
@@ -67,8 +68,9 @@ then
                         fi   											
      		fi	
 
-     		if ( [ "${BUILDOS}" = "debian" ] )
+     		if ( [ "${buildos}" = "debian" ] )
 		then
+    			${BUILD_HOME}/installscripts/InstallGo.sh "debian"
   			if ( [ -d /root/scratch ] )			
 			then					
         			/bin/rm -r /root/scratch/*		
