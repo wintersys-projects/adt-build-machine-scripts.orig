@@ -169,13 +169,10 @@ else
 			database_size="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $3}'`"
 			database_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $4}'`"
 	
-			status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
-
-			#/usr/bin/exo -O json dbaas create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
-			database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
+			existing_database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
    
 			new=""
-			if ( [ "${database_name}" = "" ] )
+			if ( [ "${existing_database_name}" = "" ] )
 			then
    				if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
        				then
@@ -189,6 +186,7 @@ else
        						exit
 	     				fi
 	  			fi
+      				status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
 				/usr/bin/exo -O json dbaas database create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
 				if ( [ "$?" = "0" ] )
     				then
@@ -205,7 +203,7 @@ else
 				status "Waiting for your new database cluster to be reponsive and online"
 			done
 
- 			status "A ${new} database  is available with name ${database_name}}"
+ 			status "A ${new} database is available with name ${database_name}"
 
 			export DATABASE_INSTALLATION_TYPE="DBaaS"
 			export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
