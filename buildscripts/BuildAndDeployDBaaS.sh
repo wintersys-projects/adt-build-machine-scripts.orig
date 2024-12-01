@@ -173,31 +173,39 @@ else
 
 			/usr/bin/exo -O json dbaas create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
 			database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
-
+   
+			new=""
+			if ( [ "${database_name}" = "" ] )
+			then
+   				if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+       				then
+	   				status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
+					status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
+     					read response
+	  				if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
+       					then
+	    					BYPASS_DB_LAYER="0"
+	  				else
+       						exit
+	     				fi
+	  			fi
+				/usr/bin/exo -O json dbaas database create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
+				if ( [ "$?" = "0" ] )
+    				then
+					new="newly provisioned"
+     				fi
+	 		else
+    				new="previously existing"
+   			fi
+				
 			while ( [ "${database_name}" = "" ] )
 			do
-				status "Creating the database named ${database_name}"
-
-				/usr/bin/exo -O json dbaas database create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
 				database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
-		
-				if ( [ "${database_name}" = "" ] )
-				then
-					status "I had trouble creating the database will have to exit....."
-					status "Trying again....."
-					/bin/sleep 30
-				fi
+				/bin/sleep 10
+				status "Waiting for your new database cluster to be reponsive and online"
 			done
 
-			status "######################################################################################################################################################"
-			status "You might want to check that a database called ${database_name} is present using your Exoscale GUI system"
-			status "######################################################################################################################################################"
-			status "Press <enter> when you are satisfied"
-
-			if ( [ "${HARDCORE}" != "1" ] )
-			then
-				read x
-			fi
+ 			status "A ${new} database  is available with name ${database_name}}"
 
 			export DATABASE_INSTALLATION_TYPE="DBaaS"
 			export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
