@@ -51,7 +51,7 @@ fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
+	#export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/TOKEN`"
 	status "About to create ssh key in vultr"
 	/bin/sleep 1
 	/usr/bin/vultr ssh-key create -n "${key_name}" -k "${key_substance}"
