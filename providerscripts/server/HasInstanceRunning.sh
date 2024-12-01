@@ -32,7 +32,7 @@ then
 fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/CURRENTREGION`"
+	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${instance_type}" 
 fi
 if ( [ "${cloudhost}" = "linode" ] )
