@@ -239,7 +239,7 @@ then
                                 do
                                         if ( [ "`/usr/bin/exo -O json compute security-group show ${firewall_id} | /usr/bin/jq -r '.instances'`" != "null" ] )
                                         then
-                                                /usr/bin/exo compute  security-group delete
+                                                /bin/echo "y" | /usr/bin/exo compute  security-group delete ${firewall_id}
                                         fi
                                 done
                         fi
