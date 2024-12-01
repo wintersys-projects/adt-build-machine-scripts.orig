@@ -229,26 +229,33 @@ then
 
                 elif ( [ "${PRE_BUILD}" = "1" ] )
                 then
-                        /bin/echo "y" | /usr/bin/exo compute security-group delete adt-autoscaler-${BUILD_IDENTIFIER} 2>/dev/null
-                        while ( [ "`/usr/bin/exo -O json compute security-group list adt-autoscaler-${BUILD_IDENTIFIER} | /usr/bin/jq '.[] | select (.name == "adt-autoscaler-"'${BUILD_IDENTIFIER}'")'`" != "" ] )
-                        do 
-                                /bin/sleep 5
-                        done
-                        /usr/bin/exo compute security-group create adt-autoscaler-${BUILD_IDENTIFIER}  
+                        firewall_ids="`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name | contains ("adt-autoscaler")) |  select (.name | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name | contains ("adt-webserver")) |  select (.name | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
+                        firewall_ids="${firewall_ids} `/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name | contains ("adt-database")) |  select (.name | endswith ("'-${BUILD_IDENTIFIER}'") | not).id'`"
 
-                        /bin/echo "y" | /usr/bin/exo compute security-group delete adt-webserver-${BUILD_IDENTIFIER} 2>/dev/null
-                        while ( [ "`/usr/bin/exo -O json compute security-group list adt-webserver-${BUILD_IDENTIFIER} | /usr/bin/jq '.[] | select (.name == "adt-webserver-"'${BUILD_IDENTIFIER}'")'`" != "" ] )
-                        do 
-                                /bin/sleep 5
-                        done
-                        /usr/bin/exo compute security-group create adt-webserver-${BUILD_IDENTIFIER} 
+                        if ( [ "${firewall_ids}" != "" ] )
+                        then
+                                for firewall_id in ${firewall_ids}
+                                do
+                                        if ( [ "`/usr/bin/exo -O json compute security-group show ${firewall_id} | /usr/bin/jq -r '.instances'`" != "null" ] )
+                                        then
+                                                /usr/bin/exo compute  security-group delete
+                                        fi
+                                done
+                        fi
 
-                        /bin/echo "y" | /usr/bin/exo compute security-group delete adt-database-${BUILD_IDENTIFIER} 2>/dev/null
-                        while ( [ "`/usr/bin/exo -O json compute security-group list adt-database-${BUILD_IDENTIFIER} | /usr/bin/jq '.[] | select (.name == "adt-database-"'${BUILD_IDENTIFIER}'")'`" != "" ] )
-                        do 
-                                /bin/sleep 5
-                        done
-                        /usr/bin/exo compute security-group create adt-database-${BUILD_IDENTIFIER} 
+                        if ( [ "`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
+                        then
+                                /usr/bin/exo compute security-group create adt-autoscler-${BUILD_IDENTIFIER} 
+                        fi
+                        if ( [ "`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
+                        then
+                                /usr/bin/exo compute security-group create adt-webserver-${BUILD_IDENTIFIER} 
+                        fi
+                        if ( [ "`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name == "adt-database-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
+                        then
+                                /usr/bin/exo compute security-group create adt-database-${BUILD_IDENTIFIER} 
+                        fi
                 fi
         fi
 
