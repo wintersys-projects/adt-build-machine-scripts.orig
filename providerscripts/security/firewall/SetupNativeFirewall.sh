@@ -237,7 +237,7 @@ then
                         then
                                 for firewall_id in ${firewall_ids}
                                 do
-                                        if ( [ "`/usr/bin/exo -O json compute security-group show ${firewall_id} | /usr/bin/jq -r '.instances'`" != "null" ] )
+                                        if ( [ "`/usr/bin/exo -O json compute security-group show ${firewall_id} | /usr/bin/jq -r '.instances'`" = "null" ] )
                                         then
                                                 /bin/echo "y" | /usr/bin/exo compute  security-group delete ${firewall_id}
                                         fi
@@ -246,7 +246,7 @@ then
 
                         if ( [ "`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
                         then
-                                /usr/bin/exo compute security-group create adt-autoscler-${BUILD_IDENTIFIER} 
+                                /usr/bin/exo compute security-group create adt-autoscaler-${BUILD_IDENTIFIER} 
                         fi
                         if ( [ "`/usr/bin/exo -O json compute security-group list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver-'${BUILD_IDENTIFIER}'").id'`" = "" ] )
                         then
