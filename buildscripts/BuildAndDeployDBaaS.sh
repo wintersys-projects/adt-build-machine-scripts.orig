@@ -172,7 +172,7 @@ else
 			status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
 
 			/usr/bin/exo -O json dbaas create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
-			database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
+			database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
    
 			new=""
 			if ( [ "${database_name}" = "" ] )
@@ -200,7 +200,7 @@ else
 				
 			while ( [ "${database_name}" = "" ] )
 			do
-				database_name="`/usr/bin/exo -O json dbaas list | /usr/bin/jq -r '(.[] | .name)' | /bin/grep ${database_name}`"
+				database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
 				/bin/sleep 10
 				status "Waiting for your new database cluster to be reponsive and online"
 			done
