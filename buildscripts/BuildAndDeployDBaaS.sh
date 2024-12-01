@@ -187,8 +187,9 @@ else
 	     				fi
 	  			fi
       				status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
-				/usr/bin/exo -O json dbaas database create ${database_engine} ${database_size} ${database_name} --zone ${database_region}
-				if ( [ "$?" = "0" ] )
+                                /usr/bin/exo dbaas create ${database_engine} ${database_size} ${database_name}  --zone ${database_region}
+				
+    				if ( [ "$?" = "0" ] )
     				then
 					new="newly provisioned"
      				fi
@@ -411,8 +412,11 @@ else
        						exit
 	     				fi
 	  			fi
+      
+            			status "Creating  database ${label}, with engine: ${engine}, in region: ${db_region} and at size: ${machine_type} please wait..."
 				/usr/bin/vultr database create --database-engine="${engine}" --database-engine-version="${engine_version}" --region="${db_region}" --plan="${machine_type}" --label="${label}" --vpc-id="${vpc_id}"
-				if ( [ "$?" = "0" ] )
+				
+    				if ( [ "$?" = "0" ] )
     				then
 					new="newly provisioned"
      				fi
