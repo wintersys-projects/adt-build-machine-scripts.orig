@@ -30,7 +30,7 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	/usr/bin/exo compute ssh-key list -O text | /bin/grep "${key_name}"
+ 	/usr/bin/exo compute ssh-key list -O json | /usr/bin/jq -r '.[] | select (.name == "'${key_name}'").fingerprint'
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
