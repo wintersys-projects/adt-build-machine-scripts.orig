@@ -191,7 +191,7 @@ then
                                 fi
 
                                 /usr/bin/exo compute security-group rule add adt-webserver-${BUILD_IDENTIFIER} --protocol icmp --network 0.0.0.0/0 --icmp-code 0 --icmp-type 8
-                                /usr/bin/exo compute security-group rule add adt-autoscaler-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${SSH_PORT}
+                                /usr/bin/exo compute security-group rule add adt-webserver-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${SSH_PORT}
 
                                 . ${BUILD_HOME}/providerscripts/security/firewall/GetProxyDNSIPs.sh
 
@@ -221,8 +221,8 @@ then
                                 fi
 
                                 /usr/bin/exo compute security-group rule add adt-database-${BUILD_IDENTIFIER} --protocol icmp --network 0.0.0.0/0 --icmp-code 0 --icmp-type 8
-                                /usr/bin/exo compute security-group rule add adt-autoscaler-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${SSH_PORT}
-                                /usr/bin/exo compute security-group rule add adt-autoscaler-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${DB_PORT}
+                                /usr/bin/exo compute security-group rule add adt-database-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${SSH_PORT}
+                                /usr/bin/exo compute security-group rule add adt-database-${BUILD_IDENTIFIER} --network ${VPC_IP_RANGE} --port ${DB_PORT}
 
                                 /usr/bin/exo compute instance security-group add ${database_id} adt-database-${BUILD_IDENTIFIER}
                         fi
