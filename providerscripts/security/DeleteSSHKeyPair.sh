@@ -43,8 +43,8 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	key_ids="`/usr/local/bin/linode-cli --text sshkeys list | /bin/grep ${key_name} | /usr/bin/awk '{print $2}'`"
-
+        key_ids="`/usr/local/bin/linode-cli --json sshkeys list | /usr/bin/jq -r '.[] | select (.label == "'${key_name}'").id'`"
+	
 	if ( [ "${key_ids}" != "" ] )
 	then
 		for key_id in ${key_ids}
