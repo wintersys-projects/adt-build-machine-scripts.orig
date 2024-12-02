@@ -35,7 +35,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	/usr/local/bin/linode-cli --text sshkeys list | /bin/grep "${public_key_name}" | /usr/bin/awk '{print $2}'
+	/usr/local/bin/linode-cli --json sshkeys list | /usr/bin/jq -r '.[] | select (.label == "'${public_key_name}'").id'
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
