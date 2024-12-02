@@ -357,17 +357,17 @@ then
                                 done
                         fi
                         
-                        if ( "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-autoscaler")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+                        if ( [ "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-autoscaler")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-autoscaler-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
                         fi
                         
-                        if ( "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-webserver")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+                        if ( [ "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-webserver")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-webserver-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
                         fi
                         
-                        if ( "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-database")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
+                        if ( [ "`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-database")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-database-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
                         fi
