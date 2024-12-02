@@ -265,13 +265,11 @@ then
                 then
                         autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
 
-                        if ( [ "${autoscaler_firewall_id}" != "" ] )
+                        if ( [ "${autoscaler_firewall_id}" = "" ] )
                         then
-                                /usr/local/bin/linode-cli firewalls delete ${autoscaler_firewall_id}
+                                /usr/local/bin/linode-cli firewalls create --label "adt-autoscaler-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
+                                autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
                         fi
-                   
-                        /usr/local/bin/linode-cli firewalls create --label "adt-autoscaler-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                        autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
                         autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
                         if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
@@ -284,13 +282,12 @@ then
 
                         webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
 
-                        if ( [ "${webserver_firewall_id}" != "" ] )
+                        if ( [ "${webserver_firewall_id}" = "" ] )
                         then
-                                /usr/local/bin/linode-cli firewalls delete ${webserver_firewall_id}
+                                /usr/local/bin/linode-cli firewalls create --label "adt-webserver-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
+                                webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
                         fi
-                   
-                        /usr/local/bin/linode-cli firewalls create --label "adt-webserver-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                        webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        
                         webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
 
@@ -318,13 +315,12 @@ then
 
                         database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
 
-                        if ( [ "${database_firewall_id}" != "" ] )
+                        if ( [ "${database_firewall_id}" = "" ] )
                         then
-                                /usr/local/bin/linode-cli firewalls delete ${database_firewall_id}
+                                /usr/local/bin/linode-cli firewalls create --label "adt-database-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
+                                database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
                         fi
                    
-                        /usr/local/bin/linode-cli firewalls create --label "adt-database-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                        database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
                         database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
                         if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
