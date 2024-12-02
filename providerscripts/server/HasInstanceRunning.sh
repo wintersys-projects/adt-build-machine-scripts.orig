@@ -20,7 +20,7 @@
 ########################################################################################
 #set -x
 
-instance_type="${1}"
+server_type="${1}"
 cloudhost="${2}"
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
@@ -28,23 +28,23 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	/usr/local/bin/doctl compute droplet list | /bin/grep ${instance_type}
+	/usr/local/bin/doctl compute droplet list | /bin/grep ${server_type}
 fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
-	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${instance_type}" 
+	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${server_type}" 
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains("'${instance_type}'")).id' 
+	/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains("'${server_type}'")).id' 
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
 	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25`"
- 	/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label | contains("'${instance_type}'")).id'
+ 	/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label | contains("'${server_type}'")).id'
 fi
 
 
