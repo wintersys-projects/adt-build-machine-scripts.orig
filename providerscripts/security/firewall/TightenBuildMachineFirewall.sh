@@ -156,8 +156,11 @@ then
 
  			if ( [ "${buildmachine_ssh_port}" = "" ] )
     			then
-       				buildmachine_ssh_port="22"
-	   		fi
+				for ip in ${ips}
+   				do
+	   				/usr/sbin/ufw allow from ${ip}
+   				done	   		
+       			fi
 
 			for ip in ${ips}
    			do
