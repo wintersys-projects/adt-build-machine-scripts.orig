@@ -35,10 +35,12 @@ then
 	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
 	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${instance_type}" 
 fi
+
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	/usr/local/bin/linode-cli linodes list --text | /bin/grep "${instance_type}"
+	/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains("'${instance_type}'")).id' 
 fi
+
 if ( [ "${cloudhost}" = "vultr" ] )
 then
 	/usr/bin/vultr instance list | /bin/grep "${instance_type}"
