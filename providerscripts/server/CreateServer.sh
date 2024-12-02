@@ -44,12 +44,12 @@ then
 		os_choice="${snapshot_id}"
 	fi
 
-	if ( [ "`/usr/local/bin/doctl vpcs list | /bin/grep "adt-vpc" | /bin/grep "${region}"`" = "" ] )
+	if ( [ "`/usr/local/bin/doctl vpcs list | /bin/grep -w "adt-vpc" | /bin/grep "${region}"`" = "" ] )
 	then
 		/usr/local/bin/doctl vpcs create --name "adt-vpc" --region "${region}" --ip-range "${vpc_ip_range}"
 	fi
 	
-	vpc_id="`/usr/local/bin/doctl vpcs list  | /bin/grep "adt-vpc" | /bin/grep "${region}" | /usr/bin/awk '{print $1}'`"
+	vpc_id="`/usr/local/bin/doctl vpcs list  | /bin/grep -w "adt-vpc" | /bin/grep "${region}" | /usr/bin/awk '{print $1}'`"
  
 	/usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${os_choice}"  --region "${region}" --ssh-keys "${key_id}" --vpc-uuid "${vpc_id}"
 fi
@@ -63,7 +63,7 @@ then
 	
 	/usr/bin/exo compute instance create ${server_name} --instance-type standard.${server_size} --template "${os_choice}" --zone ${region} --ssh-key ${key_id} --cloud-init "${BUILD_HOME}/providerscripts/server/cloud-init/exoscale.dat"
    
-	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep adt_private_net_${region}`" = "" ] )
+	if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep -w "adt_private_net_${region}"`" = "" ] )
 	then
 		/usr/bin/exo compute private-network create adt_private_net_${region} --zone ${region} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
 	fi
@@ -78,7 +78,7 @@ then
 	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/EMERGENCY_PASSWORD
 
-	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep "adt-vpc"`" = "" ] )
+	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep -w "adt-vpc"`" = "" ] )
 	then
         	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${region} --subnets.label adt-subnet --subnets.ipv4 ${vpc_ip_range}		
 	fi
@@ -97,7 +97,7 @@ fi
 
 if (  [ "${cloudhost}" = "vultr" ] )
 then
-        if ( [ "`/usr/bin/vultr vpc2 list | grep adt-vpc`" = "" ] )
+        if ( [ "`/usr/bin/vultr vpc2 list | grep -w "adt-vpc"`" = "" ] )
         then
                 ip_block="`/bin/echo ${vpc_ip_range} | /usr/bin/awk -F'/' '{print $1}'`"
                 /usr/bin/vultr vpc2 create --region="${region}" --description="adt-vpc" --ip-type="v4" --ip-block="${ip_block}" --prefix-length="16"
