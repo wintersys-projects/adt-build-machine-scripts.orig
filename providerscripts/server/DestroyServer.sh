@@ -58,8 +58,16 @@ then
   		server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label == "'${server_name}'").id'`"
     		if ( [ "${server_id}" = "" ] )
       		then
-
- 		fi
+			linode_ids="`/usr/local/bin/linode-cli linodes list --json | /usr/bin/jq -r '.[].id'`"
+   			for linode_id in ${linode_ids}
+      			do
+				linode_id="`/usr/local/bin/linode-cli --json linodes ips-list ${linode_id} | /usr/bin/jq -r '.[].ipv4.vpc[] | select (.address == "'${server_ip}'").linode_id'`"
+ 				if ( [ "${linode_id}" != "" ] )
+     				then
+	 				server_id="${linode_id}"
+      				fi
+    			done
+   		fi
 		/usr/local/bin/linode-cli linodes shutdown ${server_id}
 		/usr/local/bin/linode-cli linodes delete ${server_id}
 		status "Destroyed a server with ip address ${server_ip}"
