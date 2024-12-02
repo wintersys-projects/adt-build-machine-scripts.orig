@@ -349,7 +349,7 @@ then
                         then
                                 for firewall_id in ${firewall_ids}
                                 do
-                                        if ( [ "`/usr/local/bin/linode-cli --json firewalls devices-list 557095 | /usr/bin/jq -r '.[]'`" = "" ] )
+                                        if ( [ "`/usr/local/bin/linode-cli --json firewalls devices-list ${firewall_id} | /usr/bin/jq -r '.[]'`" = "" ] )
                                         then
                                                 /usr/local/bin/linode-cli firewalls delete ${firewall_id}
                                         fi
