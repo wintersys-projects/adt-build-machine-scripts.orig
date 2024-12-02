@@ -73,7 +73,7 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-	key="`/usr/local/bin/linode-cli --text sshkeys view ${key_id} | /usr/bin/awk '{print $4,$5,$6}' | /usr/bin/tail -n-1`"
+ 	key="`/usr/local/bin/linode-cli --json sshkeys view ${key_id} | /usr/bin/jq -r '.[].ssh_key'`"
 	emergency_password="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-30`"
 	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/EMERGENCY_PASSWORD
