@@ -263,14 +263,15 @@ then
         then       
                 if ( [ "${PRE_BUILD}" = "0" ] )
                 then
-                        autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
+
+                        autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-autoscaler")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
 
                         if ( [ "${autoscaler_firewall_id}" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-autoscaler-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                                autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
+                                autoscaler_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-autoscaler")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
                         fi
-                        autoscaler_ids="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "as-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
 
                         if ( [ "${BUILD_MACHINE_VPC}" = "0" ] )
                         then
@@ -280,12 +281,12 @@ then
                                 /usr/local/bin/linode-cli firewalls rules-update --inbound  '[{"addresses":{"ipv4":["'${VPC_IP_RANGE}'"]},"action":"ACCEPT","protocol":"TCP","ports":"1-65535"}{"addresses":{"ipv4":["0.0.0.0/0"]},"action":"ACCEPT","protocol":"ICMP"}]' ${autoscaler_firewall_id}
                         fi
 
-                        webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-webserver")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
 
                         if ( [ "${webserver_firewall_id}" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-webserver-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                                webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
+                                webserver_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-webserver")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
                         fi
                         
                         webserver_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "ws-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
@@ -313,12 +314,12 @@ then
                                 fi
                         fi
 
-                        database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-database")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
 
                         if ( [ "${database_firewall_id}" = "" ] )
                         then
                                 /usr/local/bin/linode-cli firewalls create --label "adt-database-${BUILD_IDENTIFIER}" --rules.inbound_policy DROP   --rules.outbound_policy ACCEPT
-                                database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
+                                database_firewall_id="`/usr/local/bin/linode-cli --json firewalls list | /usr/bin/jq -r '.[] | select (.label | contains ("adt-database")) |  select (.label | endswith ("'-${BUILD_IDENTIFIER}'")).id'`"
                         fi
                    
                         database_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh "db-${REGION}-${BUILD_IDENTIFIER}" ${CLOUDHOST}`"
