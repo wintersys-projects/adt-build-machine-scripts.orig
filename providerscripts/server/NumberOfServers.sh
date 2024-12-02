@@ -33,8 +33,8 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
-	/usr/bin/exo compute instance list --zone ${zone} -O text | /bin/grep "${server_type}" | /usr/bin/wc -l
+ 	zone="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'REGION'`"
+ 	/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq -r '.[] | select (.name | contains("'${server_type}'")).id' | /usr/bin/wc -l
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
