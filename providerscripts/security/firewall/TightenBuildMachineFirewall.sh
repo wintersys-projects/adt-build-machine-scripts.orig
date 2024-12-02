@@ -160,12 +160,12 @@ then
    				do
 	   				/usr/sbin/ufw allow from ${ip}
    				done	   		
+       			else
+				for ip in ${ips}
+   				do
+	   				/usr/sbin/ufw allow from ${ip} proto tcp to any port ${buildmachine_ssh_port}
+   				done
        			fi
-
-			for ip in ${ips}
-   			do
-	   			/usr/sbin/ufw allow from ${ip} proto tcp to any port ${buildmachine_ssh_port}
-   			done
 
 			/usr/bin/yes | /usr/sbin/ufw enable
               	elif ( [ "${firewall}" = "iptables" ] )
