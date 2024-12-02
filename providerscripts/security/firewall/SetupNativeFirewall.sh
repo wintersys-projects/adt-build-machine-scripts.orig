@@ -309,8 +309,7 @@ then
                         then
                                 if ( [ "${alldnsproxyips}" = "" ] )
                                 then
-                                        /usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
-                                else 
+                                        /usr/local/bin/linode-cli firewalls rules-update --inbound  '[{"addresses":{"ipv4":["'${VPC_IP_RANGE}'"]},"action":"ACCEPT","protocol":"TCP","ports":"1-65535"},{"addresses":{"ipv4":["0.0.0.0/0"]},"action":"ACCEPT","protocol":"TCP","ports":"443"},{"addresses":{"ipv4":["0.0.0.0/0"]},"action":"ACCEPT","protocol":"ICMP"}]' ${webserver_firewall_id}                                else 
                                         /usr/local/bin/linode-cli firewalls rules-update --inbound  "[{\"addresses\":{\"ipv4\":[\"${VPC_IP_RANGE}\"]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"1-65535\"},{\"addresses\":{\"ipv4\":[${alldnsproxyips}]},\"action\":\"ACCEPT\",\"protocol\":\"TCP\",\"ports\":\"443\"},{\"addresses\":{\"ipv4\":[\"0.0.0.0/0\"]},\"action\":\"ACCEPT\",\"protocol\":\"ICMP\"}]" ${webserver_firewall_id}
                                 fi
                         fi
