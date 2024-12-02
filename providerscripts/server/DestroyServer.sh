@@ -54,19 +54,11 @@ if ( [ "${cloudhost}" = "linode" ] )
 then
 	if ( [ "${server_ip}" != "" ] )
 	then
-		server_name="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'linode'`"
-  		server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label == "'${server_name}'").id'`"
+    		server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.ipv4[] == "'${server_ip}'").id'`"
     		if ( [ "${server_id}" = "" ] )
       		then
-			linode_ids="`/usr/local/bin/linode-cli linodes list --json | /usr/bin/jq -r '.[].id'`"
-   			for linode_id in ${linode_ids}
-      			do
-				linode_id="`/usr/local/bin/linode-cli --json linodes ips-list ${linode_id} | /usr/bin/jq -r '.[].ipv4.vpc[] | select (.address == "'${server_ip}'").linode_id'`"
- 				if ( [ "${linode_id}" != "" ] )
-     				then
-	 				server_id="${linode_id}"
-      				fi
-    			done
+			server_ip="`${BUILD_HOME}/providerscripts/server/GetServerPublicIPAddressByIP.sh ${server_ip} ${cloudhost}`"
+    			server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.ipv4[] == "'${server_ip}'").id'`"
    		fi
 		/usr/local/bin/linode-cli linodes shutdown ${server_id}
 		/usr/local/bin/linode-cli linodes delete ${server_id}
