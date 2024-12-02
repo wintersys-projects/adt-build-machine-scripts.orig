@@ -40,9 +40,14 @@ fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
-	zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
-	server_to_delete="`${HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'exoscale'`"
-	/bin/echo "Y" | /usr/bin/exo compute instance delete ${server_to_delete} --zone ${zone}
+        zone="`/bin/cat ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/CURRENTREGION`"
+        server_name="`/usr/bin/exo compute private-network show adt_private_net_${zone} --zone ${zone} -O json | /usr/bin/jq -r '.leases[] | select(.ip_address=="'${server_ip}'") | .instance'`"
+        if ( [ "${server_name}" != "" ] )
+        then
+                server_ip="`/usr/bin/exo compute instance list --zone ${zone} -O json | /usr/bin/jq -r '.[] | select (.name =="'${server_name}'").ip_address'`" 
+        fi
+        server_to_delete="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${server_ip} ${cloudhost}`"
+        /bin/echo "Y" | /usr/bin/exo compute instance delete ${server_to_delete} --zone ${zone}
 fi
 
 if ( [ "${cloudhost}" = "linode" ] )
