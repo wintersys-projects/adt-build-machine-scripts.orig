@@ -45,7 +45,7 @@ fi
 if ( [ "${cloudhost}" = "vultr" ] )
 then
 	server_type="`/bin/echo ${server_type} | /usr/bin/cut -c -25`"
-	/usr/bin/vultr instance list | /bin/grep ${server_type} | /usr/bin/awk '{print $2}' | /usr/bin/wc -l
+ 	/usr/bin/vultr instance list -o json | /usr/bin/jq -r '.instances[] | select (.label | contains("'${server_type}'")).id' | /usr/bin/wc -l
 fi
 
 
