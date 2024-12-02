@@ -78,7 +78,7 @@ then
 	BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 	/bin/echo "${emergency_password}" > ${BUILD_HOME}/runtimedata/${cloudhost}/${BUILD_IDENTIFIER}/EMERGENCY_PASSWORD
 
-	if ( [ "`/usr/local/bin/linode-cli --text vpcs list | /bin/grep -w "adt-vpc"`" = "" ] )
+	if ( [ "`/usr/local/bin/linode-cli --json vpcs list | /usr/bin/jq -r '.[] | select (.label == "'${label}'").id'`" = "" ] )
 	then
         	/usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${region} --subnets.label adt-subnet --subnets.ipv4 ${vpc_ip_range}		
 	fi
