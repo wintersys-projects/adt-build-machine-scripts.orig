@@ -54,9 +54,12 @@ if ( [ "${cloudhost}" = "linode" ] )
 then
 	if ( [ "${server_ip}" != "" ] )
 	then
-		server_to_delete=""
-		server_to_delete="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'linode'`"
-  		server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label == "'${server_to_delete}'").id'`"
+		server_name="`${BUILD_HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'linode'`"
+  		server_id="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label == "'${server_name}'").id'`"
+    		if ( [ "${server_id}" = "" ] )
+      		then
+
+ 		fi
 		/usr/local/bin/linode-cli linodes shutdown ${server_id}
 		/usr/local/bin/linode-cli linodes delete ${server_id}
 		status "Destroyed a server with ip address ${server_ip}"
