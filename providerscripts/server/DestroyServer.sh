@@ -32,9 +32,8 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-        server_to_delete="`${HOME}/providerscripts/server/GetServerName.sh ${server_ip} 'digitalocean'`"
-        server_id="`/usr/local/bin/doctl -o json compute droplet list | /usr/bin/jq -r '.[] | select (.name == "'${server_to_delete}'" ).id'`"
-        /usr/local/bin/doctl -force compute droplet delete ${server_id} 
+        server_id="`/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.networks.v4[].ip_address == "'${server_ip}'").id'`"
+        /usr/local/bin/doctl -force compute droplet delete ${server_id}
         status "Destroyed a server with ip address ${server_ip}"
 fi
 
