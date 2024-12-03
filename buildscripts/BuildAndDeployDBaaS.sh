@@ -120,8 +120,11 @@ else
 				read x
 			fi
 
-			/usr/local/bin/doctl databases firewalls append ${cluster_id} --rule ip_addr:${VPC_IP_RANGE}
-
+                        if ( [ "`/usr/local/bin/doctl database firewalls list a661bf7b-90aa-478c-be1d-33a3c4b72b19 -o json | /usr/bin/jq -r '.[] | select (.value == "'${VPC_IP_RANGE}'").id'`" = "" ] )
+                        then
+                                /usr/local/bin/doctl databases firewalls append ${cluster_id} --rule ip_addr:${VPC_IP_RANGE}
+                        fi
+			
 			if ( [ "${cluster_engine}" = "mysql" ] )
 			then
 				export DATABASE_DBaaS_INSTALLATION_TYPE="MySQL"
