@@ -112,8 +112,15 @@ else
 				/usr/local/bin/doctl databases db create ${cluster_id} ${database_name}
 			done
 
-			user_password="`/usr/local/bin/doctl databases user create  ${cluster_id} ${database_user} -o json | /usr/bin/jq -r '.[].password'`"
-
+			database_password=""
+   
+   			if ( [ "`/usr/local/bin/doctl database user list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${database_user}'").name'`" = "" ] )
+   			then
+				database_password="`/usr/local/bin/doctl databases user create  ${cluster_id} ${database_user} -o json | /usr/bin/jq -r '.[].password'`"
+			else 
+				database_password="`/usr/local/bin/doctl database user list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${database_user}'").password'`"
+    			fi
+       
 			status "######################################################################################################################################################"
 			status "You might want to check that a database cluster called ${cluster_name} with a database ${database_name} is present using your Digital Ocean gui system"
 			status "######################################################################################################################################################"
@@ -140,8 +147,8 @@ else
 			export DATABASE_INSTALLATION_TYPE="DBaaS"
 			export DATABASE_DBaaS_INSTALLATION_TYPE="${DATABASE_DBaaS_INSTALLATION_TYPE}:${cluster_id}"
 			export DBaaS_HOSTNAME="private-`/usr/local/bin/doctl databases connection ${cluster_id} | /usr/bin/awk '{print $3}' | /usr/bin/tail -1`"
-			export DBaaS_USERNAME="`/usr/local/bin/doctl databases user list ${cluster_id} | /usr/bin/awk '{print $1}' | /usr/bin/tail -1`"
-			export DBaaS_PASSWORD="`/usr/local/bin/doctl databases user list ${cluster_id} | /usr/bin/awk '{print $3}' | /usr/bin/tail -1`"
+			export DBaaS_USERNAME="${database_user}"
+			export DBaaS_PASSWORD="${database_password}"
 			export DBaaS_DBNAME="${database_name}"
 			export DB_PORT="${DB_PORT}"
 	
