@@ -114,48 +114,48 @@ then
 
                 elif ( [ "${PRE_BUILD}" = "1" ] )
                 then
-                        autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        autoscaler_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`"
 
                         if ( [ "${autoscaler_firewall_id}" != "" ] )
                         then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${autoscaler_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler-"'${BUILD_IDENTIFIER}'" ).id'`" != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-autoscaler" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
 
-                        /usr/local/bin/doctl compute firewall create --name "adt-autoscaler-${BUILD_IDENTIFIER}" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
+                        /usr/local/bin/doctl compute firewall create --name "adt-autoscaler" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
 
 
-                        webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        webserver_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver" ).id'`"
 
                         if ( [ "${webserver_firewall_id}" != "" ] )
                         then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${webserver_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver-"'${BUILD_IDENTIFIER}'" ).id'`" != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-webserver" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
 
-                        /usr/local/bin/doctl compute firewall create --name "adt-webserver-${BUILD_IDENTIFIER}" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
+                        /usr/local/bin/doctl compute firewall create --name "adt-webserver" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
 
-                        database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`"
+                        database_firewall_id="`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database" ).id'`"
 
                         if ( [ "${database_firewall_id}" != "" ] )
                         then
                                 /bin/echo "y" | /usr/local/bin/doctl compute firewall delete ${database_firewall_id} --force 
                         fi
 
-                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database-"'${BUILD_IDENTIFIER}'" ).id'`" != "" ] )
+                        while ( [ "`/usr/local/bin/doctl -o json compute firewall list | /usr/bin/jq -r '.[] | select (.name == "adt-database" ).id'`" != "" ] )
                         do
                                 /bin/sleep 5
                         done
 
-                        /usr/local/bin/doctl compute firewall create --name "adt-database-${BUILD_IDENTIFIER}" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
+                        /usr/local/bin/doctl compute firewall create --name "adt-database" --outbound-rules "protocol:tcp,ports:all,address:0.0.0.0/0 protocol:udp,ports:all,address:0.0.0.0/0 protocol:icmp,address:0.0.0.0/0"
 
                 fi 
         fi
