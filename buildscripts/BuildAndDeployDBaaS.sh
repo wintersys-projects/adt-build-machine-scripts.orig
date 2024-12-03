@@ -102,7 +102,7 @@ else
 	
 			/usr/local/bin/doctl databases db create ${cluster_id} ${database_name}
 
-			while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${db_name}'").name'`" = "" ] )
+			while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`" = "" ] )
 			do
 				status "Probing for a database called ${database_name} in the cluster called ${cluster_name} - Please Wait...."
 				status "Note: you can get a %age progress update by referring to the Digital Ocean GUI for your database cluster as it provisions"
@@ -120,7 +120,7 @@ else
 				read x
 			fi
 
-                        if ( [ "`/usr/local/bin/doctl database firewalls list a661bf7b-90aa-478c-be1d-33a3c4b72b19 -o json | /usr/bin/jq -r '.[] | select (.value == "'${VPC_IP_RANGE}'").id'`" = "" ] )
+                        if ( [ "`/usr/local/bin/doctl database firewalls list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.value == "'${VPC_IP_RANGE}'").id'`" = "" ] )
                         then
                                 /usr/local/bin/doctl databases firewalls append ${cluster_id} --rule ip_addr:${VPC_IP_RANGE}
                         fi
