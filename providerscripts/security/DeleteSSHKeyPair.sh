@@ -26,15 +26,8 @@ cloudhost="${3}"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	key_ids="`/usr/local/bin/doctl compute ssh-key list | /bin/grep "${key_name}" | /usr/bin/awk '{print $1}'`"
-
-	if ( [ "${key_ids}" != "" ] )
-	then
-	   for key_id in ${key_ids}
-	   do
-		   /usr/local/bin/doctl compute ssh-key delete ${key_id} --force 
-	   done
-	fi
+	key_id="`/usr/local/bin/doctl compute ssh-key list -o json | /usr/bin/jq '.[] | select (.name == "'${key_name}'").id'`"
+	/usr/local/bin/doctl compute ssh-key delete ${key_id} --force 
 fi
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
@@ -43,28 +36,14 @@ fi
 
 if ( [ "${cloudhost}" = "linode" ] )
 then
-        key_ids="`/usr/local/bin/linode-cli --json sshkeys list | /usr/bin/jq -r '.[] | select (.label == "'${key_name}'").id'`"
-	
-	if ( [ "${key_ids}" != "" ] )
-	then
-		for key_id in ${key_ids}
-		do
-			/usr/local/bin/linode-cli sshkeys delete ${key_id}
-		done
-	fi
+        key_id="`/usr/local/bin/linode-cli --json sshkeys list | /usr/bin/jq -r '.[] | select (.label == "'${key_name}'").id'`"
+	/usr/local/bin/linode-cli sshkeys delete ${key_id}
 fi
 
 if ( [ "${cloudhost}" = "vultr" ] )
 then
-	key_ids="`/usr/bin/vultr ssh-key list -o json | /usr/bin/jq -r '.ssh_keys[] | select (.name == "'${key_name}'").id'`"
-
-	if ( [ "${key_ids}" != "" ] )
-	then
-		for key_id in ${key_ids}
-		do
-			/usr/bin/vultr ssh-key delete ${key_id}
-		done
-	fi	
+	key_id="`/usr/bin/vultr ssh-key list -o json | /usr/bin/jq -r '.ssh_keys[] | select (.name == "'${key_name}'").id'`"
+	/usr/bin/vultr ssh-key delete ${key_id}
 fi
 
 
