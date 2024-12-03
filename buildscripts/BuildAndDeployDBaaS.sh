@@ -24,15 +24,13 @@
 #set -x
 
 #############################################################################################################
-# You might want to manually configure a remote database, perhaps on something like AWS RDS using a bastion server.
+# You might want to manually configure a remote database using a gui system.
 # If you want to do that you will need to setup the database manually and then set the 
 # DATABASE_DBaaS_INSTALLATION_TYPE field according to the following nomenclature in your template
 # DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:MANUAL:<hostname>:<username>:<password>:<dbname>"
 # DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:MANUAL:<hostname>:<username>:<password>:<dbname>"
 # Obviously the type of database you have manually provisioned using a GUI system will have to match with what
 # you have set in your template in other words, one of MySQl or Postgres
-# Follow this https://repost.aws/knowledge-center/rds-connect-ec2-bastion-host to set up a bastion host on AWS
-# and manual configuration should work the same for any other provider such as Rackspace or GoogleCloud etc. 
 #############################################################################################################
 
 if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep DBAAS | /bin/grep MANUAL`" != "" ] )
