@@ -102,7 +102,7 @@ else
 	
 			/usr/local/bin/doctl databases db create ${cluster_id} ${database_name}
 
-			while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} ${database_name} | /bin/grep ${database_name}`" = "" ] )
+			while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${db_name}'").name'`" = "" ] )
 			do
 				status "Probing for a database called ${database_name} in the cluster called ${cluster_name} - Please Wait...."
 				status "Note: you can get a %age progress update by referring to the Digital Ocean GUI for your database cluster as it provisions"
