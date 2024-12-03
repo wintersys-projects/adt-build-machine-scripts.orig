@@ -120,6 +120,8 @@ else
 				read x
 			fi
 
+			/usr/local/bin/doctl databases firewalls append ${cluster_id} --rule ip_addr:${VPC_IP_RANGE}
+
 			if ( [ "${cluster_engine}" = "mysql" ] )
 			then
 				export DATABASE_DBaaS_INSTALLATION_TYPE="MySQL"
