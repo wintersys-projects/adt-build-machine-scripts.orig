@@ -175,7 +175,7 @@ then
         status "Webserver and database built correctly....."
 fi
 
-. ${BUILD_HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
+#. ${BUILD_HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
 /bin/touch ${BUILD_HOME}/runtimedata//PRIME_FIREWALL
 cloudhost_holder="${CLOUDHOST}"
 . ${BUILD_HOME}/providerscripts/security/firewall/TightenBuildMachineFirewall.sh
