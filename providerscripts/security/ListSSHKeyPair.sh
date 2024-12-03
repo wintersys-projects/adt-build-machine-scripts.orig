@@ -25,7 +25,7 @@ cloudhost="${2}"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	/usr/local/bin/doctl compute ssh-key list | /bin/grep "${key_name}" 
+	/usr/local/bin/doctl compute ssh-key list -o json | /usr/bin/jq '.[] | select (.name == "'${key_name}'").id'
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
