@@ -78,9 +78,9 @@ then
                                         do
                                                 rules=${rules}" protocol:tcp,ports:443,address:${ip} " 
                                         done
-                                        rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} "
+                                        rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:tcp,ports:22,address:${VPC_IP_RANGE} "
                                 else
-                                        rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:tcp,ports:443,address:0.0.0.0/0 "
+                                        rules=${rules}" protocol:tcp,ports:${SSH_PORT},address:${VPC_IP_RANGE} protocol:tcp,ports:22,address:${VPC_IP_RANGE} protocol:tcp,ports:443,address:0.0.0.0/0 "
                                 fi
     
                                 rules=${rules}"  protocol:tcp,ports:443,address:${VPC_IP_RANGE} " 
