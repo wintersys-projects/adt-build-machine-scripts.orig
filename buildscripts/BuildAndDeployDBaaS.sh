@@ -87,12 +87,16 @@ else
 	
 			status "Tightening the firewall on your database cluster"
 	
-			uuids="`/usr/local/bin/doctl databases firewalls list ${cluster_id} | /usr/bin/tail -n +2 | /usr/bin/awk '{print $1}'`"
+			#uuids="`/usr/local/bin/doctl databases firewalls list ${cluster_id} | /usr/bin/tail -n +2 | /usr/bin/awk '{print $1}'`"
+   			uuids="`/usr/local/bin/doctl databases firewalls list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.cluster_uuid == "'${cluster_id}'").uuid'`"
 
-			for uuid in ${uuids}  
-			do
-				/usr/local/bin/doctl databases firewalls remove ${cluster_id} --uuid ${uuid}
-			done
+			if ( [ "${uuids}" != "" ] )
+   			then
+				for uuid in ${uuids}  
+				do
+					/usr/local/bin/doctl databases firewalls remove ${cluster_id} --uuid ${uuid}
+				done
+    			fi
 	   
 			status "Creating a database named ${database_name} in cluster: ${cluster_id}"
 	
