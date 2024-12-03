@@ -34,7 +34,7 @@ REGION="`/bin/grep '^REGION=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bi
 DDOS_PROTECTION="`/bin/grep '^ENABLE_DDOS_PROTECTION=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 VPC_IP_RANGE="`/bin/grep '^VPC_IP_RANGE=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 
-OS_CHOICE="`${BUILD_HOME}/providerscripts/CLOUDHOST/GetOperatingSystemVersion.sh ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION} | /bin/sed "s/'//g"`"
+OS_CHOICE="`${BUILD_HOME}/providerscripts/cloudhost/GetOperatingSystemVersion.sh ${CLOUDHOST} ${BUILDOS} ${BUILDOS_VERSION} | /bin/sed "s/'//g"`"
 KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
 
 if ( [ "${CLOUDHOST}" = "digitalocean" ] )
