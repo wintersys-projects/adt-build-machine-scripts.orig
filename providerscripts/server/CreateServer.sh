@@ -44,12 +44,12 @@ then
 		os_choice="${snapshot_id}"
 	fi
 
-	if ( [ "`/usr/local/bin/doctl vpcs list | /bin/grep -w "adt-vpc" | /bin/grep "${region}"`" = "" ] )
+	if ( [ "`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.region == "'${region}'") | select (.name == "adt-vpc").id'`" = "" ] )
 	then
 		/usr/local/bin/doctl vpcs create --name "adt-vpc" --region "${region}" --ip-range "${vpc_ip_range}"
 	fi
 	
-	vpc_id="`/usr/local/bin/doctl vpcs list  | /bin/grep -w "adt-vpc" | /bin/grep "${region}" | /usr/bin/awk '{print $1}'`"
+	vpc_id="`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.region == "'${region}'") | select (.name == "adt-vpc").id'`"
  
 	/usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${os_choice}"  --region "${region}" --ssh-keys "${key_id}" --vpc-uuid "${vpc_id}"
 fi
