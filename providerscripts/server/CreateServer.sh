@@ -2,8 +2,8 @@
 ###################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script will spin up a new server of the size, REGION and os
-# specified  on the hosting provider, CLOUDHOST, of choice.
+# Description : This script will spin up a new server of the size, region and os
+# specified  on the hosting provider, cloudhost, of choice.
 ###################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -27,7 +27,7 @@ snapshot_id="${3}"
 CLOUDHOST="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
 BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
-BUILD_ENVIRONMENT="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/BUILD_ENVIRONMENT"
+BUILD_ENVIRONMENT="${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment"
 BUILDOS="`/bin/grep '^BUILDOS=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 BUILDOS_VERSION="`/bin/grep '^BUILDOS_VERSION=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 REGION="`/bin/grep '^REGION=' ${BUILD_ENVIRONMENT} | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
@@ -44,14 +44,14 @@ then
                 OS_CHOICE="${snapshot_id}"
         fi
 
-        if ( [ "`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.REGION == "'${REGION}'") | select (.name == "adt-vpc").id'`" = "" ] )
+        if ( [ "`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.region == "'${REGION}'") | select (.name == "adt-vpc").id'`" = "" ] )
         then
-                /usr/local/bin/doctl vpcs create --name "adt-vpc" --REGION "${REGION}" --ip-range "${VPC_IP_RANGE}"
+                /usr/local/bin/doctl vpcs create --name "adt-vpc" --region "${REGION}" --ip-range "${VPC_IP_RANGE}"
         fi
 
-        vpc_id="`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.REGION == "'${REGION}'") | select (.name == "adt-vpc").id'`"
+        vpc_id="`/usr/local/bin/doctl vpcs list -o json | /usr/bin/jq -r '.[] | select (.region == "'${REGION}'") | select (.name == "adt-vpc").id'`"
  
-        /usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${OS_CHOICE}"  --REGION "${REGION}" --ssh-keys "${KEY_ID}" --vpc-uuid "${vpc_id}"
+        /usr/local/bin/doctl compute droplet create "${server_name}" --size "${server_size}" --image "${OS_CHOICE}"  --region "${REGION}" --ssh-keys "${KEY_ID}" --vpc-uuid "${vpc_id}"
 fi
 
 if ( [ "${CLOUDHOST}" = "exoscale" ] )
@@ -80,7 +80,7 @@ then
 
         if ( [ "`/usr/local/bin/linode-cli --json vpcs list | /usr/bin/jq -r '.[] | select (.label == "'${label}'").id'`" = "" ] )
         then
-                /usr/local/bin/linode-cli vpcs create --label adt-vpc --REGION ${REGION} --subnets.label adt-subnet --subnets.ipv4 ${VPC_IP_RANGE}
+                /usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${REGION} --subnets.label adt-subnet --subnets.ipv4 ${VPC_IP_RANGE}
         fi
 
         vpc_id="`/usr/local/bin/linode-cli vpcs list --json | /usr/bin/jq -r '.[] | select (.label == "adt-vpc").id'`"
@@ -88,9 +88,9 @@ then
 
         if ( [ "${snapshot_id}" != "" ] )
         then
-                /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --REGION ${REGION} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
+                /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${REGION} --image "private/${snapshot_id}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
         else
-                /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --REGION ${REGION} --image "${OS_CHOICE}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
+                /usr/local/bin/linode-cli linodes create --authorized_keys "${key}" --root_pass "${emergency_password}" --region ${REGION} --image "${OS_CHOICE}" --type ${server_size} --label "${server_name}" --no-defaults --interfaces.primary true --interfaces.purpose vpc --interfaces.subnet_id ${subnet_id} --interfaces.ipv4.nat_1_1 any
 
         fi
 fi
@@ -100,7 +100,7 @@ then
         if ( [ "`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`" = "" ] )
         then
                 ip_block="`/bin/echo ${VPC_IP_RANGE} | /usr/bin/awk -F'/' '{print $1}'`"
-                /usr/bin/vultr vpc2 create --REGION="${REGION}" --description="adt-vpc" --ip-type="v4" --ip-block="${ip_block}" --prefix-length="16"
+                /usr/bin/vultr vpc2 create --region="${REGION}" --description="adt-vpc" --ip-type="v4" --ip-block="${ip_block}" --prefix-length="16"
         fi
 
         vpc_id="`/usr/bin/vultr vpc2 list -o json | /usr/bin/jq -r '.vpcs[] | select (.description == "adt-vpc").id'`"
@@ -112,16 +112,16 @@ then
         then
            if ( [ "${DDOS_PROTECTION}" = "1" ] )
            then
-                        /usr/bin/vultr instance create --label="${server_name}" --REGION="${REGION}" --plan="${server_size}" --ipv6=false -s ${KEY_ID} --snapshot="${snapshot_id}" --ddos=true --userdata="${user_data}"
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${REGION}" --plan="${server_size}" --ipv6=false -s ${KEY_ID} --snapshot="${snapshot_id}" --ddos=true --userdata="${user_data}"
                 else
-                        /usr/bin/vultr instance create --label="${server_name}" --REGION="${REGION}" --plan="${server_size}" --ipv6=false -s ${KEY_ID} --snapshot="${snapshot_id}" --ddos=false --userdata="${user_data}"
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${REGION}" --plan="${server_size}" --ipv6=false -s ${KEY_ID} --snapshot="${snapshot_id}" --ddos=false --userdata="${user_data}"
                 fi
         else
            if ( [ "${DDOS_PROTECTION}" = "1" ] )
            then
-                        /usr/bin/vultr instance create --label="${server_name}" --REGION="${REGION}" --plan="${server_size}" --os="${OS_CHOICE}" --ipv6=false -s ${KEY_ID} --ddos=true --userdata="${user_data}"
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${REGION}" --plan="${server_size}" --os="${OS_CHOICE}" --ipv6=false -s ${KEY_ID} --ddos=true --userdata="${user_data}"
                 else
-                        /usr/bin/vultr instance create --label="${server_name}" --REGION="${REGION}" --plan="${server_size}" --os="${OS_CHOICE}" --ipv6=false -s ${KEY_ID} --ddos=false --userdata="${user_data}"
+                        /usr/bin/vultr instance create --label="${server_name}" --region="${REGION}" --plan="${server_size}" --os="${OS_CHOICE}" --ipv6=false -s ${KEY_ID} --ddos=false --userdata="${user_data}"
                 fi    
         fi
 
