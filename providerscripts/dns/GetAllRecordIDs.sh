@@ -28,7 +28,7 @@ dns="${5}"
 
 if ( [ "${dns}" = "digitalocean" ] )
 then
-	/usr/local/bin/doctl compute domain records list ${domainurl} | /bin/grep ${subdomain} | /usr/bin/awk '{print $1}'
+	/usr/local/bin/doctl compute domain records list ${domainurl} -o json | /usr/bin/jq -r '.[] | select (.type == "A") | select (.name == "'${subdomain}'").id'
 fi
 
 zoneid="${1}"
