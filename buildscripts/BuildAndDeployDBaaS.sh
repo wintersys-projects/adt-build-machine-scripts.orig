@@ -64,7 +64,7 @@ else
 	
 			status "Configuring database cluster ${cluster_name}, please wait..."
 
-			cluster_id="`/usr/local/bin/doctl databases list | /bin/grep ${cluster_name} | /usr/bin/awk '{print $1}'`"
+			cluster_id="`/usr/local/bin/doctl databases list -o json | /usr/bin/jq -r '.[] | select (.name == "'${cluster_name}'").id'`"
 	
 			if ( [ "${cluster_id}" = "" ] )
 			then
@@ -81,7 +81,7 @@ else
 			while ( [ "${cluster_id}" = "" ] )
 			do
 				status "Trying to obtain cluster id for the ${cluster_name} cluster..."
-				cluster_id="`/usr/local/bin/doctl databases list | /bin/grep ${cluster_name} | /usr/bin/awk '{print $1}'`"
+				cluster_id="`/usr/local/bin/doctl databases list -o json | /usr/bin/jq -r '.[] | select (.name == "'${cluster_name}'").id'`"
 				/bin/sleep 30
 			done
 	
