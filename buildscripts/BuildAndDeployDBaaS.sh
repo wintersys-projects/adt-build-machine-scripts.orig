@@ -286,10 +286,22 @@ else
 			if ( [ "${database_type}" = "MySQL" ] )
 			then
 				status "Your database is being provisioned, please wait....."
-				database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+				database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 		
 				if ( [ "${database_id}" = "" ] )
 				then
+        				if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+       					then
+	   					status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
+						status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
+     						read response
+	  					if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
+       						then
+	    						BYPASS_DB_LAYER="0"
+	  					else
+       							exit
+	     					fi
+	  				fi
  
 					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
 				
@@ -304,23 +316,31 @@ else
 			elif ( [ "${database_type}" = "Postgres" ] )
 			then
 				status "Your database is being provisioned, please wait....."
-				database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+				database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 		
 				if ( [ "${database_id}" = "" ] )
-				then
-                                	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+				then   				
+    					if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+       					then
+	   					status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
+						status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
+     						read response
+	  					if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
+       						then
+	    						BYPASS_DB_LAYER="0"
+	  					else
+       							exit
+	     					fi
+	  				fi
 
-                                	if ( [ "${database_id}" = "" ] )
-                                	then
- 						/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
-						database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+ 					/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
+					database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 
-                                        	while ( [ "${database_id}" = "" ] )
-                                        	do
-                                                	/bin/sleep 20
-                                                	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
-                                        	done
-                                	fi
+                                        while ( [ "${database_id}" = "" ] )
+                                        do
+                                        	/bin/sleep 20
+                                        	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+                                        done
 				fi
 			fi
 
