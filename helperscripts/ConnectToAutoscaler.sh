@@ -108,17 +108,6 @@ then
         then
                 /usr/bin/ssh-keyscan ${AUTOSCALER_IP} > ${AUTOSCALER_PUBLIC_KEYS}    
         fi
-else
-        /bin/echo "#####################################################################################################################################################################"
-        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
-        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
-        /bin/echo "#####################################################################################################################################################################"
-        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
-        read response1
-        if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
-        then
-                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AUTOSCALER_IP} > ${AUTOSCALER_PUBLIC_KEYS}
-        fi
 fi
 
 if ( [ "`/bin/cat ${AUTOSCALER_PUBLIC_KEYS}`" = "" ] )
@@ -136,4 +125,17 @@ else
 fi
 
 /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP}
-
+if ( [ "$?" != "0" ] )
+then
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
+        /bin/echo "You should always use previously generated keys unless you can't connect (an previously used ip address might have been reallocated as part of scaling or redeployment"
+        /bin/echo "#####################################################################################################################################################################"
+        /bin/echo "Enter 'Y' to regenerate your SSH public keys anything else to keep the keys you have got. You should only need to regenerate the keys very occassionally if at all"    
+        read response1
+        if ( [ "${response1}" = "Y" ] || [ "${response1}" = "y" ] )
+        then
+                /usr/bin/ssh-keyscan  -p ${SSH_PORT} ${AUTOSCALER_IP} > ${AUTOSCALER_PUBLIC_KEYS}
+        fi
+        /usr/bin/ssh -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -p ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USERNAME}@${AUTOSCALER_IP}
+fi
