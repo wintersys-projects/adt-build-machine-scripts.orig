@@ -323,15 +323,14 @@ else
 				fi
 			fi
 
-
    			export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    			export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
 			export DBaaS_DBNAME="${database_name}"
    
 			status ""
 			status "####################################################################################################################################################"
-			status "Please tell me the ipv6 address of your database cluster"
-   			status "You can find the ipv6 address by issuing a command like '/usr/bin/dig a112449-akamai-prod-378549-default.g2a.akamaidb.net AAAA'"
+			status "Please tell me the hostname of your cluster you can find it by going to the databases section of the linode gui and selecting the relevant database"
+   			status "You should be giving me a hostname similar to a112449-akamai-prod-378549-default.g2a.akamaidb.net "
       			status "You can get the hostname of your database from the linode GUI system"
 			status "####################################################################################################################################################"
 			status "Press <enter> to progress AFTER your database is showing as provisioned and you have collected the above information"
@@ -339,7 +338,7 @@ else
 			if ( [ "${HARDCORE}" != "1" ] )
 			then
 				read x
-				status "OK, enter the ipv6 address for your database cluster"
+				status "OK, enter the hostname for your database cluster"
 				read response
 				export DBaaS_HOSTNAME="${response}"
 
