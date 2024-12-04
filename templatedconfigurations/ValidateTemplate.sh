@@ -224,13 +224,6 @@ then
 	${log_command} "Your value for the variable DB_PORT is ${DB_PORT} and it can only be '25060' in this configuration"
 fi
 
-#if ( [ "${CLOUDHOST}" = "exoscale" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] && [ "${DB_PORT}" != "25060" ] )
-#then
-#	${log_command} "Your value for the variable DB_PORT is ${DB_PORT} and it can only be '25060' in this configuration"
-#fi
-
-
-
 if ( [ "`/bin/grep "^DB_SIZE " ${quick_specification} | /bin/grep -w "${DB_SIZE}"  2>/dev/null `" = "" ] )
 then
 	cloudhost="`/bin/echo ${CLOUDHOST} | /usr/bin/tr '[:lower:]' '[:upper:]'`"
