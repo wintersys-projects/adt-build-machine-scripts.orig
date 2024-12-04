@@ -72,11 +72,11 @@ then
 
         if ( [ "${database_type}" = "MySQL" ] )
         then
-                database_id="`/usr/local/bin/linode-cli --json databases mysql-list | /usr/bin/jq '.[] | select(.label | contains ("'${DBaaS_DBNAME}'")) | .id'`"
+                database_id="`/usr/local/bin/linode-cli --json databases mysql-list | /usr/bin/jq '.[] | select(.label | contains ("'${CLUSTER_NAME}'")) | .id'`"
                 /usr/local/bin/linode-cli databases mysql-update ${database_id} ${allow_list}
         elif ( [ "${database_type}" = "Postgres" ] )
         then
-                database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | /usr/bin/jq '.[] | select(.label | contains ("'${DBaaS_DBNAME}'")) | .id'`"
+                database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | /usr/bin/jq '.[] | select(.label | contains ("'${CLUSTER_NAME}'")) | .id'`"
                 /usr/local/bin/linode-cli databases mysql-update ${database_id} ${allow_list}
         fi
 fi
