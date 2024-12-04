@@ -292,12 +292,12 @@ else
  
 					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
 				
-					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.label | contains ("'${label}'")) | .id"`"
+					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 				
 					while ( [ "${database_id}" = "" ] )
 					do
 						/bin/sleep 20
-      						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.label | contains ("'${label}'")) | .id"`"
+      						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 					done
 				fi
 			elif ( [ "${database_type}" = "Postgres" ] )
