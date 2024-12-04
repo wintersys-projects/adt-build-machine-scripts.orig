@@ -96,20 +96,11 @@ fi
 read x
 
 
-/bin/echo "Do your servers use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
-/bin/echo "If you are not sure, please try one and then the other. If you are prompted for a password, it is the wrong one"
-/bin/echo "Please select (1) RSA (2) ECDSA"
-read response
-
-if ( [ "${response}" = "1" ] )
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment ] )
 then
-	ALGORITHM="rsa"
-elif ( [ "${response}" = "2" ] )
-then
-	ALGORITHM="ecdsa"
+        ALGORITHM="rsa"
 else
-	/bin/echo "Unknown choice. Exiting...."
-	exit
+        ALGORITHM="`/bin/grep ALGORITHM ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
 fi
 
 /bin/echo "Are you sure you want to shutdown the infrastructure? (Y/N)"
