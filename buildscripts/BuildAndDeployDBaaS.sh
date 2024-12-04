@@ -337,7 +337,9 @@ else
       						/bin/sleep 20
       						status="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').status'`"
 					done
-      				fi
+     				else
+					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"0.0.0.0/0"
+				fi
 	  
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
@@ -386,7 +388,9 @@ else
       						/bin/sleep 20
       						status="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').status'`"
 					done
-     				fi
+     				else
+					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"0.0.0.0/0"
+				fi
 
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
