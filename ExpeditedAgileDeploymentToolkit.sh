@@ -74,7 +74,7 @@ then
 	read x
 fi
 
-BUILDOS="`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}' | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+export BUILDOS="`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}' | /usr/bin/tr '[:upper:]' '[:lower:]' | /bin/egrep '(ubuntu|debian)'`"
 
 . ${BUILD_HOME}/initscripts/InitialiseLongLastingConnection.sh
 . ${BUILD_HOME}/installscripts/InstallCoreSoftware.sh 
