@@ -325,6 +325,11 @@ else
 						/bin/sleep 20
       						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 					done
+     					export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
+   					export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+   					export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
+   					export DB_PORT="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').port'`"
+   					export DBaaS_DBNAME="${database_name}"
 				fi
 			elif ( [ "${database_type}" = "Postgres" ] )
 			then
@@ -354,29 +359,13 @@ else
                                         	/bin/sleep 20
                                         	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
                                         done
+					
+     					export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
+   					export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+   					export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
+   					export DB_PORT="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').port'`"
+   					export DBaaS_DBNAME="${database_name}"
 				fi
-			fi
-
-			export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
-   			export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
-   			export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
-			export DBaaS_DBNAME="${database_name}"
-   
-			status ""
-			status "####################################################################################################################################################"
-			status "Please tell me the hostname of your cluster you can find it by going to the databases section of the linode gui and selecting the relevant database"
-   			status "You should be giving me a hostname similar to a112449-akamai-prod-378549-default.g2a.akamaidb.net "
-      			status "You can get the hostname of your database from the linode GUI system"
-			status "####################################################################################################################################################"
-			status "Press <enter> to progress AFTER your database is showing as provisioned and you have collected the above information"
-
-			if ( [ "${HARDCORE}" != "1" ] )
-			then
-				read x
-				status "OK, enter the hostname for your database cluster"
-				read response
-				export DBaaS_HOSTNAME="${response}"
-
 			fi
 		fi
 	fi
