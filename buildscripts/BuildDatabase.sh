@@ -151,9 +151,6 @@ do
                 DBIP="${ip}"
                 DBIP_PRIVATE="${private_ip}"
 
-                . ${HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
-
-
                 if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
                 then
                         db_active_ip="${DBIP_PRIVATE}"
