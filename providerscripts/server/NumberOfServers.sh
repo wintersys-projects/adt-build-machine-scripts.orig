@@ -28,7 +28,7 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
-	/usr/local/bin/doctl compute droplet list | /bin/grep ${server_type} | /usr/bin/wc -l
+        /usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.name | contains("'${server_type}'")).id' | /usr/bin/wc -l
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
