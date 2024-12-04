@@ -316,7 +316,7 @@ else
 	     					fi
 	  				fi
  
-					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
+					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "0.0.0.0/0"
 				
 					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq -r '.[] | select(.label | contains ("'${label}'")) | .id'`"
 				
@@ -339,7 +339,6 @@ else
 					done
       				fi
 	  
-	       			/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"0.0.0.0/0"
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    				export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
@@ -365,7 +364,7 @@ else
 	     					fi
 	  				fi
 
- 					/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
+ 					/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "0.0.0.0/0"
 					
      
      					database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq -r '.[] | select(.label | contains ("'${label}'")) | .id'`"
@@ -389,7 +388,6 @@ else
 					done
      				fi
 
-     				/usr/local/bin/linode-cli databases postgresql-update ${database_id} --allow-list"0.0.0.0/0"
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    				export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
