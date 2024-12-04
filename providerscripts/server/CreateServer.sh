@@ -63,7 +63,7 @@ then
 
         /usr/bin/exo compute instance create ${server_name} --instance-type standard.${server_size} --template "${OS_CHOICE}" --zone ${REGION} --ssh-key ${KEY_ID} --cloud-init "${BUILD_HOME}/providerscripts/server/cloud-init/exoscale.dat"
    
-        if ( [ "`/usr/bin/exo compute private-network list -O text | /bin/grep -w "adt_private_net_${REGION}"`" = "" ] )
+        if ( [ "`/usr/bin/exo compute private-network list -O json | /usr/bin/jq -r '.[] | select (.name == "adt_private_net_'${REGION}'").id'`" = "" ] )
         then
                 /usr/bin/exo compute private-network create adt_private_net_${REGION} --zone ${REGION} --start-ip 10.0.0.20 --end-ip 10.0.0.200 --netmask 255.255.255.0
         fi
