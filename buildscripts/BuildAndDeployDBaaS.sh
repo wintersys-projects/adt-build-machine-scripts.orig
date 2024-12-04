@@ -298,7 +298,7 @@ else
 
 			if ( [ "${database_type}" = "MySQL" ] )
 			then
-				status "Your database is being provisioned, please wait....."
+				status "Your database is being provisioned, please wait (this can take 10s of minutes)....."
 				database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 		
 				if ( [ "${database_id}" = "" ] )
@@ -319,12 +319,15 @@ else
 					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
 				
 					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+     					username="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
 				
-					while ( [ "${database_id}" = "" ] )
+					while ( [ "${username}" = "null" ] || [ "${database_id}" = "" ] )
 					do
 						/bin/sleep 20
       						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
-					done
+					     	username="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+     					done
+	  
      					export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    					export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    					export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
@@ -333,7 +336,7 @@ else
 				fi
 			elif ( [ "${database_type}" = "Postgres" ] )
 			then
-				status "Your database is being provisioned, please wait....."
+				status "Your database is being provisioned, please wait (this can take 10s of minutes)....."
 				database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
 		
 				if ( [ "${database_id}" = "" ] )
@@ -352,13 +355,17 @@ else
 	  				fi
 
  					/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
-					database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
-
-                                        while ( [ "${database_id}" = "" ] )
-                                        do
-                                        	/bin/sleep 20
-                                        	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
-                                        done
+					
+     
+     					database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+     					username="`/usr/local/bin/linode-cli databases postgresql-list-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+				
+					while ( [ "${username}" = "null" ] || [ "${database_id}" = "" ] )
+					do
+						/bin/sleep 20
+      						database_id="`/usr/local/bin/linode-cli --json databases postgresql-list-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+					     	username="`/usr/local/bin/linode-cli databases postgresql-list-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+     					done
 					
      					export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    					export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
