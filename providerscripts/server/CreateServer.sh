@@ -22,7 +22,7 @@
 #set -x
 
 server_size="${1}"
-server_name="`/bin/echo ${2} | /usr/bin/cut -c -32`"
+server_name="${2}"
 snapshot_id="${3}"
 CLOUDHOST="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST`"
 BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
