@@ -71,6 +71,19 @@ else
 	
 			if ( [ "${cluster_id}" = "" ] )
 			then
+
+   if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+       				then
+	   				status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
+					status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
+     					read response
+	  				if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
+       					then
+	    					BYPASS_DB_LAYER="0"
+	  				else
+       						exit
+	     				fi
+	  			fi
 				status "Creating the database cluster ${cluster_name}"
 		
 				/usr/local/bin/doctl databases create ${cluster_name} --engine ${cluster_engine} --region ${cluster_region}  --num-nodes ${cluster_nodes} --size ${cluster_size} --version ${cluster_version} --private-network-uuid ${adt_vpc} 
