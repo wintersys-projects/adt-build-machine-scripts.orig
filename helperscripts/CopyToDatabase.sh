@@ -138,28 +138,16 @@ then
 	exit
 fi
 
-/bin/echo "Does your server use Elliptic Curve Digital Signature Algorithm or the Rivest Shamir Adleman Algorithm for authenitcation?"
-/bin/echo "If you are not sure, please try one and then the other. If you are prompted for a password, it is the wrong one"
-/bin/echo "Please select (1) RSA (2) ECDSA"
-read response
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment ] )
+then
+        ALGORITHM="rsa"
+else
+        ALGORITHM="`/bin/grep ALGORITHM ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment | /bin/sed 's/"//g' | /usr/bin/awk -F'=' '{print $NF}'`"
+fi
 
 /bin/echo "Please enter the full path to the directory you would like to copy the file to on the remove machine"
 read remotedir
 
-if ( [ "${response}" = "1" ] )
-then
-	/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${DB_IP}:${remotedir}
-	if ( [ "$?" != "0" ] )
- 	then
-                  /bin/echo "Failed to connect to database machine on port ${SSH_PORT} and with ip address ${DB_IP}"
-	fi
-elif ( [ "${response}" = "2" ] )
-then
-	/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_ecdsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${DB_IP}:${remotedir}
-	if ( [ "$?" != "0" ] )
- 	then
-                  /bin/echo "Failed to connect to database machine on port ${SSH_PORT} and with ip address ${DB_IP}"
-	fi
-else
-	/bin/echo "Unrecognised selection, please select only 1 or 2"
-fi
+
+/usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${DATABASE_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${sourcefile} ${SERVER_USER}@${DB_IP}:${remotedir}
+
