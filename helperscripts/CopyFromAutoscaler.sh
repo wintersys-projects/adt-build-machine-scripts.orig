@@ -133,8 +133,12 @@ fi
 read localdir
 
 
+start=`/bin/date +%s`
 /usr/bin/scp -o ConnectTimeout=5 -o ConnectionAttempts=2 -o UserKnownHostsFile=${AUTOSCALER_PUBLIC_KEYS} -o StrictHostKeyChecking=yes -P ${SSH_PORT} -i ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${AS_IP}:${sourcefile} ${localdir}
-if ( [ "$?" != "0" ] )
+end=`/bin/date +%s`
+runtime="`/usr/bin/expr ${end} - ${start}`"
+
+if ( [ "${runtime}" -lt "3" ] )
 then
         /bin/echo "#####################################################################################################################################################################"
         /bin/echo "Do you want to initiate a fresh ssh key scan (might be necessary if you can't connect) or  do you want to use previously generated keys"
