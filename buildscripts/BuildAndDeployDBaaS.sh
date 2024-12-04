@@ -307,32 +307,19 @@ else
 		
 				if ( [ "${database_id}" = "" ] )
 				then
-					if ( [ "${HARDCORE}" != "1" ] )
-					then
-						status "Do you want your database to be encypted at rest? Please enter 'yes' or 'no'"
-						read selection
-						while ( [ "${selection}" != "yes" ] && [ "${selection}" != "no" ] )
-						do
-							status "That is not a recognised option, please type 'yes' or 'no'"
-							read selection
-						done
-					else
-						selection="yes"
-					fi
-					if ( [ "${selection}" = "yes" ] )
-					then
-						/usr/local/bin/linode-cli databases postgresql-create --label ${label} --engine ${engine} --cluster_size ${cluster_size} --region ${db_region} --type ${machine_type} --encrypted 1
-					elif ( [ "${selection}" = "no" ] )
-					then
-						/usr/local/bin/linode-cli databases postgresql-create --label ${label} --engine ${engine} --cluster_size ${cluster_size} --region ${db_region} --type ${machine_type}
-					fi
-			
-					database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
-					while ( [ "${database_id}" = "" ] )
-					do
-						/bin/sleep 20
-						database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
-					done
+                                	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+
+                                	if ( [ "${database_id}" = "" ] )
+                                	then
+ 						/usr/local/bin/linode-cli databases postgresql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
+						database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+
+                                        	while ( [ "${database_id}" = "" ] )
+                                        	do
+                                                	/bin/sleep 20
+                                                	database_id="`/usr/local/bin/linode-cli --json databases postgresql-list | jq '.[] | select(.label | contains ("'${label}'")) | .id'`"
+                                        	done
+                                	fi
 				fi
 			fi
 
@@ -358,13 +345,13 @@ else
 
 			fi
 		
-			if ( [ "${database_type}" = "MySQL" ] )
-			then
-				/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/mysql/instances/${database_id}
-			elif ( [ "${database_type}" = "Postgres" ] )
-			then
-				/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/postgresql/instances/${database_id}
-			fi
+			#if ( [ "${database_type}" = "MySQL" ] )
+			#then
+		#		/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/mysql/instances/${database_id}
+	#		elif ( [ "${database_type}" = "Postgres" ] )
+#			then#
+			#	/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/postgresql/instances/${database_id}
+		#	fi
 		fi
 	fi
 
