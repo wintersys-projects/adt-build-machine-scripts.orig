@@ -161,6 +161,8 @@ do
                 status "Public IP address: ${WSIP}"
                 status "Private IP address: ${WSIP_PRIVATE}"
 
+                . ${HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
+
                 if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys ] )
                 then
                         /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys
