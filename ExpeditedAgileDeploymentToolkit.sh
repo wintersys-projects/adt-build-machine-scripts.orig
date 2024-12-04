@@ -207,6 +207,8 @@ then
 	. ${BUILD_HOME}/buildscripts/BuildDatabase.sh
 fi
 
+. ${HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
+
 export PRE_BUILD="0"
 . ${BUILD_HOME}/providerscripts/security/firewall/SetupNativeFirewall.sh
 
