@@ -64,7 +64,10 @@ then
 
 if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
-        allow_list=" --allow_list ${WSIP}/32 --allow_list ${DBIP}/32"
+	webserver_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'ws-' ${CLOUDHOST}`"
+ 	database_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'db-' ${CLOUDHOST}`"
+
+        allow_list=" --allow_list ${webserver_ip}/32 --allow_list ${database_ip}/32"
         database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
 
         if ( [ "${database_type}" = "MySQL" ] )
