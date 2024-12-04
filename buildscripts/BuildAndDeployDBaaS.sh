@@ -367,6 +367,21 @@ else
    					export DBaaS_DBNAME="${database_name}"
 				fi
 			fi
+
+   			status "The Values I have retrieved for your database setup are:"
+			status "##########################################################"
+			status "HOSTNAME:${DBaaS_HOSTNAME}"
+			status "USERNAME:${DBaaS_USERNAME}"
+			status "PASSWORD:${DBaaS_PASSWORD}"
+   			status "DATABASENAME:${DBaaS_DBNAME}"
+			status "PORT:${DB_PORT}"
+			status "##########################################################"
+			status "If these settings look OK to you, press <enter>"
+		
+  			if ( [ "${HARDCORE}" != "1" ] )
+			then
+				read x
+			fi
 		fi
 	fi
 
