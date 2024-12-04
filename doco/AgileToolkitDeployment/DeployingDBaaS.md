@@ -79,55 +79,54 @@ So,
   
   ----------
   
-  ### Linode (at this time Dec 2023, Linode/Akamai are reworking their DBaaS solution and its not currently available for use)
+  ### Linode
   
   If you are using Linode Managed Databases you can set the following in your template override:
   
-  ##### DATABASE_DBaaS_INSTALLATION_TYPE="\<db-type\>:DBAAS:\<db-engine\>:\<region\>:\<machine-size\>:\<cluster-size\>"  
+  ##### DATABASE_DBaaS_INSTALLATION_TYPE="\<db-type\>:DBAAS:\<engine\>:\<region\>:\<machine_type\>:\<cluster_size\>:\<cluster_label\>:\<database_name\>
   ##### DATABASE_INSTALLATION_TYPE="DBaaS" 
+
+  So two example configurations might be:
   
-  So, an example of this in your template or override would be:
+    DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
+    DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
   
-    1. DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8.0.26:eu-west:g6-nanode-1:1"
 
   Therefore, for example 1, 
   
   db-type="MySQL"
-  db-engine="mysql/8.0.26"
-  region="eu-west"
+  db-engine="mysql/8"
+  region="nl-ams"
   machine-size="g6-nanode-1"
   cluster-size="1"
   
   db-type can be **"MySQL"**  
   
-  db-engine can be **"mysql/8.0.26"** or **"mysql/5.7.30"** - at the time of writing you can check what engines are available for you by issuing **"linode-cli databases engines"** command.  
+  db-engine can be **"mysql/8"**  - at the time of writing you can check what engines are available for you by issuing **"linode-cli databases engines"** command.  
   
-  region can be **"ap-west,ca-central,ap-southeast,us-central,us-west,us-southeast,us-east,eu-west,ap-south,eu-central,ap-northeast"  
+  region can currently be listed using **"linode-cli databases engines"**  
   
   machine-size=**"g6-nanode-1,g6-standard-1,g6-standard-2,g6-standard-4,g6-standard-6,g6-standard-8,g6-standard-16,g6-standard-20,g6-standard-24,g6-standard-32,g7-highmem-1,g7-highmem-2,g7-highmem-4,g7-highmem-8,g7-highmem-16,g6-dedicated-2,g6-dedicated-4,g6-dedicated-8,g6-dedicated-16,g6-dedicated-32,g6-dedicated-48,g6-dedicated-50,g6-dedicated-56,g6-dedicated-64"**  
   
   cluster-size, as far as I know, can be **1** or **3**  
   
-    2. DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:eu-west:g6-nanode-1:1"
-
   Therefore, for example 1, 
   
   db-type="Postgres"
-  db-engine="postgresql/14.4"
-  region="eu-west"
+  db-engine="postgresql/16"
+  region="nl-ams"
   machine-size="g6-nanode-1"
   cluster-size="1"
   
   db-type can be **"Postgres"**  
   
-  db-engine can be **"postgresql/10.14"** or **"postgresql/11.15"** or **"postgresql/12.10"** or **"postgresql/13.2"** or **"postgresql/14.4"**  - at the time of writing you can check what engines are available for you by issuing **"linode-cli databases engines"** command.  
+  db-engine can be **"postgresql/13"** or **"postgresql/14"** or **"postgresql/15"** or **"postgresql/16"** - at the time of writing you can check what engines are available for you by issuing **"linode-cli databases engines"** command.  
   
-  region can be **"ap-west,ca-central,ap-southeast,us-central,us-west,us-southeast,us-east,eu-west,ap-south,eu-central,ap-northeast"  
+  region can be **"linode-cli databases regions"**  
   
   machine-size=**"g6-nanode-1,g6-standard-1,g6-standard-2,g6-standard-4,g6-standard-6,g6-standard-8,g6-standard-16,g6-standard-20,g6-standard-24,g6-standard-32,g7-highmem-1,g7-highmem-2,g7-highmem-4,g7-highmem-8,g7-highmem-16,g6-dedicated-2,g6-dedicated-4,g6-dedicated-8,g6-dedicated-16,g6-dedicated-32,g6-dedicated-48,g6-dedicated-50,g6-dedicated-56,g6-dedicated-64"**  
   
   cluster-size, as far as I know, can be **1** or **3** 
-  
   
   When using linode you will be prompted for other variables such as database name, hostname of the database and so on, which you have to get from the GUI system because as far as I know, they are not accessible through the CLI.   
   
