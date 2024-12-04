@@ -340,7 +340,8 @@ else
      				else
 					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow_list "0.0.0.0/0"
 				fi
-	  
+
+                                export CLUSTER_NAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .label'`"
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    				export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
@@ -392,6 +393,7 @@ else
 					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow_list "0.0.0.0/0"
 				fi
 
+                                export CLUSTER_NAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .label'`"
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
    				export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    				export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
@@ -402,6 +404,7 @@ else
 
    			status "The Values I have retrieved for your database setup are:"
 			status "##########################################################"
+   			status "CLUSTERNAME:${CLUSTER_NAME}"
 			status "HOSTNAME:${DBaaS_HOSTNAME}"
 			status "USERNAME:${DBaaS_USERNAME}"
 			status "PASSWORD:${DBaaS_PASSWORD}"
