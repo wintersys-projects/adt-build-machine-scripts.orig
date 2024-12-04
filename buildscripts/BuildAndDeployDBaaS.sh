@@ -343,16 +343,16 @@ else
    
 			status ""
 			status "####################################################################################################################################################"
-			status "I couldn't see how to get the connection information from the linode-cli command line tool, so you will have to obtain it from the linode gui system"
-			status "Once your database is provisioned (which you can check in the linode GUI system, please provide us with the following information which you can obra1in through the connection details within the linode gui"
-			status "You will need to collect your databases's hostname, username, password, the database's name from the linode GUI system once it has finished provisioning"
+			status "Please tell me the ipv6 address of your database cluster"
+   			status "You can find the ipv6 address by issuing a command like '/usr/bin/dig a112449-akamai-prod-378549-default.g2a.akamaidb.net AAAA'"
+      			status "You can get the hostname of your database from the linode GUI system"
 			status "####################################################################################################################################################"
 			status "Press <enter> to progress AFTER your database is showing as provisioned and you have collected the above information"
 
 			if ( [ "${HARDCORE}" != "1" ] )
 			then
 				read x
-				status "Please enter your databases' private hostname, for example: lin-12134-4213-mysql-primary-private.servers.linodedb.net"
+				"OK, enter the ipv6 address for your database cluster"
 				read response
 				export DBaaS_HOSTNAME="${response}"
 
