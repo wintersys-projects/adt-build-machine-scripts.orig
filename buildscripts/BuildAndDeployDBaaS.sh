@@ -72,7 +72,7 @@ else
 			if ( [ "${cluster_id}" = "" ] )
 			then
 
-   if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
+   				if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
        				then
 	   				status "You can't have the BYPASS_DB_LAYER set to on for a newly provisioned database"
 					status "Do want me to set BYPASS_DB_LAYER to off so that the build will continue (Y|y) otherwise I will have to exit"
@@ -255,9 +255,9 @@ else
 			#Open up fully until we are installed and then tighten up the firewall
 			if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep Postgres`" = "" ] )
 			then 
-				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --mysql-ip-filter="${VPC_IP_RANGE}"
+				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --mysql-ip-filter="0.0.0.0/0"
 			else
-				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --pg-ip-filter="${VPC_IP_RANGE}"
+				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --pg-ip-filter="0.0.0.0/0"
 			fi
 
 	
