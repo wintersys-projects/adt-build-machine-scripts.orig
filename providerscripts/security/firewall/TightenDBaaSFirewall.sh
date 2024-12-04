@@ -64,24 +64,17 @@ then
 
 if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
-   if ( [ "${ASIP}" != "" ] )
-   then
-	   ips="\"${ASIP}/32\",\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${DBIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
-   else
-	   ips="\"${WSIP}/32\",\"${DBIP}/32\",\"${WSIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
-   fi
-   
-   status "Tightening the firewall on your mysql or postgres database for your webserver with following IPs: ${ips}"  
-   
-   #If we are a mysql database, this will work
-   /usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ ${ips} ] }" https://api.linode.com/v4/databases/mysql/instances/${DATABASE_ID}
-   
-   #If we are a postgres database then this will work
-   /usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ ${ips} ] }" https://api.linode.com/v4/databases/postgresql/instances/${DATABASE_ID}
-
-   # Couldn't get this to work so had to use curl as above
-   #  /usr/local/bin/linode-cli databases mysql-update --label "${DBaaS_DBNAME}" --allow-list"${ips}"
-
+	allow_list=" --allow_list ${WSIP}/32 --allow_list ${DBIP}/32"
+	database_id="`/usr/local/bin/linode-cli --json databases mysql-list | /usr/bin/jq '.[] | select(.label | contains ("'${DBaaS_DBNAME}'")) | .id'`"
+	database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
+	
+ 	if ( [ "${database_type}" = "MySQL" ] )
+ 	then
+ 		/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
+	elif ( [ "${database_type}" = "Postgres" ] )
+ 	then
+   		/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
+	fi
 fi
 
 #The vultr managed database should be in the same VPC as the webserver machines which means that the managed database can only be accessed from within that VPC
