@@ -43,13 +43,11 @@ fi
 
 if ( [ "${CLOUDHOST}" = "exoscale" ] && [ "${DATABASE_INSTALLATION_TYPE}"="DBaaS" ] )
 then
-	#The DBaaS solution from exoscale is not accessible from the private network ip addresses so we have to allow the public IP addresses individually
-   if ( [ "${ASIP}" != "" ] )
-   then
-	   ips="\"${ASIP}/32\",\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${DBIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
-   else
-	   ips="\"${WSIP}/32\",\"${DBIP}/32\",\"${ASIP_PRIVATE}/32\",\"${WSIP_PRIVATE}/32\",\"${BUILD_CLIENT_IP}/32\""
-   fi
+	webserver_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'ws-' ${CLOUDHOST}`"
+ 	database_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'db-' ${CLOUDHOST}`"
+	#The DBaaS solution from exoscale is not accessible from the private network ip address range so we have to allow the public IP addresses individually
+ 
+   	ips='"${webserver_ip}","${database_ip}"'
 
 	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
 	then
@@ -66,6 +64,7 @@ if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS
 then
 	webserver_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'ws-' ${CLOUDHOST}`"
  	database_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'db-' ${CLOUDHOST}`"
+  	#The DBaaS solution from linode is not accessible from the vpc ip address range so we have to allow the public IP addresses individually
 
         allow_list=" --allow_list ${webserver_ip}/32 --allow_list ${database_ip}/32"
         database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
@@ -85,8 +84,9 @@ fi
 #This means that you have no need to have trusted IP addresses on an IP address by IP address basis for vultr. I have left the code below commented out in case
 #You do want to have specific IP addresses as trusted IPs but as long as your managed database is in the same VPC as your main machines then you shouldn't need this
 
-#if ( [ "${CLOUDHOST}" = "vultr" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
-#then
+if ( [ "${CLOUDHOST}" = "vultr" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
+then
+:
   # export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/TOKEN`"
 
   # if ( [ "${ASIP}" != "" ] )
@@ -129,7 +129,7 @@ fi
   #      status "Tightening the firewall on your mysql or postgres database for your webserver with following IPs: ${ips}"  
   #      /usr/bin/vultr database update ${selected_databaseid} --trusted-ips="${ips}"
   # fi  
-#fi
+fi
 
 
 
