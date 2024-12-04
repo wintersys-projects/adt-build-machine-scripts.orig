@@ -338,7 +338,7 @@ else
       						status="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').status'`"
 					done
      				else
-					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"0.0.0.0/0"
+					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list "0.0.0.0/0"
 				fi
 	  
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
@@ -389,7 +389,7 @@ else
       						status="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').status'`"
 					done
      				else
-					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"0.0.0.0/0"
+					/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list "0.0.0.0/0"
 				fi
 
      				export DBaaS_HOSTNAME="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}') | .hosts.primary'`"
