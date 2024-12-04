@@ -47,7 +47,7 @@ then
  	database_ip="`${BUILD_HOME}/providerscripts/server/GetServerIPAddresses.sh  'db-' ${CLOUDHOST}`"
 	#The DBaaS solution from exoscale is not accessible from the private network ip address range so we have to allow the public IP addresses individually
  
-   	ips='"${webserver_ip}","${database_ip}"'
+   	ips="${webserver_ip},${database_ip}"
 
 	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
 	then
