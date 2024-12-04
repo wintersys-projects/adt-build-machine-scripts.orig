@@ -64,16 +64,19 @@ then
 
 if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 then
-	allow_list=" --allow_list ${WSIP}/32 --allow_list ${DBIP}/32"
-	database_id="`/usr/local/bin/linode-cli --json databases mysql-list | /usr/bin/jq '.[] | select(.label | contains ("'${DBaaS_DBNAME}'")) | .id'`"
-	database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
+	if ( [ "${WSIP}" != "" ] && [ "${DBIP}" != "" ] )
+ 	then
+		allow_list=" --allow_list ${WSIP}/32 --allow_list ${DBIP}/32"
+		database_id="`/usr/local/bin/linode-cli --json databases mysql-list | /usr/bin/jq '.[] | select(.label | contains ("'${DBaaS_DBNAME}'")) | .id'`"
+		database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
 	
- 	if ( [ "${database_type}" = "MySQL" ] )
- 	then
- 		/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
-	elif ( [ "${database_type}" = "Postgres" ] )
- 	then
-   		/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
+ 		if ( [ "${database_type}" = "MySQL" ] )
+ 		then
+ 			/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
+		elif ( [ "${database_type}" = "Postgres" ] )
+ 		then
+   			/usr/local/bin/linode-cli databases mysql-update ${database_id} --allow-list"${ips}"
+		fi
 	fi
 fi
 
