@@ -241,10 +241,11 @@ else
 			#Open up fully until we are installed and then tighten up the firewall
 			if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep Postgres`" = "" ] )
 			then 
-				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --mysql-ip-filter="0.0.0.0/0"
+				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --mysql-ip-filter="${VPC_IP_RANGE}"
 			else
-				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --pg-ip-filter="0.0.0.0/0"
+				/usr/bin/exo dbaas update --zone ${database_region} ${database_name} --pg-ip-filter="${VPC_IP_RANGE}"
 			fi
+
 	
 			status "The Values I have retrieved for your database setup are:"
 			status "##########################################################"
