@@ -334,6 +334,10 @@ else
 					done
 				fi
 			fi
+
+
+   			export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
+   			export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
 	
 			status ""
 			status "####################################################################################################################################################"
@@ -352,10 +356,6 @@ else
 				export DBaaS_HOSTNAME="${response}"
 				status "Please enter your database's username, for example, linroot"
 				read response
-				export DBaaS_USERNAME="${response}"
-				status "Please enter your database's password, for example, hfuweiwfvb4hbf"
-				read response
-				export DBaaS_PASSWORD="${response}"
 				status "Please enter your database's name, for example, testdatabase"
 				read response
 				export DBaaS_DBNAME="${response}"
