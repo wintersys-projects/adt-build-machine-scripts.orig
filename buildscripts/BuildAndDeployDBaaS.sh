@@ -339,19 +339,11 @@ else
 			if ( [ "${HARDCORE}" != "1" ] )
 			then
 				read x
-				"OK, enter the ipv6 address for your database cluster"
+				status "OK, enter the ipv6 address for your database cluster"
 				read response
 				export DBaaS_HOSTNAME="${response}"
 
 			fi
-		
-			#if ( [ "${database_type}" = "MySQL" ] )
-			#then
-		#		/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/mysql/instances/${database_id}
-	#		elif ( [ "${database_type}" = "Postgres" ] )
-#			then#
-			#	/usr/bin/curl -H "Content-Type: application/json" -H "Authorization: Bearer ${TOKEN}" -X PUT -d "{ \"allow_list\": [ \"0.0.0.0/0\" ] }" https://api.linode.com/v4/databases/postgresql/instances/${database_id}
-		#	fi
 		fi
 	fi
 
