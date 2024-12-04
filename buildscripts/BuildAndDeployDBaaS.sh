@@ -265,22 +265,22 @@ else
 	fi
 
 	#########################################################################################################
-	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>
-	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8.0.26:eu-west:g6-nanode-1:1"
-	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>
-	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:eu-west:g6-nanode-1:1"
+	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<label>
+	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8.0.26:eu-west:g6-nanode-1:1:testdb1"
+	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<label>
+	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:eu-west:g6-nanode-1:1:testdb1"
 	#########################################################################################################
 	if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 	then
 		if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep DBAAS`" != "" ] )
 		then
 			database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
-			label="${BUILD_IDENTIFIER}"
 			engine="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $3}'`"
 			cluster_size="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $6}'`" 
 			db_region="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $4}'`"
 			machine_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $5}'`"
-	
+   			label="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $6}'`"
+
 			if ( [ "${database_type}" = "MySQL" ] )
 			then
 				status "Your database is being provisioned, please wait....."
@@ -289,33 +289,14 @@ else
 				if ( [ "${database_id}" = "" ] )
 				then
  
-					if ( [ "${HARDCORE}" != "1" ] )
-					then
-						status "Do you want your database to be encypted at rest? Please enter 'yes' or 'no'"
-						read selection
-						while ( [ "${selection}" != "yes" ] && [ "${selection}" != "no" ] )
-						do
-							status "That is not a recognised option, please type 'yes' or 'no'"
-							read selection
-						done
-					else
-						selection="yes"
-					fi
+					/usr/local/bin/linode-cli databases mysql-create --label "${label}" --region "${db_region}" --type "${machine_type}" --cluster_size "${cluster_size}" --engine "${engine}" --ssl_connection "true" --allow_list "${VPC_IP_RANGE}"
 				
-    					if ( [ "${selection}" = "yes" ] )
-					then
-						/usr/local/bin/linode-cli databases mysql-create --label ${label} --engine ${engine} --cluster_size ${cluster_size} --region ${db_region} --type ${machine_type} --encrypted 1
-					elif ( [ "${selection}" = "no" ] )
-					then
-						/usr/local/bin/linode-cli databases mysql-create --label ${label} --engine ${engine} --cluster_size ${cluster_size} --region ${db_region} --type ${machine_type}
-					fi
-				
-					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+					database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.label | contains ("'${label}'")) | .id"`"
 				
 					while ( [ "${database_id}" = "" ] )
 					do
 						/bin/sleep 20
-						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.[\\"label\\"] | contains (\\"${label}\\")) | .id"`"
+      						database_id="`/usr/local/bin/linode-cli --json databases mysql-list | jq ".[] | select(.label | contains ("'${label}'")) | .id"`"
 					done
 				fi
 			elif ( [ "${database_type}" = "Postgres" ] )
