@@ -265,10 +265,10 @@ else
 	fi
 
 	#########################################################################################################
-	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<label>
-	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8:nl-ams:g6-nanode-1:1:testdb1"
-	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<label>
-	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:nl-ams:g6-nanode-1:1:testdb1"
+	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<database_name>
+	#DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
+	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<database_name>
+	#DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
 	#########################################################################################################
 	if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
 	then
@@ -280,6 +280,7 @@ else
 			db_region="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $4}'`"
 			machine_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $5}'`"
    			label="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $7}'`"
+         		database_name="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $8}'`"
 
 			if ( [ "${database_type}" = "MySQL" ] )
 			then
@@ -338,7 +339,8 @@ else
 
    			export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
    			export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
-	
+			export DBaaS_DBNAME="${database_name}"
+   
 			status ""
 			status "####################################################################################################################################################"
 			status "I couldn't see how to get the connection information from the linode-cli command line tool, so you will have to obtain it from the linode gui system"
@@ -350,20 +352,10 @@ else
 			if ( [ "${HARDCORE}" != "1" ] )
 			then
 				read x
-	
 				status "Please enter your databases' private hostname, for example: lin-12134-4213-mysql-primary-private.servers.linodedb.net"
 				read response
 				export DBaaS_HOSTNAME="${response}"
-				status "Please enter your database's username, for example, linroot"
-				read response
-				status "Please enter your database's name, for example, testdatabase"
-				read response
-				export DBaaS_DBNAME="${response}"
-				status "Please enter the port number that your database is running on"
-				read response
 
-				export DB_PORT="${response}"
-				export DATABASE_INSTALLATION_TYPE="DBaaS"
 			fi
 		
 			if ( [ "${database_type}" = "MySQL" ] )
