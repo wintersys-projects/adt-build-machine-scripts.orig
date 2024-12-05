@@ -230,16 +230,17 @@ else
                         fi
 
 
-                        status "Waiting for your new database cluster to be reponsive and online"
+                        status "Waiting for your new database cluster to be reponsive and online (this may take a little while)"
 
                         while ( [ "`/usr/bin/exo dbaas show ${database_name} -O json | /usr/bin/jq -r 'select (.name == "'${database_name}'").state'`" != "running" ] )
                         do
                                 /bin/sleep 10
                         done
 
+                        status ""
                         status "Database with name ${database_name} is now running"
-
-
+                        status ""
+                        
                         export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
                         export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
                         export DATABASE_INSTALLATION_TYPE="DBaaS"
