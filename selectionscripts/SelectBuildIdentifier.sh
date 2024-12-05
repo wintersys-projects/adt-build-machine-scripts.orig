@@ -59,7 +59,7 @@ do
   	fi
 done
 
-BUILD_IDENTIFIER="`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]' | /bin/sed 's/-//g' | /usr/bin/cut -c -8`"
+BUILD_IDENTIFIER="`/bin/echo ${BUILD_IDENTIFIER} | /usr/bin/tr '[:upper:]' '[:lower:]' | /usr/bin/cut -c -8`"
 
 if ( [ ! -d ${BUILD_HOME}/runtimedata ] )
 then
