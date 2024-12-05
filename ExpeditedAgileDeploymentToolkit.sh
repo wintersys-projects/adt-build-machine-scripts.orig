@@ -145,7 +145,11 @@ fi
 
 export PRE_BUILD="1"
 . ${BUILD_HOME}/providerscripts/security/firewall/SetupNativeFirewall.sh
-. ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
+
+if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
+then
+	. ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
+ fo
 
 PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
 
