@@ -33,6 +33,6 @@ fi
 if ( [ "${CLOUDHOST}" = "vultr" ] )
 then
         machine_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh ${machine_type} ${cloudhost}`"  
-        machine_name="`/usr/bin/vultr -o json instance list | /usr/bin/jq -r '.instances[] | select (.label | contains ("'ws-'")).label'`"
+        machine_name="`/usr/bin/vultr -o json instance list | /usr/bin/jq -r '.instances[] | select (.label | contains ("'${machine_type}'")).label'`"
         /usr/bin/vultr snapshot create -i ${machine_id} -d "${machine_name}"
 fi
