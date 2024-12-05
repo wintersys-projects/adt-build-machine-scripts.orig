@@ -250,6 +250,15 @@ then
 	do
         	wait ${pid}
 	done
+ 	snapshot_build_identifier="s-${BUILD_IDENTIFIER}"
+  	if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
+   	then
+ 		/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
+   	else
+    		/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
+      		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
+	fi
+  	/bin/cp -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
  	status "Snapshot generation complete"
 fi
  
