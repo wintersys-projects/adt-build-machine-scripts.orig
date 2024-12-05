@@ -235,7 +235,7 @@ then
 	pids="${pids} $!"	
 
    	status "Generating a snapshot in the background for your database"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}"" ${DEFAULT_USER} &
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
 	pids="${pids} $!"
   
 	for pid in ${pids}
