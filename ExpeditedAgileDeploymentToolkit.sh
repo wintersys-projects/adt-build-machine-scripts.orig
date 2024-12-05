@@ -227,20 +227,20 @@ then
   	pids=""
 	if ( [ "${autoscaler_name}" != "" ] )
 	then
- 		status "Generating a snapshot in the background for autoscaler (${autoscaler_name})"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
+ 		status "Generating a snapshot in the background for your autoscaler"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
   		pids="${pids} $!"
 	fi
  	if ( [ "${webserver_name}" != "" ] )
 	then
-  		status "Generating a snapshot in the background for webserver (${webserver_name})"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
+  		status "Generating a snapshot in the background for your webserver"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
 		pids="${pids} $!"	
  	fi
  	if ( [ "${database_name}" != "" ] )
 	then
-   		status "Generating a snapshot in the background for database (${database_name})"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
+   		status "Generating a snapshot in the background for your database"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}"" ${DEFAULT_USER} &
 		pids="${pids} $!"
  	fi
   
