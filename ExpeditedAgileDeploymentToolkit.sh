@@ -227,7 +227,7 @@ then
   	pids=""
 
  	status "Generating a snapshot in the background for your autoscaler"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "as-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
   	pids="${pids} $!"
 
   	status "Generating a snapshot in the background for your webserver"
