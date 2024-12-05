@@ -93,7 +93,11 @@ status ""
 status ""
 
 . ${BUILD_HOME}/selectionscripts/SelectBuildIdentifier.sh
-. ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
+
+if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
+then
+	. ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
+fi
 
 /bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST
 
