@@ -43,7 +43,7 @@ then
 else
         #########################################################################################################
         #If you are deploying to digitalocean provide a setting with the following format in your template
-        #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<cluster_engine>:<cluster_region>:<cluster_nodes>:<cluster_size>:<cluster_version>:<cluster_name>:<database_name>:<vpc_id>:<database_username>"
+        #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<cluster_engine>:<cluster_region>:<cluster_nodes>:<cluster_size>:<cluster_version>:<cluster_name>:<db_name>:<vpc_id>:<database_username>"
         #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql:lon1:1:db-s-1vcpu-1gb:8:testdbcluster1:testdb1:e265abcb-1295-1d8b-af36-0129f89456c2:example-username"
         #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:pg:lon1:1:db-s-1vcpu-1gb:8:testdbcluster1:testdb1:e265abcb-1295-1d8b-af36-0129f89456c2:example-username"
         #########################################################################################################
@@ -60,7 +60,7 @@ else
                         cluster_size="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $4}'`"
                         cluster_version="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $5}'`"
                         cluster_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $6}'`"
-                        database_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $7}'`"
+                        db_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $7}'`"
                         adt_vpc="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $8}'`"
                         database_user="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $9}'`"
 
@@ -114,16 +114,16 @@ else
                                 done
                         fi
 
-                        status "Creating a database named ${database_name} in cluster: ${cluster_id}"
+                        status "Creating a database named ${db_name} in cluster: ${cluster_id}"
 
-                        /usr/local/bin/doctl databases db create ${cluster_id} ${database_name}
+                        /usr/local/bin/doctl databases db create ${cluster_id} ${db_name}
 
-                        while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`" = "" ] )
+                        while ( [ "`/usr/local/bin/doctl databases db list ${cluster_id} -o json | /usr/bin/jq -r '.[] | select (.name == "'${db_name}'").name'`" = "" ] )
                         do
-                                status "Probing for a database called ${database_name} in the cluster called ${cluster_name} - Please Wait...."
+                                status "Probing for a database called ${db_name} in the cluster called ${cluster_name} - Please Wait...."
                                 status "Note: you can get a %age progress update by referring to the Digital Ocean GUI for your database cluster as it provisions"
                                 /bin/sleep 30
-                                /usr/local/bin/doctl databases db create ${cluster_id} ${database_name}
+                                /usr/local/bin/doctl databases db create ${cluster_id} ${db_name}
                         done
 
                         database_password=""
@@ -136,7 +136,7 @@ else
                         fi
 
                         status "######################################################################################################################################################"
-                        status "You might want to check that a database cluster called ${cluster_name} with a database ${database_name} is present using your Digital Ocean gui system"
+                        status "You might want to check that a database cluster called ${cluster_name} with a database ${db_name} is present using your Digital Ocean gui system"
                         status "######################################################################################################################################################"
                         status "Press <enter> when you are satisfied"
 
@@ -163,7 +163,7 @@ else
                         export DBaaS_HOSTNAME="private-`/usr/local/bin/doctl databases connection ${cluster_id} | /usr/bin/awk '{print $3}' | /usr/bin/tail -1`"
                         export DBaaS_USERNAME="${database_user}"
                         export DBaaS_PASSWORD="${database_password}"
-                        export DBaaS_DBNAME="${database_name}"
+                        export DBaaS_DBNAME="${db_name}"
                         export DB_PORT="${DB_PORT}"
 
                         status "The Values I have retrieved for your database setup are:"
@@ -199,12 +199,12 @@ else
                         database_engine="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $1}'`"
                         database_region="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $2}'`"
                         database_size="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $3}'`"
-                        database_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $4}'`"
+                        db_name="`/bin/echo ${database_details} | /usr/bin/awk -F':' '{print $4}'`"
 
-                        existing_database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
+                        existing_db_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${db_name}'").name'`"
 
                         new=""
-                        if ( [ "${existing_database_name}" = "" ] )
+                        if ( [ "${existing_db_name}" = "" ] )
                         then
                                 if ( [ "${BYPASS_DB_LAYER}" = "1" ] )
                                 then
@@ -218,8 +218,8 @@ else
                                                 exit
                                         fi
                                 fi
-                                status "Creating  database ${database_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
-                                /usr/bin/exo dbaas create ${database_engine} ${database_size} ${database_name}  --zone ${database_region}
+                                status "Creating  database ${db_name}, with engine: ${database_engine}, in region: ${database_region} and at size: ${database_size} please wait..."
+                                /usr/bin/exo dbaas create ${database_engine} ${database_size} ${db_name}  --zone ${database_region}
 
                                 if ( [ "$?" = "0" ] )
                                 then
@@ -232,29 +232,29 @@ else
 
                         status "Waiting for your new database cluster to be reponsive and online (this may take a little while)"
 
-                        while ( [ "`/usr/bin/exo dbaas show ${database_name} -O json | /usr/bin/jq -r 'select (.name == "'${database_name}'").state'`" != "running" ] )
+                        while ( [ "`/usr/bin/exo dbaas show ${db_name} -O json | /usr/bin/jq -r 'select (.name == "'${db_name}'").state'`" != "running" ] )
                         do
                                 /bin/sleep 10
                         done
 
                         status ""
-                        status "Database with name ${database_name} is now running"
+                        status "Database with name ${db_name} is now running"
                         status ""
                         
-                        export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
-                        export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
+                        export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${db_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
+                        export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${db_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
                         export DATABASE_INSTALLATION_TYPE="DBaaS"
-                        export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
-                        export DBaaS_DBNAME="${database_name}"
-                        export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.port"`"
+                        export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${db_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
+                        export DBaaS_DBNAME="${db_name}"
+                        export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${db_name} | /usr/bin/jq -r ".${database_engine}.uri_params.port"`"
                         export DATABASE_REGION="${database_region}"
                         
                         #Open up fully until we are installed and then tighten up the firewall
                         if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep Postgres`" = "" ] )
                         then 
-                                /usr/bin/exo dbaas update --zone ${database_region} ${database_name} --mysql-ip-filter="0.0.0.0/0"
+                                /usr/bin/exo dbaas update --zone ${database_region} ${db_name} --mysql-ip-filter="0.0.0.0/0"
                         else
-                                /usr/bin/exo dbaas update --zone ${database_region} ${database_name} --pg-ip-filter="0.0.0.0/0"
+                                /usr/bin/exo dbaas update --zone ${database_region} ${db_name} --pg-ip-filter="0.0.0.0/0"
                         fi
 
 
@@ -276,9 +276,9 @@ else
         fi
 
         #########################################################################################################
-        #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<database_name>
+        #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<db_name>
         #DATABASE_DBaaS_INSTALLATION_TYPE="MySQL:DBAAS:mysql/8:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
-        #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<database_name>
+        #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:<engine>:<region>:<machine_type>:<cluster_size>:<cluster_label>:<db_name>
         #DATABASE_DBaaS_INSTALLATION_TYPE="Postgres:DBAAS:postgresql/14.4:nl-ams:g6-nanode-1:1:test-cluster:testdb1"
         #########################################################################################################
         if ( [ "${CLOUDHOST}" = "linode" ] && [ "${DATABASE_INSTALLATION_TYPE}" = "DBaaS" ] )
@@ -291,7 +291,7 @@ else
                         db_region="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $4}'`"
                         machine_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $5}'`"
                         label="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $7}'`"
-                        database_name="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $8}'`"
+                        db_name="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $8}'`"
 
                         if ( [ "${database_type}" = "MySQL" ] )
                         then
@@ -343,7 +343,7 @@ else
                                 export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
                                 export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases mysql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
                                 export DB_PORT="`/usr/local/bin/linode-cli databases mysql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').port'`"
-                                export DBaaS_DBNAME="${database_name}"
+                                export DBaaS_DBNAME="${db_name}"
                         elif ( [ "${database_type}" = "Postgres" ] )
                         then
                                 status "Your database is being provisioned, please wait (this can take 10s of minutes)....."
@@ -395,7 +395,7 @@ else
                                 export DBaaS_USERNAME="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].username'`"
                                 export DBaaS_PASSWORD="`/usr/local/bin/linode-cli databases postgresql-creds-view ${database_id} --json | /usr/bin/jq -r '.[].password'`"
                                 export DB_PORT="`/usr/local/bin/linode-cli databases postgresql-list --json | /usr/bin/jq -r '.[] | select (.id == '${database_id}').port'`"
-                                export DBaaS_DBNAME="${database_name}"
+                                export DBaaS_DBNAME="${db_name}"
 
                         fi
 
