@@ -223,25 +223,32 @@ if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
 then
 	status "###########################################################################################"
 	status "You have asked for snapshots to be generated"
- 	status "Generating a snapshots in the background, your machines may be offline until this completes"
+ 	status "Generating your snapshots in the background, your machines may be offline until this completes"
+  	pids=""
 	if ( [ "${autoscaler_name}" != "" ] )
 	then
  		status "Generating a snapshot in the background for autoscaler (${autoscaler_name})"
 		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
+  		pids="${pids} $!"
 	fi
  	if ( [ "${webserver_name}" != "" ] )
 	then
   		status "Generating a snapshot in the background for webserver (${webserver_name})"
 		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
-	fi
+		pids="${pids} $!"	
+ 	fi
  	if ( [ "${database_name}" != "" ] )
 	then
    		status "Generating a snapshot in the background for database (${database_name})"
 		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} ${autoscaler_name} ${DEFAULT_USER} &
-	fi
- 	status "###########################################################################################"
-  	status "Press <enter> to continue"
-   	read x
+		pids="${pids} $!"
+ 	fi
+  
+	for pid in ${pids}
+	do
+        	wait ${pid}
+	done
+ 	status "Snapshot generation complete"
 fi
  
 
