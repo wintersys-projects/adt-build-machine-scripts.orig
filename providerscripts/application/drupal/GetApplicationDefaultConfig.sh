@@ -32,7 +32,7 @@ fi
 while ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php ] )
 do
         ${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} settings.php  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER} 
-        /bin/sleep 10
+        /bin/sleep 5
 done
 
 status "Have found the drupal settings.php in the datastore can continue now..."
