@@ -24,7 +24,8 @@ fi
 
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
-        autoscaler_name="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains ("'${machine_type}'")).label'`"
-        disk_id="`/usr/local/bin/linode-cli --json linodes disks-list ${autoscaler_id} | /usr/bin/jq -r '.[] | select (.filesystem=="ext4").id'`"
-        /usr/local/bin/linode-cli images create --disk_id ${disk_id} --label ${autoscaler_name}
+        machine_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh ${machine_type} ${cloudhost}`"  
+        machine_name="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains ("'${machine_type}'")).label'`"
+        disk_id="`/usr/local/bin/linode-cli --json linodes disks-list ${machine_id} | /usr/bin/jq -r '.[] | select (.filesystem=="ext4").id'`"
+        /usr/local/bin/linode-cli images create --disk_id ${disk_id} --label ${machine_name}
 fi
