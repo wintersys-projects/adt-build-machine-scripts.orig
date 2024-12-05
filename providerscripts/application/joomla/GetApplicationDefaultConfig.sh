@@ -25,7 +25,7 @@
 
 if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration.php.default ] )
 then
-        status "Couldn't find joomla configuration.php in the datastore (it hasn't been generated yet) will try until I succeed"
+        status "Couldn't find the joomla configuration.php in the datastore (it hasn't been generated yet) will try until I succeed"
         status "If this goes on forever then something is wrong"
 fi
  
