@@ -198,7 +198,14 @@ do
                         /bin/cp /dev/null ${DATABASE_PUBLIC_KEYS}
                 fi
 
-                /usr/bin/ssh-keyscan -T 60 ${db_active_ip} >> ${DATABASE_PUBLIC_KEYS}
+                if ( [ "${DATABASE_IMAGE_ID}" = "" ] )
+                then
+                        keyscan_port="22"
+                else
+                        keyscan_port="${SSH_PORT}"
+                fi
+
+                /usr/bin/ssh-keyscan -p ${keyscan_port} -T 60 ${db_active_ip} >> ${DATABASE_PUBLIC_KEYS}
 
                 keytry="0"
                 while ( [ "`/usr/bin/diff -s /dev/null ${DATABASE_PUBLIC_KEYS} | /bin/grep identical`" != "" ] && [ "${keytry}" -lt "10" ] )
@@ -206,7 +213,7 @@ do
                         status "Couldn't scan for database ${database_name} ssh-keys ... trying again"
                         /bin/sleep 10
                         keytry="`/usr/bin/expr ${keytry} + 1`"
-                        /usr/bin/ssh-keyscan -T 60 ${db_active_ip} >> ${DATABASE_PUBLIC_KEYS}
+                        /usr/bin/ssh-keyscan -p ${keyscan_port} -T 60 ${db_active_ip} >> ${DATABASE_PUBLIC_KEYS}
                 done 
 
                 if ( [ "${keytry}" = "10" ] )
