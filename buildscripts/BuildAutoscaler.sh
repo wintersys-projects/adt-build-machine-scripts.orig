@@ -205,7 +205,7 @@ do
                 then
                         keyscan_port="22"
                 else
-                        keyscan_port="${SSH_PORT}
+                        keyscan_port="${SSH_PORT}"
                 fi
 
                 /usr/bin/ssh-keyscan -p ${keyscan_port} -T 60 ${as_active_ip} >> ${AUTOSCALER_PUBLIC_KEYS_NUMBERED}
