@@ -219,6 +219,32 @@ export PRE_BUILD="0"
 #Some applications we can configure for use behind the scenes, other times, the user has to do some stuff in the gui to
 #get to the point where the application can be used. In the later case, any additional information will be added here.
 
+if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
+then
+	status "###########################################################################################"
+	status "You have asked for snapshots to be generated"
+ 	status "Generating a snapshots in the background, your machines may be offline until this completes"
+	if ( [ "${autoscaler_name}" != "" ] )
+	then
+ 		status "Generating a snapshot in the background for autoscaler (${autoscaler_name})"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh
+	fi
+ 	if ( [ "${webserver_name}" != "" ] )
+	then
+  		status "Generating a snapshot in the background for webserver (${webserver_name})"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh
+	fi
+ 	if ( [ "${database_name}" != "" ] )
+	then
+   		status "Generating a snapshot in the background for database (${database_name})"
+		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh
+	fi
+ 	status "###########################################################################################"
+  	status "Press <enter> to continue"
+   	read x
+fi
+ 
+
 status ""
 status "###################################################################################################################"
 status "IMPORTANT, THE USERNAME FOR YOUR SERVERS IS: ${SERVER_USER}"
