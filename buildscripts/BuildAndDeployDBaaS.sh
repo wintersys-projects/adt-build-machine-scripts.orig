@@ -247,7 +247,8 @@ else
                         export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
                         export DBaaS_DBNAME="${database_name}"
                         export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.port"`"
-
+                        export DATABASE_REGION="${database_region}"
+                        
                         #Open up fully until we are installed and then tighten up the firewall
                         if ( [ "`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /bin/grep Postgres`" = "" ] )
                         then 
