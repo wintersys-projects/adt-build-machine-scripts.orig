@@ -48,12 +48,13 @@ then
 	#The DBaaS solution from exoscale is not accessible from the private network ip address range so we have to allow the public IP addresses individually
  
    	ips="${webserver_ip},${database_ip}"
+    	database_type="`/bin/echo ${DATABASE_DBaaS_INSTALLATION_TYPE} | /usr/bin/awk -F':' '{print $1}'`"
 
-	if ( [ "${DATABASE_ENGINE}" = "pg" ] )
+        if ( [ "${database_type}" = "Postgres" ] )
 	then
 		status "Tightening the firewall on your postgres database for your webserver with following IPs: ${ips}"    
 		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --pg-ip-filter=${ips}
-	elif ( [ "${DATABASE_ENGINE}" = "mysql" ] )
+	elif ( [ "${database_type}" = "MySQL" ] )
 	then
 		status "Tightening the firewall on your mysql database for your webserver with following IPs: ${ips}"    
 		/usr/bin/exo dbaas update --zone ${DATABASE_REGION} ${DBaaS_DBNAME} --mysql-ip-filter=${ips}
