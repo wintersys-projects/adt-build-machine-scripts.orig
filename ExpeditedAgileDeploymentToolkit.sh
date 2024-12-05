@@ -227,15 +227,15 @@ then
   	pids=""
 
  	status "Generating a snapshot in the background for your autoscaler"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
   	pids="${pids} $!"
 
   	status "Generating a snapshot in the background for your webserver"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
 	pids="${pids} $!"	
 
    	status "Generating a snapshot in the background for your database"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
 	pids="${pids} $!"
   
 	for pid in ${pids}
