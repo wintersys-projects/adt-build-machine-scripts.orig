@@ -229,26 +229,21 @@ else
                                 new="previously existing"
                         fi
 
-                        while ( [ "${database_name}" = "" ] )
+
+                        status "Waiting for your new database cluster to be reponsive and online"
+
+                        while ( [ "`/usr/bin/exo dbaas show ${database_name} -O json | /usr/bin/jq -r 'select (.name == "'${database_name}'").state'`" != "running" ] )
                         do
-                                database_name="`/usr/bin/exo dbaas list -O json | /usr/bin/jq -r '.[] | select (.name == "'${database_name}'").name'`"
                                 /bin/sleep 10
-                                status "Waiting for your new database cluster to be reponsive and online"
                         done
 
-                        status "A ${new} database is available with name ${database_name}"
+                        status "Database with name ${database_name} is now running"
 
+
+                        export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
+                        export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
                         export DATABASE_INSTALLATION_TYPE="DBaaS"
                         export DBaaS_HOSTNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.host"`"
-
-                        while ( [ "${DBaaS_PASSWORD}" = "" ] || [ "${DBaaS_USERNAME}" = "" ] )
-                        do
-                                status "Trying to obtain database credentials...This might take a couple of minutes as the new database initialises..."
-                                /bin/sleep 10
-                                export DBaaS_USERNAME="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.user"`"
-                                export DBaaS_PASSWORD="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.password"`"
-                        done   
-
                         export DBaaS_DBNAME="${database_name}"
                         export DB_PORT="`/usr/bin/exo -O json dbaas show --zone ${database_region} ${database_name} | /usr/bin/jq -r ".${database_engine}.uri_params.port"`"
 
