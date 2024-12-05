@@ -238,61 +238,65 @@ do
                         /bin/echo "IdentityFile ~/.ssh/${SERVER_USER}.key" >> ~/.ssh/config
                         /bin/echo "IdentitiesOnly yes" >> ~/.ssh/config
 
-                        initiation_ip="${as_active_ip}"
-                        machine_type="autoscaler"
-
-                        . ${BUILD_HOME}/buildscripts/InitiateNewMachine.sh
-
-                        /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
-
-                        while read param
-                        do
-                                param1="`eval /bin/echo ${param}`"
-                                if ( [ "${param1}" != "" ] )
-                                then
-                                        /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
-                                fi
-                        done < ${BUILD_HOME}/builddescriptors/autoscalerscp.dat
-
-                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
-                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/builddescriptors/buildstylesscp.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/buildstyles.dat >/dev/null 2>&1
-
-                        #Add the private build key to the autoscaler. Because the autoscaler is responsible for building new webserver instances,
-                        #it needs the build key so that it can bootstrap with the provider
-                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}
-                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub
-
-                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/providerscripts/git/GitRemoteInstall.sh ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/InstallGit.sh
-
-                        gitfetchno="0"
-                        while ( [ "`/usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/ls /home/${SERVER_USER}/as.sh" 2>/dev/null`" = "" ] && [ "${gitfetchno}" -lt "5" ] )
-                        do
-                                /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /home/${SERVER_USER}/InstallGit.sh ; cd /home/${SERVER_USER} ; /usr/bin/git clone https://github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-autoscaler-scripts.git; /bin/cp -r ./adt-autoscaler-scripts/* .; /bin/rm -r ./adt-autoscaler-scripts ; /bin/chown -R ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}/*; /bin/chmod 500 /home/${SERVER_USER}/as.sh"
-                                /bin/sleep 5
-                                gitfetchno="`/usr/bin/expr ${gitfetchno} + 1`"
-                        done
-
-                        if ( [ "${gitfetchno}" = "5" ] )
+                        if ( [ "${AUTOSCALER_IMAGE_ID}" = "" ] )
                         then
-                                status "Had trouble getting the autoscaler infrastructure sourcecode, will have to exit"
-                                exit
+                                initiation_ip="${as_active_ip}"
+                                machine_type="autoscaler"
+
+                                . ${BUILD_HOME}/buildscripts/InitiateNewMachine.sh
+
+                                /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
+
+                                while read param
+                                do
+                                        param1="`eval /bin/echo ${param}`"
+                                        if ( [ "${param1}" != "" ] )
+                                        then
+                                                /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
+                                        fi
+                                done < ${BUILD_HOME}/builddescriptors/autoscalerscp.dat
+
+                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
+                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/builddescriptors/buildstylesscp.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/buildstyles.dat >/dev/null 2>&1
+
+                                #Add the private build key to the autoscaler. Because the autoscaler is responsible for building new webserver instances,
+                                #it needs the build key so that it can bootstrap with the provider
+                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}
+                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub
+
+                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/providerscripts/git/GitRemoteInstall.sh ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/InstallGit.sh
+
+                                gitfetchno="0"
+                                while ( [ "`/usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/ls /home/${SERVER_USER}/as.sh" 2>/dev/null`" = "" ] && [ "${gitfetchno}" -lt "5" ] )
+                                do
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /home/${SERVER_USER}/InstallGit.sh ; cd /home/${SERVER_USER} ; /usr/bin/git clone https://github.com/${INFRASTRUCTURE_REPOSITORY_OWNER}/adt-autoscaler-scripts.git; /bin/cp -r ./adt-autoscaler-scripts/* .; /bin/rm -r ./adt-autoscaler-scripts ; /bin/chown -R ${SERVER_USER}:${SERVER_USER} /home/${SERVER_USER}/*; /bin/chmod 500 /home/${SERVER_USER}/as.sh"
+                                        /bin/sleep 5
+                                        gitfetchno="`/usr/bin/expr ${gitfetchno} + 1`"
+                                done
+
+                                if ( [ "${gitfetchno}" = "5" ] )
+                                then
+                                        status "Had trouble getting the autoscaler infrastructure sourcecode, will have to exit"
+                                        exit
+                                fi
+
+                                #Wicked, we have our scripts so we can build our autoscaler now
+
+                                status "About to build the autoscaler"
+                                status "Please Note: The process of building the autoscaler is running on a remote machine with ip address : ${ASIP}"
+                                status "To access this machine once it has finished provisioning you can use the scripts in ${BUILD_HOME}/helperscripts"
+                                status "Log files (stderr and stdout) are stored on the remote machine so if you need to review them, you will find them there"
+                                status "in the directory /home/${SERVER_USER}/logs"
+                                status "Starting to build the autoscaler proper"
+                                status "`/bin/date`"
+
+                                /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/as.sh ${SERVER_USER}"
+
+                                status "Finished building an autoscaler (${autoscaler_name})"
+                                status "`/bin/date`"
+
                         fi
-
-                        #Wicked, we have our scripts so we can build our autoscaler now
-
-                        status "About to build the autoscaler"
-                        status "Please Note: The process of building the autoscaler is running on a remote machine with ip address : ${ASIP}"
-                        status "To access this machine once it has finished provisioning you can use the scripts in ${BUILD_HOME}/helperscripts"
-                        status "Log files (stderr and stdout) are stored on the remote machine so if you need to review them, you will find them there"
-                        status "in the directory /home/${SERVER_USER}/logs"
-                        status "Starting to build the autoscaler proper"
-                        status "`/bin/date`"
-
-                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/as.sh ${SERVER_USER}"
-
-                        status "Finished building an autoscaler (${autoscaler_name})"
-                        status "`/bin/date`"
-
+                        
                         #Wait for the machine to become responsive before we check its integrity
 
                         pingcount="0"
@@ -317,7 +321,7 @@ do
                         #checking that the autoscaler is "built and alive" The last thing that the as.sh script does is reboot the machine
                         #that is our autoscaler. We do some rudimentary checking to detect when it is back up again post reboot.
 
-                        status "Checking that autoscaler ${autoscaler_name} is primed and ready"
+                        status "The autoscaler  ${autoscaler_name} is responsive, checking it is primed and ready as well"
            
                         alive="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS} ${SERVER_USER}@${as_active_ip} "/bin/ls /home/${SERVER_USER}/runtime/AUTOSCALER_READY"`"
            
