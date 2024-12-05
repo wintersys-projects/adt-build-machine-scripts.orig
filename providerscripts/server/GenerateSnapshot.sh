@@ -4,7 +4,7 @@ default_user="${3}"
 
 
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-BUILD_IDENTIFIER="`${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
+BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 
 if ( [ "${cloudhost}" = "exoscale" ] )
 then
