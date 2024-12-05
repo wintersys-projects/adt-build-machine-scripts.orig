@@ -351,7 +351,7 @@ do
                                 done="1"
                                 if ( [ "${NO_AUTOSCALERS}" -eq "1" ] )
                                 then
-                                        status "An autoscaler (${autoscaler_name}) has built correctly (`/usr/bin/date`)"
+                                        status "An autoscaler (${autoscaler_name}) has built correctly (`/usr/bin/date`) and is accepting connections"
                                 else
                                         autoscaler_built_rank="`/bin/ls  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/AUTOSCALER_BUILT-* | /usr/bin/wc -l 2>/dev/null`"
                                         autoscaler_built_rank="`/usr/bin/expr ${autoscaler_built_rank} + 1`"
