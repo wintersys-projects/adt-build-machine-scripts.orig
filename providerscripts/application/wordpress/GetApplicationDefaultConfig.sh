@@ -22,12 +22,17 @@
 #####################################################################################
 #####################################################################################
 #set -x
+
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/wp-config-sample.php ] )
+then
+        status "Couldn't find the wordpress wp-config-sample.php  in the datastore (it hasn't been generated yet) will try until I succeed"
+        status "If this goes on forever then something is wrong"
+fi
  
 while ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/wp-config-sample.php ] )
 do
         ${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} wp-config-sample.php  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
-        status "Couldn't find the wordpress wp-config-sample.php in the datastore (it hasn't been generated yet) will try again shortly"
-        /bin/sleep 10
+        /bin/sleep 5
 done
 
 status "Have found the wordpress wp-config-sample.php in the datastore can continue now..."
