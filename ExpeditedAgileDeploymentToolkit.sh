@@ -219,30 +219,24 @@ export PRE_BUILD="0"
 #Some applications we can configure for use behind the scenes, other times, the user has to do some stuff in the gui to
 #get to the point where the application can be used. In the later case, any additional information will be added here.
 
-if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
+if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] && [ "${PRODUCTION}" = "1" ] )
 then
 	status "###########################################################################################"
 	status "You have asked for snapshots to be generated"
  	status "Generating your snapshots in the background, your machines may be offline until this completes"
   	pids=""
-	if ( [ "${autoscaler_name}" != "" ] )
-	then
- 		status "Generating a snapshot in the background for your autoscaler"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
-  		pids="${pids} $!"
-	fi
- 	if ( [ "${webserver_name}" != "" ] )
-	then
-  		status "Generating a snapshot in the background for your webserver"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
-		pids="${pids} $!"	
- 	fi
- 	if ( [ "${database_name}" != "" ] )
-	then
-   		status "Generating a snapshot in the background for your database"
-		${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}"" ${DEFAULT_USER} &
-		pids="${pids} $!"
- 	fi
+
+ 	status "Generating a snapshot in the background for your autoscaler"
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "-as-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
+  	pids="${pids} $!"
+
+  	status "Generating a snapshot in the background for your webserver"
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}" ${DEFAULT_USER} &
+	pids="${pids} $!"	
+
+   	status "Generating a snapshot in the background for your database"
+	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}"" ${DEFAULT_USER} &
+	pids="${pids} $!"
   
 	for pid in ${pids}
 	do
