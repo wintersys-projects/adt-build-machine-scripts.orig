@@ -21,3 +21,10 @@ then
   snapshot_id="`/usr/bin/exo -O json  compute instance snapshot list  | /usr/bin/jq -r '.[] | select (.instance | contains ( "'${machine_type}'")) | select (.zone == "'${REGION_ID}'").id'`"
   /usr/bin/exo compute instance-template register --boot-mode legacy --disable-password --from-snapshot ${snapshot_id} --zone ${REGION_ID} --username ${default_user} ${machine_type}
 fi
+
+if ( [ "${CLOUDHOST}" = "linode" ] )
+then
+        autoscaler_name="`/usr/local/bin/linode-cli --json linodes list | /usr/bin/jq -r '.[] | select (.label | contains ("'${machine_type}'")).label'`"
+        disk_id="`/usr/local/bin/linode-cli --json linodes disks-list ${autoscaler_id} | /usr/bin/jq -r '.[] | select (.filesystem=="ext4").id'`"
+        /usr/local/bin/linode-cli images create --disk_id ${disk_id} --label ${autoscaler_name}
+fi
