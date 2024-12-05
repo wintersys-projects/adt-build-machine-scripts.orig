@@ -9,8 +9,8 @@ BUILD_IDENTIFIER="`/bin/cat ${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER`"
 if ( [ "${cloudhost}" = "digitalocean" ] )
 then
         machine_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh ${machine_type} ${cloudhost}`"  
-        autoscaler_name="`/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.name | contains ("'${machine_type}'")).name'`"
-        /usr/local/bin/doctl compute droplet-action snapshot --snapshot-name "${autoscaler_name}" ${autoscaler_id}
+        machine_name="`/usr/local/bin/doctl compute droplet list -o json | /usr/bin/jq -r '.[] | select (.name | contains ("'${machine_type}'")).name'`"
+        /usr/local/bin/doctl compute droplet-action snapshot --snapshot-name "${machine_name}" "${machine_id}"
 fi
 
 if ( [ "${cloudhost}" = "exoscale" ] )
