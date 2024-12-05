@@ -95,7 +95,6 @@ then
                 do
                         . ${BUILD_HOME}/buildscripts/BuildAutoscaler.sh &
                         pids="${pids} $!"
-                        /bin/sleep 30
                         tally="`/usr/bin/expr ${tally} + 1`"
                 done
         fi
@@ -109,8 +108,6 @@ elif ( [ "${NO_AUTOSCALERS}" -ne "0" ] && [ "${INPARALLEL}" = "1" ]  )
 then
         . ${BUILD_HOME}/buildscripts/BuildWebserver.sh &
         pids="${pids} $!"
-
-        /bin/sleep 30
         . ${BUILD_HOME}/buildscripts/BuildDatabase.sh &
         pids="${pids} $!"
 fi
@@ -119,7 +116,6 @@ if ( [ "${NO_AUTOSCALERS}" -eq "0" ] && [ "${INPARALLEL}" = "1" ]  && [ "${DEVEL
 then
         . ${BUILD_HOME}/buildscripts/BuildWebserver.sh &
         pids="${pids} $!"
-        /bin/sleep 30
         . ${BUILD_HOME}/buildscripts/BuildDatabase.sh &
         pids="${pids} $!"
 fi
