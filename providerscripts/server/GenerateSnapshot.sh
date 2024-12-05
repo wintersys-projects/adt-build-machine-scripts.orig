@@ -29,3 +29,10 @@ then
         disk_id="`/usr/local/bin/linode-cli --json linodes disks-list ${machine_id} | /usr/bin/jq -r '.[] | select (.filesystem=="ext4").id'`"
         /usr/local/bin/linode-cli images create --disk_id ${disk_id} --label ${machine_name}
 fi
+
+if ( [ "${CLOUDHOST}" = "vultr" ] )
+then
+        machine_id="`${BUILD_HOME}/providerscripts/server/ListServerIDs.sh ${machine_type} ${cloudhost}`"  
+        machine_name="`/usr/bin/vultr -o json instance list | /usr/bin/jq -r '.instances[] | select (.label | contains ("'ws-'")).label'`"
+        /usr/bin/vultr snapshot create -i ${machine_id} -d "${machine_name}"
+fi
