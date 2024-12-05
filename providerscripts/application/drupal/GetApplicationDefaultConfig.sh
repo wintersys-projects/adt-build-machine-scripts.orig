@@ -22,11 +22,16 @@
 #####################################################################################
 #####################################################################################
 #set -x
+
+if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php ] )
+then
+        status "Couldn't find drupal settings.php in the datastore (it hasn't been generated yet) will try until I succeed"
+        status "If this goes on forever then something is wrong"
+fi
  
 while ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php ] )
 do
         ${BUILD_HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${WEBSITE_URL} settings.php  ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER} 
-        status "Couldn't find drupal settings.php in the datastore (it hasn't been generated yet) will try again shortly"
         /bin/sleep 10
 done
 
