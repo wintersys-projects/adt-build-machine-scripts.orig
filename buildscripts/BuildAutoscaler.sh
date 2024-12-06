@@ -56,16 +56,16 @@ fi
 
 CUSTOM_USER_SUDO="DEBIAN_FRONTEND=noninteractive /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
-status ""
-status ""
-status ""
-status "========================================================="
-status "=================BUILDING AUTOSCALER====================="
-status "========================================================="
+#status ""
+#status ""
+#status ""
+#status "========================================================="
+#status "=================BUILDING AUTOSCALER====================="
+#status "========================================================="
 
-status "Logging for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
-status "The error stream for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
-status "========================================================="
+#status "Logging for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+#status "The error stream for this autoscaler build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
+#status "========================================================="
 
 # If done=1, then we know that the autoscaler has been successfully built. We try up to 5 times before we give up if it fails
 while ( [ "${done}" != "1" ] && [ "${counter}" -lt "5" ] )
