@@ -53,17 +53,17 @@ fi
 
 CUSTOM_USER_SUDO="DEBIAN_FRONTEND=noninteractive /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
-status ""
-status ""
-status ""
-status ""
-status "========================================================="
-status "=================BUILDING WEBSERVER======================"
-status "========================================================="
-
-status "Logging for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
-status "The error stream for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
-status "========================================================="
+#status ""
+#status ""
+#status ""
+#status ""
+#status "========================================================="
+#status "=================BUILDING WEBSERVER======================"
+#status "========================================================="
+#
+#status "Logging for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+#status "The error stream for this webserver build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
+#status "========================================================="
 
 #If "done" is set to 1, then we know that a webserver has been successfully built and is running.
 #Try up to 5 times if the webserver is failing to complete its build
