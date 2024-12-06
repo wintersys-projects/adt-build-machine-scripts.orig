@@ -59,6 +59,7 @@ then
 
 	if ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Ubuntu"`" != "" ] )
 	then
+ 			/bin/touch /root/PERFORM_REBOOT
 			status "Performing software update....."
 			${BUILD_HOME}/installscripts/Update.sh "ubuntu"  >>${UPGRADE_LOG} 2>&1
 			status "Performing software upgrade....."
@@ -88,6 +89,7 @@ then
 			/bin/touch ${BUILD_HOME}/runtimedata/EXUPDATEDSOFTWARE
 	elif ( [ "`/usr/bin/awk -F= '/^NAME/{print $2}' /etc/os-release | /bin/grep "Debian"`" != "" ] )
 	then
+  			/bin/touch /root/PERFORM_REBOOT
 			status "Performing software update....."
 			${BUILD_HOME}/installscripts/Update.sh "debian"  >>${UPGRADE_LOG} 2>&1
 			status "Performing software upgrade....."
