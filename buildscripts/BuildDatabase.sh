@@ -49,17 +49,17 @@ fi
 
 CUSTOM_USER_SUDO="DEBIAN_FRONTEND=noninteractive /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
-status ""
-status ""
-status ""
-status ""
-status "========================================================="
-status "=================BUILDING DATABASE======================="
-status "========================================================="
-
-status "Logging for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
-status "The error stream for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
-status "========================================================="
+#status ""
+#status ""
+#status ""
+#status ""
+#status "========================================================="
+#status "=================BUILDING DATABASE======================="
+#status "========================================================="
+#
+#status "Logging for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${OUT_FILE}"
+#status "The error stream for this database build is located at ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${ERR_FILE}"
+#status "========================================================="
 
 #If we don't need a database, then just skip the process of installing a database
 #We may have an application which doesn't require a database
