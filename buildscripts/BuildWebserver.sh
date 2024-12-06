@@ -211,19 +211,23 @@ do
                                 machine_type="webserver"
 
                                 . ${BUILD_HOME}/buildscripts/InitiateNewMachine.sh
+                        fi
 
-                                /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat
+                        /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat
 
-                                while read param
-                                do
-                                        param1="`eval /bin/echo ${param}`"
-                                        if ( [ "${param1}" != "" ] )
-                                        then
-                                                 /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat
-                                        fi
-                                done < ${BUILD_HOME}/builddescriptors/webserverscp.dat
+                        while read param
+                        do
+                                param1="`eval /bin/echo ${param}`"
+                                if ( [ "${param1}" != "" ] )
+                                then
+                                        /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat
+                                fi
+                        done < ${BUILD_HOME}/builddescriptors/webserverscp.dat
 
-                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat ${SERVER_USER}@${ws_active_ip}:/home/${SERVER_USER}/.ssh/webserver_configuration_settings.dat >/dev/null 2>&1
+                        /usr/bin/scp -P ${keyscan_port} ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/webserver_configuration_settings.dat ${SERVER_USER}@${ws_active_ip}:/home/${SERVER_USER}/.ssh/webserver_configuration_settings.dat >/dev/null 2>&1
+                        
+                        if ( [ "${WEBSERVER_IMAGE_ID}" = "" ] )
+                        then
                                 /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/builddescriptors/buildstylesscp.dat ${SERVER_USER}@${ws_active_ip}:/home/${SERVER_USER}/.ssh/buildstyles.dat >/dev/null 2>&1   
                                 /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/providerscripts/git/GitRemoteInstall.sh ${SERVER_USER}@${ws_active_ip}:/home/${SERVER_USER}/InstallGit.sh
 
