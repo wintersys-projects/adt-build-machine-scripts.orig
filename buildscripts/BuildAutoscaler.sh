@@ -251,19 +251,23 @@ do
                                 machine_type="autoscaler"
 
                                 . ${BUILD_HOME}/buildscripts/InitiateNewMachine.sh
+                        fi
 
-                                /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
+                        /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
 
-                                while read param
-                                do
-                                        param1="`eval /bin/echo ${param}`"
-                                        if ( [ "${param1}" != "" ] )
-                                        then
-                                                /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
-                                        fi
-                                done < ${BUILD_HOME}/builddescriptors/autoscalerscp.dat
+                        while read param
+                        do
+                                param1="`eval /bin/echo ${param}`"
+                                if ( [ "${param1}" != "" ] )
+                                then
+                                        /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat
+                                fi
+                        done < ${BUILD_HOME}/builddescriptors/autoscalerscp.dat
 
-                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
+                        /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/autoscaler_configuration_settings.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
+                        
+                        if ( [ "${AUTOSCALER_IMAGE_ID}" = "" ] )
+                        then     
                                 /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/builddescriptors/buildstylesscp.dat ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/.ssh/buildstyles.dat >/dev/null 2>&1
 
                                 #Add the private build key to the autoscaler. Because the autoscaler is responsible for building new webserver instances,
