@@ -271,7 +271,12 @@ then
 	fi
   	/bin/cp -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
 	/usr/bin/find ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} -maxdepth 1 -type f ! -name '*.dat' -delete
- 	status "Snapshot generation complete"
+ 	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ] )
+  	then
+   		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}.pub
+    		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}
+      	fi
+  	status "Snapshot generation complete"
 fi
  
 
