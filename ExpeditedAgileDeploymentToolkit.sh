@@ -179,6 +179,19 @@ then
     	read x
 fi
 
+#Set a timestamp so we can tell how long the build took. It various considerably by cloudhost provider.
+start=`/bin/date +%s`
+
+#If we have anything to say here, on an application by application basis before the build really begins we put it in this
+#script
+. ${BUILD_HOME}/processingscripts/PreProcessingMessages.sh
+
+/usr/bin/env > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment
+
+. ${BUILD_HOME}/initscripts/InitialiseKeystore.sh
+. ${BUILD_HOME}/buildscripts/BuildAndDeployDBaaS.sh
+. ${BUILD_HOME}/initscripts/InitialiseNewSSLCertificate.sh
+
 # I think the usual phrase is, 'we are all set'. So, tell the user we are starting the build proper.
 status ""
 status ""
@@ -196,19 +209,6 @@ status "########################################################################
 status ""
 status ""
 status ""
-
-#Set a timestamp so we can tell how long the build took. It various considerably by cloudhost provider.
-start=`/bin/date +%s`
-
-#If we have anything to say here, on an application by application basis before the build really begins we put it in this
-#script
-. ${BUILD_HOME}/processingscripts/PreProcessingMessages.sh
-
-/usr/bin/env > ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/build_environment
-
-. ${BUILD_HOME}/initscripts/InitialiseKeystore.sh
-. ${BUILD_HOME}/buildscripts/BuildAndDeployDBaaS.sh
-. ${BUILD_HOME}/initscripts/InitialiseNewSSLCertificate.sh
 
 #This option will perform a standard build process (autoscaler, webserver, database)
 if ( [ "`/bin/grep "^BUILDCHAINTYPE:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "standard" ] )
