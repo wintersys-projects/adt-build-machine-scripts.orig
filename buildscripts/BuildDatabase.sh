@@ -236,19 +236,24 @@ do
                                 machine_type="database"
 
                                 . ${BUILD_HOME}/buildscripts/InitiateNewMachine.sh
+                        fi
 
-                                /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat
+                        /bin/cp /dev/null ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat
 
-                                while read param
-                                do
-                                        param1="`eval /bin/echo ${param}`"
-                                        if ( [ "${param1}" != "" ] )
-                                        then
-                                                /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat
-                                        fi
-                                done < ${BUILD_HOME}/builddescriptors/databasescp.dat
+                        while read param
+                        do
+                                param1="`eval /bin/echo ${param}`"
+                                if ( [ "${param1}" != "" ] )
+                                then
+                                        /bin/echo ${param1} >> ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat
+                                fi
+                        done < ${BUILD_HOME}/builddescriptors/databasescp.dat
 
-                                /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat ${SERVER_USER}@${db_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
+                        /usr/bin/scp -P ${keyscan_port} ${OPTIONS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/database_configuration_settings.dat ${SERVER_USER}@${db_active_ip}:/home/${SERVER_USER}/.ssh >/dev/null 2>&1
+
+                        if ( [ "${DATABASE_IMAGE_ID}" = "" ] )
+                        then
+                                
                                 /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/builddescriptors/buildstylesscp.dat ${SERVER_USER}@${db_active_ip}:/home/${SERVER_USER}/.ssh/buildstyles.dat >/dev/null 2>&1
                                 /usr/bin/scp ${OPTIONS} ${BUILD_HOME}/providerscripts/git/GitRemoteInstall.sh ${SERVER_USER}@${db_active_ip}:/home/${SERVER_USER}/InstallGit.sh
 
