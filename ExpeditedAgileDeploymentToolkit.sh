@@ -270,7 +270,7 @@ then
       		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
 	fi
   	/bin/cp -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
-	/usr/bin/find ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} -type f ! -name '*.dat' -delete
+	/usr/bin/find ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} -maxdepth 1 -type f ! -name '*.dat' -delete
  	status "Snapshot generation complete"
 fi
  
