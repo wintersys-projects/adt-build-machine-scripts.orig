@@ -168,6 +168,17 @@ else
 	fi
 fi
 
+if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
+then
+	status ""
+	status "##################################################################################"
+	status "This build will be generating  snapshots of your machines"
+ 	status "If this is OK  with you, press <enter>, otherwise, alter your template and rebuild"
+  	status "##################################################################################"
+   	status ""
+    	read x
+fi
+
 # I think the usual phrase is, 'we are all set'. So, tell the user we are starting the build proper.
 status ""
 status ""
