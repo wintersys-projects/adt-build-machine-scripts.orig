@@ -10,7 +10,7 @@ then
   do
         for prefix in ${prefixes}
         do
-                result="`/usr/local/bin/linode-cli images list --json | /usr/bin/jq -r '.[] | select ( .label | contains ("'${prefix}${REGION}-${BUILD_IDENTIFIER}-${RND}'")).status'`" 
+                result="`/usr/local/bin/linode-cli images list --json | /usr/bin/jq -r '.[] | select ( .label | contains ("'${prefix}${REGION}-${BUILD_IDENTIFIER}'")).status'`" 
                 if ( [ "${result}" = "available" ] )
                 then
                         prefixes="`/bin/echo ${prefixes} | /bin/sed "s/${prefix}//g"`"
