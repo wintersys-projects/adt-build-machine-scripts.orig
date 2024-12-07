@@ -240,9 +240,9 @@ export PRE_BUILD="0"
 
 if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] && [ "${PRODUCTION}" = "1" ] )
 then
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
 	
 	status "###########################################################################################"
 	status "You have asked for snapshots to be generated"
@@ -280,6 +280,9 @@ then
    		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}.pub
     		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}
       	fi
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
   	status "Snapshot generation initiated/complete"
 fi
  
