@@ -49,8 +49,11 @@ do
 	fi
  	if ( [ -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
   	then
+   		status ""
+     		status "#################################################################################################################"
    		status "You already have a directory structure matching build identifier ${BUILD_IDENTIFIER}"
      		status "If you are VERY sure this is OK and you want to continue enter (Y|y) anything else to select a new build identifier"
+     		status "#################################################################################################################"
        		read response
 	 	if ( [ "${response}" != "Y" ] && [ "${response}" != "y" ] )
    		then
