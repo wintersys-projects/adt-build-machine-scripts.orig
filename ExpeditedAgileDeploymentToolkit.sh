@@ -240,6 +240,10 @@ export PRE_BUILD="0"
 
 if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] && [ "${PRODUCTION}" = "1" ] )
 then
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/BUILT_FROM_SNAPSHOT"
+	
 	status "###########################################################################################"
 	status "You have asked for snapshots to be generated"
  	status "Generating your snapshots in the background, your machines may be offline until this completes"
