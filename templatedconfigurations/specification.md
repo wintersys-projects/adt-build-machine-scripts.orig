@@ -739,7 +739,13 @@ The templating system is set up to use live certificates by default in all cases
 These are the full IDs of the images that your servers will be built off if you build using snapshots you have generated.
 
 
--------
+---------------------
+
+### GENERATE_SNAPSHOT
+
+This will tell the build you run to generate snapshots of your machines at the end of the build process. It can have a value "1" to generate snapshots or a value "0" to run a build without generating any snapshots. The snapshot image id's can then be used to build machines quickly based on snapshot images.
+
+-----------------------
 
 ### SELECTED_TEMPLATE
 
