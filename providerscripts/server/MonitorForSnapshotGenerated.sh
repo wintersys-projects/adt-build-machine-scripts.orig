@@ -3,7 +3,7 @@
 
 if ( [ "${CLOUDHOST}" = "linode" ] )
 then
-  status "Monitoring for your snapshots to have fully, might take a minute, please wait"
+  status "Monitoring for your snapshots to have fully generated, might take a minute, please wait"
   prefixes="as- ws- db-"
 
   while ( [ "`/bin/echo ${prefixes} | /bin/sed 's/ //g'`" != "" ] )
