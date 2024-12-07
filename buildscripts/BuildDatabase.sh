@@ -343,7 +343,7 @@ do
 
                         done="0"
                         #Check that the database is built and ready for action
-                        status "The database (${database_name}) has become resposive chekcking if it is primed and ready"
+                        status "The database (${database_name}) has become responsive checking if it is also primed and ready"
                         alive=""
                         count2="0"
 
