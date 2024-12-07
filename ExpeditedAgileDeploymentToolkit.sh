@@ -280,9 +280,9 @@ then
    		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}.pub
     		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}
       	fi
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT;  ${SUDO} /bin/touch ${HOME}/runtime/INITIAL_BUILD"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT;  ${SUDO} /bin/touch ${HOME}/runtime/INITIAL_BUILD"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT;  ${SUDO} /bin/touch ${HOME}/runtime/INITIAL_BUILD"
 	. ${BUILD_HOME}/providerscripts/server/MonitorForSnapshotGenerated.sh
 fi
  
