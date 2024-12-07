@@ -240,9 +240,9 @@ export PRE_BUILD="0"
 
 if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] && [ "${PRODUCTION}" = "1" ] )
 then
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT; ${SUDO} /bin/rm ${HOME}/runtime/INITIAL_BUILD"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT; ${SUDO} /bin/rm ${HOME}/runtime/INITIAL_BUILD"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/GENERATING_SNAPSHOT; ${SUDO} /bin/rm ${HOME}/runtime/INITIAL_BUILD"
 	
 	status "###########################################################################################"
 	status "You have asked for snapshots to be generated"
