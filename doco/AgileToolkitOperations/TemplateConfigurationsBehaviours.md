@@ -299,31 +299,18 @@ Set the timezone for your servers in any of your templates:
 >     export SERVER_TIMEZONE_CONTINENT="Europe"
 >     export SERVER_TIMEZONE_CITY="London"
 
-------------------------------------------------------------------------------
-
-#### Objective 30
-
-Set SUPERSAFE on and off for backups to switch it on in any of your templates:
-
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
-
-to switch it off:
-
->     export SUPERSAFE_WEBROOT="0"
->     export SUPERSAFE_DB="0"
-
 -------------------------------------------------------------------------------
 
-#### Objective 32
+#### Objective 30
 
 To switch to development mode:
 
 >     export PRODUCTION="0"
 >     export DEVELOPMENT="1"
 
+--------------------------------------------------------------------------------
 
-#### Objective 33
+#### Objective 31
 
 To switch to production mode:
 
@@ -332,7 +319,7 @@ To switch to production mode:
 
 ------------------------------------------------------------------------------
 
-#### Objective 34
+#### Objective 32
 
 To modify which firewalls are active for example for native and ufw to be enabled in any template set like this:
 
@@ -340,7 +327,7 @@ To modify which firewalls are active for example for native and ufw to be enable
 
 ------------------------------------------------------------------------------
 
-#### Objective 35
+#### Objective 33
 
 To switch "SSL_LIVE_CERT" on and off:
 
@@ -352,7 +339,7 @@ and
 
 ------------------------------------------------------------------------------
 
-#### Objective 36
+#### Objective 34
 
 To deploy from snasphots base snasphots that you have generated
 
@@ -363,7 +350,7 @@ To deploy from snasphots base snasphots that you have generated
 
 --------------------------------------------------------------------------------
 
-#### Objective 37
+#### Objective 35
 
 To make the machines build in parrallel rather than sequentially, put:
 
@@ -371,7 +358,7 @@ To make the machines build in parrallel rather than sequentially, put:
 
 --------------------------------------------------------------------------------
 
-#### Objective 38
+#### Objective 36
 
 To install monitoring gear put in any template:
 
