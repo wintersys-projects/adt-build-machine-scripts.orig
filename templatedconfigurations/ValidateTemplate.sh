@@ -285,6 +285,7 @@ then
     status "It look like you are performing a snapshot style build but your BUILD_IDENTIFIER is set to ${BUILD_IDENTIFIER}"
     status "I snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so I will add the prefix for you"
     status "This means that your new BUILD_IDENTIFIER is 's-${BUILD_IDENTIFIER}'"
+    BUILD_IDENTIFIER="s-${BUILD_IDENTIFIER}"
   fi
   if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
   then
