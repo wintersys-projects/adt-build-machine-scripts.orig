@@ -191,10 +191,6 @@ This file looks like this (I have put dashes before each line I wish to modify f
 >     export SERVER_TIMEZONE_CITY="London"
 >     export USER="root"
 >     
->     #####Backup Setttings######
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     export GENERATE_STATIC="0"
 >     
 >     #####Build Settings######
 >     export PRODUCTION="0"
@@ -327,10 +323,6 @@ So, editing /home/wintersys-projects/adt-build-machine-scripts/templatedconfigur
 >     export SERVER_TIMEZONE_CITY="London"
 >     export USER="root"
 >     
->     #####Backup Setttings######
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     export GENERATE_STATIC="0"
 >     
 >     #####Build Settings######
 >     export PRODUCTION="0"
