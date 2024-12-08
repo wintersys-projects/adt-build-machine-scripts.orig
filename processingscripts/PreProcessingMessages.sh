@@ -69,22 +69,6 @@ then
 	fi
 fi
 
-if ( [ "${BUILD_CHOICE}" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
-then
-	if ( [ "${SUPERSAFE_WEBROOT}" = "2" ] || [ "${SUPERSAFE_DB}" = "2" ] )
-	then
-		 status "You are making a baselined build and a baseline build expects its sourcecode to be in a git repository. You are configured to look in your datastore rather than git"
-		 status "And that would be a problem so I am overriding your backup settings to look in your respository for your sourcecode, if I don't do this the build will fail"
-		 status "Press <enter> to accept what I am saying"
-		 if ( [ "${HARDCORE}" != "1" ] )
-		 then
-			 read x
-		 fi
-		 export SUPERSAFE_WEBROOT="1"
-		 export SUPERSAFE_DB="1"
-	fi
-fi
-
 if ( [ "${APPLICATION}" = "joomla" ] && [ "${APPLICATION_IDENTIFIER}" != "1" ] )
 then
 	status "Your application is set to joomla and your application identifier is set to ${APPLICATION_IDENTIFIER}"
