@@ -141,16 +141,6 @@ then
 	 ${log_command} "It looks like your values for PRODUCTION ( ${PRODUCTION}) and DEVELOPMENT (${DEVELOPMENT}) are inconsistent"
 fi
 
-if ( [ "`/bin/grep "^SUPERSAFE_WEBROOT " ${quick_specification} | /bin/grep -w "${SUPERSAFE_WEBROOT}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable SUPERSAFE_WEBROOT (${SUPERSAFE_WEBROOT}) doesn't appear to be valid please review"
-fi
-
-if ( [ "`/bin/grep "^SUPERSAFE_DB " ${quick_specification} | /bin/grep -w "${SUPERSAFE_DB}"  2>/dev/null `" = "" ] )
-then
-	${log_command} "Your value for the variable SUPERSAFE_DB (${SUPERSAFE_DB}) doesn't appear to be valid please review"
-fi
-
 if ( [ "`/bin/grep "^WEBSERVER_CHOICE " ${quick_specification} | /bin/grep -w "${WEBSERVER_CHOICE}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable WEBSERVER_CHOICE (${WEBSERVER_CHOICE}) doesn't appear to be valid please review"
