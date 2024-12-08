@@ -289,7 +289,16 @@ then
   if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
   then
     status "It looks like you are trying to generate snapshots when you are building from snapshots, this is not possible"
+  else
+  	status "This build will be a snapshot style build (not a regular build style"
   fi
+else
+	if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
+	then
+		status "This build will be generating  snapshots of your machines"
+	else
+		status "This build will be a regular build style (not from snapshots)"
+  	fi
 fi
 
 if ( [ "`/bin/grep "^MACHINE_TYPE " ${quick_specification} | /bin/grep -w "${MACHINE_TYPE}"  2>/dev/null `" = "" ] )
