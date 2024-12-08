@@ -278,6 +278,20 @@ then
 	fi
 fi
 
+if ( [ "${AUTOSCALER_IMAGE_ID}" != "" ] || [ "${WEBSERVER_IMAGE_ID}" != "" ] || [ "${DATABASE_IMAGE_ID}" != "" ] )
+then
+  if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep "^s-"`" = "" ] )
+  then
+    status "It look like you are performing a snapshot style build but your BUILD_IDENTIFIER is set to ${BUILD_IDENTIFIER}"
+    status "I snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so I will add the prefix for you"
+    status "This means that your new BUILD_IDENTIFIER is 's-${BUILD_IDENTIFIER}'"
+  fi
+  if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
+  then
+    status "It looks like you are trying to generate snapshots when you are building from snapshots, this is not possible"
+  fi
+fi
+
 if ( [ "`/bin/grep "^MACHINE_TYPE " ${quick_specification} | /bin/grep -w "${MACHINE_TYPE}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable MACHINE_TYPE (${MACHINE_TYPE}) doesn't appear to be valid please review"
