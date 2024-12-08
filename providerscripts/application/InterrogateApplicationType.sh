@@ -83,19 +83,9 @@ then
 	then
 		status "Found candidate sourcecode in your git repository"
 		foundcandidate="1"
-		
-		if ( [ "${SUPERSAFE_WEBROOT}" = "0" ] || [ "${SUPERSAFE_WEBROOT}" = "1" ] )
-		then
-			foundcandidate="1"
-			gitrepo="1"
-		fi
-		
+		gitrepo="1"		
 	else
 		status "Did not find candidate sourcecode in your git repository"
-		if ( [ "${SUPERSAFE_WEBROOT}" != "0" ] && [ "${SUPERSAFE_WEBROOT}" != "1" ] )
-		then
-			status "SUPERSAFE_WEBROOT needs to be set to 0 or 1. Yours is set to ${SUPERSAFE_WEBROOT}"
-		fi
 	fi
 
 	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${backuparchive}
@@ -107,19 +97,10 @@ then
 		status "Found candidate sourcecode in your datastore"
 		status ""
 		/bin/rm ${archive}
-		
-		if ( [ "${SUPERSAFE_WEBROOT}" = "1" ] || [ "${SUPERSAFE_WEBROOT}" = "2" ] )
-		then
-			foundcandidate="1"
-			datastorebucket="1"
-		fi
-		
+		foundcandidate="1"
+		datastorebucket="1"
 	else
 		status "Did not find candidate sourcecode in your datastore"
-		if ( [ "${SUPERSAFE_WEBROOT}" != "1" ] && [ "${SUPERSAFE_WEBROOT}" != "2" ] )
-		then
-			status "SUPERSAFE_WEBROOT needs to be set to 1 or 2. Yours is set to ${SUPERSAFE_WEBROOT}"
-		fi
 	fi
 
 	status ""
