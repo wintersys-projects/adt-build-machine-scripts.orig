@@ -168,17 +168,6 @@ else
 	fi
 fi
 
-if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
-then
-	status ""
-	status "##################################################################################"
-	status "This build will be generating  snapshots of your machines"
- 	status "If this is OK  with you, press <enter>, otherwise, alter your template and rebuild"
-  	status "##################################################################################"
-   	status ""
-    	read x
-fi
-
 #Set a timestamp so we can tell how long the build took. It various considerably by cloudhost provider.
 start=`/bin/date +%s`
 
