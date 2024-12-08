@@ -353,37 +353,6 @@ This will set the number of webservers to deploy by default. If you set this to 
 
 -----
 
-### SUPERSAFE_WEBROOT
-
-Ordinarily, backups are made to the git repository provider that your application sourcecode is hosted with. These can be HOURLY, DAILY, WEEKLY, MONTHLY, BIMONTHLY.
-
-This can have 3 settings:
-
-0: Make a backup of the webroot to the application git repository only  (NOT RECOMMENDED)   
-1: Make a backup of the webroot to the application git repository and the S3 datastore (this is the supersafe and recommended option)    
-2: Make a backup of the webroot to the S3 datastore only (this is recommended if you have a very large codebase - there is a size limit on a git repository)  
-
-You can have a 3 way backup strategy if you are very paranoid. You can use the native backup service of your VPS provider and you can chose option 1 here and have two backups one in your git repository and one in your S3 datastore. When your application is being built at deployment time the git repo takes precidence over the S3 datastore. If no application webroot is found in the git repo then the S3 datastore is checked. 
-
-You can also setup backup procedures native to your cloud hosting provider's platform which will give you backup, backup and backup again security
-
------
-### SUPERSAFE_DB
-
-This is the same as SUPERSAFE_WEBROOT, but, for your application database files. SUPERSAFE_DB AND SUPERSAFE_WEBROOT should be set together to either 1, 2 or 3 otherwise it might get confusing. 
-
-This can have 3 settings:
-
-0: Make a backup of the database to the application git repository only  (NOT RECOMMENDED BECAUSE OF REPOSITORY SIZE LIMITS - the size a file can be is limited to perhaps 50MB so if your database is bigger than that, this option won't work)  
-1: Make a backup of the database to the application git repository and the S3 datastore (this is the supersafe and recommended option)    
-2: Make a backup of the database to the S3 datastore only    (this is recommended if you have a very large database - there is a size limit on a git repository)   
-
-You can have a 3 way backup strategy if you are very paranoid. You can use the native backup service of your VPS provider and you can chose option 1 here and have two backups one in your git repository and one in your S3 datastore. When your application is being built at deployment time the git repo takes precidence over the S3 datastore. If no application webroot is found in the git repo then the S3 datastore is checked. You might want to use option 2 if your application database is getting very large, if, for example, you are running a social network and its getting a lot of activity the database will get rather large. The git solution uses GitLFS to deal with large files, but, S3 services are specifically designed for large files and so are a better fit. You sacrfice supersafety for better function and in this case you definitely want your native VPS service to be making backups as well for you. 
-
-You can also setup backup procedures native to your cloud hosting provider's platform which will give you backup, backup and backup again security
-
------
-
 ### WEBSERVER_CHOICE
 
 You have a choice of webserver that you want to deploy to. You can set this to "NGINX, "APACHE" or "LIGHTTPD". What you set this to will determine which webserver gets installed and used. 
