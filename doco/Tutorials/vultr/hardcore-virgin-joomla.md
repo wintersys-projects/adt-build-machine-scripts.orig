@@ -176,11 +176,6 @@ This file looks like this (I have put a dashes before each line I wish to modify
 >     export SERVER_TIMEZONE_CITY="London"
 >     export USER="root"
 >     
->     #####Backup Setttings######
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     export GENERATE_STATIC="0"
->     
 >     #####Build Settings######
 >     export PRODUCTION="0"
 >     export DEVELOPMENT="1"
@@ -314,11 +309,6 @@ and using the values I recorded in my text file earlier, I modify the file as fo
 >     export SERVER_TIMEZONE_CONTINENT="Europe"
 >     export SERVER_TIMEZONE_CITY="London"
 >     export USER="root"
->     
->     #####Backup Setttings######
->     export SUPERSAFE_WEBROOT="1"
->     export SUPERSAFE_DB="1"
->     export GENERATE_STATIC="0"
 >     
 >     #####Build Settings######
 >     export PRODUCTION="0"
