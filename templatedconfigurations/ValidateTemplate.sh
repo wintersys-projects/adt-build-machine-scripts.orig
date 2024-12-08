@@ -52,6 +52,8 @@ ${log_command} "################################################################
 
 ${log_command} ""
 
+${log_command} "####################TEMPLATE VALIDATION REPORT BEGINNING####################"
+
 if ( [ "`/bin/grep "^BUILDOS " ${quick_specification} | /bin/grep -w "${BUILDOS}"`" = "" 2>/dev/null ] )
 then
 	${log_command} "Your value for the variable BUILDOS (${BUILDOS}) doesn't appear to be valid please review"
@@ -283,7 +285,7 @@ then
   if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep "^s-"`" = "" ] )
   then
     status "It look like you are performing a snapshot style build but your BUILD_IDENTIFIER is set to ${BUILD_IDENTIFIER}"
-    status "I snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so I will add the prefix for you"
+    status "A snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so I will add the prefix for you"
     status "This means that your new BUILD_IDENTIFIER is 's-${BUILD_IDENTIFIER}'"
     export BUILD_IDENTIFIER="s-${BUILD_IDENTIFIER}"
   fi
@@ -291,7 +293,7 @@ then
   then
     status "It looks like you are trying to generate snapshots when you are building from snapshots, this is not possible"
   else
-  	status "This build will be a snapshot style build (not a regular build style"
+  	status "This build will be a snapshot style built off previously generated snapshot images (not a regular build style)"
   fi
 else
 	if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
@@ -486,6 +488,8 @@ if ( ( [ "${CLOUDHOST}" = "linode" ] || [ "${CLOUDHOST}" = "exoscale" ] ) && [ "
 then
 	${log_command} "It looks like CLOUDHOST_ACCOUNT_ID is blank this should definitely not be the case for ${CLOUDHOST}"
 fi
+
+${log_command} "####################TEMPLATE VALIDATION REPORT ENDING####################"
 
 ${log_command} "Press <enter> when you have reviewed and accepted any messages that have appeared above (if there are none then you are all set already and just press enter)"
 
