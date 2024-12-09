@@ -88,7 +88,7 @@ then
 		status "Did not find candidate sourcecode in your git repository"
 	fi
 
-	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${backuparchive}
+	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${backuparchive}
 	archivename="`/bin/echo ${backuparchive} | /usr/bin/awk -F'/' '{print $NF}'`"
 	archive="${interrogation_home}/${archivename}"
 
@@ -165,7 +165,7 @@ fi
 if ( [ "${backuparchive}" = "" ] && [ "${interrogated}" = "0" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
 
-	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/applicationsourcecode.tar.gz
+	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/applicationsourcecode.tar.gz
 
 	if ( [ ! -f applicationsourcecode.tar.gz ] )
 	then
@@ -186,7 +186,7 @@ then
 	fi
 elif ( [ "${interrogated}" = "0" ] )
 then
-	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${backuparchive}
+	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${backuparchive}
 	archivename="`/bin/echo ${backuparchive} | /usr/bin/awk -F'/' '{print $NF}'`"
 	archive="${interrogation_home}/${archivename}"
 
