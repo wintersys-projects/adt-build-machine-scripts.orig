@@ -57,6 +57,6 @@ do
 	if ( [ "${response}" = "y" ] || [ "${response}" = "Y" ] )
 	then
 		${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${bucket}"
-		${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh ${DATASTORE_PROVIDER} "${bucket}"
+		${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh "${bucket}"
 	fi
 done
