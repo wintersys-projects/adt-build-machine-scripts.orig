@@ -65,7 +65,7 @@ else
 	IDENTIFIER="`/bin/ls /root/FIREWALL-BUCKET:* | /usr/bin/awk -F':' '{print $NF}'  2>/dev/null`"
 fi
 
-${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_CHOICE} "${IDENTIFIER}" "${BUILD_HOME}"
+${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh "${IDENTIFIER}"
 
 if ( [ "`/usr/bin/crontab -l | /bin/grep Tighten | /bin/grep ${IDENTIFIER}`" = "" ] )
 then
@@ -122,7 +122,7 @@ then
 		   
 		   if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER} ${BUILD_HOME}`" = "" ] )
 		   then
-			   ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER} ${BUILD_HOME}
+			   ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${IDENTIFIER}
 		   fi
 		   ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${DATASTORE_CHOICE} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}
 		fi
