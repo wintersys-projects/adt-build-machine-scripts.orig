@@ -124,7 +124,7 @@ then
 		   then
 			   ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${IDENTIFIER}
 		   fi
-		   ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}
+		   ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${IDENTIFIER}/authorised-ips.dat
 		fi
    fi
 
