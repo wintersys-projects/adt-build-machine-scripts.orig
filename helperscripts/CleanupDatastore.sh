@@ -47,7 +47,7 @@ else
 	exit
 fi
 
-buckets="`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${DATASTORE_PROVIDER} "" | /usr/bin/awk '{print $NF}' | /bin/sed 's,s3://,,'`"
+buckets="`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh "" | /usr/bin/awk '{print $NF}' | /bin/sed 's,s3://,,'`"
 
 for bucket in ${buckets}
 do
