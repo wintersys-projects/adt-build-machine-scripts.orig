@@ -69,14 +69,14 @@ TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /us
 
 configbucket="`/bin/echo "${website_url}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
-if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${CLOUDHOST} ${configbucket}`" = "" ] )
+if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${configbucket}`" = "" ] )
 then
 	/bin/echo "Can't find the configuration bucket in your datastore for website: ${website_url}"
 	/bin/echo "I have to exit, run the script again using a URL with an existing configuration bucket"
 	exit
 fi
 
-if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${CLOUDHOST} ${configbucket}/SWITCHOFFSCALING`" != "" ] )
+if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${configbucket}/SWITCHOFFSCALING`" != "" ] )
 then
 	/bin/echo "Sorry, scaling is switched off at the moment. You can't switch it on using this script"
 	exit
