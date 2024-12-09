@@ -20,9 +20,7 @@
 ######################################################################################
 #set -x
 
-datastore_provider="$1"
-file_to_delete="$2"
-BUILD_HOME="$3"
+file_to_delete="$1"
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then 
