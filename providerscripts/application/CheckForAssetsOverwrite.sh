@@ -38,7 +38,7 @@ then
 	for assettype in `/bin/echo ${DIRECTORIES_TO_MOUNT} | /bin/sed 's/:/ /'`
 	do
  		assetbucket="`/bin/echo "${WEBSITE_URL}" | /bin/sed 's/\./-/g'`-${assettype}"
-		if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh "${DATASTORE_CHOICE}" "${assets_bucket}" | /usr/bin/wc -l`" -gt "0" ] )
+		if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh "${assets_bucket}" | /usr/bin/wc -l`" -gt "0" ] )
 		then
 			status "###################################################################################################################"
 			status "=CRITICAL WARNING    CRITICAL WARNING   CRITICAL WARNING   CRITICAL WARNING   CRITICAL WARNING   CRITICAL WARNING="
