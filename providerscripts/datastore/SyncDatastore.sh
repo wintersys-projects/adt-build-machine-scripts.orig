@@ -20,11 +20,10 @@
 #######################################################################################
 #set -x
 
-BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+original_object="$1"
+new_object="$2"
 
-datastore_provider="$1"
-original_object="$2"
-new_object="$3"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
