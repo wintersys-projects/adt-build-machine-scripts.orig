@@ -105,7 +105,7 @@ fi
 
 website_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
 
-for bucket in `${HOME}/providerscripts/datastore/ListFromDatastore.sh | /bin/grep "${website_bucket}-config" | /usr/bin/awk '{print  $NF}' | /bin/sed 's,s3://,,'`
+for bucket in `${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh | /bin/grep "${website_bucket}-config" | /usr/bin/awk '{print  $NF}' | /bin/sed 's,s3://,,'`
 do
         ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${bucket}
         ${HOME}/providerscripts/datastore/DeleteDatastore.sh ${bucket}
