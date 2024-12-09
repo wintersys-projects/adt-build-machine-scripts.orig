@@ -20,16 +20,10 @@
 ######################################################################################
 #set -x
 
-datastore_provider="$1"
-file_to_put="$2"
-datastore_to_put_in="$3"
+file_to_put="$1"
+datastore_to_put_in="$2"
 
-BUILD_HOME="$4"
-
-if ( [ "${BUILD_HOME}" = "" ] )
-then 
-        BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-fi
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
