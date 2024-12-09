@@ -82,7 +82,7 @@ ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_PROVIDER
 if ( [ ! -f ${BUILD_HOME}/runtimedata/${DATASTORE_PROVIDER}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ] )
 then
         /bin/echo "Couldn't find existing authorised ip addresses"
-        ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${DATASTORE_PROVIDER} ${IDENTIFIER}
+        ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${IDENTIFIER}
 fi
 
 if ( [ "${mode}" = "1" ] )
