@@ -21,7 +21,7 @@
 #####################################################################################
 #set -x
 
-dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
+dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
 
 /bin/sed -i "/DB_HOST/c\ define('DB_HOST', \"${database_identifier}:${DB_PORT}\");" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/wp-config-sample.php
 /bin/sed -i "/DB_USER/c\ define('DB_USER', \"${database_username}\");" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/wp-config-sample.php
