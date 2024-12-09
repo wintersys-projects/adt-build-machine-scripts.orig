@@ -20,9 +20,7 @@
 #######################################################################################
 #set -x
 
-datastore_provider="$1"
-file_to_list="$2"
-BUILD_HOME="$3"
+file_to_list="$1"
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then 
