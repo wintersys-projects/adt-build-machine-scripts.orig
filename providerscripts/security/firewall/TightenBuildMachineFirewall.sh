@@ -89,7 +89,7 @@ then
 
 	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT`" != "" ] )
 	then
-		${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}
+		${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT 
 	fi
 	
 	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/authorised-ips.dat`" != "" ] )
