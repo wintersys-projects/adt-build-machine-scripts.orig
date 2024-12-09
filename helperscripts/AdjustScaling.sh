@@ -92,10 +92,10 @@ fi
 
 if ( [ "${2}" = "on" ] )
 then
-	${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${CLOUDHOST} ${configbucket}/SWITCHOFFSCALING
+	${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${configbucket}/SWITCHOFFSCALING
 fi
 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
 if ( [ ! -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf ] )
 then
@@ -136,7 +136,7 @@ fi
 /bin/sed -i "s/NO_WEBSERVER.*/NO_WEBSERVERS=${no_webservers}/" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
 ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf ${configbucket}/scalingprofile/profile.cnf 
-${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${CLOUDHOST} ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
+${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${configbucket}/scalingprofile/profile.cnf ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf
 
 new_no_webservers="`/bin/grep "NO_WEBSERVERS" ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/profile.cnf | /usr/bin/awk -F'=' '{print $NF}'`"
 
