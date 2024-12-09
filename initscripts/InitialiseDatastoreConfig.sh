@@ -94,7 +94,7 @@ fi
 
 
 ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh "1$$agile" 3>&1 2>/dev/null
-${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh "${WEBSITE_URL}" "1$$agile" 3>&1 2>/dev/null
+${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh "1$$agile" 3>&1 2>/dev/null
 
 if ( [ "$?" != "0" ] )
 then
