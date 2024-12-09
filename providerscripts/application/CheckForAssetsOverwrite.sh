@@ -85,7 +85,7 @@ then
 			
 				${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh ${assets_bucket}-backup-$$
 				${BUILD_HOME}/providerscripts/datastore/SyncDatastore.sh ${DATASTORE_CHOICE} ${assets_bucket} ${assets_bucket}-backup-$$
-				${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${DATASTORE_CHOICE} ${assets_bucket}
+				${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${assets_bucket}
 			
 				status "OK, thanks for waiting. You can find your previously deployed assets in s3://${assets_bucket}-backup-$$ in your ${DATASTORE_CHOICE} datastore."
 				status " please press <enter> to continue"
