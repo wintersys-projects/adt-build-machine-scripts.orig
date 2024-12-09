@@ -20,14 +20,13 @@
 ######################################################################################
 #set -x
 
-datastore_provider="$1"
-datastore_to_get="`/bin/echo $2 | /usr/bin/cut -c-63`"
-
+datastore_to_get="`/bin/echo $1 | /usr/bin/cut -c-63`"
 BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
         datastore_tool="/usr/bin/s3cmd --force --recursive get"
+        destination="."
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
@@ -35,9 +34,4 @@ then
         destination="."
 fi
 
-if ( [ "${3}" != "" ] )
-then
-        ${datastore_tool} s3://${datastore_to_get} ${3}
-else
-        ${datastore_tool} s3://${datastore_to_get} ${destination}
-fi
+${datastore_tool} s3://${datastore_to_get} ${destination}
