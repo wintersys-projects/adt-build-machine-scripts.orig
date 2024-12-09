@@ -21,7 +21,7 @@
 #####################################################################################
 #set -x
  
-dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
+dbprefix="`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} DBPREFIX:* | /usr/bin/awk -F':' '{print $NF}'`"
  
 #Set session handler to be database. May (will) get issues if trying to use filesystem
 /bin/sed -i '/\/\/.*\\core\\session\\database/s/^\/\///' ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/config.php 
