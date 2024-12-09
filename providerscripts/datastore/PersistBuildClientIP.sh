@@ -34,6 +34,6 @@ then
 fi
 
 ${BUILD_HOME}/providerscripts/datastore/MountDatastore.sh "adt-${BUILD_IDENTIFIER}"
-${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh adt-${BUILD_IDENTIFIER}/* 
+${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh "adt-${BUILD_IDENTIFIER}/*" 
 /bin/touch /tmp/${BUILD_CLIENT_IP}
 ${datastore_tool} /tmp/${BUILD_CLIENT_IP} s3://adt-${BUILD_IDENTIFIER}
