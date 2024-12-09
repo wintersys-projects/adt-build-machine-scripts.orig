@@ -78,7 +78,7 @@ then
 	/bin/echo "45 4 * * * /usr/bin/apt -y -qq update && /usr/bin/apt -y -qq upgrade && /usr/sbin/shutdown -r now" >> /var/spool/cron/crontabs/root
 fi
 
-if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}`" != "" ] )
+if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT`" != "" ] )
 then
 	${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME} 
 fi
@@ -87,12 +87,12 @@ if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/FIREWALL-EV
 then
 	/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/*FIREWALL*  2>/dev/null
 
-	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}`" != "" ] )
+	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/FIREWALL-EVENT`" != "" ] )
 	then
 		${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/FIREWALL-EVENT ${BUILD_HOME}
 	fi
 	
-	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}`" != "" ] )
+	if ( [ "`${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh ${IDENTIFIER}/authorised-ips.dat`" != "" ] )
 	then
 		 ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${DATASTORE_CHOICE} ${IDENTIFIER}/authorised-ips.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/ips/authorised-ips.dat ${BUILD_HOME} 
 	fi
