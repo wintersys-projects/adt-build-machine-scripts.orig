@@ -20,10 +20,9 @@
 #########################################################################################
 #set -x
 
-BUILD_HOME="`/bin/cat /home/buildhome.dat`"
+datastore_to_delete="$1"
 
-datastore_provider="$1"
-datastore_to_delete="$2"
+BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "s3cmd" ] )
 then
