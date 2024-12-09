@@ -11,7 +11,7 @@ BUILD_HOME="`/bin/cat /home/buildhome.dat`"
 #${BUILD_HOME}/helperscripts/DisplayLoggingStreams.sh vultr crew ${1} ${2} 
 
 ${BUILD_HOME}/helperscripts/DisplayLoggingStreams.sh linode crew ${1} ${2} 
-#${BUILD_HOME}/helperscripts/DisplayLoggingStreams.sh digitalocean ${1} ${2}
+#${BUILD_HOME}/helperscripts/DisplayLoggingStreams.sh digitalocean crew2 ${1} ${2}
 
 #Defaults to interactive
 if ( [ "$?" != "0" ] )
