@@ -4,11 +4,7 @@
 # There are several scenarios. The 1st is that it is a virgin install of an Application
 # in which case we can discern elsewhere which Application it is. The second is if we
 # are deploying sourcecode from a repository such as bitbucket or github. The 3rd is
-# if we are deploying from a datastore such as Amazon S3 or Google Cloud.  The way things
-# work, the repositories are the primary backup mechanism, but backups are also made to
-# a datastore. In the case when a repository pull fails, the system falls back to the
-# datastore and checks for a copy there. This script is written to deal with all of
-# those scenarios.
+# if we are deploying from a datastore such as Amazon S3 or Google Cloud. 
 # Date: 07-11/2016
 # Author: Peter Winter
 ####################################################################################
