@@ -83,7 +83,7 @@ export USER="`/usr/bin/whoami`"
 
 export BUILD_CLIENT_IP="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 
-if ( [ "${HARDCORE}" != "1" ] )
+if ( [ "${HARDCORE}" != "1" ] || [ "${PARAMETERS}" = "1" ] )
 then
     . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
 fi
