@@ -49,6 +49,7 @@ then
     		exit
     	fi
  	/bin/cp ${interrogation_home}/tmp/backup/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
+  	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/dbp.dat
  #################JOOMLA################
 	#################WORDPRESS################
 elif ( [ -f ${interrogation_home}/tmp/backup/wp-login.php ] && [ -d ${interrogation_home}/tmp/backup/wp-content ] && [ -f ${interrogation_home}/tmp/backup/wp-cron.php ] && [ -d ${interrogation_home}/tmp/backup/wp-admin ] && [ -d ${interrogation_home}/tmp/backup/wp-includes ] && [ -f ${interrogation_home}/tmp/backup/wp-settings.php ] )
