@@ -26,7 +26,7 @@
 #####################################################################################
 #set -x
      
-. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/GetApplicationDefaultConfig.sh
+#. ${BUILD_HOME}/providerscripts/application/${APPLICATION}/GetApplicationDefaultConfig.sh
 
 if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/DBaaS_HOSTNAME ] )
 then
