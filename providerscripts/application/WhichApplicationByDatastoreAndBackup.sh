@@ -46,6 +46,7 @@ then
 	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
  	then
   		status "Error, cannot find db prefix file"
+    		exit
     	fi
  	/bin/cp ${interrogation_home}/tmp/backup/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
  #################JOOMLA################
