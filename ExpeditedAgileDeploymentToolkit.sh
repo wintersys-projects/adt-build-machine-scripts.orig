@@ -31,8 +31,8 @@
 
 if ( [ ! -f ./ExpeditedAgileDeploymentToolkit.sh ] )
 then
-	 /bin/echo "You can only run this script from its own directory"
-	 exit
+         /bin/echo "You can only run this script from its own directory"
+         exit
 fi
 
 if ( [ "${1}" != "" ] && [ "${2}" != "" ] && [ "${3}" != "" ] && [ "${4}" != "" ] )
@@ -66,17 +66,18 @@ export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
 
 if ( [ "${HARDCORE}" != "1" ] )
 then
-	HARDCORE="0"
+        HARDCORE="0"
 fi
 
 status () {
-	/bin/echo "$1" | /usr/bin/tee /dev/fd/3 2>/dev/null
+        /bin/echo "$1" | /usr/bin/tee /dev/fd/3 2>/dev/null
 }
+
 
 if ( [ "${BUILD_HOME}" = "" ] )
 then
-	export BUILD_HOME="`/bin/pwd`"
- 	/bin/echo ${BUILD_HOME} > /home/buildhome.dat
+        export BUILD_HOME="`/bin/pwd`"
+        /bin/echo ${BUILD_HOME} > /home/buildhome.dat
 fi
 export USER="`/usr/bin/whoami`"
 /bin/chmod -R 700 ${BUILD_HOME}/.
@@ -85,7 +86,7 @@ export BUILD_CLIENT_IP="`${BUILD_HOME}/helperscripts/GetBuildClientIP.sh`"
 
 if ( [ "${HARDCORE}" != "1" ] || [ "${PARAMETERS}" = "1" ] )
 then
-    . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
+    . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh 
 fi
 
 status "##################################################################################################################################"
@@ -98,7 +99,7 @@ status "########################################################################
 status "PRESS ENTER KEY TO CONTINUE"
 if ( [ "${HARDCORE}" != "1" ] )
 then
-	read x
+        read x
 fi
 
 export BUILDOS="`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}' | /usr/bin/tr '[:upper:]' '[:lower:]' | /bin/egrep '(ubuntu|debian)'`"
@@ -108,9 +109,9 @@ export BUILDOS="`/bin/grep ^ID /etc/*-release | /usr/bin/awk -F'=' '{print $NF}'
 
 if ( [ "${HARDCORE}" != "1" ] )
 then
-	. ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
+        . ${BUILD_HOME}/selectionscripts/SelectCloudhost.sh
 else
-	${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS}
+        ${BUILD_HOME}/installscripts/InstallCloudhostTools.sh ${CLOUDHOST} ${BUILDOS}
 fi
 
 . ${BUILD_HOME}/helperscripts/SetupEth1.sh
@@ -123,7 +124,7 @@ status ""
 
 if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
 then
-	. ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
+        . ${BUILD_HOME}/initscripts/InitialiseDirectoryStructure.sh
 fi
 
 /bin/echo "${CLOUDHOST}" > ${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST
@@ -132,6 +133,8 @@ if ( [ "${HARDCORE}" != "1" ] )
 then
     . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
 fi
+
+
 
 . ${BUILD_HOME}/templatedconfigurations/ConfigureTemplate.sh
 . ${BUILD_HOME}/initscripts/InitialiseCloudhostConfig.sh
@@ -143,31 +146,30 @@ fi
 
 if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 then
-	status "Checking for your build machine VPC network"
+        status "Checking for your build machine VPC network"
         if ( [ "`${BUILD_HOME}/providerscripts/server/CheckBuildMachineVPC.sh ${CLOUDHOST} ${BUILD_CLIENT_IP}`" = "" ] )
         then
                 status "It looks like the build machine (${server_name}) is not attached to a VPC when BUILD_MACHINE_VPC=1"
                 status "Will have to exit (change BUILD_MACHINE_VPC if necessary in your template)"
-		exit
-  	else
-		status "Have successfully varified the presence of a usable VPC network on your build machine"
+                exit
+        else
+                status "Have successfully varified the presence of a usable VPC network on your build machine"
         fi
 fi
 
-
 if ( [ "${HARDCORE}" = "0" ] || [ "${PARAMETERS}" = "1" ] )
 then
-	#For anything other than a virgin build, we won't know what application type we are, so interrogate to find out
-	if ( [ "${BUILD_CHOICE}" -ne "0"  ] )
-	then
-		status ""
-		status ""
-		status "#############################################################"
-		status "Interrogating to see what Application you are running, if any"
-		status "#############################################################"
-		. ${BUILD_HOME}/providerscripts/application/InterrogateApplicationType.sh
-		. ${BUILD_HOME}/providerscripts/application/CheckForAssetsOverwrite.sh
-	fi
+        #For anything other than a virgin build, we won't know what application type we are, so interrogate to find out
+        if ( [ "${BUILD_CHOICE}" -ne "0"  ] )
+        then
+                status ""
+                status ""
+                status "#############################################################"
+                status "Interrogating to see what Application you are running, if any"
+                status "#############################################################"
+                . ${BUILD_HOME}/providerscripts/application/InterrogateApplicationType.sh
+                . ${BUILD_HOME}/providerscripts/application/CheckForAssetsOverwrite.sh
+        fi
 fi
 
 export PRE_BUILD="1"
@@ -175,7 +177,7 @@ export PRE_BUILD="1"
 
 if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
 then
-	. ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
+        . ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
 fi
 
 PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
@@ -186,13 +188,13 @@ PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFI
 
 if ( [ "${BUILD_MACHINE_VPC}" = "1" ] )
 then
-	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
-	/bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE
+        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
+        /bin/touch ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE
 else
-	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
-	then
-		/bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE
-	fi
+        if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE ] )
+        then
+                /bin/rm ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/VPC-ACTIVE
+        fi
 fi
 
 #Set a timestamp so we can tell how long the build took. It various considerably by cloudhost provider.
@@ -229,17 +231,17 @@ status ""
 #This option will perform a standard build process (autoscaler, webserver, database)
 if ( [ "`/bin/grep "^BUILDCHAINTYPE:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "standard" ] )
 then
-	. ${BUILD_HOME}/buildscripts/PerformStandardBuildChain.sh
+        . ${BUILD_HOME}/buildscripts/PerformStandardBuildChain.sh
 fi
 #This option will only build a webserver (which you might want if you are building a static site)
 if ( [ "`/bin/grep "^BUILDCHAINTYPE:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "webserver" ] )
 then
-	. ${BUILD_HOME}/buildscripts/BuildWebserver.sh
+        . ${BUILD_HOME}/buildscripts/BuildWebserver.sh
 fi
 #This option will only build a database if you want an easily deployed and secured database to use)
 if ( [ "`/bin/grep "^BUILDCHAINTYPE:*" ${BUILD_HOME}/builddescriptors/buildstylesscp.dat | /usr/bin/awk -F':' '{print $NF}'`" = "database" ] )
 then
-	. ${BUILD_HOME}/buildscripts/BuildDatabase.sh
+        . ${BUILD_HOME}/buildscripts/BuildDatabase.sh
 fi
 
 . ${BUILD_HOME}/providerscripts/security/firewall/TightenDBaaSFirewall.sh
@@ -259,45 +261,45 @@ then
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-	
-	status "###########################################################################################"
-	status "You have asked for snapshots to be generated"
- 	status "Generating your snapshots in the background, your machines may be offline until this completes"
-  	pids=""
 
- 	status "Generating a snapshot in the background for your autoscaler"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "as-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
-  	pids="${pids} $!"
+        status "###########################################################################################"
+        status "You have asked for snapshots to be generated"
+        status "Generating your snapshots in the background, your machines may be offline until this completes"
+        pids=""
 
-  	status "Generating a snapshot in the background for your webserver"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
-	pids="${pids} $!"	
+        status "Generating a snapshot in the background for your autoscaler"
+        ${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "as-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
+        pids="${pids} $!"
 
-   	status "Generating a snapshot in the background for your database"
-	${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
-	pids="${pids} $!"
+        status "Generating a snapshot in the background for your webserver"
+        ${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "ws-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
+        pids="${pids} $!"
+
+        status "Generating a snapshot in the background for your database"
+        ${BUILD_HOME}/providerscripts/server/GenerateSnapshot.sh ${CLOUDHOST} "db-${REGION}-${BUILD_IDENTIFIER}-" ${DEFAULT_USER} &
+        pids="${pids} $!"
   
-	for pid in ${pids}
-	do
-        	wait ${pid}
-	done
- 	snapshot_build_identifier="s-${BUILD_IDENTIFIER}"
-  	if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
-   	then
- 		/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
-   	else
-    		/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
-      		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
-	fi
-  	/bin/cp -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
-	/usr/bin/find ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} -maxdepth 1 -type f ! -name '*.dat' -delete
- 	if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ] )
-  	then
-   		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}.pub
-    		/bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}
-      	fi
+        for pid in ${pids}
+        do
+                wait ${pid}
+        done
+        snapshot_build_identifier="s-${BUILD_IDENTIFIER}"
+        if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
+        then
+                /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
+        else
+                /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
+                /bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}-backup.$$
+        fi
+        /bin/cp -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/* ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}
+        /usr/bin/find ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} -maxdepth 1 -type f ! -name '*.dat' -delete
+        if ( [ -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_rsa_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ] )
+        then
+                /bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER}.pub ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}.pub
+                /bin/mv ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier}/keys/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${snapshot_build_identifier}
+        fi
        
-       	. ${BUILD_HOME}/providerscripts/server/MonitorForSnapshotGenerated.sh
+        . ${BUILD_HOME}/providerscripts/server/MonitorForSnapshotGenerated.sh
 
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
@@ -325,6 +327,6 @@ status "This script completed at `/bin/date` and took `/bin/date -u -d @${runtim
 #Might be needed for the updates we applied at the start. The user can ssh onto the machie again and tail the logs to see what happened. 
 if ( [ -f /root/PERFORM_REBOOT ] )
 then
-	/bin/rm /root/PERFORM_REBOOT
-	/usr/sbin/shutdown -r now
+        /bin/rm /root/PERFORM_REBOOT
+        /usr/sbin/shutdown -r now
 fi
