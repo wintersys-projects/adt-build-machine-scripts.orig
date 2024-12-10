@@ -34,26 +34,32 @@ status () {
 
 website_subdomain="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
 
+
+
+periodicity=""
+
 if ( [ "${BUILD_CHOICE}" = "2" ] )
 then
-        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-hourly-${BUILD_IDENTIFIER}"
-        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-hourly/applicationsourcecode.tar.gz"
+        periodicity="hourly"
 elif ( [ "${BUILD_CHOICE}" = "3" ] )
 then
-        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-daily-${BUILD_IDENTIFIER}"
-        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-daily/applicationsourcecode.tar.gz"
+        periodicity="daily"
 elif ( [ "${BUILD_CHOICE}" = "4" ] )
 then
-        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-weekly-${BUILD_IDENTIFIER}"
-        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-weekly/applicationsourcecode.tar.gz"
+        periodicity="weekly"
 elif ( [ "${BUILD_CHOICE}" = "5" ] )
 then
-        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-monthly-${BUILD_IDENTIFIER}"
-        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-monthly/applicationsourcecode.tar.gz"
+        periodicity="monthly"
 elif ( [ "${BUILD_CHOICE}" = "6" ] )
 then
-        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-bimonthly-${BUILD_IDENTIFIER}"
-        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-bimonthly/applicationsourcecode.tar.gz"
+        periodicity="bimonthly"
+fi
+if ( [ "${periodicity}" != "" ] )
+then
+        backuprepository="${website_subdomain}-${WEBSITE_NAME}-webroot-sourcecode-${periodicity}-${BUILD_IDENTIFIER}"
+        backuparchive="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${periodicity}/applicationsourcecode.tar.gz"
+else
+        status "Your build kit doesn't seem to have a valid periodicity set"
 fi
 
 interrogation_home="${BUILD_HOME}/interrogation"
@@ -72,47 +78,9 @@ cd ${interrogation_home}
 
 interrogated="0"
 
-if ( [ "${BUILD_ARCHIVE_CHOICE}" != "baseline" ] && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
-then
-        foundcandidate="0"
-        gitrepo="0"
-        datastorebucket="0"
-        ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${backuparchive}
-        archivename="`/bin/echo ${backuparchive} | /usr/bin/awk -F'/' '{print $NF}'`"
-        archive="${interrogation_home}/${archivename}"
-
-        if ( [  -f ${archive} ] )
-        then
-                status "Found candidate sourcecode from a backup in your datastore"
-                status ""
-                /bin/rm ${archive}
-                foundcandidate="1"
-                datastorebucket="1"
-        else
-                status "Did not find candidate sourcecode in your datastore"
-        fi
-
-        status ""
-        status "############################"
-        status "Conclusion of interrogation"
-        status "###########################"
-
-        if ( [ "${foundcandidate}" = "1" ] && [ "${datastorebucket}" = "1" ] )
-        then
-                 status "I have found potentially usable candidate sourcecode in your datastore. The build can proceed"
-        else
-                 status "I HAVE NOT FOUND CANDIDATE SOURCECODE IN EITHER YOUR GIT REPO OR YOUR DATASTORE...THE BUILD CANNOT PROCEED"
-                 exit
-        fi
-        status "Press <enter>"
-        if ( [ "${HARDCORE}" != "1" ] )
-        then
-                read x
-        fi
-fi
-
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
+        gitrepo="0"
         if ( [ "`${BUILD_HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} 2>/dev/null`" = "" ] )
         then
                 status "Sorry, could not find the baseline repository for you application when I was expecting to, will have to exit..."
@@ -123,41 +91,65 @@ then
                 fi
                 exit
         else
-                 status "I have found potentially usable candidate sourcecode in your git repo. The build can proceed"
-                ${BUILD_HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
-                . ${BUILD_HOME}/providerscripts/application/WhichApplicationByGitAndBaseline.sh
-                /bin/rm -rf ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} 1>/dev/null 2>/dev/null
-                interrogated="1"
+                status "I have found potentially usable baseline sourcecode in your git repo. The build can proceed"
         fi
 fi
 
-if ( [ "${interrogated}" = "0" ] )
+
+if ( [ "${BUILD_ARCHIVE_CHOICE}" != "baseline" ] && [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 then
+        datastorebucket="0"
         ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${backuparchive}
         archivename="`/bin/echo ${backuparchive} | /usr/bin/awk -F'/' '{print $NF}'`"
         archive="${interrogation_home}/${archivename}"
 
-        if ( [ ! -f ${archive} ] )
+        if ( [  -f ${archive} ] )
         then
-                status "Oh dear, I couldn't find the backup of your sourcecode in your datastore either, will have to exit."
-                status "Please check that you are setup to use the same datastore provider that you expected the sourcecode to be in"
-                status "Your current datastore provider is ${DATASTORE_CHOICE} and the bucket you expect to be there is called ${backuparchive}"
-                exit
+                status "Found candidate sourcecode from a backup in your datastore"
+                status ""
+                /bin/rm ${archive}
+                datastorebucket="1"
         else
-                /bin/tar xvfz ${archive} -C ${interrogation_home}
-                . ${BUILD_HOME}/providerscripts/application/WhichApplicationByDatastoreAndBackup.sh
-                interrogated="1"
+                status "Did not find candidate sourcecode in your datastore"
         fi
 fi
 
-if ( [ -d ${interrogation_home}/tmp ] )
+if ( [ "${gitrepo}" = "1" ] || [ "${datastorebucket}" = "1" ] )
 then
-        /bin/rm -rf ${interrogation_home}/tmp 1>/dev/null 2>/dev/null
+        status ""
+        status "############################"
+        status "Conclusion of interrogation"
+        status "###########################"
+
+        status "I have found potentially usable candidate sourcecode in your datastore. The build can proceed"
+else
+        status "I HAVE NOT FOUND CANDIDATE SOURCECODE IN EITHER YOUR GIT REPO OR YOUR DATASTORE...THE BUILD CANNOT PROCEED"
 fi
 
-if ( [ -f ${interrogation_home}/applicationsourcecode.tar.gz ] )
+status "Press <enter>"
+if ( [ "${HARDCORE}" != "1" ] )
 then
+        read x
+fi
+
+if ( [ "${gitrep}" = "1" ] )
+then
+        ${BUILD_HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
+        . ${BUILD_HOME}/providerscripts/application/WhichApplicationByGitAndBaseline.sh
+        /bin/rm -rf ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} 1>/dev/null 2>/dev/null
+fi
+
+if ( [ "${datastorebucket}" = "1" ] )
+then
+        ${BUILD_HOME}/providerscripts/datastore/GetFromDatastore.sh ${backuparchive}
+        archivename="`/bin/echo ${backuparchive} | /usr/bin/awk -F'/' '{print $NF}'`"
+        archive="${interrogation_home}/${archivename}"
+        /bin/tar xvfz ${archive} -C ${interrogation_home}
+        . ${BUILD_HOME}/providerscripts/application/WhichApplicationByDatastoreAndBackup.sh
+        /bin/rm -rf ${interrogation_home}/tmp 1>/dev/null 2>/dev/null
         /bin/rm ${interrogation_home}/applicationsourcecode.tar.gz 1>/dev/null 2>/dev/null
 fi
+
+/bin/rmdir ${interrogation_home}
 
 cd ${BUILD_HOME}
