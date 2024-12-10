@@ -64,6 +64,14 @@ then
 	then
 		read x
 	fi
+  	/bin/cp ${interrogation_home}/tmp/backup/wp-config-sample.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/wp-config-sample.php
+	
+ 	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
+ 	then
+  		status "Error, cannot find db prefix file"
+    	fi
+     
+ 	/bin/cp ${interrogation_home}/tmp/backup/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
 	#################WORDPRESS################
 	#################MOODLE################
 elif ( [ -f ${interrogation_home}/tmp/backup/moodle/index.php ] && [ -f ${interrogation_home}/tmp/backup/moodle/version.php ] && [ -d ${interrogation_home}/tmp/backup/moodle/userpix ] && [ -d ${interrogation_home}/tmp/backup/moodle/report ] && [ -d ${interrogation_home}/tmp/backup/moodle/enrol ] && [ -d ${interrogation_home}/tmp/backup/moodle/theme ] )
@@ -80,6 +88,14 @@ then
 	then
 		read x
 	fi
+   	/bin/cp ${interrogation_home}/tmp/backup/moodle_config.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/moodle_config.php
+	
+ 	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
+ 	then
+  		status "Error, cannot find db prefix file"
+    	fi
+     
+ 	/bin/cp ${interrogation_home}/tmp/backup/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
 	#################MOODLE################
 	#################DRUPAL################
 elif ( [ -f ${interrogation_home}/tmp/backup/core/misc/drupal.js ] && [ -d ${interrogation_home}/tmp/backup/themes ] && [ -d ${interrogation_home}/tmp/backup/vendor ] && [ -d ${interrogation_home}/tmp/backup/modules ] && [ -d ${interrogation_home}/tmp/backup/profiles ] )
@@ -96,6 +112,14 @@ then
 	then
 		read x
 	fi
+    	/bin/cp ${interrogation_home}/tmp/backup/drupal_settings.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/drupal_settings.php
+	
+ 	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
+ 	then
+  		status "Error, cannot find db prefix file"
+    	fi
+     
+ 	/bin/cp ${interrogation_home}/tmp/backup/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
 	#################DRUPAL################
 fi
 
