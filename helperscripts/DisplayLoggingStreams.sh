@@ -71,29 +71,31 @@ then
         read response1
 fi
 
+error_stream="`/bin/ls -ltr ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs | /bin/grep build_err | /usr/bin/tail -1 | /usr/bin/awk '{print $NF}'`"
+output_stream="`/bin/ls -ltr ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs | /bin/grep build_out | /usr/bin/tail -1 | /usr/bin/awk '{print $NF}'`"
 if ( [ "${response1}" = "1" ] )
 then
   if ( [ "${response}" = "t" ] )
   then
-    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
+    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${output_stream}
   elif ( [ "${response}" = "c" ] )
   then
-      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
+      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${output_stream}
   elif ( [ "${response}" = "v" ] )
   then
-      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*out*
+      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${output_stream}
   fi
 elif ( [ "${response1}" = "2" ] )
 then
   if ( [ "${response}" = "t" ] )
   then
-    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
+    /bin/tail -f ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${error_stream}
   elif ( [ "${response}" = "c" ] )
   then
-      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
+      /bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${error_stream}
   elif ( [ "${response}" = "v" ] )
   then
-      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/*err*
+      /usr/bin/vi ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${error_stream}
   fi
 fi
 
