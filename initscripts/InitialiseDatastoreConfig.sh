@@ -104,18 +104,15 @@ then
 fi
 
 website_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
-SERVER_USER="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/SERVERUSER`"
-TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+identifier="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
-for bucket in `${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh | /bin/grep "${website_bucket}-config"  | /bin/grep -v "${TOKEN}" | /usr/bin/awk '{print  $NF}' | /bin/sed 's,s3://,,'`
+for bucket in `${BUILD_HOME}/providerscripts/datastore/ListFromDatastore.sh | /bin/grep "${website_bucket}-config"  | /bin/grep -v "${identifier}" | /usr/bin/awk '{print  $NF}' | /bin/sed 's,s3://,,'`
 do
         ${BUILD_HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${bucket}
         ${BUILD_HOME}/providerscripts/datastore/DeleteDatastore.sh ${bucket}
 done
 
-identifier="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "${WEBSITE_URL}"
-
 
 status "Creating a new configuration bucket for build (${BUILD_IDENTIFIER})"
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/MountConfigDatastore.sh "${WEBSITE_URL}"
