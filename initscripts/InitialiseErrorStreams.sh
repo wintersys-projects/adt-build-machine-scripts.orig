@@ -24,12 +24,14 @@ if ( [ "${BUILD_IDENTIFIER}" != "" ] )
 then
         if ( [ "${PARAMETERS}" = "1" ] )
         then
-                exec 3>&1
+                /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs
         fi
+        exec 3>&1
         out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
         exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
         err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
         exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
+        /bin/rm /root/INITIAL_ERROR_STREAM_SETUP
 
         if ( [ "${HARDCORE}" != "1" ] )
         then
