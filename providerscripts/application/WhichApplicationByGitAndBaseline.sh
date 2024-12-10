@@ -44,7 +44,14 @@ then
 		read x
 	fi
  	/bin/cp ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/configuration.php.default ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration.php.default
-	#################JOOMLA################
+	if ( [ ! -f ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/dbp.dat ] )
+ 	then
+  		status "Error, cannot find db prefix file"
+    		exit
+    	fi
+ 	/bin/cp ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/dbp.dat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}	
+ 
+ #################JOOMLA################
 	#################WORDPRESS################
 elif ( [ -f ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-login.php ] && [ -d ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-content ] && [ -f ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-cron.php ] && [ -d ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-admin ] && [ -d ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-includes ] && [ -f ${interrogation_home}/${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}/wp-settings.php ] )
 then
