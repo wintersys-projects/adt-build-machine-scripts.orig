@@ -83,7 +83,7 @@ then
                 OS_CHOICE="private/${snapshot_id}"
         fi
 
-        if ( [ "`/usr/local/bin/linode-cli --json vpcs list | /usr/bin/jq -r '.[] | select (.label == "'${label}'").id'`" = "" ] )
+        if ( [ "`/usr/local/bin/linode-cli --json vpcs list | /usr/bin/jq -r '.[] | select (.label == "adt-vpc").id'`" = "" ] )
         then
                 /usr/local/bin/linode-cli vpcs create --label adt-vpc --region ${REGION} --subnets.label adt-subnet --subnets.ipv4 ${VPC_IP_RANGE}
         fi
