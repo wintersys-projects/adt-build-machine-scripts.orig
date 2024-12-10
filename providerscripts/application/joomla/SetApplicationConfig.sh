@@ -88,3 +88,7 @@ fi
 
 ${BUILD_HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${WEBSITE_URL} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/configuration.php.default joomla_configuration.php
 
+if ( [ "`${BUILD_HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${WEBSITE_URL} joomla_configuration.php`" = "" ] )
+then
+ status "Didn't generate the joomla configuration file in the config datastore, this will cause trouble later"
+fi
