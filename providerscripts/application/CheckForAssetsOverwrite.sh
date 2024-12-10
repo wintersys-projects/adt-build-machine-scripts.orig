@@ -64,7 +64,7 @@ then
 			status "TYPE 'Y' or 'y' to make a safety backup or 'NO BACKUP' to not make one ('NO BACKUP') IS A DESTRUCTIVE CHOICE THAT CANNOT BE RECOVERED)"
 			status "If you don't understand what 'NO BACKUP' does, don't type it"
 			status "Enter your choice now:"
-			if ( [ "${HARDCORE}" != "1" ] )
+			if ( [ "${HARDCORE}" != "1" ] || [ "${PARAMETERS}" = "1" ]  )
 			then
 				read input
 			fi
@@ -73,7 +73,7 @@ then
 			do
 				status "That is not a valid input, please enter 'Y', 'y', or 'NO BACKUP'"
 				status "Make sure you understand what 'NO BACKUP' means if you don't understand, don't type 'NO BACKUP'"
-				if ( [ "${HARDCORE}" != "1" ] )
+				if ( [ "${HARDCORE}" != "1" ]  || [ "${PARAMETERS}" = "1" ] )
 				then
 					read input
 				fi
@@ -89,7 +89,7 @@ then
 			
 				status "OK, thanks for waiting. You can find your previously deployed assets in s3://${assets_bucket}-backup-$$ in your ${DATASTORE_CHOICE} datastore."
 				status " please press <enter> to continue"
-				if ( [ "${HARDCORE}" != "1" ] )
+				if ( [ "${HARDCORE}" != "1" ]  || [ "${PARAMETERS}" = "1" ] )
 				then
 					read x
 				fi
