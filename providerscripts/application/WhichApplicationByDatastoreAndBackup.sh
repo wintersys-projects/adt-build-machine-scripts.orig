@@ -88,7 +88,7 @@ then
 	then
 		read x
 	fi
-   	/bin/cp ${interrogation_home}/tmp/backup/moodle_config.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/moodle_config.php
+   	/bin/cp ${interrogation_home}/tmp/backup/config.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/config.php
 	
  	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
  	then
@@ -112,7 +112,7 @@ then
 	then
 		read x
 	fi
-    	/bin/cp ${interrogation_home}/tmp/backup/drupal_settings.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/drupal_settings.php
+    	/bin/cp ${interrogation_home}/tmp/backup/settings.php ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/settings.php
 	
  	if ( [ ! -f ${interrogation_home}/tmp/backup/dbp.dat ] )
  	then
