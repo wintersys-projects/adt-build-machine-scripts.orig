@@ -149,12 +149,12 @@ if ( [ "${DNS_CHOICE}" != "NONE" ] )
 then
 	if ( [ "${BUILD_ARCHIVE_CHOICE}" != "virgin" ] )
 	then
-		status "Application has completed its initialisation, just checking that it is also online.....endless waiting (more than 10 minutes) and something must be wrong"
-		serverinstalled="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/monitoring/CheckServerAlive.sh" 2>/dev/null`"
+		status "Application has completed its initialisation, just checking that it is also online.....endless waiting (more than a couple of minutes) and something must be wrong"
+		serverinstalled="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/monitoring/CheckServerAlive.sh"`"
 		while ( [ "`/bin/echo ${serverinstalled} | /bin/grep ALIVE`" = "" ] )
 		do
 			/bin/sleep 10
-			serverinstalled="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/monitoring/CheckServerAlive.sh" 2>/dev/null`"
+			serverinstalled="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /home/${SERVER_USER}/providerscripts/application/monitoring/CheckServerAlive.sh"`"
 		done
 	fi
 fi
