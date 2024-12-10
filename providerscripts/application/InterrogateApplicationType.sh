@@ -109,12 +109,6 @@ then
         fi
 fi
 
-status "Press <enter>"
-if ( [ "${HARDCORE}" != "1" ] )
-then
-        read x
-fi
-
 if ( [ "${gitrepo}" = "1" ] )
 then
         ${BUILD_HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
