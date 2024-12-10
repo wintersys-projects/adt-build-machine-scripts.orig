@@ -129,7 +129,7 @@ then
 	test ${PRODUCTION} -eq 1 && /usr/bin/scp -P ${SSH_PORT} ${OPTIONS_AS} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/INITIAL_BUILD_COMPLETED ${SERVER_USER}@${as_active_ip}:/home/${SERVER_USER}/runtime/INITIALBUILDCOMPLETED
 fi
 
-status "Testing to see if the build is completed. This may take several attempts. Endless waiting (more than 10 minutes) and something must be wrong"
+status "Testing to see if the build is completed. This may take several attempts. Endless waiting (more than a few minutes) and something must be wrong"
 
 buildcompleted="`/usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "/bin/ls /home/${SERVER_USER}/runtime/BUILDCOMPLETED" 2>/dev/null`"
 
