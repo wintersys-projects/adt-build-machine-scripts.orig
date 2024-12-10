@@ -137,6 +137,3 @@ fi
 
 cd ${BUILD_HOME}
 
-/bin/rmdir ${interrogation_home}
-
-cd ${BUILD_HOME}
