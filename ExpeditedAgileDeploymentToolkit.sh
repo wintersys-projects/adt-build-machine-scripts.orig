@@ -155,7 +155,7 @@ then
 fi
 
 
-if ( [ "${HARDCORE}" = "0" ] )
+if ( [ "${HARDCORE}" = "0" ] || [ "${PARAMETERS}" = "1" ] )
 then
 	#For anything other than a virgin build, we won't know what application type we are, so interrogate to find out
 	if ( [ "${BUILD_CHOICE}" -ne "0"  ] )
