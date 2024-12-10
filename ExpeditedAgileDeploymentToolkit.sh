@@ -35,6 +35,33 @@ then
 	 exit
 fi
 
+if ( [ "${1}" != "" ] && [ "${2}" != "" ] && [ "${3}" != "" ] && [ "${4}" != "" ] )
+then
+        HARDCORE="1"
+        PARAMETERS="1"
+        CLOUDHOST="$1"
+        BUILDOS="$2"
+        SELECTED_TEMPLATE="$3"
+        BUILD_IDENTIFIER="$4"
+        shift 4
+
+        if ( [ "`/bin/echo "digitalocean exoscale linode vultr" | /bin/grep ${CLOUDHOST}`" = "" ] )
+        then
+                /bin/echo "Unknown cloudhost passed as a parameter"
+                exit
+        fi
+        if ( [ "`/bin/echo "ubuntu debian" | /bin/grep ${BUILDOS}`" = "" ] )
+        then
+                /bin/echo "Unknown build os passed as a parameter"
+                exit
+        fi
+        if ( [ "`/bin/echo "1 2 3" | /bin/grep ${SELECTED_TEMPLATE}`" = "" ] )
+        then
+                /bin/echo "Unknown template passed as a parameter"
+                exit
+        fi
+fi
+
 export PUBLIC_KEY_NAME="AGILE_TOOLKIT_PUBLIC_KEY"
 
 if ( [ "${HARDCORE}" != "1" ] )
