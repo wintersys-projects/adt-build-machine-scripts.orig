@@ -57,7 +57,7 @@ then
                 status "Sorry, could not find the baseline repository for you application when I was expecting to, will have to exit..."
                 exit
         else
-                status "I have found potentially useable baseline sourcecode in your git repo. The build can proceed"
+                status "I have found potentially usable baseline sourcecode in your git repo. The build can proceed"
                 gitrepo="1"
         fi
 fi
@@ -99,7 +99,7 @@ then
 
         if ( [  -f ${archive} ] )
         then
-                status "I have found potentially useable backup sourcecode in your datastore. The build can proceed"
+                status "I have found potentially usable backup sourcecode in your datastore. The build can proceed"
                 status ""
                 /bin/rm ${archive}
                 datastorebucket="1"
