@@ -24,7 +24,10 @@ if ( [ "${BUILD_IDENTIFIER}" != "" ] )
 then
         if ( [ "${PARAMETERS}" = "1" ] )
         then
-                /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs
+                if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs ] )
+                then
+                        /bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs
+                fi
         fi
         exec 3>&1
         out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
