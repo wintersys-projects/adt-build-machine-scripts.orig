@@ -22,6 +22,10 @@
 
 if ( [ "${BUILD_IDENTIFIER}" != "" ] )
 then
+        if ( [ "${PARAMETERS}" = "1" ] )
+        then
+                exec 3>&1
+        fi
         out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
         exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
         err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
