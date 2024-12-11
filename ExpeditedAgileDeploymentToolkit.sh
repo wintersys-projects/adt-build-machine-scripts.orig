@@ -121,6 +121,8 @@ status ""
 status ""
 
 . ${BUILD_HOME}/selectionscripts/SelectBuildIdentifier.sh
+. ${BUILD_HOME}/templatedconfigurations/ConfigureTemplate.sh
+
 
 if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
 then
@@ -134,9 +136,6 @@ then
     . ${BUILD_HOME}/initscripts/InitialiseErrorStreams.sh
 fi
 
-
-
-. ${BUILD_HOME}/templatedconfigurations/ConfigureTemplate.sh
 . ${BUILD_HOME}/initscripts/InitialiseCloudhostConfig.sh
 . ${BUILD_HOME}/selectionscripts/SelectSMTPSettings.sh
 . ${BUILD_HOME}/initscripts/InitialiseServerUserCredentials.sh
