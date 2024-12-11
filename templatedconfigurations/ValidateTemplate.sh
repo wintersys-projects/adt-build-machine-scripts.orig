@@ -299,8 +299,9 @@ then
 	if ( [ -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
  	then
   		status "A snapshot configuration is available for this build identifier (${BUILD_IDENTIFIER})"
-    		status "This means you can't run a build for this exact build identifier (unless you delete/void the snapshot configuration ${snapshot_build_identifier}"
-      		exit
+    		status "This means you can't run a build for this exact build identifier (unless you delete/void the snapshot configuration ${snapshot_build_identifier})"
+      		status "The snapshot configuration is located at: ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} "
+		exit
 	fi
  fi
 
