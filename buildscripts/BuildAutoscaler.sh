@@ -301,7 +301,7 @@ do
                                 status "Starting to build the autoscaler proper"
                                 status "`/bin/date`"
 
-                                /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/as.sh ${SERVER_USER}"
+                                /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${as_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/as.sh"
 
                                 status "Finished building an autoscaler (${autoscaler_name})"
                                 status "`/bin/date`"
