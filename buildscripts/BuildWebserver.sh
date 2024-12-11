@@ -255,31 +255,31 @@ do
                                 if ( [ "${BUILD_CHOICE}" = "0" ] )
                                 then
                                         #We are building a virgin system
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'virgin' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "1" ] )
                                 then
                                         #We are building from a baseline
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'baseline' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "2" ] )
                                 then
                                         #We are building from an hourly backup
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'hourly' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "3" ] )
                                 then
                                         #We are building from an daily backup
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'daily' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "4" ] )
                                 then
                                         #We are building from an weekly backup
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'weekly' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "5" ] )
                                 then
                                         #We are building from an monthly backup
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'monthly' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 elif ( [ "${BUILD_CHOICE}" = "6" ] )
                                 then
                                         #We are building from an bimonthly backup
-                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh 'bimonthly' ${SERVER_USER}"
+                                        /usr/bin/ssh ${OPTIONS} ${SERVER_USER}@${ws_active_ip} "${CUSTOM_USER_SUDO} /bin/sh /home/${SERVER_USER}/ws.sh"
                                 fi
 
                                 status "Finished building the webserver (${webserver_name})"
