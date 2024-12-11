@@ -57,6 +57,13 @@ then
                 else
                         /bin/rm -r ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/keys/* 2>/dev/null
                 fi
+        else
+                status "You have a snapshot configuration setup for this build identifier. I am not reconfiguring your security keys and credentials"
+                if ( [ "${HARDCORE}" != "1" ] )
+                then
+                        status "Press Enter"
+                        read x
+                fi
         fi
 fi
 
