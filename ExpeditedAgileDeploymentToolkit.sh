@@ -177,11 +177,7 @@ export PRE_BUILD="1"
 
 if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep -o "^s-"`" = "" ] )
 then
-        snapshot_build_identifier="s-${BUILD_IDENTIFIER}"
-        if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
-        then
-                . ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
-        fi
+         . ${BUILD_HOME}/initscripts/InitialiseSecurityKeys.sh
 fi
 
 PUBLIC_KEY_ID="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/credentials/PUBLICKEYID`"
