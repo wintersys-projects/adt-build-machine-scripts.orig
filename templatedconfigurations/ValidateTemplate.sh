@@ -293,6 +293,17 @@ else
   	fi
 fi
 
+if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep "^s-"`" = "" ] )
+then
+	snapshot_build_identifier="s-${BUILD_IDENTIFIER}"
+	if ( [ -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${snapshot_build_identifier} ] )
+ 	then
+  		status "A snapshot configuration is available for this build identifier (${BUILD_IDENTIFIER})"
+    		status "This means you can't run a build for this exact build identifier (unless you delete/void the snapshot configuration ${snapshot_build_identifier}"
+      		exit
+	fi
+ fi
+
 if ( [ "`/bin/grep "^MACHINE_TYPE " ${quick_specification} | /bin/grep -w "${MACHINE_TYPE}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable MACHINE_TYPE (${MACHINE_TYPE}) doesn't appear to be valid please review"
