@@ -34,8 +34,12 @@ then
         exec 1>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${out_file}
         err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
         exec 2>>${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/logs/${err_file}
-        /bin/rm /root/INITIAL_ERROR_STREAM_SETUP
-
+        
+        if ( [ -f /root/INITIAL_ERROR_STREAM_SETUP ] )
+        then
+                /bin/rm /root/INITIAL_ERROR_STREAM_SETUP
+        fi
+        
         if ( [ "${HARDCORE}" != "1" ] )
         then
                 status "#################################################################################################"
