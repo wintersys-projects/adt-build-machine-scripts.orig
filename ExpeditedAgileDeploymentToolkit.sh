@@ -257,9 +257,9 @@ export PRE_BUILD="0"
 
 if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] && [ "${PRODUCTION}" = "1" ] )
 then
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_AS} -o CheckHostIP=no ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} -o CheckHostIP=no ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} -o CheckHostIP=no ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_AS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/touch /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
 
         status "###########################################################################################"
         status "You have asked for snapshots to be generated"
@@ -300,9 +300,9 @@ then
        
         . ${BUILD_HOME}/providerscripts/server/MonitorForSnapshotGenerated.sh
 
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_AS} -o CheckHostIP=no ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} -o CheckHostIP=no ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} -o CheckHostIP=no ${SERVER_USER}@${db_active_ip} "${SUDO}/bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_AS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} ${SERVER_USER}@${db_active_ip} "${SUDO}/bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
 fi
  
 
