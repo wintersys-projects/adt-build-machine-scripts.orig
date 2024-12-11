@@ -275,9 +275,8 @@ then
   if ( [ "`/bin/echo ${BUILD_IDENTIFIER} | /bin/grep "^s-"`" = "" ] )
   then
     status "It look like you are performing a snapshot style build but your BUILD_IDENTIFIER is set to ${BUILD_IDENTIFIER}"
-    status "A snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so I will add the prefix for you"
-    status "This means that your new BUILD_IDENTIFIER is 's-${BUILD_IDENTIFIER}'"
-    export BUILD_IDENTIFIER="s-${BUILD_IDENTIFIER}"
+    status "A snapshot style build needs to have a BUILD_IDENTIFIER prefixed with the prefix 's-' so you need to set your BUILD_IDENTIFIER to s-${BUILD_IDENTIFIER}"
+    exit
   fi
   if ( [ "${GENERATE_SNAPSHOTS}" = "1" ] )
   then
