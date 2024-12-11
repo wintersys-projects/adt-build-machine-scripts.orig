@@ -150,35 +150,35 @@ then
 	/bin/echo "export CLOUDHOST=\"${CLOUDHOST}\"" >> ${templatefile}
 fi
 
-if ( [ "${SYSTEM_EMAIL_USERNAME}" != "" ] )
-then
-	/bin/sed -i '/SYSTEM_EMAIL_USERNAME=/d' ${templatefile}
-	/bin/echo "export SYSTEM_EMAIL_USERNAME=\"${SYSTEM_EMAIL_USERNAME}\"" >> ${templatefile}
-fi
+#if ( [ "${SYSTEM_EMAIL_USERNAME}" != "" ] )
+#then#
+#	/bin/sed -i '/SYSTEM_EMAIL_USERNAME=/d' ${templatefile}
+#	/bin/echo "export SYSTEM_EMAIL_USERNAME=\"${SYSTEM_EMAIL_USERNAME}\"" >> ${templatefile}
+#fi
+#
+#if ( [ "${SYSTEM_EMAIL_PASSWORD}" != "" ] )
+#then
+#	/bin/sed -i '/SYSTEM_EMAIL_PASSWORD=/d' ${templatefile}
+#	/bin/echo "export SYSTEM_EMAIL_PASSWORD=\"${SYSTEM_EMAIL_PASSWORD}\"" >> ${templatefile}
+#fi
 
-if ( [ "${SYSTEM_EMAIL_PASSWORD}" != "" ] )
-then
-	/bin/sed -i '/SYSTEM_EMAIL_PASSWORD=/d' ${templatefile}
-	/bin/echo "export SYSTEM_EMAIL_PASSWORD=\"${SYSTEM_EMAIL_PASSWORD}\"" >> ${templatefile}
-fi
+#if ( [ "${SYSTEM_EMAIL_PROVIDER}" != "" ] )
+#then
+#	/bin/sed -i '/SYSTEM_EMAIL_PROVIDER=/d' ${templatefile}
+#	/bin/echo "export SYSTEM_EMAIL_PROVIDER=\"${SYSTEM_EMAIL_PROVIDER}\"" >> ${templatefile}
+#fi
 
-if ( [ "${SYSTEM_EMAIL_PROVIDER}" != "" ] )
-then
-	/bin/sed -i '/SYSTEM_EMAIL_PROVIDER=/d' ${templatefile}
-	/bin/echo "export SYSTEM_EMAIL_PROVIDER=\"${SYSTEM_EMAIL_PROVIDER}\"" >> ${templatefile}
-fi
+#if ( [ "${SYSTEM_TOEMAIL_ADDRESS}" != "" ] )
+#then
+#	/bin/sed -i '/SYSTEM_TOEMAIL_ADDRESS=/d' ${templatefile}
+#	/bin/echo "export SYSTEM_TOEMAIL_ADDRESS=\"${SYSTEM_TOEMAIL_ADDRESS}\"" >> ${templatefile}
+#fi
 
-if ( [ "${SYSTEM_TOEMAIL_ADDRESS}" != "" ] )
-then
-	/bin/sed -i '/SYSTEM_TOEMAIL_ADDRESS=/d' ${templatefile}
-	/bin/echo "export SYSTEM_TOEMAIL_ADDRESS=\"${SYSTEM_TOEMAIL_ADDRESS}\"" >> ${templatefile}
-fi
-
-if ( [ "${SYSTEM_FROMEMAIL_ADDRESS}" != "" ] )
-then
-	/bin/sed -i '/SYSTEM_FROMEMAIL_ADDRESS=/d' ${templatefile}
-	/bin/echo "export SYSTEM_FROMEMAIL_ADDRESS=\"${SYSTEM_FROMEMAIL_ADDRESS}\"" >> ${templatefile}
-fi
+#if ( [ "${SYSTEM_FROMEMAIL_ADDRESS}" != "" ] )
+#then
+#	/bin/sed -i '/SYSTEM_FROMEMAIL_ADDRESS=/d' ${templatefile}#
+#	/bin/echo "export SYSTEM_FROMEMAIL_ADDRESS=\"${SYSTEM_FROMEMAIL_ADDRESS}\"" >> ${templatefile}
+#fi
 
 #load the environment from the template file
 . ${templatefile}
@@ -199,5 +199,9 @@ then
 fi
 
 #Make it live
+if ( [ ! -d ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER} ] )
+then
+	/bin/mkdir -p ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
+fi
 /bin/cp ${templatefile} ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}
 
