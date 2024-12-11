@@ -45,19 +45,6 @@ then
                 status "Press <enter> to continue"
                 read x
         fi
-else
-        if ( [ "${HARDCORE}" != "1" ] )
-        then
-                exec 3>&1
-                if ( [ ! -d /root/logs ] )
-                then
-                        /bin/mkdir /root/logs
-                fi
-                out_file="build_out-`/bin/date | /bin/sed 's/ //g'`"
-                exec 1>>/root/logs/${out_file}
-                err_file="build_err-`/bin/date | /bin/sed 's/ //g'`"
-                exec 2>>/root/logs/${err_file}
-        fi
 fi
 
 
