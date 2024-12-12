@@ -302,7 +302,7 @@ then
 
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_AS} ${SERVER_USER}@${as_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
         /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_WS} ${SERVER_USER}@${ws_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
-        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} ${SERVER_USER}@${db_active_ip} "${SUDO}/bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
+        /usr/bin/ssh -p ${SSH_PORT} ${OPTIONS_DB} ${SERVER_USER}@${db_active_ip} "${SUDO} /bin/rm /home/${SERVER_USER}/runtime/SNAPSHOT_BUILT"
 fi
  
 
