@@ -1,5 +1,13 @@
 On the build machine
 
+```${BUILD_HOME}/builddescriptors/autoscalerscp.dat``` - the autoscaler relevant environment variables  
+```${BUILD_HOME}/builddescriptors/databasescp.dat``` - the database relevant environment variables  
+```${BUILD_HOME}/builddescriptors/webserverscp.dat``` - the webserver relevant environment variables   
+
+```${BUILD_HOME}/builddescriptors/buildstyles.dat``` - configuration of different build methods for the tools we want to work with  
+
+--------------------------------------------
+
 ```${BUILD_HOME}/runtimedata/ACTIVE_BUILD_IDENTIFIER``` - the currently active build identifier - user provider string    
 
 ```/${BUILD_HOME}/runtimedata/ACTIVE_CLOUDHOST``` - the currently active cloudhost - one of "digitalocean", "exoscale", "linode", "vultr"  
