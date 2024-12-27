@@ -387,7 +387,7 @@ then
 	fi
 fi
 
-if ( [ "${APPLICATION}" = "moodle" ] )
+if ( [ "${APPLICATION}" = "moodle" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] )
 then
 	if ( [ "${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}" != "MOODLE" ] )
 	then
