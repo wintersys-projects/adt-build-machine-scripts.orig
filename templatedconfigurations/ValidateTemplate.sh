@@ -305,6 +305,12 @@ then
 	fi
  fi
 
+AUTHENTICATION_SERVER="`${BUILD_HOME}/helperscripts/GetVariableValue.sh AUTHENTICATION_SERVER`"
+if ( [ "`/bin/grep "^AUTHENTICATION_SERVER " ${quick_specification} | /bin/grep -w "${AUTHENTICATION_SERVER}"  2>/dev/null `" = "" ] )
+then
+        ${log_command} "Your value for the variable AUTHENTICATION_SERVER (${AUTHENTICATION_SERVER}) doesn't appear to be valid please review"
+fi
+
 if ( [ "`/bin/grep "^MACHINE_TYPE " ${quick_specification} | /bin/grep -w "${MACHINE_TYPE}"  2>/dev/null `" = "" ] )
 then
 	${log_command} "Your value for the variable MACHINE_TYPE (${MACHINE_TYPE}) doesn't appear to be valid please review"
